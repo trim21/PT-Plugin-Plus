@@ -1,4 +1,4 @@
-(function($, window) {
+(function ($, window) {
   // 添加封面模式
   PTService.addButton({
     title: PTService.i18n.t("buttons.coverTip"), //"以封面的方式进行查看",
@@ -17,7 +17,7 @@
           url: url,
           key: href,
           title: title, //img.parent().attr("title"),
-          link: img.parent().attr("href")
+          link: img.parent().attr("href"),
         });
       });
 
@@ -26,10 +26,10 @@
         images: images,
         onClose: () => {
           PTService.buttonBar.show();
-        }
+        },
       });
       success();
       PTService.buttonBar.hide();
-    }
+    },
   });
 })(jQuery, window);

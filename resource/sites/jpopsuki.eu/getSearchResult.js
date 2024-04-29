@@ -1,8 +1,16 @@
 if (!"".getQueryString) {
-  String.prototype.getQueryString = function(name, split) {
+  String.prototype.getQueryString = function (name, split) {
     if (split == undefined) split = "&";
     var reg = new RegExp(
-        "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
+        "(^|" +
+          split +
+          "|\\?)" +
+          name +
+          "=([^" +
+          split +
+          "]*)(" +
+          split +
+          "|$)",
       ),
       r;
     if ((r = this.match(reg))) return decodeURI(r[2]);
@@ -10,11 +18,15 @@ if (!"".getQueryString) {
   };
 }
 
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
-      if (/You will be banned for 6 hours after your login attempts run out/.test(options.responseText)) {
+      if (
+        /You will be banned for 6 hours after your login attempts run out/.test(
+          options.responseText,
+        )
+      ) {
         options.status = ESearchResultParseStatus.needLogin; //`[${options.site.name}]需要登录后再搜索`;
         return;
       }
@@ -23,7 +35,7 @@ if (!"".getQueryString) {
 
       if (
         /没有种子|No [Tt]orrents?|Your search did not match anything|用准确的关键字重试/.test(
-          options.responseText
+          options.responseText,
         )
       ) {
         options.status = ESearchResultParseStatus.noTorrents; //`[${options.site.name}]没有搜索到相关的种子`;
@@ -61,7 +73,7 @@ if (!"".getQueryString) {
         completed: -1,
         comments: -1,
         author: -1,
-        category: 1
+        category: 1,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -180,10 +192,7 @@ if (!"".getQueryString) {
           }
 
           let data = {
-            title: title
-              .text()
-              .trim()
-              .replace("()", ""),
+            title: title.text().trim().replace("()", ""),
             link,
             subTitle: subTitle,
             url: url,
@@ -214,7 +223,9 @@ if (!"".getQueryString) {
             category:
               fieldIndex.category == -1
                 ? null
-                : this.getCategory(albumRow.find(">td").eq(fieldIndex.category))
+                : this.getCategory(
+                    albumRow.find(">td").eq(fieldIndex.category),
+                  ),
           };
           results.push(data);
         }
@@ -234,7 +245,7 @@ if (!"".getQueryString) {
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       if (!cell) {
         return result;

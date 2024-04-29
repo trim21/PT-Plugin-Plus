@@ -1,7 +1,7 @@
 /**
  * 通用搜索解析脚本
  */
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -40,7 +40,7 @@
         options.status = ESearchResultParseStatus.torrentTableIsEmpty;
         return [];
       }
-      let cats = options.page.find("div#tabContainer")
+      let cats = options.page.find("div#tabContainer");
       let results = [];
       let beginRowIndex = options.entry.firstDataRowIndex || 0;
 
@@ -61,7 +61,7 @@
         // 发布人
         author: -1,
         // 分类
-        category: -1
+        category: -1,
       };
 
       try {
@@ -71,29 +71,30 @@
           let cells = row.find(">td");
 
           // let title = this.getTitle(row, cells, fieldIndex);
-          let title_entry = cells.eq(fieldIndex['title']).find("a[href^='/torrents/']")
-          let title = title_entry.text()
+          let title_entry = cells
+            .eq(fieldIndex["title"])
+            .find("a[href^='/torrents/']");
+          let title = title_entry.text();
           // 没有获取标题时，继续下一个
           if (!title) {
             continue;
           }
           // let link = this.getFieldValue(row, cells, fieldIndex, "link");
-          let link = title_entry.attr('href')
+          let link = title_entry.attr("href");
 
           // 获取下载链接
           // let url = this.getFieldValue(row, cells, fieldIndex, "url");
-          let url = link+"download/"
+          let url = link + "download/";
 
           if (!url || !link) {
             continue;
           }
 
-          let time = cells.eq(fieldIndex['time']).text()
-          if(time.indexOf('-')==2){
-            var d = new Date()
-            time = d.getFullYear().toString() + '-' + time
+          let time = cells.eq(fieldIndex["time"]).text();
+          if (time.indexOf("-") == 2) {
+            var d = new Date();
+            time = d.getFullYear().toString() + "-" + time;
           }
-          
 
           let data = {
             title: title,
@@ -115,9 +116,19 @@
             tags: Searcher.getRowTags(this.site, row),
             entryName: options.entry.name,
             // category: this.getFieldValue(row, cells, fieldIndex, "category"),
-            category:cats.find("a[href='/search/"+cells.eq(fieldIndex['category']).find(">img").attr('src').match(/catpic\/([^\.]+).png/)[1]+"/']").text(),
+            category: cats
+              .find(
+                "a[href='/search/" +
+                  cells
+                    .eq(fieldIndex["category"])
+                    .find(">img")
+                    .attr("src")
+                    .match(/catpic\/([^\.]+).png/)[1] +
+                  "/']",
+              )
+              .text(),
             progress: this.getFieldValue(row, cells, fieldIndex, "progress"),
-            status: this.getFieldValue(row, cells, fieldIndex, "status")
+            status: this.getFieldValue(row, cells, fieldIndex, "status"),
           };
           results.push(data);
         }

@@ -1,15 +1,14 @@
 ---
 name: Suggestions or comments
 about: 其他建议或意见
-title: ''
+title: ""
 labels: Suggestions
-assignees: ''
-
+assignees: ""
 ---
 
-- 
+-
 
-<!-- 
+<!--
 👆 👆 👆 请在上面描述您的建议或意见，并且不要删除这段内容。
 👆 👆 👆 Please describe your suggestions or comments above and do not delete this content.
 ------------------------------------------

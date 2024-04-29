@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is browse.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -19,9 +19,7 @@
      * 获取下载链接
      */
     getDownloadURLs() {
-      let links = $(
-        "table#browse:last a[href*='down.php']"
-      ).toArray();
+      let links = $("table#browse:last a[href*='down.php']").toArray();
       let siteURL = PTService.site.url;
       if (siteURL.substr(-1) != "/") {
         siteURL += "/";
@@ -32,7 +30,7 @@
         return this.t("getDownloadURLsFailed");
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let link = $(item).attr("href");
         if (link && link.substr(0, 4) != "http") {
           link = siteURL + link;
@@ -49,8 +47,8 @@
     confirmWhenExceedSize() {
       return this.confirmSize(
         $("table#browse:last").find(
-          "td:contains('MB'),td:contains('GB'),td:contains('TB')"
-        )
+          "td:contains('MB'),td:contains('GB'),td:contains('TB')",
+        ),
       );
     }
 

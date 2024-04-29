@@ -3,13 +3,13 @@ name: Build Canary Release
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 20 1,15 * *'
+    - cron: "0 20 1,15 * *"
 
 jobs:
   action:
     uses: ./.github/workflows/build_action.yml
     with:
-      ref: 'dev'
+      ref: "dev"
       build_xpi: true
     secrets: inherit
 
@@ -22,14 +22,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
         with:
-          ref: 'dev'
+          ref: "dev"
           fetch-depth: 0
 
       - name: Checkout gh-pages
         uses: actions/checkout@master
         with:
-          ref: 'gh-pages'
-          path: 'pages'
+          ref: "gh-pages"
+          path: "pages"
 
       - name: Prepare Release
         run: mkdir build
@@ -37,16 +37,14 @@ jobs:
       - name: Get And rename Zip build
         uses: actions/download-artifact@v3
         with:
-          name:
-            dev-build-${{ needs.action.outputs.version }}-zip
+          name: dev-build-${{ needs.action.outputs.version }}-zip
 
       - run: mv extension.zip build/PT-Plugin-Plus-${{ needs.action.outputs.version }}.zip
 
       - name: Get And remove Crx Build
         uses: actions/download-artifact@v3
         with:
-          name:
-            dev-build-${{ needs.action.outputs.version }}-crx
+          name: dev-build-${{ needs.action.outputs.version }}-crx
 
       - run: |
           mv canary.xml pages/update/canary.xml -f
@@ -56,11 +54,10 @@ jobs:
         uses: actions/download-artifact@v3
         if: ${{ needs.action.outputs.buildXPI == 'success' }}
         with:
-          name:
-            dev-build-${{ needs.action.outputs.version }}-xpi
+          name: dev-build-${{ needs.action.outputs.version }}-xpi
 
       - if: ${{ needs.action.outputs.buildXPI == 'success' }}
-        run: | 
+        run: |
           mv extension.signed.xpi build/PT-Plugin-Plus-${{ needs.action.outputs.version }}.xpi
           echo $(jq '.addons[].updates += [{"version": "${{ needs.action.outputs.version }}", "update_link": "https://github.com/pt-plugins/PT-Plugin-Plus/releases/download/v${{ needs.action.outputs.version }}/PT-Plugin-Plus-${{ needs.action.outputs.version }}.xpi"}]' pages/update/firefox.json) > pages/update/firefox.json
 
@@ -78,7 +75,7 @@ jobs:
         with:
           name: v${{ needs.action.outputs.version }}
           tag: v${{ needs.action.outputs.version }}
-          commit: 'dev'
+          commit: "dev"
           generateReleaseNotes: true
           prerelease: true
-          artifacts: 'build/*'
+          artifacts: "build/*"

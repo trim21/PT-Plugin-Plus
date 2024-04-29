@@ -129,7 +129,7 @@ import {
   DownloadOptions,
   Site,
   Dictionary,
-  ISearchResultSnapshot
+  ISearchResultSnapshot,
 } from "@/interface/common";
 import Extension from "@/service/extension";
 
@@ -142,7 +142,7 @@ export default Vue.extend({
       pagination: {
         rowsPerPage: 10,
         sortBy: "time",
-        descending: true
+        descending: true,
       },
       items: [] as any[],
       dialogRemoveConfirm: false,
@@ -151,7 +151,7 @@ export default Vue.extend({
       haveError: false,
       haveSuccess: false,
       successMsg: "",
-      siteCache: {} as Dictionary<any>
+      siteCache: {} as Dictionary<any>,
     };
   },
 
@@ -172,8 +172,8 @@ export default Vue.extend({
         if (
           confirm(
             this.$t("common.removeSelectedConfirm", {
-              count: this.selected.length
-            }).toString()
+              count: this.selected.length,
+            }).toString(),
           )
         ) {
           this.remove(this.selected);
@@ -218,7 +218,7 @@ export default Vue.extend({
       }
 
       return result;
-    }
+    },
   },
 
   created() {
@@ -231,20 +231,20 @@ export default Vue.extend({
         {
           text: this.$t("searchResultSnapshot.headers.key"),
           align: "left",
-          value: "data.key"
+          value: "data.key",
         },
         {
           text: this.$t("searchResultSnapshot.headers.time"),
           align: "left",
-          value: "time"
+          value: "time",
         },
         {
           text: this.$t("history.headers.action"),
           value: "name",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>

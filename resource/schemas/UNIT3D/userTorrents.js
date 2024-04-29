@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is userTorrents.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -30,7 +30,7 @@
         return this.t("getDownloadURLsFailed");
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let link = $(item).attr("href");
         if (link && link.substr(0, 4) != "http") {
           link = siteURL + link;

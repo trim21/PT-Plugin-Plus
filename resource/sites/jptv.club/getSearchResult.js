@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -20,7 +20,7 @@
         return [];
       }
       let site = options.site;
-      site.searchEntryConfig = options.entry
+      site.searchEntryConfig = options.entry;
       let selector =
         options.resultSelector || "div.table-responsive > table:first";
       let table = options.page.find(selector);
@@ -56,7 +56,7 @@
         // 发布人
         author: header.length - 1,
         // 分类
-        category: 1
+        category: 1,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -183,19 +183,25 @@
             subTitle: this.getSubTitle(title, row),
             link,
             url: url,
-            size:
-              cells
-                .eq(fieldIndex.size)
-                .text()
-                .trim() || 0,
+            size: cells.eq(fieldIndex.size).text().trim() || 0,
             time:
               fieldIndex.time == -1
                 ? ""
-                : cells
+                : cells.eq(fieldIndex.time).find("span[title]").attr("title") ||
+                  cells
                     .eq(fieldIndex.time)
-                    .find("span[title]")
-                    .attr("title") ||
-                  cells.eq(fieldIndex.time).text().replace('秒前', ' seconds ago').replace('秒前', ' seconds ago').replace('分钟前', ' minutes ago').replace('分鐘前', ' minutes ago').replace('天前', ' day ago').replace('小時前', ' hours ago').replace('小时前', ' hours ago').replace('周前', ' weeks ago').replace('个月前', ' months ago').replace('年前', ' years ago').replace('年', ' years ago')||
+                    .text()
+                    .replace("秒前", " seconds ago")
+                    .replace("秒前", " seconds ago")
+                    .replace("分钟前", " minutes ago")
+                    .replace("分鐘前", " minutes ago")
+                    .replace("天前", " day ago")
+                    .replace("小時前", " hours ago")
+                    .replace("小时前", " hours ago")
+                    .replace("周前", " weeks ago")
+                    .replace("个月前", " months ago")
+                    .replace("年前", " years ago")
+                    .replace("年", " years ago") ||
                   "",
             author:
               fieldIndex.author == -1
@@ -225,7 +231,7 @@
                 ? null
                 : this.getCategory(cells.eq(fieldIndex.category)),
             progress: this.getFieldValue(row, cells, fieldIndex, "progress"),
-            status: this.getFieldValue(row, cells, fieldIndex, "status")
+            status: this.getFieldValue(row, cells, fieldIndex, "status"),
           };
           results.push(data);
         }
@@ -250,13 +256,13 @@
     getTags(row, selectors) {
       let tags = [];
       if (selectors && selectors.length > 0) {
-        selectors.forEach(item => {
+        selectors.forEach((item) => {
           if (item.selector) {
             let result = row.find(item.selector);
             if (result.length) {
               tags.push({
                 name: item.name,
-                color: item.color
+                color: item.color,
               });
             }
           }
@@ -281,7 +287,7 @@
     getCategory(cell) {
       let result = {
         name: cell.find("i:first").attr("data-original-title"),
-        link: cell.find("a:first").attr("href")
+        link: cell.find("a:first").attr("href"),
       };
       if (result.name) {
         result.name = result.name.replace(" torrent", "");

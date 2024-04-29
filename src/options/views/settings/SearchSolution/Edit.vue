@@ -1,10 +1,9 @@
 <template>
   <v-dialog v-model="show" fullscreen>
     <v-card>
-      <v-card-title
-        class="headline blue-grey darken-2"
-        style="color:white"
-      >{{ $t("settings.searchSolution.edit.title") }}</v-card-title>
+      <v-card-title class="headline blue-grey darken-2" style="color: white">{{
+        $t("settings.searchSolution.edit.title")
+      }}</v-card-title>
 
       <v-card-text class="body">
         <Editor :option="defaultItem" :initSites="sites" @change="change" />
@@ -33,12 +32,12 @@ import {
   SearchSolution,
   Site,
   SearchSolutionRange,
-  SearchEntry
+  SearchEntry,
 } from "@/interface/common";
 import { PPF } from "@/service/public";
 export default Vue.extend({
   components: {
-    Editor
+    Editor,
   },
   data() {
     return {
@@ -48,18 +47,18 @@ export default Vue.extend({
       defaultItem: {
         id: "",
         name: "",
-        range: []
+        range: [],
       } as SearchSolution,
-      newValue: {} as SearchSolution
+      newValue: {} as SearchSolution,
     };
   },
   props: {
     value: Boolean,
-    option: Object
+    option: Object,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -74,7 +73,7 @@ export default Vue.extend({
     option() {
       console.log("option change", this.option);
       this.resetSites();
-    }
+    },
   },
   methods: {
     save() {
@@ -123,7 +122,7 @@ export default Vue.extend({
                   let index: number = siteEntry.findIndex(
                     (entry: SearchEntry) => {
                       return entry.id == key || entry.name == key;
-                    }
+                    },
                   );
                   if (siteEntry[index] && siteEntry[index].name) {
                     siteEntry[index].enabled = true;
@@ -133,11 +132,11 @@ export default Vue.extend({
           }
         });
       }
-    }
+    },
   },
   created() {
     this.resetSites();
-  }
+  },
 });
 </script>
 <style lang="scss" scoped>

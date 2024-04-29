@@ -32,13 +32,13 @@
       let size = $("div#size > div:eq(1) > span");
       // eslint-disable-next-line no-irregular-whitespace
       size = size.text().match(/([\d.]+[  ]?[ZEPTGMK]?i?B)/);
-      size = (size && size.length > 1) ? size[1] : 0;
+      size = size && size.length > 1 ? size[1] : 0;
 
       if (size) {
         PTService.addButton({
           title: "当前种子大小",
           icon: "attachment",
-          label: size
+          label: size,
         });
       }
     }

@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is torrent.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -29,7 +29,7 @@
         return this.t("getDownloadURLsFailed"); //"获取下载链接失败，未能正确定位到链接";
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let url =
           $(item).attr("href") +
           (PTService.site.passkey ? "&passkey=" + PTService.site.passkey : "");
@@ -59,8 +59,8 @@
     confirmWhenExceedSize() {
       return this.confirmSize(
         $(".torrents").find(
-          "td:contains('MB'),td:contains('GB'),td:contains('TB')"
-        )
+          "td:contains('MB'),td:contains('GB'),td:contains('TB')",
+        ),
       );
     }
   }

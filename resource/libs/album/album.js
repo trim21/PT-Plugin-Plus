@@ -1,6 +1,6 @@
 /**
  * 对数字进行四舍五入操作
- * @param {number} precision 
+ * @param {number} precision
  */
 Number.prototype.toRound = function (precision) {
   if (isNaN(precision) || precision == null || precision < 0) {
@@ -10,7 +10,11 @@ Number.prototype.toRound = function (precision) {
   if (window.accounting) {
     return parseFloat(accounting.toFixed(this, precision));
   } else {
-    return parseFloat(parseFloat(Math.round(this * Math.pow(10, precision)) / Math.pow(10, precision)).toFixed(precision));
+    return parseFloat(
+      parseFloat(
+        Math.round(this * Math.pow(10, precision)) / Math.pow(10, precision),
+      ).toFixed(precision),
+    );
   }
 };
 // 百分比
@@ -20,7 +24,16 @@ Number.prototype.toPercent = function (divisor, fix) {
       fix = 2;
     }
 
-    return ((100 - parseFloat((parseFloat(divisor) - parseFloat(this)) / parseFloat(divisor) * 100 + 0.005)).toRound(fix)) + '%';
+    return (
+      (
+        100 -
+        parseFloat(
+          ((parseFloat(divisor) - parseFloat(this)) / parseFloat(divisor)) *
+            100 +
+            0.005,
+        )
+      ).toRound(fix) + "%"
+    );
   } else {
     return "0";
   }
@@ -33,7 +46,7 @@ Number.prototype.toPercent = function (divisor, fix) {
  */
 const _imageCache = [];
 window.album = function (options) {
-  return ({
+  return {
     options: {
       // 初始图片列表，每个对象需要有以下属性
       // url：图片原始地址
@@ -74,7 +87,7 @@ window.album = function (options) {
     window: null,
     systemButtons: {
       left: null,
-      right: null
+      right: null,
     },
     allowClose: true,
     shower: null,
@@ -91,9 +104,9 @@ window.album = function (options) {
     topBarTimer: null,
     overTopBar: false,
     theme: "",
-    IE: ("v" == "\v"),
+    IE: "v" == "\v",
     init() {
-      console.log('this\'s album.js');
+      console.log("this's album.js");
       this.options = $.extend(this.options, options);
       if (!this.options.parent) {
         this.options.parent = $(document.body);
@@ -105,55 +118,82 @@ window.album = function (options) {
       }
       this.parent = this.options.parent;
       // 主框架
-      this.window = $("<div class='album' tabindex='-1'/>").appendTo(this.parent).focus();
+      this.window = $("<div class='album' tabindex='-1'/>")
+        .appendTo(this.parent)
+        .focus();
       // 背景
-      this.background = $(`<div class='background${this.theme}'/>`).appendTo(this.window);
+      this.background = $(`<div class='background${this.theme}'/>`).appendTo(
+        this.window,
+      );
       // 显示大图片区域
       this.shower = $("<div class='shower'/>").appendTo(this.window);
       // 控制图片功能区域
       this.controlBar = $("<div class='controlbar'/>").appendTo(this.window);
       // 缩略图显示区域
-      this.listBar = $(`<div class='listbar${this.theme}'/>`).css({
-        height: this.options.listHeight
-      }).appendTo(this.controlBar);
+      this.listBar = $(`<div class='listbar${this.theme}'/>`)
+        .css({
+          height: this.options.listHeight,
+        })
+        .appendTo(this.controlBar);
       // 缩略图列表
-      this.thumbImagesBar = $("<div class='thumbimages'/>").appendTo(this.listBar);
+      this.thumbImagesBar = $("<div class='thumbimages'/>").appendTo(
+        this.listBar,
+      );
       // 标签列表
       this.labelBar = $("<div class='labelbar'/>").appendTo(this.controlBar);
       // 标签显示容器
       // this.label = $("<span class='label'/>").appendTo(this.labelBar);
-      this.label = $("<a class='label' target='_blank'/>").appendTo(this.labelBar);
+      this.label = $("<a class='label' target='_blank'/>").appendTo(
+        this.labelBar,
+      );
       // 数量显示容器
       this.countBar = $("<span class='status-count'/>").appendTo(this.labelBar);
       // 当前缩放尺寸显示容器
-      this.zoomBar = $("<span class='zoomBar'/>").html("100%").appendTo(this.labelBar);
-      this.systemButtons.zoomIn = $("<i class='button-zoom-in' title='放大'/>").appendTo(this.labelBar);
-      this.systemButtons.zoomOut = $("<i class='button-zoom-out' title='缩小'/>").appendTo(this.labelBar);
+      this.zoomBar = $("<span class='zoomBar'/>")
+        .html("100%")
+        .appendTo(this.labelBar);
+      this.systemButtons.zoomIn = $(
+        "<i class='button-zoom-in' title='放大'/>",
+      ).appendTo(this.labelBar);
+      this.systemButtons.zoomOut = $(
+        "<i class='button-zoom-out' title='缩小'/>",
+      ).appendTo(this.labelBar);
       if (!this.options.showLabelBar) {
         this.labelBar.hide();
         this.listBar.css({
-          bottom: 0
+          bottom: 0,
         });
       }
 
       // 正在加载显示容器
-      this.loadingBar = $("<div class='loading'/>").hide().appendTo(this.window);
-      $("<img/>").attr({
-        src: "loading.gif"
-      }).appendTo(this.loadingBar);
+      this.loadingBar = $("<div class='loading'/>")
+        .hide()
+        .appendTo(this.window);
+      $("<img/>")
+        .attr({
+          src: "loading.gif",
+        })
+        .appendTo(this.loadingBar);
 
       // 系统按钮
-      this.systemButtons.left = $("<div class='button-left' title='← 上一张'/>").appendTo(this.window).hide();
-      this.systemButtons.right = $("<div class='button-right' title='下一张 →'/>").appendTo(this.window).hide();
+      this.systemButtons.left = $("<div class='button-left' title='← 上一张'/>")
+        .appendTo(this.window)
+        .hide();
+      this.systemButtons.right = $(
+        "<div class='button-right' title='下一张 →'/>",
+      )
+        .appendTo(this.window)
+        .hide();
 
       // 标签
-      this.tagsBar = $("<div class='album-tags'/>").hide().appendTo(this.window);
+      this.tagsBar = $("<div class='album-tags'/>")
+        .hide()
+        .appendTo(this.window);
       // .css({
       // 	bottom: this.options.listHeight+this.labelBar.height()
       // })
 
       this.createTag(this.options.defaultTag, true);
-
 
       this.listBarOffset = this.parent.width() / 2;
       this.listBarWidth = this.listBar.width();
@@ -164,7 +204,7 @@ window.album = function (options) {
       if (this.options.tags.length > 0) {
         for (let i = 0; i < this.options.tags.length; i++) {
           this.createTag(this.options.tags[i]);
-        };
+        }
       }
 
       if (this.options.images.length > 0) {
@@ -190,7 +230,9 @@ window.album = function (options) {
       // 顶部工具栏
       this.topBar = $("<div class='topbar'/>").appendTo(this.window).hide();
       // $("<i class='spliter'/>").appendTo(this.topBar);
-      this.systemButtons.close = $("<a class='item close' title='关闭(ESC)'/>").appendTo(this.topBar);
+      this.systemButtons.close = $(
+        "<a class='item close' title='关闭(ESC)'/>",
+      ).appendTo(this.topBar);
     },
     /**
      * [initCustomButtons 初始化自定按钮区]
@@ -200,7 +242,9 @@ window.album = function (options) {
       if (this.options.buttons.length == 0) return;
 
       // 用户自定义按钮区
-      this.customButtonBar = $("<div class='custom-botton-bar'/>").appendTo(this.window);
+      this.customButtonBar = $("<div class='custom-botton-bar'/>").appendTo(
+        this.window,
+      );
       const _self = this;
       engine.create("toolbar", {
         parent: this.customButtonBar,
@@ -208,13 +252,13 @@ window.album = function (options) {
         buttonType: 1,
         onitemclick(item) {
           _self.options.onButtonClick(item, _self.activeItem);
-        }
+        },
       });
       this.customButtonBar.removeClass("toolbar-container");
       this.customButtonBar.find("table").css("display", "inline-block");
 
       this.customButtonBar.css({
-        top: this.listBar.offset().top - 30
+        top: this.listBar.offset().top - 30,
       });
     },
     /**
@@ -252,14 +296,17 @@ window.album = function (options) {
     },
     /**
      * 初始化事件
-     * @return {self} 
+     * @return {self}
      */
     initEvents(self = this) {
       // 鼠标滚轮放大缩小
       // DOMMouseScroll 为 FF
-      this.shower.on("mousewheel DOMMouseScroll", event => {
+      this.shower.on("mousewheel DOMMouseScroll", (event) => {
         // $.log("mousewheel", event);
-        const v = (event.type == "mousewheel" ? event.originalEvent.wheelDelta : event.originalEvent.detail);
+        const v =
+          event.type == "mousewheel"
+            ? event.originalEvent.wheelDelta
+            : event.originalEvent.detail;
         if (v < 0) {
           self.resize(-self.options.resizeRate);
         } else {
@@ -270,151 +317,170 @@ window.album = function (options) {
       });
 
       // 键盘事件捕捉
-      this.window.on("keydown", event => {
-        // $.log("keydown", event);
-        // event.preventDefault();
-        switch (event.keyCode) {
-          // 向左
-          case 37:
+      this.window
+        .on("keydown", (event) => {
+          // $.log("keydown", event);
+          // event.preventDefault();
+          switch (event.keyCode) {
+            // 向左
+            case 37:
             // Page up
-          case 33:
-            self.gotoImage("prev");
-            event.preventDefault();
-            event.stopPropagation();
-            break;
+            case 33:
+              self.gotoImage("prev");
+              event.preventDefault();
+              event.stopPropagation();
+              break;
 
             // 向右
-          case 39:
+            case 39:
             // Page down
-          case 34:
-            self.gotoImage("next");
-            event.preventDefault();
-            event.stopPropagation();
-            break;
+            case 34:
+              self.gotoImage("next");
+              event.preventDefault();
+              event.stopPropagation();
+              break;
 
             // 向上
-          case 38:
-            self.showThumbsBar();
-            event.preventDefault();
-            event.stopPropagation();
-            break;
+            case 38:
+              self.showThumbsBar();
+              event.preventDefault();
+              event.stopPropagation();
+              break;
 
             // 向下
-          case 40:
-            self.hideThumbsBar();
-            event.preventDefault();
-            event.stopPropagation();
-            break;
+            case 40:
+              self.hideThumbsBar();
+              event.preventDefault();
+              event.stopPropagation();
+              break;
 
             // ESC
-          case 27:
-            self.remove();
-            event.preventDefault();
-            event.stopPropagation();
-            break;
+            case 27:
+              self.remove();
+              event.preventDefault();
+              event.stopPropagation();
+              break;
 
             // Enter
-          case 13:
-            if (self.activeItem && self.activeItem.link) {
-              self.label.click();
-            }
-            // event.preventDefault();
-            event.stopPropagation();
-            break;
-        }
-      }).on("mousemove", () => {
-        self.showTopBar();
-      });
+            case 13:
+              if (self.activeItem && self.activeItem.link) {
+                self.label.click();
+              }
+              // event.preventDefault();
+              event.stopPropagation();
+              break;
+          }
+        })
+        .on("mousemove", () => {
+          self.showTopBar();
+        });
 
       if (!this.options.keepThumbBar) {
         // 鼠标离开和进入图片列表时
-        this.controlBar.on("mouseleave", () => {
-          if(self.hideThumbsBarTimer)
-            clearTimeout(self.hideThumbsBarTimer);
-          // 隐藏图片列表
-          self.hideThumbsBarTimer = setTimeout(() => {
-            self.hideThumbsBar();
-          }, 500);
-        }).on("mouseenter", () => {
-          if(self.hideThumbsBarTimer)
-            clearTimeout(self.hideThumbsBarTimer);
-          self.showThumbsBar();
-          // 鼠标滚轮上一张、下一张
-        }).on("mousewheel DOMMouseScroll", event => {
-          // $.log("mousewheel", event);
-          const v = (event.type == "mousewheel" ? event.originalEvent.wheelDelta : event.originalEvent.detail);
-          if (v < 0) {
-            self.gotoImage("next");
-          } else {
-            self.gotoImage("prev");
-          }
+        this.controlBar
+          .on("mouseleave", () => {
+            if (self.hideThumbsBarTimer) clearTimeout(self.hideThumbsBarTimer);
+            // 隐藏图片列表
+            self.hideThumbsBarTimer = setTimeout(() => {
+              self.hideThumbsBar();
+            }, 500);
+          })
+          .on("mouseenter", () => {
+            if (self.hideThumbsBarTimer) clearTimeout(self.hideThumbsBarTimer);
+            self.showThumbsBar();
+            // 鼠标滚轮上一张、下一张
+          })
+          .on("mousewheel DOMMouseScroll", (event) => {
+            // $.log("mousewheel", event);
+            const v =
+              event.type == "mousewheel"
+                ? event.originalEvent.wheelDelta
+                : event.originalEvent.detail;
+            if (v < 0) {
+              self.gotoImage("next");
+            } else {
+              self.gotoImage("prev");
+            }
 
-          event.preventDefault();
-          event.stopPropagation();
-        });
+            event.preventDefault();
+            event.stopPropagation();
+          });
 
         // 隐藏图片列表
         self.hideThumbsBarTimer = setTimeout(() => {
           self.hideThumbsBar();
         }, 1000);
-
       } else {
         // 鼠标离开和进入图片列表时
-        this.controlBar.on("mouseenter", () => {
-          self.showThumbsBar();
-          // 鼠标滚轮上一张、下一张
-        }).on("mousewheel DOMMouseScroll", event => {
-          // $.log("mousewheel", event);
-          const v = (event.type == "mousewheel" ? event.originalEvent.wheelDelta : event.originalEvent.detail);
-          if (v < 0) {
-            self.gotoImage("next");
-          } else {
-            self.gotoImage("prev");
-          }
+        this.controlBar
+          .on("mouseenter", () => {
+            self.showThumbsBar();
+            // 鼠标滚轮上一张、下一张
+          })
+          .on("mousewheel DOMMouseScroll", (event) => {
+            // $.log("mousewheel", event);
+            const v =
+              event.type == "mousewheel"
+                ? event.originalEvent.wheelDelta
+                : event.originalEvent.detail;
+            if (v < 0) {
+              self.gotoImage("next");
+            } else {
+              self.gotoImage("prev");
+            }
 
-          event.preventDefault();
-          event.stopPropagation();
-        });
+            event.preventDefault();
+            event.stopPropagation();
+          });
       }
 
       // 上一张
-      this.systemButtons.left.click(() => {
-        self.gotoImage("prev");
-      }).on("mouseleave", function () {
-        $(this).animate({
-          opacity: .5
+      this.systemButtons.left
+        .click(() => {
+          self.gotoImage("prev");
+        })
+        .on("mouseleave", function () {
+          $(this).animate({
+            opacity: 0.5,
+          });
+        })
+        .on("mouseenter", function () {
+          $(this).animate({
+            opacity: 1,
+          });
         });
-      }).on("mouseenter", function () {
-        $(this).animate({
-          opacity: 1
-        });
-      });
 
       // 下一张
-      this.systemButtons.right.click(() => {
-        self.gotoImage("next");
-      }).on("mouseleave", function () {
-        $(this).animate({
-          opacity: .5
+      this.systemButtons.right
+        .click(() => {
+          self.gotoImage("next");
+        })
+        .on("mouseleave", function () {
+          $(this).animate({
+            opacity: 0.5,
+          });
+        })
+        .on("mouseenter", function () {
+          $(this).animate({
+            opacity: 1,
+          });
         });
-      }).on("mouseenter", function () {
-        $(this).animate({
-          opacity: 1
-        });
-      });
 
       // 标签栏
-      this.tagsBar.on("mouseleave", function () {
-        $(this).animate({
-          opacity: .5
+      this.tagsBar
+        .on("mouseleave", function () {
+          $(this).animate({
+            opacity: 0.5,
+          });
+        })
+        .on("mouseenter", function () {
+          $(this).animate({
+            opacity: 1,
+          });
+        })
+        .animate({
+          opacity: 0.5,
         });
-      }).on("mouseenter", function () {
-        $(this).animate({
-          opacity: 1
-        });
-      }).animate({
-        opacity: .5
-      });
 
       // 放大
       this.systemButtons.zoomIn.click(() => {
@@ -432,13 +498,15 @@ window.album = function (options) {
           self.remove();
         });
 
-        this.topBar.on("mouseenter mousemove", function () {
-          self.overTopBar = true;
-          $(this).addClass("over");
-        }).on("mouseleave", function () {
-          self.overTopBar = false;
-          $(this).removeClass("over");
-        });
+        this.topBar
+          .on("mouseenter mousemove", function () {
+            self.overTopBar = true;
+            $(this).addClass("over");
+          })
+          .on("mouseleave", function () {
+            self.overTopBar = false;
+            $(this).removeClass("over");
+          });
       }
       return this;
     },
@@ -456,34 +524,38 @@ window.album = function (options) {
       this.topBarTimer = null;
       this.topBar.fadeIn();
       this.topBarTimer = setTimeout(() => {
-        if (!self.overTopBar)
-          self.topBar.fadeOut();
+        if (!self.overTopBar) self.topBar.fadeOut();
       }, 2000);
     },
     hideThumbsBar() {
       const _self = this;
-      this.listBar.stop().animate({
-        height: 30,
-        opacity: .2
-      }, () => {
-        if (!_self.customButtonBar) return;
-        _self.customButtonBar.css({
-          top: _self.listBar.offset().top - 30
-        });
-      });
-
+      this.listBar.stop().animate(
+        {
+          height: 30,
+          opacity: 0.2,
+        },
+        () => {
+          if (!_self.customButtonBar) return;
+          _self.customButtonBar.css({
+            top: _self.listBar.offset().top - 30,
+          });
+        },
+      );
     },
     showThumbsBar() {
       const _self = this;
-      this.listBar.stop().animate({
-        height: this.options.listHeight,
-        opacity: .8
-      }, () => {
-        if (!_self.customButtonBar) return;
-        _self.customButtonBar.css({
-          top: _self.listBar.offset().top - 30
-        });
-      });
+      this.listBar.stop().animate(
+        {
+          height: this.options.listHeight,
+          opacity: 0.8,
+        },
+        () => {
+          if (!_self.customButtonBar) return;
+          _self.customButtonBar.css({
+            top: _self.listBar.offset().top - 30,
+          });
+        },
+      );
     },
     /**
      * 加载指定的地址
@@ -496,14 +568,14 @@ window.album = function (options) {
         url: "",
         type: "POST",
         data: null,
-        active: ""
+        active: "",
       };
 
       if (arguments.length == 2) {
         options.url = arguments[0];
         options.data = arguments[1];
       } else if (arguments.length == 1) {
-        if (typeof (arguments[0]) == "string") {
+        if (typeof arguments[0] == "string") {
           options.url = arguments[0];
         } else {
           options = $.extend(options, arguments[0]);
@@ -526,7 +598,7 @@ window.album = function (options) {
             return false;
           }
           self.initImageList(result, options.active);
-        }
+        },
       });
       return this;
     },
@@ -541,9 +613,9 @@ window.album = function (options) {
         index: this.images.length,
         albumObject: this,
         tags: "",
-        fileId: ""
+        fileId: "",
       };
-      if (typeof (options) == "string") {
+      if (typeof options == "string") {
         item.url = options;
       } else {
         delete options.index;
@@ -551,8 +623,7 @@ window.album = function (options) {
         item = $.extend(item, options);
       }
 
-      if (!item.key)
-        item.key = item.url;
+      if (!item.key) item.key = item.url;
 
       if (!item.thumb) {
         item.thumb = item.url;
@@ -560,7 +631,9 @@ window.album = function (options) {
 
       if (!isTagClick) {
         this.tags[this.options.defaultTag].items.push(item);
-        this.tags[this.options.defaultTag].dom.html(`${this.options.defaultTag} (${this.tags[this.options.defaultTag].items.length})`);
+        this.tags[this.options.defaultTag].dom.html(
+          `${this.options.defaultTag} (${this.tags[this.options.defaultTag].items.length})`,
+        );
 
         // 是否有标签
         if (item.tags) {
@@ -569,7 +642,7 @@ window.album = function (options) {
         }
       }
 
-      this.loadImage(item.thumb, img => {
+      this.loadImage(item.thumb, (img) => {
         self.loadedImageWidth += img.width + 10;
         if (self.loadedImageWidth >= self.listBarWidth) {
           self.listBarWidth += img.width + 10;
@@ -577,16 +650,20 @@ window.album = function (options) {
         }
       });
 
-      item.image = $("<img class='album-item'/>").attr({
-        src: item.thumb,
-        key: item.key,
-        title: item.title,
-        tags: (Array.isArray(item.tags) ? item.tags.join(",") : item.tags)
-      }).css({
-        "max-height": (this.options.listHeight - 10)
-      }).click(function () {
-        self.setActive(this.getAttribute("key"));
-      }).appendTo(this.thumbImagesBar);
+      item.image = $("<img class='album-item'/>")
+        .attr({
+          src: item.thumb,
+          key: item.key,
+          title: item.title,
+          tags: Array.isArray(item.tags) ? item.tags.join(",") : item.tags,
+        })
+        .css({
+          "max-height": this.options.listHeight - 10,
+        })
+        .click(function () {
+          self.setActive(this.getAttribute("key"));
+        })
+        .appendTo(this.thumbImagesBar);
 
       this.images.push(item);
       this.imageItems[item.key] = item;
@@ -597,7 +674,7 @@ window.album = function (options) {
      */
     addTag(item) {
       let texts = [];
-      if (typeof (item.tags) == "string") {
+      if (typeof item.tags == "string") {
         texts.push(item.tags);
       } else if (Array.isArray(item.tags)) {
         texts = item.tags;
@@ -615,35 +692,38 @@ window.album = function (options) {
         tag.dom.html(`${text} (${tag.items.length})`);
       }
     },
-    // 
+    //
     createTag(tag, setActive) {
       const _self = this;
       const result = {
         name: tag,
         items: [],
-        dom: $("<a class='album-tag'/>").attr({
-          href: "javascript:void(0);",
-          tag
-        }).html(tag).click(function () {
-          if (_self.lastActiveTag) {
-            _self.lastActiveTag.removeClass("album-active");
-          }
-          const tag = this.getAttribute("tag");
-          $(this).addClass("album-active");
-          _self.initImageList(_self.tags[tag].items, null, true);
-          // if (tag=="全部")
-          // {
-          // 	_self.thumbImagesBar.find(".album-item").show();
-          // }
-          // else
-          // {
-          // 	_self.thumbImagesBar.find(".album-item").hide();
-          // 	_self.thumbImagesBar.find(".album-item[tags*='"+this.getAttribute("tag")+"']").show();
-          // }
+        dom: $("<a class='album-tag'/>")
+          .attr({
+            href: "javascript:void(0);",
+            tag,
+          })
+          .html(tag)
+          .click(function () {
+            if (_self.lastActiveTag) {
+              _self.lastActiveTag.removeClass("album-active");
+            }
+            const tag = this.getAttribute("tag");
+            $(this).addClass("album-active");
+            _self.initImageList(_self.tags[tag].items, null, true);
+            // if (tag=="全部")
+            // {
+            // 	_self.thumbImagesBar.find(".album-item").show();
+            // }
+            // else
+            // {
+            // 	_self.thumbImagesBar.find(".album-item").hide();
+            // 	_self.thumbImagesBar.find(".album-item[tags*='"+this.getAttribute("tag")+"']").show();
+            // }
 
-          _self.lastActiveTag = $(this);
-
-        }).appendTo(this.tagsBar)
+            _self.lastActiveTag = $(this);
+          })
+          .appendTo(this.tagsBar),
       };
 
       if (setActive) {
@@ -657,7 +737,7 @@ window.album = function (options) {
     /**
      * 初始化小图片列表
      * @param {string} active 当前活动的键值
-     * @return {self} 
+     * @return {self}
      */
     initImageList(images, active, isTags) {
       this.thumbImagesBar.empty();
@@ -669,7 +749,7 @@ window.album = function (options) {
 
       for (let i = 0; i < images.length; i++) {
         this.addItem(images[i], isTags);
-      };
+      }
 
       if (active) {
         this.setActive(active, true);
@@ -704,20 +784,21 @@ window.album = function (options) {
 
       const self = this;
       if (this.activeItem) {
-        if (this.activeItem.key == key)
-          return;
+        if (this.activeItem.key == key) return;
 
         this.activeItem.rate = 100;
         this.activeItem.image.removeClass("active");
       }
 
       if (!this.activeImage) {
-        this.activeImage = $("<img class='activeImage'/>").css({
-          width: 100,
-          position: "absolute"
-          // }).draggable({
-          //   cursor: "move"
-        }).appendTo(this.shower);
+        this.activeImage = $("<img class='activeImage'/>")
+          .css({
+            width: 100,
+            position: "absolute",
+            // }).draggable({
+            //   cursor: "move"
+          })
+          .appendTo(this.shower);
 
         if (this.options.clickImageToClose) {
           this.activeImage.click(() => {
@@ -726,7 +807,7 @@ window.album = function (options) {
         }
 
         if (!this.options.allowContextmenu) {
-          this.activeImage.on("contextmenu", event => {
+          this.activeImage.on("contextmenu", (event) => {
             event.preventDefault();
             event.stopPropagation();
           });
@@ -740,15 +821,18 @@ window.album = function (options) {
       } else {
         this.label.removeAttr("href");
       }
-      this.countBar.html(`${item.index+1}/${this.images.length}`);
+      this.countBar.html(`${item.index + 1}/${this.images.length}`);
       this.activeItem = item;
 
       // 设置缩略图列表位置
-      const left = this.listBarOffset - item.image.position().left - item.image.width() / 2;
+      const left =
+        this.listBarOffset -
+        item.image.position().left -
+        item.image.width() / 2;
 
       // $.log(this.listBarOffset, item.image.position());
       this.thumbImagesBar.css({
-        left
+        left,
       });
 
       if (!item.isloaded && item.url != item.thumb) {
@@ -756,7 +840,7 @@ window.album = function (options) {
         this.activeImage.hide();
 
         // 预加载图片
-        this.loadImage(item.url, img => {
+        this.loadImage(item.url, (img) => {
           self.loadingBar.fadeOut();
           self.activeItem.isloaded = true;
           self.activeItem.width = img.width;
@@ -784,7 +868,6 @@ window.album = function (options) {
       } else {
         this.setActiveImage(resize);
       }
-
     },
     /**
      * 设置当前活动的图像
@@ -795,10 +878,10 @@ window.album = function (options) {
 
       this.activeImage.hide().attr({
         src: item.url,
-        fileId: item.fileId
+        fileId: item.fileId,
       });
 
-      // if (!resize) 
+      // if (!resize)
       // {
       // 	this.activeImage.show();
       // 	return;
@@ -806,7 +889,7 @@ window.album = function (options) {
 
       const parentSize = {
         width: this.window.width(),
-        height: this.window.height()
+        height: this.window.height(),
       };
 
       if (this.options.keepThumbBar) {
@@ -886,13 +969,18 @@ window.album = function (options) {
       // 	left = this.listBarOffset - width/2;
       // }
 
-      this.activeImage.animate({
-        width,
-        top: 0,
-        left,
-        marginLeft: 0,
-        marginTop: 0
-      }, 50).show();
+      this.activeImage
+        .animate(
+          {
+            width,
+            top: 0,
+            left,
+            marginLeft: 0,
+            marginTop: 0,
+          },
+          50,
+        )
+        .show();
 
       this.zoomBar.html(`${this.activeItem.rate}%`);
     },
@@ -902,7 +990,7 @@ window.album = function (options) {
      * @return {[type]}        [description]
      */
     gotoImage(action, _self) {
-      if (typeof (action) == "number") {
+      if (typeof action == "number") {
         var item = this.image[action];
         if (item) {
           this.setActive(item.key);
@@ -951,11 +1039,11 @@ window.album = function (options) {
         if (callback) {
           _img.onload = function () {
             callback(this);
-          }
+          };
         }
       }
       _imageCache[url] = _img;
       return _img;
-    }
-  }).init();
+    },
+  }.init();
 };

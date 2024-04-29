@@ -3,8 +3,8 @@
     <v-list>
       <v-list-tile v-for="(item, index) in items" :key="index">
         <v-list-tile-action>
-          <v-btn flat icon :loading="item.status=='loading'">
-            <v-icon :color="getColor(item)">{{getIcon(item)}}</v-icon>
+          <v-btn flat icon :loading="item.status == 'loading'">
+            <v-icon :color="getColor(item)">{{ getIcon(item) }}</v-icon>
           </v-btn>
         </v-list-tile-action>
 
@@ -23,14 +23,14 @@ export default Vue.extend({
   props: {
     timeout: {
       type: Number,
-      default: 5000
-    }
+      default: 5000,
+    },
   },
 
   data() {
     return {
       items: [] as IWorkingStatusItem[],
-      working: true
+      working: true,
     };
   },
 
@@ -39,8 +39,8 @@ export default Vue.extend({
       handler() {
         this.change();
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
 
   methods: {
@@ -111,7 +111,7 @@ export default Vue.extend({
         default:
           return "refresh";
       }
-    }
-  }
+    },
+  },
 });
 </script>

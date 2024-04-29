@@ -1,13 +1,12 @@
 <template>
   <v-dialog v-model="show" max-width="800">
     <v-card>
-      <v-card-title
-        class="headline blue-grey darken-2"
-        style="color:white"
-      >{{ $t('settings.downloadClients.edit.title') }}</v-card-title>
+      <v-card-title class="headline blue-grey darken-2" style="color: white">{{
+        $t("settings.downloadClients.edit.title")
+      }}</v-card-title>
 
       <v-card-text>
-        <Editor :option="defaultItem"/>
+        <Editor :option="defaultItem" />
       </v-card-text>
 
       <v-divider></v-divider>
@@ -16,11 +15,18 @@
         <v-spacer></v-spacer>
         <v-btn flat color="error" @click="cancel">
           <v-icon>cancel</v-icon>
-          <span class="ml-1">{{ $t('settings.downloadClients.edit.cancel') }}</span>
+          <span class="ml-1">{{
+            $t("settings.downloadClients.edit.cancel")
+          }}</span>
         </v-btn>
-        <v-btn flat color="success" @click="save" :disabled="!defaultItem.valid">
+        <v-btn
+          flat
+          color="success"
+          @click="save"
+          :disabled="!defaultItem.valid"
+        >
           <v-icon>check_circle_outline</v-icon>
-          <span class="ml-1">{{ $t('settings.downloadClients.edit.ok') }}</span>
+          <span class="ml-1">{{ $t("settings.downloadClients.edit.ok") }}</span>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -31,23 +37,23 @@ import Vue from "vue";
 import Editor from "./Editor.vue";
 export default Vue.extend({
   components: {
-    Editor
+    Editor,
   },
   data() {
     return {
       show: false,
       defaultItem: {
-        name: ""
-      }
+        name: "",
+      },
     };
   },
   props: {
     value: Boolean,
-    option: Object
+    option: Object,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -58,7 +64,7 @@ export default Vue.extend({
       if (this.show) {
         this.defaultItem = Object.assign({}, this.option);
       }
-    }
+    },
   },
   methods: {
     save() {
@@ -67,7 +73,7 @@ export default Vue.extend({
     },
     cancel() {
       this.show = false;
-    }
-  }
+    },
+  },
 });
 </script>

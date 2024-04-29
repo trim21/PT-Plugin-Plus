@@ -4,7 +4,7 @@ import {
   EConfigKey,
   DataResult,
   EDataResultType,
-  EInstallType
+  EInstallType,
 } from "@/interface/common";
 import { PPF } from "./public";
 import "./favicon";
@@ -44,7 +44,7 @@ let RESOURCE_API = {
   clients: `${RESOURCE_URL}/clients.json`,
   clientConfig: `${RESOURCE_URL}/clients/{$client}/config.json`,
   latestReleases: `https://api.github.com/repos/pt-plugins/PT-Plugin-Plus/releases/latest`,
-  systemConfig: `${RESOURCE_URL}/systemConfig.json`
+  systemConfig: `${RESOURCE_URL}/systemConfig.json`,
 };
 
 export const APP = {
@@ -114,7 +114,7 @@ export const APP = {
           }
         });
       });
-    }
+    },
   },
   addScript(script: any) {
     APP.debugMode && console.log("addScript", script);
@@ -159,9 +159,9 @@ export const APP = {
                 console.log("execScript: %s", url);
                 $.ajax({
                   url,
-                  dataType: "text"
+                  dataType: "text",
                 })
-                  .done(result => {
+                  .done((result) => {
                     this.runScript(result);
                     this.cache.set(url, result);
                     resolve();
@@ -174,9 +174,9 @@ export const APP = {
                     ) {
                       reject(
                         jqXHR.responseJSON.msg +
-                        " (" +
-                        jqXHR.responseJSON.code +
-                        ")"
+                          " (" +
+                          jqXHR.responseJSON.code +
+                          ")",
                       );
                     } else {
                       reject(status + ", " + text);
@@ -225,12 +225,12 @@ export const APP = {
           } else {
             $.get(
               url,
-              result => {
+              (result) => {
                 style.html(result);
                 this.cache.set(url, result);
                 resolve();
               },
-              "text"
+              "text",
             );
           }
           break;
@@ -268,7 +268,7 @@ export const APP = {
     APP.debugMode && console.log("getScriptContent", url);
     return $.ajax({
       url,
-      dataType: "text"
+      dataType: "text",
     });
   },
   /**
@@ -279,7 +279,7 @@ export const APP = {
     return {
       type: EDataResultType.error,
       msg,
-      success: false
+      success: false,
     };
   },
 
@@ -289,14 +289,14 @@ export const APP = {
    */
   showNotifications(
     options: chrome.notifications.NotificationOptions,
-    timeout = 3000
+    timeout = 3000,
   ) {
     PPF.showNotifications(options, timeout);
   },
   getInstallType(): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       if (chrome && chrome.management) {
-        chrome.management.getSelf(result => {
+        chrome.management.getSelf((result) => {
           // 判断是否为 crx 方式
           if (
             result.updateUrl &&
@@ -311,7 +311,7 @@ export const APP = {
         reject();
       }
     });
-  }
+  },
 };
 
 APP.cache.init();

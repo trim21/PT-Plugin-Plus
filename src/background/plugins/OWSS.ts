@@ -23,14 +23,14 @@ export class OWSS {
   private request(
     action: string,
     method: ERequestMethod = ERequestMethod.GET,
-    data?: any
+    data?: any,
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let options: JQuery.AjaxSettings = {
         url: this.serverURL + `${action}`,
         method: method,
         dataType: "json",
-        data
+        data,
       };
 
       if (method === ERequestMethod.POST) {
@@ -39,10 +39,10 @@ export class OWSS {
       }
 
       $.ajax(options)
-        .done(result => {
+        .done((result) => {
           resolve(result);
         })
-        .fail(error => {
+        .fail((error) => {
           reject(error);
         });
     });
@@ -54,14 +54,14 @@ export class OWSS {
   public create(): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.request("create")
-        .then(result => {
+        .then((result) => {
           if (result && result.data) {
             resolve(result.data);
           } else {
             reject();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -76,16 +76,16 @@ export class OWSS {
       this.request(
         `${this.options.authCode}/add`,
         ERequestMethod.POST,
-        formData
+        formData,
       )
-        .then(result => {
+        .then((result) => {
           if (result && result.data === true) {
             resolve(true);
           } else {
             reject(false);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -101,7 +101,7 @@ export class OWSS {
       let url = `${this.serverURL}${this.options.authCode}/get/${path}`;
       let file = new FileDownloader({
         url,
-        getDataOnly: true
+        getDataOnly: true,
       });
 
       file.onCompleted = () => {
@@ -125,16 +125,16 @@ export class OWSS {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.request(
         `${this.options.authCode}/delete/${path}`,
-        ERequestMethod.POST
+        ERequestMethod.POST,
       )
-        .then(result => {
+        .then((result) => {
           if (result && result.data) {
             resolve(result.data);
           } else {
             reject(false);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -147,14 +147,14 @@ export class OWSS {
   public list(options: any = {}): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.request(`${this.options.authCode}/list`, ERequestMethod.GET, options)
-        .then(result => {
+        .then((result) => {
           if (result && result.data) {
             resolve(result.data);
           } else {
             reject(false);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -166,12 +166,12 @@ export class OWSS {
   public ping(): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.request(`${this.options.authCode}/list`, ERequestMethod.GET, {
-        pageSize: 1
+        pageSize: 1,
       })
         .then(() => {
           resolve(true);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });

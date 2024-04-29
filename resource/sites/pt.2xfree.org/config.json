@@ -4,17 +4,10 @@
   "description": "2xFree",
   "url": "https://pt.2xfree.org/",
   "icon": "https://pt.2xfree.org/favicon.ico",
-  "tags": [
-    "综合",
-    "VR",
-    "成人"
-  ],
+  "tags": ["综合", "VR", "成人"],
   "schema": "NexusPHP",
   "host": "pt.2xfree.org",
-  "collaborator": [
-    "ysmox",
-    "IITII"
-  ],
+  "collaborator": ["ysmox", "IITII"],
   "levelRequirements": [
     {
       "level": 1,
@@ -207,12 +200,8 @@
       "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
       "fields": {
         "seeding": {
-          "selector": [
-            "b:first"
-          ],
-          "filters": [
-            "query.text()"
-          ]
+          "selector": ["b:first"],
+          "filters": ["query.text()"]
         },
         "seedingSize": {
           "selector": "",

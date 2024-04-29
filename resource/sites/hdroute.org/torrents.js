@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is torrent.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -21,7 +21,7 @@
      */
     getDownloadURLs() {
       let links = $(
-        "#unsticky-torrent-table dl:has(.buttonDownload)"
+        "#unsticky-torrent-table dl:has(.buttonDownload)",
       ).toArray();
       let siteURL = PTService.site.url;
       if (siteURL.substr(-1) != "/") {
@@ -32,10 +32,8 @@
         return this.t("getDownloadURLsFailed"); //"获取下载链接失败，未能正确定位到链接";
       }
 
-      let urls = $.map(links, item => {
-        let id = $(item)
-          .attr("id")
-          .replace("dl_torrent_", "");
+      let urls = $.map(links, (item) => {
+        let id = $(item).attr("id").replace("dl_torrent_", "");
         let link = `${siteURL}download.php?id=${id}`;
         return link;
       });
@@ -48,7 +46,7 @@
      */
     confirmWhenExceedSize() {
       return this.confirmSize(
-        $("#unsticky-torrent-table dl:has(.buttonDownload) .torrent_size")
+        $("#unsticky-torrent-table dl:has(.buttonDownload) .torrent_size"),
       );
     }
   }

@@ -1,4 +1,4 @@
-(function($, window) {
+(function ($, window) {
   console.log("this is details.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -33,9 +33,7 @@
      * 获取当前种子标题
      */
     getTitle() {
-      return $(".details-title-section > p:first")
-        .text()
-        .trim();
+      return $(".details-title-section > p:first").text().trim();
     }
   }
   new App().init();

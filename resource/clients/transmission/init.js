@@ -15,19 +15,17 @@
       this.options = options;
       this.headers = [];
       if (options.loginName && options.loginPwd) {
-        this.headers["Authorization"] = "Basic " + (new Base64()).encode(options.loginName + ":" + options.loginPwd);
+        this.headers["Authorization"] =
+          "Basic " +
+          new Base64().encode(options.loginName + ":" + options.loginPwd);
       }
 
       if (this.options.address.indexOf("rpc") == -1) {
         let url = PTServiceFilters.parseURL(this.options.address);
 
-        let address = [
-          url.protocol,
-          "://",
-          url.host
-        ];
+        let address = [url.protocol, "://", url.host];
         if (url.port) {
-          address.push(`:${url.port}`)
+          address.push(`:${url.port}`);
         }
 
         address.push(url.path);
@@ -54,12 +52,18 @@
         switch (action) {
           // 从指定的URL添加种子
           case "addTorrentFromURL":
-            this.addTorrentFromUrl(data.url, data.savePath, data.autoStart, (result) => {
-              resolve(result);
-            }, data.upLoadLimit);
+            this.addTorrentFromUrl(
+              data.url,
+              data.savePath,
+              data.autoStart,
+              (result) => {
+                resolve(result);
+              },
+              data.upLoadLimit,
+            );
             break;
 
-            // 获取可用空间
+          // 获取可用空间
           case "getFreeSpace":
             this.getFreeSpace(data.path, (result) => {
               resolve(result);
@@ -67,15 +71,16 @@
 
             break;
 
-            // 测试是否可连接
+          // 测试是否可连接
           case "testClientConnectivity":
-            this.sessionStats().then(result => {
-              resolve(result.result == "success");
-            }).catch(result => {
-              reject(result);
-            })
+            this.sessionStats()
+              .then((result) => {
+                resolve(result.result == "success");
+              })
+              .catch((result) => {
+                reject(result);
+              });
             break;
-
         }
       });
     }
@@ -91,55 +96,58 @@
         var data = {
           method: "",
           arguments: {},
-          tag: ""
+          tag: "",
         };
         let result = {};
 
         $.extend(data, options);
 
-        this.sendRequest({
-          type: "POST",
-          url: this.options.address,
-          dataType: 'json',
-          data: JSON.stringify(data),
-          timeout: PTBackgroundService.options.connectClientTimeout,
-          headers: this.headers
-        }, (resultData) => {
-          if (callback) {
-            callback(resultData, tags);
-          }
-          resolve(resultData);
-        }, (request, event, page) => {
-          switch (request.status) {
-            case 0:
-              result = {
-                status: "error",
-                code: request.status,
-                msg: i18n.t("downloadClient.serverIsUnavailable") //"服务器不可用或网络错误"
-              };
-              reject && reject(result)
-              break;
+        this.sendRequest(
+          {
+            type: "POST",
+            url: this.options.address,
+            dataType: "json",
+            data: JSON.stringify(data),
+            timeout: PTBackgroundService.options.connectClientTimeout,
+            headers: this.headers,
+          },
+          (resultData) => {
+            if (callback) {
+              callback(resultData, tags);
+            }
+            resolve(resultData);
+          },
+          (request, event, page) => {
+            switch (request.status) {
+              case 0:
+                result = {
+                  status: "error",
+                  code: request.status,
+                  msg: i18n.t("downloadClient.serverIsUnavailable"), //"服务器不可用或网络错误"
+                };
+                reject && reject(result);
+                break;
 
-            case 401:
-              result = {
-                status: "error",
-                code: request.status,
-                msg: i18n.t("downloadClient.permissionDenied") //"身份验证失败"
-              };
-              reject && reject(result)
-              break;
+              case 401:
+                result = {
+                  status: "error",
+                  code: request.status,
+                  msg: i18n.t("downloadClient.permissionDenied"), //"身份验证失败"
+                };
+                reject && reject(result);
+                break;
 
-            default:
-              result = {
-                status: "error",
-                code: request.status,
-                msg: event || i18n.t("downloadClient.unknownError") //"未知错误"
-              };
-              reject && reject(result)
-              break;
-
-          }
-        });
+              default:
+                result = {
+                  status: "error",
+                  code: request.status,
+                  msg: event || i18n.t("downloadClient.unknownError"), //"未知错误"
+                };
+                reject && reject(result);
+                break;
+            }
+          },
+        );
       });
     }
 
@@ -150,28 +158,29 @@
      * @param {*} error
      */
     sendRequest(options, success, error) {
-      $.ajax(options).done((resultData, textStatus) => {
-        success && success(resultData, textStatus);
-      }).fail((request, event, page) => {
-        switch (request.status) {
-          case 409:
-            this.sessionId = request.getResponseHeader(XHEADER);
-            this.headers[XHEADER] = this.sessionId;
-            options.headers = this.headers;
-            this.sendRequest(options, success, error);
-            break;
+      $.ajax(options)
+        .done((resultData, textStatus) => {
+          success && success(resultData, textStatus);
+        })
+        .fail((request, event, page) => {
+          switch (request.status) {
+            case 409:
+              this.sessionId = request.getResponseHeader(XHEADER);
+              this.headers[XHEADER] = this.sessionId;
+              options.headers = this.headers;
+              this.sendRequest(options, success, error);
+              break;
 
-          default:
-            error && error(request, event, page);
-            break;
-        }
-
-      });
+            default:
+              error && error(request, event, page);
+              break;
+          }
+        });
     }
 
     sessionStats() {
       return this.exec({
-        method: "session-stats"
+        method: "session-stats",
       });
     }
 
@@ -187,8 +196,8 @@
         method: "torrent-add",
         arguments: {
           filename: url,
-          paused: (!autoStart)
-        }
+          paused: !autoStart,
+        },
       };
 
       if (savePath) {
@@ -200,14 +209,14 @@
       }
 
       // 磁性连接
-      if (url.startsWith('magnet:')) {
+      if (url.startsWith("magnet:")) {
         options.arguments["filename"] = url;
-        this.addTorrent(options, callback)
+        this.addTorrent(options, callback);
       } else {
         PTBackgroundService.requestMessage({
-            action: "getTorrentDataFromURL",
-            data: url
-          })
+          action: "getTorrentDataFromURL",
+          data: url,
+        })
           .then((result) => {
             var fileReader = new FileReader();
 
@@ -224,7 +233,7 @@
               options.arguments["metainfo"] = metainfo;
 
               this.addTorrent(options, callback);
-            }
+            };
             fileReader.readAsDataURL(result);
           })
           .catch((result) => {
@@ -239,38 +248,38 @@
      * @param {*} callback
      */
     addTorrent(options, callback) {
-      this.exec(options).then((data) => {
-        switch (data.result) {
-          // 添加成功
-          case "success":
-            if (callback) {
-              if (data.arguments["torrent-added"]) {
-                callback(data.arguments["torrent-added"]);
+      this.exec(options)
+        .then((data) => {
+          switch (data.result) {
+            // 添加成功
+            case "success":
+              if (callback) {
+                if (data.arguments["torrent-added"]) {
+                  callback(data.arguments["torrent-added"]);
+                }
+                // 重复的种子
+                else if (data.arguments["torrent-duplicate"]) {
+                  callback({
+                    status: "duplicate",
+                    torrent: data.arguments["torrent-duplicate"],
+                  });
+                }
               }
-              // 重复的种子
-              else if (data.arguments["torrent-duplicate"]) {
-                callback({
-                  status: "duplicate",
-                  torrent: data.arguments["torrent-duplicate"]
-                });
-              }
-            }
-            break;
+              break;
 
             // 重复的种子
-          case "duplicate torrent":
-          default:
-            if (callback) {
-              callback(data.result || data);
-            }
-            break;
-
-        }
-      }).catch((result) => {
-        callback && callback(result);
-      });
+            case "duplicate torrent":
+            default:
+              if (callback) {
+                callback(data.result || data);
+              }
+              break;
+          }
+        })
+        .catch((result) => {
+          callback && callback(result);
+        });
     }
-
 
     /**
      * 獲取指定目錄的大小
@@ -281,16 +290,18 @@
       this.exec({
         method: "free-space",
         arguments: {
-          "path": path
-        }
-      }).then((result) => {
-        callback && callback(result);
-      }).catch((result) => {
-        callback && callback(result);
-      });
+          path: path,
+        },
+      })
+        .then((result) => {
+          callback && callback(result);
+        })
+        .catch((result) => {
+          callback && callback(result);
+        });
     }
   }
 
   // 添加到 window 对象，用于客户页面调用
   window.transmission = Transmission;
-})(jQuery, window)
+})(jQuery, window);

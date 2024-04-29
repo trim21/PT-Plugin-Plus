@@ -7,7 +7,7 @@ Vue.use(VueI18n);
 
 export const i18n = new VueI18n({
   locale: "",
-  fallbackLocale: "en"
+  fallbackLocale: "en",
 });
 
 export class i18nService {
@@ -50,7 +50,7 @@ export class i18nService {
         })
         .catch(() => {
           console.error(
-            "Loading language configuration file failed. (加载语言配置文件失败)"
+            "Loading language configuration file failed. (加载语言配置文件失败)",
           );
         });
     });
@@ -66,7 +66,7 @@ export class i18nService {
           this.config = result;
           resolve(this.config);
         })
-        .fail(e => {
+        .fail((e) => {
           reject(e);
         });
     });
@@ -83,7 +83,7 @@ export class i18nService {
           this.push(result);
           resolve(result);
         })
-        .fail(e => {
+        .fail((e) => {
           reject(e);
         });
     });
@@ -127,7 +127,7 @@ export class i18nService {
               this.change(langCode);
               resolve(langCode);
             })
-            .catch(e => {
+            .catch((e) => {
               if (langCode != "en") {
                 this.reset("en").then(() => {
                   resolve(langCode);

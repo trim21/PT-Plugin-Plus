@@ -1,7 +1,7 @@
 /**
  * @see https://github.com/qbittorrent/qBittorrent/wiki/Web-API-Documentation
  */
-(function($) {
+(function ($) {
   //qBittorrent
   class Client {
     /**
@@ -19,7 +19,7 @@
       if (this.options.address.substr(-1) == "/") {
         this.options.address = this.options.address.substr(
           0,
-          this.options.address.length - 1
+          this.options.address.length - 1,
         );
       }
 
@@ -37,7 +37,7 @@
       return new Promise((resolve, reject) => {
         switch (action) {
           case "addTorrentFromURL":
-            this.addTorrentFromUrl(data, result => {
+            this.addTorrentFromUrl(data, (result) => {
               if (result.status === "success") {
                 resolve(result);
               } else {
@@ -49,14 +49,14 @@
           // 测试是否可连接
           case "testClientConnectivity":
             this.getSessionId()
-              .then(result => {
+              .then((result) => {
                 resolve(true);
               })
               .catch((code, msg) => {
                 reject({
                   status: "error",
                   code,
-                  msg
+                  msg,
                 });
               });
             break;
@@ -72,7 +72,7 @@
       return new Promise((resolve, reject) => {
         var data = {
           username: this.options.loginName,
-          password: this.options.loginPwd
+          password: this.options.loginPwd,
         };
 
         // qb 需要禁用『启用跨站请求伪造保护』
@@ -80,7 +80,7 @@
           type: "POST",
           url: this.options.address + "/api/v2/auth/login",
           data: data,
-          timeout: PTBackgroundService.options.connectClientTimeout
+          timeout: PTBackgroundService.options.connectClientTimeout,
         };
         $.ajax(settings)
           .done((resultData, textStatus, request) => {
@@ -124,7 +124,7 @@
               callback({
                 status: "error",
                 code: jqXHR.status,
-                msg: i18n.t("downloadClient.unsupportedMediaType") //"种子文件有误"
+                msg: i18n.t("downloadClient.unsupportedMediaType"), //"种子文件有误"
               });
               return;
 
@@ -143,10 +143,10 @@
                 msg:
                   msg || code === 0
                     ? i18n.t("downloadClient.serverIsUnavailable")
-                    : i18n.t("downloadClient.unknownError") //"服务器不可用或网络错误" : "未知错误"
+                    : i18n.t("downloadClient.unknownError"), //"服务器不可用或网络错误" : "未知错误"
               });
             });
-        }
+        },
       };
       $.ajax(settings);
     }
@@ -180,19 +180,19 @@
       let url = data.url;
 
       // 磁性连接
-      if (url.startsWith('magnet:')) {
-        formData.append('urls', url);
+      if (url.startsWith("magnet:")) {
+        formData.append("urls", url);
         this.addTorrent(formData, callback);
       } else {
         PTBackgroundService.requestMessage({
           action: "getTorrentDataFromURL",
-          data: url
+          data: url,
         })
-          .then(result => {
+          .then((result) => {
             formData.append("torrents", result, "file.torrent");
             this.addTorrent(formData, callback);
           })
-          .catch(result => {
+          .catch((result) => {
             callback && callback(result);
           });
       }
@@ -202,16 +202,16 @@
       this.exec(
         {
           method: "/api/v2/torrents/add",
-          params: params
+          params: params,
         },
-        resultData => {
+        (resultData) => {
           if (callback) {
             var result = Object.assign(
               {
                 status: "",
-                msg: ""
+                msg: "",
               },
-              resultData
+              resultData,
             );
             if (
               (!resultData.error && resultData.result) ||
@@ -219,13 +219,13 @@
             ) {
               result.status = "success";
               result.msg = i18n.t("downloadClient.addURLSuccess", {
-                name: this.options.name
+                name: this.options.name,
               }); //"URL已添加至 qBittorrent 。";
             }
             callback(result);
           }
           console.log(resultData);
-        }
+        },
       );
     }
   }

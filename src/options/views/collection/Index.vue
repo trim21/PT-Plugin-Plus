@@ -341,7 +341,7 @@ import {
   BASE_COLORS,
   ECommonKey,
   Options,
-  ERequestMethod
+  ERequestMethod,
 } from "@/interface/common";
 import Extension from "@/service/extension";
 import DownloadTo from "@/options/components/DownloadTo.vue";
@@ -356,7 +356,7 @@ export default Vue.extend({
   components: {
     DownloadTo,
     GroupCard,
-    AddToGroup
+    AddToGroup,
   },
   data() {
     return {
@@ -365,7 +365,7 @@ export default Vue.extend({
       pagination: {
         rowsPerPage: 10,
         sortBy: "time",
-        descending: true
+        descending: true,
       },
       items: [] as ICollection[],
       allItems: [] as ICollection[],
@@ -379,7 +379,7 @@ export default Vue.extend({
       activeGroupId: ECommonKey.all as any,
       defaultGroupId: "" as any,
       filterKey: "",
-      loading: false
+      loading: false,
     };
   },
   /**
@@ -429,7 +429,7 @@ export default Vue.extend({
       requests.push(extension.sendRequest(EAction.getTorrentCollectionGroups));
       requests.push(extension.sendRequest(EAction.getTorrentCollections));
       this.loading = true;
-      return Promise.all(requests).then(results => {
+      return Promise.all(requests).then((results) => {
         console.log("getTorrentCollections", results);
         this.items = [];
         this.groups = [];
@@ -438,7 +438,7 @@ export default Vue.extend({
           name: this.$t("collection.noGroup").toString(),
           count: 0,
           readOnly: true,
-          width: 120
+          width: 120,
         };
 
         results[1].forEach((item: any) => {
@@ -464,7 +464,7 @@ export default Vue.extend({
           count: this.allItems.length,
           color: "grey darken-2",
           readOnly: true,
-          width: 120
+          width: 120,
         };
 
         this.groups.push(allGroup);
@@ -503,7 +503,7 @@ export default Vue.extend({
         extension
           .sendRequest(EAction.addTorrentCollectionGroup, null, {
             name,
-            color: BASE_COLORS[Math.floor(Math.random() * BASE_COLORS.length)]
+            color: BASE_COLORS[Math.floor(Math.random() * BASE_COLORS.length)],
           })
           .then(() => {
             this.getTorrentCollections();
@@ -514,8 +514,8 @@ export default Vue.extend({
     getGroupList(item: ICollection) {
       let result: ICollectionGroup[] = [];
       if (item.groups) {
-        item.groups.forEach(id => {
-          this.groups.forEach(group => {
+        item.groups.forEach((id) => {
+          this.groups.forEach((group) => {
             if (group.id === id) {
               result.push(group);
             }
@@ -525,7 +525,7 @@ export default Vue.extend({
 
       if (result.length == 0) {
         result.push({
-          name: this.$t("collection.noGroup").toString()
+          name: this.$t("collection.noGroup").toString(),
         });
       }
 
@@ -537,8 +537,8 @@ export default Vue.extend({
         if (
           !confirm(
             this.$t("collection.removeGroupConfirm", {
-              count: group.count
-            }).toString()
+              count: group.count,
+            }).toString(),
           )
         ) {
           return;
@@ -568,7 +568,7 @@ export default Vue.extend({
       extension
         .sendRequest(EAction.addTorrentCollectionToGroup, null, {
           item,
-          groupId: group.id
+          groupId: group.id,
         })
         .then(() => {
           this.getTorrentCollections();
@@ -588,7 +588,7 @@ export default Vue.extend({
       extension
         .sendRequest(EAction.removeTorrentCollectionFromGroup, null, {
           item,
-          groupId: group.id
+          groupId: group.id,
         })
         .then(() => {
           this.getTorrentCollections();
@@ -634,7 +634,7 @@ export default Vue.extend({
     setDefaultGroup(group: ICollectionGroup) {
       this.defaultGroupId = group.id;
       this.$store.dispatch("saveConfig", {
-        defaultCollectionGroupId: group.id
+        defaultCollectionGroupId: group.id,
       });
     },
 
@@ -642,7 +642,7 @@ export default Vue.extend({
       if (this.defaultGroupId === group.id) {
         this.defaultGroupId = "";
         this.$store.dispatch("saveConfig", {
-          defaultCollectionGroupId: ""
+          defaultCollectionGroupId: "",
         });
       }
     },
@@ -668,7 +668,7 @@ export default Vue.extend({
         delete data.site;
         data.movieInfo = {
           imdbId,
-          doubanId
+          doubanId,
         };
         extension
           .sendRequest(EAction.updateTorrentCollention, null, data)
@@ -702,7 +702,7 @@ export default Vue.extend({
 
         let source = texts.join("").toLowerCase();
         let result = true;
-        searchs.forEach(key => {
+        searchs.forEach((key) => {
           if (key.trim() != "") {
             result = result && source.indexOf(key) > -1;
           }
@@ -724,13 +724,13 @@ export default Vue.extend({
       let file = new FileDownloader({
         url,
         timeout: this.options.connectClientTimeout,
-        fileName: `[${item.site.name}][${item.title}].torrent`
+        fileName: `[${item.site.name}][${item.title}].torrent`,
       });
 
       file.requestMethod = requestMethod;
-      file.onError = (error: any) => { };
+      file.onError = (error: any) => {};
       file.start();
-    }
+    },
   },
 
   created() {
@@ -744,7 +744,7 @@ export default Vue.extend({
     },
     errorMsg() {
       this.haveError = this.errorMsg != "";
-    }
+    },
   },
 
   computed: {
@@ -755,44 +755,44 @@ export default Vue.extend({
           align: "left",
           sortable: false,
           value: "title",
-          width: 30
+          width: 30,
         },
         {
           text: this.$t("collection.headers.title"),
           align: "left",
-          value: "title"
+          value: "title",
         },
         {
           text: this.$t("collection.headers.site"),
           align: "left",
           value: "site.host",
-          width: 150
+          width: 150,
         },
         {
           text: this.$t("collection.headers.size"),
           align: "right",
           value: "size",
-          width: 100
+          width: 100,
         },
         {
           text: this.$t("collection.headers.time"),
           align: "right",
           value: "time",
-          width: 130
+          width: 130,
         },
         {
           text: this.$t("collection.headers.action"),
           value: "title",
           align: "center",
           sortable: false,
-          width: 150
-        }
+          width: 150,
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>
-<style lang="scss" >
+<style lang="scss">
 .collection {
   .sub-title {
     color: #aaaaaa;

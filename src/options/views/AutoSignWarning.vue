@@ -70,7 +70,7 @@ export default Vue.extend({
   data() {
     return {
       dialog: false,
-      showButton: true
+      showButton: true,
     };
   },
 
@@ -80,18 +80,18 @@ export default Vue.extend({
       this.$store.dispatch("updateViewOptions", {
         key: "AutoSignWarning",
         options: {
-          showButton: false
-        }
+          showButton: false,
+        },
       });
       this.dialog = false;
-    }
+    },
   },
 
   created() {
     let viewOptions = this.$store.getters.viewsOptions("AutoSignWarning", {
-      showButton: true
+      showButton: true,
     });
     Object.assign(this, viewOptions);
-  }
+  },
 });
 </script>

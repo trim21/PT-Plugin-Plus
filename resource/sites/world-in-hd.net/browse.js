@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is browse.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -20,11 +20,11 @@
      */
     getDownloadURLs() {
       let links = $(
-        "div.download-item a[href*='/torrents/download/']"
+        "div.download-item a[href*='/torrents/download/']",
       ).toArray();
       let siteURL = PTService.site.url;
       if (siteURL.substr(-1) == "/") {
-        siteURL = siteURL.substr(0,siteURL.length-1);
+        siteURL = siteURL.substr(0, siteURL.length - 1);
       }
 
       if (links.length == 0) {
@@ -32,7 +32,7 @@
         return this.t("getDownloadURLsFailed");
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let link = $(item).attr("href");
         if (link && link.substr(0, 4) != "http") {
           link = siteURL + link;
@@ -48,7 +48,11 @@
      */
     confirmWhenExceedSize() {
       return this.confirmSize(
-        $("div.torrent-h3 > span").text().split("-")[1].trim().replace('o','B')
+        $("div.torrent-h3 > span")
+          .text()
+          .split("-")[1]
+          .trim()
+          .replace("o", "B"),
       );
     }
 

@@ -4,16 +4,10 @@
   "description": "校内10兆高速下载，优质高清资源共享！",
   "url": "https://www.hitpt.com/",
   "icon": "https://www.hitpt.com/favicon.ico",
-  "tags": [
-    "教育网",
-    "影视",
-    "综合"
-  ],
+  "tags": ["教育网", "影视", "综合"],
   "schema": "NexusPHP",
   "host": "www.hitpt.com",
-  "formerHosts": [
-    "pt.ghtt.net"
-  ],
+  "formerHosts": ["pt.ghtt.net"],
   "collaborator": ["tongyifan", "zhuweitung"],
   "levelRequirements": [
     {
@@ -81,7 +75,8 @@
       "privilege": "和Nexus Master拥有相同权限并被认为是精英成员。免除自动降级。"
     }
   ],
-  "searchEntry": [{
+  "searchEntry": [
+    {
       "entry": "/torrents.php?search=$key$&notnewword=1",
       "name": "影视",
       "enabled": true
@@ -162,10 +157,12 @@
       "enabled": false
     }
   ],
-  "categories": [{
+  "categories": [
+    {
       "entry": "torrents.php",
       "result": "&cat$id$=1",
-      "category": [{
+      "category": [
+        {
           "id": 401,
           "name": "高清电影"
         },
@@ -202,7 +199,8 @@
     {
       "entry": "music.php",
       "result": "&cat$id$=1",
-      "category": [{
+      "category": [
+        {
           "id": 411,
           "name": "电子文档"
         },

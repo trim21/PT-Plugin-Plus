@@ -1,4 +1,4 @@
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -12,7 +12,7 @@
 
       if (
         /没有种子|No [Tt]orrents?|Your search did not match anything|用准确的关键字重试/.test(
-          options.responseText
+          options.responseText,
         )
       ) {
         options.status = ESearchResultParseStatus.noTorrents; //`[${options.site.name}]没有搜索到相关的种子`;
@@ -30,7 +30,7 @@
       let results = [];
       // 获取种子列表行
       let rows = options.page.find(
-        options.resultSelector || "table.torrent_table:last > tbody > tr"
+        options.resultSelector || "table.torrent_table:last > tbody > tr",
       );
       if (rows.length == 0) {
         options.status = ESearchResultParseStatus.torrentTableIsEmpty; //`[${options.site.name}]没有定位到种子列表，或没有相关的种子`;
@@ -47,7 +47,7 @@
         leechers: -1,
         completed: -1,
         comments: -1,
-        author: -1
+        author: -1,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -90,12 +90,12 @@
           let cells = row.find(">td");
 
           // id
-          let id = row.find("a[href*='torrentid=']").first().attr("href")
-          id = id.match(/torrentid=(\d+)/)[1]
+          let id = row.find("a[href*='torrentid=']").first().attr("href");
+          id = id.match(/torrentid=(\d+)/)[1];
 
           // 标题
           let title = row.find("[style='float:none;']").first().attr("title");
-          
+
           // 链接
           let link = row.find("[title='View Torrent']").first().attr("href");
           if (link && link.substr(0, 4) !== "http") {
@@ -109,11 +109,21 @@
           }
 
           // 分类
-          let category = row.find("a[href*='filter_cat']").children().first().attr("title");
+          let category = row
+            .find("a[href*='filter_cat']")
+            .children()
+            .first()
+            .attr("title");
 
           // 时间
-          let timeStrMatch = row.find("div:contains('Added:')").text().match(/Added:(.+)ago/);
-          let timeStr = (timeStrMatch && timeStrMatch.length >=2) ? timeStrMatch[1].trim() : "";
+          let timeStrMatch = row
+            .find("div:contains('Added:')")
+            .text()
+            .match(/Added:(.+)ago/);
+          let timeStr =
+            timeStrMatch && timeStrMatch.length >= 2
+              ? timeStrMatch[1].trim()
+              : "";
 
           let data = {
             id,
@@ -147,7 +157,7 @@
                 : cells.eq(fieldIndex.comments).text() || 0,
             site,
             entryName: options.entry.name,
-            category
+            category,
           };
           results.push(data);
         }
@@ -165,14 +175,16 @@
 
     getTime(timeStr) {
       let timeRegex = timeStr.match(
-        /((\d+).+?(minute|hour|day|week|month|year)s?.*?(\,|and))?.*?(\d+).+?(minute|hour|day|week|month|year)s?/
+        /((\d+).+?(minute|hour|day|week|month|year)s?.*?(\,|and))?.*?(\d+).+?(minute|hour|day|week|month|year)s?/,
       );
       let milliseconds = 0;
       if (timeRegex) {
         if (timeRegex[1] == undefined) {
           milliseconds = this.getMilliseconds(timeRegex[5], timeRegex[6]);
         } else {
-          milliseconds = this.getMilliseconds(timeRegex[2], timeRegex[3]) + this.getMilliseconds(timeRegex[5], timeRegex[6]);
+          milliseconds =
+            this.getMilliseconds(timeRegex[2], timeRegex[3]) +
+            this.getMilliseconds(timeRegex[5], timeRegex[6]);
         }
       }
       console.log(timeRegex);
@@ -183,17 +195,27 @@
 
     getMilliseconds(num, unit) {
       let milliseconds = 0;
-      milliseconds = num*60*1000;
-      if(unit == "minute") {return milliseconds;}
-      milliseconds = milliseconds*60;
-      if(unit == "hour") {return milliseconds;}
-      milliseconds = milliseconds*24;
-      if(unit == "day") {return milliseconds;}
-      milliseconds = milliseconds*7;
-      if(unit == "week") {return milliseconds;}
-      milliseconds = milliseconds*30/7;
-      if(unit == "month") {return milliseconds;}
-      milliseconds = milliseconds*12;
+      milliseconds = num * 60 * 1000;
+      if (unit == "minute") {
+        return milliseconds;
+      }
+      milliseconds = milliseconds * 60;
+      if (unit == "hour") {
+        return milliseconds;
+      }
+      milliseconds = milliseconds * 24;
+      if (unit == "day") {
+        return milliseconds;
+      }
+      milliseconds = milliseconds * 7;
+      if (unit == "week") {
+        return milliseconds;
+      }
+      milliseconds = (milliseconds * 30) / 7;
+      if (unit == "month") {
+        return milliseconds;
+      }
+      milliseconds = milliseconds * 12;
       return milliseconds;
     }
   }

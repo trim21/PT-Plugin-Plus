@@ -1,10 +1,9 @@
 <template>
   <v-dialog v-model="show" max-width="800">
     <v-card>
-      <v-card-title
-        class="headline blue-grey darken-2"
-        style="color:white"
-      >{{ $t('settings.downloadPaths.edit.title') }}</v-card-title>
+      <v-card-title class="headline blue-grey darken-2" style="color: white">{{
+        $t("settings.downloadPaths.edit.title")
+      }}</v-card-title>
 
       <v-card-text>
         <v-form v-model="valid">
@@ -20,9 +19,15 @@
             :hint="$t('settings.downloadPaths.add.pathTip')"
             :rules="rules.require"
           ></v-textarea>
-          <v-alert :value="true" color="info" icon="info" outline v-if="client.pathDescription">
+          <v-alert
+            :value="true"
+            color="info"
+            icon="info"
+            outline
+            v-if="client.pathDescription"
+          >
             <div v-html="client.pathDescription"></div>
-            <KeyDescription/>
+            <KeyDescription />
           </v-alert>
         </v-form>
       </v-card-text>
@@ -33,11 +38,13 @@
         <v-spacer></v-spacer>
         <v-btn flat color="error" @click="cancel">
           <v-icon>cancel</v-icon>
-          <span class="ml-1">{{ $t('settings.downloadPaths.add.cancel') }}</span>
+          <span class="ml-1">{{
+            $t("settings.downloadPaths.add.cancel")
+          }}</span>
         </v-btn>
         <v-btn flat color="success" @click="save" :disabled="!valid">
           <v-icon>check_circle_outline</v-icon>
-          <span class="ml-1">{{ $t('settings.downloadPaths.add.ok') }}</span>
+          <span class="ml-1">{{ $t("settings.downloadPaths.add.ok") }}</span>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -49,30 +56,30 @@ import KeyDescription from "./KeyDescription.vue";
 
 export default Vue.extend({
   components: {
-    KeyDescription
+    KeyDescription,
   },
   data() {
     return {
       show: false,
       valid: false,
       rules: {
-        require: [(v: any) => !!v || "!"]
+        require: [(v: any) => !!v || "!"],
       },
       defaultItem: {
         name: "",
         site: {},
-        paths: ""
-      }
+        paths: "",
+      },
     };
   },
   props: {
     value: Boolean,
     option: Object,
-    client: Object
+    client: Object,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -84,19 +91,19 @@ export default Vue.extend({
         this.defaultItem = Object.assign({}, this.option);
         this.defaultItem.paths = this.option.paths.join("\n");
       }
-    }
+    },
   },
   methods: {
     save() {
       this.$emit("save", {
         site: this.defaultItem.site,
-        paths: this.defaultItem.paths.split("\n")
+        paths: this.defaultItem.paths.split("\n"),
       });
       this.show = false;
     },
     cancel() {
       this.show = false;
-    }
-  }
+    },
+  },
 });
 </script>

@@ -28,14 +28,13 @@
         return "";
       }
 
-      if (url.substr(0, 2) === '//') { 
+      if (url.substr(0, 2) === "//") {
         url = `${location.protocol}${url}`;
       } else if (url.substr(0, 1) === "/") {
         url = `${location.origin}${url}`;
       } else if (url.substr(0, 4) !== "http") {
         url = `${location.origin}/${url}`;
       }
-
 
       return url;
     }
@@ -51,6 +50,6 @@
       }
       return title;
     }
-  };
-  (new App()).init();
+  }
+  new App().init();
 })(jQuery, window);

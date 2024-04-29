@@ -9,5 +9,5 @@ Object.assign(window, {
   PTServiceFilters: filters,
   PTBackgroundService: PTService,
   // 用于脚本中使用多语言环境
-  i18n: PTService.i18n
+  i18n: PTService.i18n,
 });

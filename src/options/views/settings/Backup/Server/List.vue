@@ -1,9 +1,15 @@
 <template>
   <div>
-    <v-progress-circular v-if="loading" indeterminate color="primary" class="ma-2" :width="3"></v-progress-circular>
-    <v-list two-line dense v-if="items && items.length>0">
+    <v-progress-circular
+      v-if="loading"
+      indeterminate
+      color="primary"
+      class="ma-2"
+      :width="3"
+    ></v-progress-circular>
+    <v-list two-line dense v-if="items && items.length > 0">
       <template v-for="(item, index) in items">
-        <v-list-tile :key="item.name" v-if="item.type=='file'">
+        <v-list-tile :key="item.name" v-if="item.type == 'file'">
           <v-list-tile-avatar>
             <v-icon class="grey lighten-1 white--text">bookmark</v-icon>
           </v-list-tile-avatar>
@@ -21,7 +27,7 @@
                   icon
                   small
                   class="mx-0"
-                  :loading="downloading && downloadingIndex==index"
+                  :loading="downloading && downloadingIndex == index"
                   @click="selectRestoreType(item, index, $event)"
                   :title="$t('settings.backup.restore')"
                 >
@@ -51,7 +57,9 @@
     </v-list>
     <v-list two-line dense v-else-if="!loading">
       <v-list-tile>
-        <v-list-tile-content>{{ $t('settings.backup.server.list.noData') }}</v-list-tile-content>
+        <v-list-tile-content>{{
+          $t("settings.backup.server.list.noData")
+        }}</v-list-tile-content>
       </v-list-tile>
     </v-list>
   </div>
@@ -63,14 +71,14 @@ import { ERestoreContent } from "@/interface/enum";
 export default Vue.extend({
   data() {
     return {
-      downloadingIndex: 0
+      downloadingIndex: 0,
     };
   },
   props: {
     items: Array,
     loading: Boolean,
     downloading: Boolean,
-    server: Object
+    server: Object,
   },
   methods: {
     onDelete(item: any, index: number) {
@@ -87,7 +95,7 @@ export default Vue.extend({
         fn: () => {
           console.log(this.server);
           this.$emit("download", this.server, item, ERestoreContent.all);
-        }
+        },
       });
 
       menus.push({});
@@ -96,7 +104,7 @@ export default Vue.extend({
         title: this.$t("settings.backup.restoreCollection"),
         fn: () => {
           this.$emit("download", this.server, item, ERestoreContent.collection);
-        }
+        },
       });
 
       if (PPF.checkOptionalPermission("cookies")) {
@@ -106,7 +114,7 @@ export default Vue.extend({
           title: this.$t("settings.backup.restoreCookies"),
           fn: () => {
             this.$emit("download", this.server, item, ERestoreContent.cookies);
-          }
+          },
         });
       }
 
@@ -119,9 +127,9 @@ export default Vue.extend({
             "download",
             this.server,
             item,
-            ERestoreContent.searchResultSnapshot
+            ERestoreContent.searchResultSnapshot,
           );
-        }
+        },
       });
 
       menus.push({});
@@ -133,9 +141,9 @@ export default Vue.extend({
             "download",
             this.server,
             item,
-            ERestoreContent.keepUploadTask
+            ERestoreContent.keepUploadTask,
           );
-        }
+        },
       });
 
       menus.push({});
@@ -147,13 +155,13 @@ export default Vue.extend({
             "download",
             this.server,
             item,
-            ERestoreContent.downloadHistory
+            ERestoreContent.downloadHistory,
           );
-        }
+        },
       });
 
       PPF.showContextMenu(menus, event);
-    }
-  }
+    },
+  },
 });
 </script>

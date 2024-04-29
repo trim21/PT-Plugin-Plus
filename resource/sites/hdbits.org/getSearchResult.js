@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -28,7 +28,7 @@
       let site = options.site;
       // 获取种子列表行
       let rows = options.page.find(
-        options.resultSelector || "table#torrent-list:last > tbody > tr"
+        options.resultSelector || "table#torrent-list:last > tbody > tr",
       );
 
       // 用于定位每个字段所列的位置
@@ -50,10 +50,21 @@
         // 发布人
         author: 9,
         //配置
-        category: 0
+        category: 0,
       };
-      if(rows.eq(0).find("td[id*=codec]").length == 0) {
-        fieldIndex = {progress: 1,status: 1,time: 3,size: 4,seeders: 6,leechers: 7,completed: 5,name: 1,author: 8,category: 0};
+      if (rows.eq(0).find("td[id*=codec]").length == 0) {
+        fieldIndex = {
+          progress: 1,
+          status: 1,
+          time: 3,
+          size: 4,
+          seeders: 6,
+          leechers: 7,
+          completed: 5,
+          name: 1,
+          author: 8,
+          category: 0,
+        };
       }
       if (site.url.substr(-1) == "/") {
         site.url = site.url.substr(0, site.url.length - 1);
@@ -83,9 +94,7 @@
 
         let subTitle = "";
         if (titleStrings.length > 0) {
-          subTitle = $("<span>")
-            .html(titleStrings[1])
-            .text();
+          subTitle = $("<span>").html(titleStrings[1]).text();
         }
 
         let time =
@@ -95,33 +104,31 @@
             .replace(/([a-zA-Z]+)/g, "$1 ")
             .replace(/^\s+|\s+$/g, "") + ".";
         let data = {
-          title: $("<span>")
-            .html(titleStrings[0])
-            .text(),
+          title: $("<span>").html(titleStrings[0]).text(),
           subTitle: subTitle || "",
           link,
           url: url,
           size: cells.eq(fieldIndex.size).html() || 0,
           time: time || "",
           author: cells.eq(fieldIndex.author).text() || "",
-          seeders:
-            cells
-              .eq(fieldIndex.seeders)
-              .text()
-              .split("/")[0] || 0,
-          leechers:
-            cells
-              .eq(fieldIndex.leechers)
-              .text()
-              .split("/")[1] || 0,
+          seeders: cells.eq(fieldIndex.seeders).text().split("/")[0] || 0,
+          leechers: cells.eq(fieldIndex.leechers).text().split("/")[1] || 0,
           completed: cells.eq(fieldIndex.completed).text() || 0,
           comments: cells.eq(fieldIndex.comments).text() || 0,
           site: site,
           entryName: options.entry.name,
           category: this.getCategory(cells.eq(fieldIndex.category)),
           tags: Searcher.getRowTags(site, row),
-          progress: Searcher.getFieldValue(site, cells.eq(fieldIndex.progress), "progress"),
-          status: Searcher.getFieldValue(site, cells.eq(fieldIndex.status), "status")
+          progress: Searcher.getFieldValue(
+            site,
+            cells.eq(fieldIndex.progress),
+            "progress",
+          ),
+          status: Searcher.getFieldValue(
+            site,
+            cells.eq(fieldIndex.status),
+            "status",
+          ),
         };
         results.push(data);
       }
@@ -140,7 +147,7 @@
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       result.link = link.attr("href");
@@ -159,13 +166,9 @@
           .eq(1)
           .find("td");
         cells.each((i, dom) => {
-          let id = $(dom)
-            .find("input")
-            .attr("id");
+          let id = $(dom).find("input").attr("id");
           id = id.replace("c", "");
-          let name = $(dom)
-            .find("a")
-            .text();
+          let name = $(dom).find("a").text();
           if (id) {
             this.categories[id] = name;
           }

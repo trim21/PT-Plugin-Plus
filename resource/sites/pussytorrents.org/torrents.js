@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is torrents.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -24,7 +24,7 @@
         return this.t("getDownloadURLsFailed"); //"获取下载链接失败，未能正确定位到链接";
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let link = $(item).attr("href");
         return this.getFullURL(link);
       });
@@ -41,7 +41,7 @@
       if (typeof data === "string") {
         data = {
           url: data,
-          title: ""
+          title: "",
         };
       }
 
@@ -49,7 +49,7 @@
 
       if (!data.url) {
         PTService.showNotice({
-          msg: this.t("invalidURL") //"无效的链接"
+          msg: this.t("invalidURL"), //"无效的链接"
         });
         callback();
         return;
@@ -62,10 +62,10 @@
       }
 
       this.sendTorrentToDefaultClient(result)
-        .then(result => {
+        .then((result) => {
           callback(result);
         })
-        .catch(result => {
+        .catch((result) => {
           callback(result);
         });
     }
@@ -76,8 +76,8 @@
     confirmWhenExceedSize() {
       return this.confirmSize(
         $("#torrent_table").find(
-          "td.td-size:contains('MB'),td[align='center']:contains('GB'),td[align='center']:contains('TB')"
-        )
+          "td.td-size:contains('MB'),td[align='center']:contains('GB'),td[align='center']:contains('TB')",
+        ),
       );
     }
   }

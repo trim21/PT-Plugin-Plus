@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -55,7 +55,7 @@
         // 发布人
         author: header.length - 1,
         // 分类
-        category: 0
+        category: 0,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -123,7 +123,7 @@
           let cells = row.find(">td");
 
           let title = row.find(
-            "a[href*='details.php']:not([href*='startcomments']):first"
+            "a[href*='details.php']:not([href*='startcomments']):first",
           );
           if (title.length == 0) {
             title = row.find("a[href*='/t/']:first");
@@ -152,11 +152,7 @@
             subTitle: "",
             link,
             url: url,
-            size:
-              cells
-                .eq(fieldIndex.size)
-                .text()
-                .trim() || 0,
+            size: cells.eq(fieldIndex.size).text().trim() || 0,
             time: this.getTime(row),
             author:
               fieldIndex.author == -1
@@ -177,14 +173,17 @@
             comments:
               fieldIndex.comments == -1
                 ? ""
-                : cells.eq(fieldIndex.comments).text().replace("Go to comments","") || 0,
+                : cells
+                    .eq(fieldIndex.comments)
+                    .text()
+                    .replace("Go to comments", "") || 0,
             site: site,
             tags: Searcher.getRowTags(site, row),
             entryName: options.entry.name,
             category:
               fieldIndex.category == -1
                 ? null
-                : this.getCategory(cells.eq(fieldIndex.category))
+                : this.getCategory(cells.eq(fieldIndex.category)),
           };
           results.push(data);
         }
@@ -205,9 +204,9 @@
       let text = row.find("td.al div.sub").text();
       if (text) {
         if (text.indexOf("|") > 0) {
-	        text=text.split("|")[1];
-	        if (text.indexOf("by") > 0) {
-              return text.split("|")[0].trim();
+          text = text.split("|")[1];
+          if (text.indexOf("by") > 0) {
+            return text.split("|")[0].trim();
           }
         }
       }
@@ -230,7 +229,7 @@
     getCategory(cell) {
       let result = {
         name: cell.find("img:first").attr("alt"),
-        link: ""
+        link: "",
       };
       return result;
     }

@@ -1,7 +1,7 @@
 /**
  * 通用搜索解析脚本
  */
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -33,7 +33,7 @@
       selector = selector.replace(dataRowSelector, "");
       // 获取数据表格
       let table = options.page.find(selector);
-      console.log(table)
+      console.log(table);
       // 获取种子列表行
       let rows = table.find(dataRowSelector);
       if (rows.length == 0) {
@@ -41,7 +41,7 @@
         options.status = ESearchResultParseStatus.torrentTableIsEmpty;
         return [];
       }
-      let subcats = options.page.find("div#subcat")
+      let subcats = options.page.find("div#subcat");
       let results = [];
       let beginRowIndex = options.entry.firstDataRowIndex || 0;
 
@@ -62,7 +62,7 @@
         // 发布人
         author: -1,
         // 分类
-        category: -1
+        category: -1,
       };
 
       try {
@@ -72,18 +72,23 @@
           let cells = row.find(">td");
 
           // let title = this.getTitle(row, cells, fieldIndex);
-          let title_entry = cells.eq(fieldIndex['title']).find("a[href^='details']")
-          let title = title_entry.text()
+          let title_entry = cells
+            .eq(fieldIndex["title"])
+            .find("a[href^='details']");
+          let title = title_entry.text();
           // 没有获取标题时，继续下一个
           if (!title) {
             continue;
           }
           // let link = this.getFieldValue(row, cells, fieldIndex, "link");
-          let link = title_entry.attr('href')
+          let link = title_entry.attr("href");
 
           // 获取下载链接
           // let url = this.getFieldValue(row, cells, fieldIndex, "url");
-          let url = cells.eq(fieldIndex['url']).find("a[title^='下载种子']").attr('href')
+          let url = cells
+            .eq(fieldIndex["url"])
+            .find("a[title^='下载种子']")
+            .attr("href");
 
           if (!url || !link) {
             continue;
@@ -92,12 +97,15 @@
           let data = {
             title: title,
             // subTitle: this.getFieldValue(row, cells, fieldIndex, "subTitle"),
-            subTitle: cells.eq(fieldIndex['subTitle']).find(">div:last>table>tbody>tr>td>span").text(),
+            subTitle: cells
+              .eq(fieldIndex["subTitle"])
+              .find(">div:last>table>tbody>tr>td>span")
+              .text(),
             link: this.getFullURL(link),
             url: this.getFullURL(url),
-            size: this.getFieldValue(row, cells, fieldIndex, "size")+"B" || 0,
+            size: this.getFieldValue(row, cells, fieldIndex, "size") + "B" || 0,
             // time: this.getFieldValue(row, cells, fieldIndex, "time"),
-            time: cells.eq(fieldIndex['time']).find("p.add_t").text(),
+            time: cells.eq(fieldIndex["time"]).find("p.add_t").text(),
             author: this.getFieldValue(row, cells, fieldIndex, "author") || "", //尚未解决
             seeders: this.getFieldValue(row, cells, fieldIndex, "seeders") || 0,
             leechers:
@@ -110,9 +118,19 @@
             tags: Searcher.getRowTags(this.site, row),
             entryName: options.entry.name,
             // category: this.getFieldValue(row, cells, fieldIndex, "category"),
-            category:subcats.find("a[href='"+cells.eq(fieldIndex['category']).find("a[href^='browse']").attr('href').match(/(\?c=\d+)/)[1]+"']").text(),
+            category: subcats
+              .find(
+                "a[href='" +
+                  cells
+                    .eq(fieldIndex["category"])
+                    .find("a[href^='browse']")
+                    .attr("href")
+                    .match(/(\?c=\d+)/)[1] +
+                  "']",
+              )
+              .text(),
             progress: this.getFieldValue(row, cells, fieldIndex, "progress"),
-            status: this.getFieldValue(row, cells, fieldIndex, "status")
+            status: this.getFieldValue(row, cells, fieldIndex, "status"),
           };
           results.push(data);
         }

@@ -3,8 +3,8 @@
     if (!/(\/t\/(\d+)|\/dl\/(\d+)\/(\d+))/.test(options.url.href)) {
       options.error = {
         success: false,
-        msg: "无效的下载地址"
-      }
+        msg: "无效的下载地址",
+      };
       return;
     }
     // 匹配直接下载地址
@@ -19,18 +19,20 @@
     if (passkey) {
       let id = id_match[1];
       // 格式：vvvid|||passkeyzz
-      let key = (new Base64).encode("vvv" + id + "|||" + options.site.passkey + "zz");
+      let key = new Base64().encode(
+        "vvv" + id + "|||" + options.site.passkey + "zz",
+      );
       options.result = `https://${options.site.host}/rssdd.php?par=${key}&ssl=yes`;
     } else {
       options.error = {
         success: false,
-        msg: "请先设置站点的passkey"
-      }
+        msg: "请先设置站点的passkey",
+      };
     }
   } else {
     options.error = {
       success: false,
-      msg: "无效的下载地址"
-    }
+      msg: "无效的下载地址",
+    };
   }
-})(options)
+})(options);

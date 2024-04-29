@@ -1,11 +1,13 @@
 interface IFilter {
   formatNumber: (source: number, format?: string) => string;
   formatSize: (bytes: any, zeroToEmpty?: boolean, type?: string) => string;
-  formatSizeWithNegative: (bytes: any, zeroToEmpty?: boolean, type?: string) => string;
+  formatSizeWithNegative: (
+    bytes: any,
+    zeroToEmpty?: boolean,
+    type?: string,
+  ) => string;
   formatSpeed: (bytes: any, zeroToEmpty: boolean) => string;
-  parseURL: (
-    url: string
-  ) => {
+  parseURL: (url: string) => {
     source: string;
     protocol: string;
     host: string;
@@ -19,8 +21,8 @@ interface IFilter {
   };
   timeAgoToNumber: (source: string) => number;
   [key: string]: any;
-  formatInteger:(source: number) => string;
-  formatIMDbId:(source: string) => string;
+  formatInteger: (source: number) => string;
+  formatIMDbId: (source: string) => string;
 }
 
 /**
@@ -51,14 +53,8 @@ export const filters: IFilter = {
       let pos = 0;
 
       if (!p) {
-        sNumber = sNumber
-          .split("")
-          .reverse()
-          .join("");
-        fmt = fmt
-          .split("")
-          .reverse()
-          .join("");
+        sNumber = sNumber.split("").reverse().join("");
+        fmt = fmt.split("").reverse().join("");
       }
 
       let j = 0;
@@ -98,13 +94,10 @@ export const filters: IFilter = {
         r = r.substr(0, pos + 1) + sNumber.substr(j) + r.substr(pos + 1);
       }
 
-      r = (p
-        ? r
-        : r
-            .split("")
-            .reverse()
-            .join("")
-      ).replace(/(^,)|(,$)|(,,+)/g, "");
+      r = (p ? r : r.split("").reverse().join("")).replace(
+        /(^,)|(,$)|(,,+)/g,
+        "",
+      );
       if (r.substr(0, 1) === ",") {
         r = r.substr(1);
       }
@@ -145,7 +138,7 @@ export const filters: IFilter = {
   formatSize(
     sourceBytes: any,
     zeroToEmpty: boolean = false,
-    type: string = ""
+    type: string = "",
   ): string {
     let bytes = parseFloat(sourceBytes);
     if (isNaN(bytes)) {
@@ -169,8 +162,8 @@ export const filters: IFilter = {
     }
     let r: number;
     let u = "KiB";
-    let format = '###,###,###,###.00 ';
-    let format2 = '###,###,###,###.000 ';
+    let format = "###,###,###,###.00 ";
+    let format2 = "###,###,###,###.000 ";
     if (bytes < 1000 * Math.pow(2, 10)) {
       r = bytes / Math.pow(2, 10);
       u = "KiB";
@@ -211,18 +204,18 @@ export const filters: IFilter = {
   formatSizeWithNegative(
     sourceBytes: any,
     zeroToEmpty: boolean = false,
-    type: string = ""
+    type: string = "",
   ): string {
-    sourceBytes = parseFloat(sourceBytes)
-    let bytes = sourceBytes
+    sourceBytes = parseFloat(sourceBytes);
+    let bytes = sourceBytes;
     if (sourceBytes < 0) {
-      bytes = - bytes
+      bytes = -bytes;
     }
-    let result = this.formatSize(bytes, zeroToEmpty, type)
+    let result = this.formatSize(bytes, zeroToEmpty, type);
     if (sourceBytes < 0) {
-      result = `- ${result}`
+      result = `- ${result}`;
     }
-    return result
+    return result;
   },
 
   /**
@@ -267,7 +260,7 @@ export const filters: IFilter = {
       host: a.hostname,
       port: a.port,
       query: a.search,
-      params: (function() {
+      params: (function () {
         var ret: any = {},
           seg = a.search.replace(/^\?/, "").split("&"),
           len = seg.length,
@@ -285,7 +278,7 @@ export const filters: IFilter = {
       hash: a.hash.replace("#", ""),
       path: a.pathname.replace(/^([^/])/, "/$1"),
       segments: a.pathname.replace(/^\//, "").split("/"),
-      origin: `${a.protocol}//${a.hostname}` + (a.port ? `:${a.port}` : "")
+      origin: `${a.protocol}//${a.hostname}` + (a.port ? `:${a.port}` : ""),
     };
   },
   /**
@@ -293,11 +286,9 @@ export const filters: IFilter = {
    * @param source
    */
   formatIMDbId(imdbId: string): string {
-    if (Number(imdbId))
-    {
-      if (imdbId.length < 7)
-        imdbId = imdbId.padStart(7, '0');
-      
+    if (Number(imdbId)) {
+      if (imdbId.length < 7) imdbId = imdbId.padStart(7, "0");
+
       imdbId = "tt" + imdbId;
     }
     return imdbId;
@@ -316,7 +307,8 @@ export const filters: IFilter = {
      * 2.1 months ago
      * 2.1 months ago by xxx
      */
-    let rule = /^([\d.]+).+?((year|month|week|day|hour|min|minute)s?)( +ago)?(.+)?$/i;
+    let rule =
+      /^([\d.]+).+?((year|month|week|day|hour|min|minute)s?)( +ago)?(.+)?$/i;
 
     let matchs = source.trim().match(rule);
     if (!matchs) {
@@ -360,7 +352,7 @@ export const filters: IFilter = {
 
     return result.getTime();
   },
-  formatInteger(source: number) : string {
-    return this.formatNumber(source, "###,###,###,###")
+  formatInteger(source: number): string {
+    return this.formatNumber(source, "###,###,###,###");
   },
 };

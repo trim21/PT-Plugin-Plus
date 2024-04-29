@@ -4,8 +4,9 @@
       <v-card>
         <v-card-title
           class="headline blue-grey darken-2"
-          style="color:white"
-        >{{ $t('settings.downloadPaths.add.title') }}</v-card-title>
+          style="color: white"
+          >{{ $t("settings.downloadPaths.add.title") }}</v-card-title
+        >
 
         <v-card-text>
           <v-form v-model="valid">
@@ -22,20 +23,26 @@
             >
               <template slot="selection" slot-scope="{ item }">
                 <v-list-tile-avatar>
-                  <img :src="item.icon">
+                  <img :src="item.icon" />
                 </v-list-tile-avatar>
                 <span v-text="item.name"></span>
               </template>
               <template slot="item" slot-scope="data" style>
                 <v-list-tile-avatar>
-                  <img :src="data.item.icon">
+                  <img :src="data.item.icon" />
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                  <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                  <v-list-tile-sub-title v-html="data.item.url"></v-list-tile-sub-title>
+                  <v-list-tile-title
+                    v-html="data.item.name"
+                  ></v-list-tile-title>
+                  <v-list-tile-sub-title
+                    v-html="data.item.url"
+                  ></v-list-tile-sub-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                  <v-list-tile-action-text>{{ joinTags(data.item.tags) }}</v-list-tile-action-text>
+                  <v-list-tile-action-text>{{
+                    joinTags(data.item.tags)
+                  }}</v-list-tile-action-text>
                 </v-list-tile-action>
               </template>
             </v-autocomplete>
@@ -46,9 +53,15 @@
               :hint="$t('settings.downloadPaths.add.pathTip')"
               :rules="rules.require"
             ></v-textarea>
-            <v-alert :value="true" color="info" icon="info" outline v-if="client.pathDescription">
+            <v-alert
+              :value="true"
+              color="info"
+              icon="info"
+              outline
+              v-if="client.pathDescription"
+            >
               <div v-html="client.pathDescription"></div>
-              <KeyDescription/>
+              <KeyDescription />
             </v-alert>
           </v-form>
         </v-card-text>
@@ -59,11 +72,13 @@
           <v-spacer></v-spacer>
           <v-btn flat color="error" @click="cancel">
             <v-icon>cancel</v-icon>
-            <span class="ml-1">{{ $t('settings.downloadPaths.add.cancel') }}</span>
+            <span class="ml-1">{{
+              $t("settings.downloadPaths.add.cancel")
+            }}</span>
           </v-btn>
           <v-btn flat color="success" @click="save" :disabled="!valid">
             <v-icon>check_circle_outline</v-icon>
-            <span class="ml-1">{{ $t('settings.downloadPaths.add.ok') }}</span>
+            <span class="ml-1">{{ $t("settings.downloadPaths.add.ok") }}</span>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -77,26 +92,26 @@ import KeyDescription from "./KeyDescription.vue";
 
 export default Vue.extend({
   components: {
-    KeyDescription
+    KeyDescription,
   },
   data() {
     return {
       rules: {
-        require: [(v: any) => !!v || "!"]
+        require: [(v: any) => !!v || "!"],
       },
       show: false,
       valid: false,
       paths: "",
-      selectedSite: {}
+      selectedSite: {},
     };
   },
   props: {
     value: Boolean,
-    client: Object
+    client: Object,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -108,13 +123,13 @@ export default Vue.extend({
     },
     value() {
       this.show = this.value;
-    }
+    },
   },
   methods: {
     save() {
       this.$emit("save", {
         site: this.selectedSite,
-        paths: this.paths.split("\n")
+        paths: this.paths.split("\n"),
       });
       this.show = false;
     },
@@ -147,9 +162,9 @@ export default Vue.extend({
         return result;
       }
       return sites;
-    }
+    },
   },
   computed: {},
-  created() {}
+  created() {},
 });
 </script>

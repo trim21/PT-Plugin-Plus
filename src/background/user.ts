@@ -5,7 +5,7 @@ import {
   UserInfo,
   EUserDataRequestStatus,
   ERequestResultType,
-  ERequestMethod
+  ERequestMethod,
 } from "@/interface/common";
 import PTPlugin from "./service";
 import { InfoParser } from "./infoParser";
@@ -43,7 +43,7 @@ export class User {
           ((site.user.lastUpdateStatus &&
             [
               EUserDataRequestStatus.needLogin,
-              EUserDataRequestStatus.unknown
+              EUserDataRequestStatus.unknown,
             ].includes(site.user.lastUpdateStatus)) ||
             !site.user.lastUpdateStatus)
         ) {
@@ -51,7 +51,7 @@ export class User {
         }
       });
 
-      Promise.all(requests).then(results => {
+      Promise.all(requests).then((results) => {
         resolve(results);
       });
     });
@@ -96,8 +96,8 @@ export class User {
         rejectFN(
           APP.createErrorMessage({
             status: EUserDataRequestStatus.notSupported,
-            msg: this.service.i18n.t("service.user.notSupported") // "暂不支持"
-          })
+            msg: this.service.i18n.t("service.user.notSupported"), // "暂不支持"
+          }),
         );
 
         return;
@@ -135,8 +135,8 @@ export class User {
             rejectFN(
               APP.createErrorMessage({
                 msg: this.service.i18n.t("service.user.notLogged"), //"未登录",
-                status: EUserDataRequestStatus.needLogin
-              })
+                status: EUserDataRequestStatus.needLogin,
+              }),
             );
             return;
           }
@@ -182,14 +182,14 @@ export class User {
             rejectFN(
               APP.createErrorMessage({
                 status: EUserDataRequestStatus.unknown,
-                msg: this.service.i18n.t("service.user.getUserInfoFailed") //"获取用户名和编号失败"
-              })
+                msg: this.service.i18n.t("service.user.getUserInfoFailed"), //"获取用户名和编号失败"
+              }),
             );
           }
         })
         .catch((error: any) => {
           userInfo.lastUpdateStatus = EUserDataRequestStatus.unknown;
-          console.log("getInfos Error :",error);
+          console.log("getInfos Error :", error);
           //this.updateStatus(site, userInfo);
           rejectFN(APP.createErrorMessage(error));
         });
@@ -204,7 +204,13 @@ export class User {
   public getMoreInfos(site: Site, userInfo: UserInfo): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let requests: any[] = [];
-      let selectors = ["userSeedingTorrents", "bonusExtendInfo", "hnrExtendInfo", "levelExtendInfo", "userUploadedTorrents"];
+      let selectors = [
+        "userSeedingTorrents",
+        "bonusExtendInfo",
+        "hnrExtendInfo",
+        "levelExtendInfo",
+        "userUploadedTorrents",
+      ];
 
       selectors.forEach((name: string) => {
         let host = site.host as string;
@@ -252,7 +258,7 @@ export class User {
 
             resolve(userInfo);
           })
-          .catch(result => {
+          .catch((result) => {
             resolve(userInfo);
           });
       } else {
@@ -269,7 +275,7 @@ export class User {
     url: string,
     rule: Dictionary<any>,
     site?: Site,
-    userInfo?: UserInfo
+    userInfo?: UserInfo,
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       url = url
@@ -320,9 +326,9 @@ export class User {
         dataType: "text",
         data: requestData,
         headers: rule.headers,
-        timeout: this.service.options.connectClientTimeout || 30000
+        timeout: this.service.options.connectClientTimeout || 30000,
       })
-        .done(result => {
+        .done((result) => {
           this.removeQueue(host, url);
           PPF.updateBadge(--this.requestQueueCount);
           let content: any;
@@ -356,7 +362,7 @@ export class User {
           PPF.updateBadge(--this.requestQueueCount);
           let msg = this.service.i18n.t("service.searcher.siteNetworkFailed", {
             site,
-            msg: `${jqXHR.status} ${errorThrown}, ${textStatus}`
+            msg: `${jqXHR.status} ${errorThrown}, ${textStatus}`,
           });
           this.service.debug(msg, host, url, jqXHR.responseText);
           reject(msg);
@@ -379,7 +385,7 @@ export class User {
     site: Site,
     userInfo?: UserInfo,
     resolve?: any,
-    reject?: any
+    reject?: any,
   ) {
     let siteConfigPath = site.schema == "publicSite" ? "publicSites" : "sites";
 
@@ -401,7 +407,7 @@ export class User {
       rule,
       userInfo,
       resolve,
-      reject
+      reject,
     };
 
     // 当前对象
@@ -411,7 +417,7 @@ export class User {
     if (script) {
       eval(script);
     } else {
-      APP.getScriptContent(path).done(script => {
+      APP.getScriptContent(path).done((script) => {
         this.infoParserCache[path] = script;
         eval(script);
       });
@@ -461,8 +467,8 @@ export class User {
                 msg: this.service.i18n.t("service.user.abortGetUserInfoFailed"), //"取消获取用户信息请求失败",
                 data: {
                   site: site.host,
-                  error
-                }
+                  error,
+                },
               });
               errors.push(error);
             }
@@ -482,20 +488,25 @@ export class User {
   // MAM需要在访问API时传入存于Cookies中的mam_id，构建这个辅助方法以便获取Cookie
   public getCookie(site: Site, needle: String): Promise<any> {
     return new Promise((resolve, reject) => {
-      PPF.checkPermissions(["cookies"]).then(() => {
-        this.service.config.getCookiesFromSite(site).then((result) => {
-          for (const cookie of result.cookies) {
-            if (cookie["name"] === needle) {
-              resolve(cookie["value"]);
-            }
-          }
-          resolve("");
-        }).catch(error => {
+      PPF.checkPermissions(["cookies"])
+        .then(() => {
+          this.service.config
+            .getCookiesFromSite(site)
+            .then((result) => {
+              for (const cookie of result.cookies) {
+                if (cookie["name"] === needle) {
+                  resolve(cookie["value"]);
+                }
+              }
+              resolve("");
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+        .catch((error) => {
           reject(error);
         });
-      }).catch(error => {
-        reject(error);
-      });
     });
   }
 }

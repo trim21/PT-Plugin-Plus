@@ -4,13 +4,15 @@
  */
 (function ($, window) {
   class Client {
-
     init(options) {
       this.options = options;
       this.sessionId = "";
       this.synoToken = "";
       if (this.options.address.substr(-1) == "/") {
-        this.options.address = this.options.address.substr(0, this.options.address.length - 1);
+        this.options.address = this.options.address.substr(
+          0,
+          this.options.address.length - 1,
+        );
       }
     }
 
@@ -24,31 +26,32 @@
         $.ajax({
           url,
           timeout: PTBackgroundService.options.connectClientTimeout,
-          dataType: "json"
-        }).done((result) => {
-          if (result && result.success) {
-            this.sessionId = result.data.sid;
-            this.synoToken = result.data.synotoken
-            resolve(this.sessionId)
-          } else {
-            reject({
-              status: "error",
-              code: result.error.code,
-              msg: i18n.t("downloadClient.permissionDenied") //"身份验证失败"
-            })
-          }
-          /**
+          dataType: "json",
+        })
+          .done((result) => {
+            if (result && result.success) {
+              this.sessionId = result.data.sid;
+              this.synoToken = result.data.synotoken;
+              resolve(this.sessionId);
+            } else {
+              reject({
+                status: "error",
+                code: result.error.code,
+                msg: i18n.t("downloadClient.permissionDenied"), //"身份验证失败"
+              });
+            }
+            /**
             400 No such account or incorrect password
             401 Account disabled
             402 Permission denied
             403 2-step verification code required
             404 Failed to authenticate 2-step verification code
            */
-
-        }).fail(() => {
-          reject()
-        })
-      })
+          })
+          .fail(() => {
+            reject();
+          });
+      });
     }
 
     /**
@@ -66,18 +69,20 @@
               if (result && result.success) {
                 resolve(result);
               } else {
-                reject(result)
+                reject(result);
               }
             });
             break;
 
           // 测试是否可连接
           case "testClientConnectivity":
-            this.getSessionId().then(result => {
-              resolve(result != "");
-            }).catch(result => {
-              reject(result);
-            })
+            this.getSessionId()
+              .then((result) => {
+                resolve(result != "");
+              })
+              .catch((result) => {
+                reject(result);
+              });
             break;
         }
       });
@@ -90,48 +95,51 @@
      */
     addTorrentFromUrl(options, callback) {
       if (!this.sessionId) {
-        this.getSessionId().then((result) => {
-          if (result) {
-            this.addTorrentFromUrl(options, callback)
-          } else {
-            callback({
-              status: "error",
-              msg: i18n.t("downloadClient.serverConnectionFailed") //"服务器连接失败"
-            })
-          }
-        }).catch((result) => {
-          callback(result)
-        })
+        this.getSessionId()
+          .then((result) => {
+            if (result) {
+              this.addTorrentFromUrl(options, callback);
+            } else {
+              callback({
+                status: "error",
+                msg: i18n.t("downloadClient.serverConnectionFailed"), //"服务器连接失败"
+              });
+            }
+          })
+          .catch((result) => {
+            callback(result);
+          });
         return;
       }
 
       let postData = {
-        api: 'SYNO.DownloadStation2.Task',
-        method: 'create',
+        api: "SYNO.DownloadStation2.Task",
+        method: "create",
         version: 2,
         create_list: false,
-        _sid: this.sessionId  // fxxk， _sid 参数不能放在第一位，不然会直接 101 报错
-      }
+        _sid: this.sessionId, // fxxk， _sid 参数不能放在第一位，不然会直接 101 报错
+      };
 
       let headers = {
-        'X-SYNO-TOKEN': this.synoToken
-      }
+        "X-SYNO-TOKEN": this.synoToken,
+      };
 
       // fxxk， 没有 destination 参数也会直接报错
       let savePath = (options.savePath || "") + "";
-      if (savePath.substr(-1) === "/") {  // 去除路径最后的 / ，以确保可以正常添加目录信息
+      if (savePath.substr(-1) === "/") {
+        // 去除路径最后的 / ，以确保可以正常添加目录信息
         savePath = savePath.substr(0, savePath.length - 1);
       }
-      postData.destination = `"${savePath || ''}"`;
+      postData.destination = `"${savePath || ""}"`;
 
-      if (options.url.startsWith('magnet:')) {
+      if (options.url.startsWith("magnet:")) {
         postData.type = '"url"';
         postData.url = [options.url];
 
         this.addTorrent(postData, options, callback);
       } else {
         postData.type = '"file"';
-        postData.file = ['torrent'];
+        postData.file = ["torrent"];
 
         let formData = new FormData();
         Object.keys(postData).forEach((k) => {
@@ -144,23 +152,25 @@
           }
         });
 
-
         PTBackgroundService.requestMessage({
           action: "getTorrentDataFromURL",
           data: {
             url: options.url,
-            parseTorrent: true
-          }
+            parseTorrent: true,
+          },
         })
           .then((result) => {
-            formData.append("torrent", result.content, `${result.torrent.name}.torrent`)
+            formData.append(
+              "torrent",
+              result.content,
+              `${result.torrent.name}.torrent`,
+            );
 
             this.addTorrent(formData, headers, options, callback);
           })
           .catch((result) => {
             callback && callback(result);
           });
-
       }
     }
 
@@ -173,21 +183,22 @@
         processData: false,
         contentType: false,
         data: formData,
-        dataType: "json"
-      }).done((result) => {
-        console.log(result)
-        if (result.error) {
-          let errorMap = {
-            400: i18n.t("downloadClient.fileUploadFailed"), // "文件上传失败",
-            401: i18n.t("downloadClient.maxNumberOfTasksReached"), //"达到的最大任务数",
-            402: i18n.t("downloadClient.destinationDenied", {
-              path: options.savePath
-            }), //`指定的目录[${options.savePath}]不可用或无权限`,
-            403: i18n.t("downloadClient.destinationDoesNotExist", {
-              path: options.savePath
-            }) //`指定的目录[${options.savePath}]不存在`
-          };
-          /**
+        dataType: "json",
+      })
+        .done((result) => {
+          console.log(result);
+          if (result.error) {
+            let errorMap = {
+              400: i18n.t("downloadClient.fileUploadFailed"), // "文件上传失败",
+              401: i18n.t("downloadClient.maxNumberOfTasksReached"), //"达到的最大任务数",
+              402: i18n.t("downloadClient.destinationDenied", {
+                path: options.savePath,
+              }), //`指定的目录[${options.savePath}]不可用或无权限`,
+              403: i18n.t("downloadClient.destinationDoesNotExist", {
+                path: options.savePath,
+              }), //`指定的目录[${options.savePath}]不存在`
+            };
+            /**
            * 400 File upload failed
               401 Max number of tasks reached
               402 Destination denied
@@ -198,20 +209,21 @@
               407 Set destination failed
               408 File does not exist
            */
-          if (result.error.code) {
-            result.msg = errorMap[result.error.code];
+            if (result.error.code) {
+              result.msg = errorMap[result.error.code];
+            }
           }
-        }
 
-        callback(result)
-      }).fail(() => {
-        callback({
-          status: "error",
-          msg: i18n.t("downloadClient.serverConnectionFailed") //"服务器连接失败"
+          callback(result);
         })
-      })
+        .fail(() => {
+          callback({
+            status: "error",
+            msg: i18n.t("downloadClient.serverConnectionFailed"), //"服务器连接失败"
+          });
+        });
     }
   }
   // 添加到 window 对象，用于客户页面调用
   window.synologyDownloadStation = Client;
-})(jQuery, window)
+})(jQuery, window);

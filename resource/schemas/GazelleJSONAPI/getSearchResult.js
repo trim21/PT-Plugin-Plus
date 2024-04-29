@@ -1,4 +1,4 @@
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -24,12 +24,12 @@
             msg: options.searcher.getErrorMessage(
               options.site,
               ESearchResultParseStatus.parseError,
-              options.errorMsg
+              options.errorMsg,
             ),
             data: {
               site: options.site,
-              isLogged: options.isLogged
-            }
+              isLogged: options.isLogged,
+            },
           });
         });
     }
@@ -53,10 +53,10 @@
       let passkey = this.passkey;
       //console.log("groups.length", groups.length);
       try {
-        groups.forEach(group => {
+        groups.forEach((group) => {
           if (group.hasOwnProperty("torrents")) {
             let torrents = group.torrents;
-            torrents.forEach(torrent => {
+            torrents.forEach((torrent) => {
               let data = {
                 title:
                   (group.artist ? group.artist + " - " : "") +
@@ -65,15 +65,21 @@
                   group.groupYear +
                   " / " +
                   torrent.media +
-                  (group.releaseType ? " / " + group.releaseType : "") + 
-                  (torrent.format ? " / " + torrent.format : " / " + torrent.codec) + 
-                  (torrent.encoding ? " / " + torrent.encoding : " / " + torrent.resolution),
-                  
+                  (group.releaseType ? " / " + group.releaseType : "") +
+                  (torrent.format
+                    ? " / " + torrent.format
+                    : " / " + torrent.codec) +
+                  (torrent.encoding
+                    ? " / " + torrent.encoding
+                    : " / " + torrent.resolution),
+
                 subTitle:
-                  (torrent.container ? torrent.container: "") + 
+                  (torrent.container ? torrent.container : "") +
                   (torrent.hasLog ? `Log(${torrent.logScore})` : "") +
                   (torrent.hasCue ? " / Cue" : "") +
-                  (torrent.remastered ? ` / Remaster / ${torrent.remasterYear} / ${torrent.remasterTitle}` : "") +
+                  (torrent.remastered
+                    ? ` / Remaster / ${torrent.remasterYear} / ${torrent.remasterTitle}`
+                    : "") +
                   (torrent.scene ? " / Scene" : ""),
                 link: `${site.url}torrents.php?id=${group.groupId}&torrentid=${torrent.torrentId}`,
                 url: `${site.url}torrents.php?action=download&id=${torrent.torrentId}&authkey=${authkey}&torrent_pass=${passkey}`,
@@ -83,7 +89,12 @@
                 leechers: torrent.leechers,
                 completed: torrent.snatches,
                 site: site,
-                tags: (torrent.isFreeleech || torrent.isPersonalFreeleech) ? [{name: "Free",color: "blue"}] : torrent.isNeutralLeech ? [{name: "Neutral",color: "purple"}] : [],
+                tags:
+                  torrent.isFreeleech || torrent.isPersonalFreeleech
+                    ? [{ name: "Free", color: "blue" }]
+                    : torrent.isNeutralLeech
+                      ? [{ name: "Neutral", color: "purple" }]
+                      : [],
                 entryName: options.entry.name,
                 category: group.releaseType,
                 imdbId: group.imdbId,
@@ -134,7 +145,7 @@
 
       return new Promise((resolve, reject) => {
         $.get(url)
-          .done(result => {
+          .done((result) => {
             if (result && result.status === "success" && result.response) {
               this.authkey = result.response.authkey;
               this.passkey = result.response.passkey;

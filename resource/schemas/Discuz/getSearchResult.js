@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -54,7 +54,7 @@
         // 发布人
         author: header.length - 1,
         // 分类
-        category: 0
+        category: 0,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -171,11 +171,7 @@
             subTitle: "",
             link,
             url: url,
-            size:
-              cells
-                .eq(fieldIndex.size)
-                .text()
-                .trim() || 0,
+            size: cells.eq(fieldIndex.size).text().trim() || 0,
             time:
               fieldIndex.time == -1
                 ? ""
@@ -208,7 +204,7 @@
                 ? null
                 : this.getCategory(cells.eq(fieldIndex.category)),
             progress: Searcher.getFieldValue(site, row, "progress"),
-            status: Searcher.getFieldValue(site, row, "status")
+            status: Searcher.getFieldValue(site, row, "status"),
           };
           results.push(data);
         }
@@ -232,9 +228,7 @@
     getTime(cell) {
       let time = cell.find("span[title],time[title]").attr("title");
       if (!time) {
-        time = $("<span>")
-          .html(cell.html().replace("<br>", " "))
-          .text();
+        time = $("<span>").html(cell.html().replace("<br>", " ")).text();
       }
       return time || "";
     }
@@ -255,7 +249,7 @@
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       let img = link.find("img:first");

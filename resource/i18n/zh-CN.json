@@ -1,10 +1,7 @@
 {
   "name": "简体中文 Chinese (Simplified)",
   "code": "zh-CN",
-  "authors": [
-    "栽培者",
-    "MewX"
-  ],
+  "authors": ["栽培者", "MewX"],
   "words": {
     "app": {
       "initError": "配置信息加载失败，没有获取到系统定义信息，请尝试刷新当前页面",
@@ -178,7 +175,7 @@
       "getUserInfoError": "发生错误",
       "getUserInfoAbort": "{siteName} 获取用户资料请求已取消",
       "getUserInfoAbortError": "{siteName} 获取用户资料请求取消失败",
-      "offline":"已离线",
+      "offline": "已离线",
       "headers": {
         "date": "日期",
         "site": "站点",
@@ -218,7 +215,7 @@
         "lastUpdateTime": "数据更新于",
         "status": "状态",
         "uploaded": "上传量",
-        "downloaded":"下载量",
+        "downloaded": "下载量",
         "uploads": "发布",
         "downloads": "完成",
         "trueDownloaded": "真实下载",
@@ -1009,7 +1006,7 @@
       "sendConfirm": "是否确认要发送这 {count} 个种子？",
       "addToKeepUpload": "添加至辅种列表",
       "removeFromKeepUpload": "移除种子",
-      "redownload" : "重新下载",
+      "redownload": "重新下载",
       "addToKeepUploadConfirm": "该种子未能通过初步校验，确认要添加吗？",
       "status": {
         "label": "状态：",

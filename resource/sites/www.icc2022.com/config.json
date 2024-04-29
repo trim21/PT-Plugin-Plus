@@ -5,10 +5,7 @@
   "url": "https://www.icc2022.com/",
   "description": "冰淇淋",
   "icon": "https://www.icc2022.com/pic/logo.png",
-  "tags": [
-    "影视",
-    "综合"
-  ],
+  "tags": ["影视", "综合"],
   "host": "www.icc2022.com",
   "levelRequirements": [
     {
@@ -116,7 +113,7 @@
         {
           "id": 401,
           "name": "电影"
-        } 
+        }
       ]
     }
   ],
@@ -143,7 +140,9 @@
     "fieldSelector": {
       "progress": {
         "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
-        "filters": ["query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"]
+        "filters": [
+          "query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"
+        ]
       },
       "status": {
         "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],

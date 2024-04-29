@@ -145,7 +145,7 @@ import Vue from "vue";
 import Editor from "./Editor.vue";
 export default Vue.extend({
   components: {
-    Editor
+    Editor,
   },
   data() {
     return {
@@ -156,15 +156,15 @@ export default Vue.extend({
       selectedItem: {} as any,
       valid: false,
       items: this.$store.state.options.system.clients,
-      options: this.$store.state.options
+      options: this.$store.state.options,
     };
   },
   props: {
-    value: Boolean
+    value: Boolean,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -176,7 +176,7 @@ export default Vue.extend({
     },
     value() {
       this.show = this.value;
-    }
+    },
   },
   methods: {
     save() {
@@ -194,8 +194,8 @@ export default Vue.extend({
     },
     cancel() {
       this.show = false;
-    }
+    },
   },
-  created() { }
+  created() {},
 });
 </script>

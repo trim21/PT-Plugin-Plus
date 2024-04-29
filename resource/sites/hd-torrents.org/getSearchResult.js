@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -47,7 +47,7 @@
         comments: 3,
         // 发布人
         author: 8,
-        category: 0
+        category: 0,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -73,10 +73,7 @@
           url = `${site.url}${url}`;
         }
 
-        let dateString = cells
-          .eq(fieldIndex.time)
-          .text()
-          .replace("  ", " ");
+        let dateString = cells.eq(fieldIndex.time).text().replace("  ", " ");
         let dayStringArray = dateString.split(" ")[1].split("/");
         let time = dateString.split(" ")[0];
 
@@ -97,7 +94,7 @@
           category: this.getCategory(cells.eq(fieldIndex.category)),
           tags: Searcher.getRowTags(site, row),
           progress: Searcher.getFieldValue(site, row, "progress"),
-          status: Searcher.getFieldValue(site, row, "status")
+          status: Searcher.getFieldValue(site, row, "status"),
         };
         results.push(data);
       }
@@ -116,7 +113,7 @@
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       let img = link.find("img:first");

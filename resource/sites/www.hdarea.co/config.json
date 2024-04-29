@@ -5,10 +5,7 @@
   "url": "https://www.hdarea.co/",
   "description": "高清世界",
   "icon": "https://www.hdarea.co/favicon.ico",
-  "tags": [
-    "影视",
-    "综合"
-  ],
+  "tags": ["影视", "综合"],
   "host": "www.hdarea.co",
   "levelRequirements": [
     {
@@ -86,7 +83,11 @@
           "table[title='Stopped'] > tbody > tr > td > div",
           "table[title='completed'] > tbody > tr > td > div"
         ],
-        "filters": [ "query.attr('style')||''", "query.match(/width:.?(\\d.+)%/)", "(query && query.length>=2)?query[1]:null" ]
+        "filters": [
+          "query.attr('style')||''",
+          "query.match(/width:.?(\\d.+)%/)",
+          "(query && query.length>=2)?query[1]:null"
+        ]
       },
       "status": {
         "selector": [
@@ -95,12 +96,7 @@
           "table[title='Stopped']",
           "table[title='completed']"
         ],
-        "switchFilters": [
-          [ "1" ],
-          [ "2" ],
-          [ "3" ],
-          [ "255" ]
-        ]
+        "switchFilters": [["1"], ["2"], ["3"], ["255"]]
       }
     }
   },
@@ -274,8 +270,10 @@
   "fieldSelector": {
     "merge": true,
     "title": {
-      "selector": [ "a.title:not(a[href*='comment']),a[onmouseover*='get_ext_info_ajax']" ],
-      "filters": [ "query.text()" ]
+      "selector": [
+        "a.title:not(a[href*='comment']),a[onmouseover*='get_ext_info_ajax']"
+      ],
+      "filters": ["query.text()"]
     }
   },
   "selectors": {
@@ -283,8 +281,8 @@
       "merge": true,
       "fields": {
         "downloadURL": {
-          "selector": [ "td.rowfollow:contains('&passkey='):last" ],
-          "filters": [ "query[0].childNodes[0].textContent" ]
+          "selector": ["td.rowfollow:contains('&passkey='):last"],
+          "filters": ["query[0].childNodes[0].textContent"]
         }
       }
     }

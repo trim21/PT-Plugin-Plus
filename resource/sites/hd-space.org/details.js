@@ -1,6 +1,6 @@
 (function ($, window) {
   console.log("this is details.js");
-   if(/\?page\=torrent-details/.test(window.location.search)){
+  if (/\?page\=torrent-details/.test(window.location.search)) {
     console.log("torrent-details");
     class App extends window.NexusPHPCommon {
       init() {
@@ -33,11 +33,13 @@
       }
 
       showTorrentSize() {
-        let size = PTService.filters.formatSize(PTService.getFieldValue("size"));
+        let size = PTService.filters.formatSize(
+          PTService.getFieldValue("size"),
+        );
         PTService.addButton({
-         title: "当前种子大小",
+          title: "当前种子大小",
           icon: "attachment",
-          label: size
+          label: size,
         });
       }
       /**
@@ -46,9 +48,9 @@
       getTitle() {
         return $("a[href*='download.php']:first").text().trim();
       }
-    };
-    (new App()).init();
-  }else if(/\?page\=torrents|seedwanted/.test(window.location.search)){
+    }
+    new App().init();
+  } else if (/\?page\=torrents|seedwanted/.test(window.location.search)) {
     class App extends window.NexusPHPCommon {
       init() {
         // super();
@@ -69,7 +71,9 @@
        * 获取下载链接
        */
       getDownloadURLs() {
-        let links = $("#bodyarea > table > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(3) > td > table, #mcol > table > tbody > tr:nth-child(2) > td > table")
+        let links = $(
+          "#bodyarea > table > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(3) > td > table, #mcol > table > tbody > tr:nth-child(2) > td > table",
+        )
           .find("a[href*='download.php']")
           .toArray();
         let siteURL = PTService.site.url;
@@ -81,7 +85,7 @@
           return this.t("getDownloadURLsFailed"); //"获取下载链接失败，未能正确定位到链接";
         }
 
-        let urls = $.map(links, item => {
+        let urls = $.map(links, (item) => {
           let link = $(item).attr("href");
           if (link && link.substr(0, 4) != "http") {
             link = siteURL + link;
@@ -98,8 +102,8 @@
       confirmWhenExceedSize() {
         return this.confirmSize(
           $("table.mainblockcontenttt:first").find(
-            "td:contains('MiB'),td:contains('GiB'),td:contains('TiB')"
-          )
+            "td:contains('MiB'),td:contains('GiB'),td:contains('TiB')",
+          ),
         );
       }
     }

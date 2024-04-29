@@ -26,29 +26,71 @@
           <v-list-tile-sub-title v-html="data.item.url"></v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-list-tile-action-text>{{ joinTags(data.item.tags) }}</v-list-tile-action-text>
+          <v-list-tile-action-text>{{
+            joinTags(data.item.tags)
+          }}</v-list-tile-action-text>
         </v-list-tile-action>
       </template>
     </v-autocomplete>
 
     <v-layout row wrap class="mb-2">
-      <v-btn depressed small to="/home">{{ $t('statistic.goback') }}</v-btn>
-      <v-btn depressed small @click.stop="exportRawData">{{ $t('statistic.exportRawData') }}</v-btn>
+      <v-btn depressed small to="/home">{{ $t("statistic.goback") }}</v-btn>
+      <v-btn depressed small @click.stop="exportRawData">{{
+        $t("statistic.exportRawData")
+      }}</v-btn>
 
       <v-spacer>
         <v-btn-toggle v-model="dateRange" class="ml-5">
-          <v-btn flat value="7day" v-text="$t('statistic.dateRange.7day')"></v-btn>
-          <v-btn flat value="30day" v-text="$t('statistic.dateRange.30day')"></v-btn>
-          <v-btn flat value="60day" v-text="$t('statistic.dateRange.60day')"></v-btn>
-          <v-btn flat value="90day" v-text="$t('statistic.dateRange.90day')"></v-btn>
-          <v-btn flat value="180day" v-text="$t('statistic.dateRange.180day')"></v-btn>
-          <v-btn flat value="all" v-text="$t('statistic.dateRange.all')"></v-btn>
+          <v-btn
+            flat
+            value="7day"
+            v-text="$t('statistic.dateRange.7day')"
+          ></v-btn>
+          <v-btn
+            flat
+            value="30day"
+            v-text="$t('statistic.dateRange.30day')"
+          ></v-btn>
+          <v-btn
+            flat
+            value="60day"
+            v-text="$t('statistic.dateRange.60day')"
+          ></v-btn>
+          <v-btn
+            flat
+            value="90day"
+            v-text="$t('statistic.dateRange.90day')"
+          ></v-btn>
+          <v-btn
+            flat
+            value="180day"
+            v-text="$t('statistic.dateRange.180day')"
+          ></v-btn>
+          <v-btn
+            flat
+            value="all"
+            v-text="$t('statistic.dateRange.all')"
+          ></v-btn>
         </v-btn-toggle>
       </v-spacer>
-      <v-btn flat icon small @click="share" :title="$t('statistic.share')" v-if="!shareing">
+      <v-btn
+        flat
+        icon
+        small
+        @click="share"
+        :title="$t('statistic.share')"
+        v-if="!shareing"
+      >
         <v-icon small>share</v-icon>
       </v-btn>
-      <v-progress-circular indeterminate :width="3" size="30" color="green" v-if="shareing" class="by_pass_canvas"></v-progress-circular>
+      <v-progress-circular
+        indeterminate
+        :width="3"
+        size="30"
+        color="green"
+        v-if="shareing"
+        class="by_pass_canvas"
+      ></v-progress-circular>
     </v-layout>
 
     <div ref="charts" class="charts">
@@ -58,8 +100,8 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <span>{{ shareTime | formatDate('YYYY-MM-DD HH:mm:ss') }}</span>
-        <span class="ml-1">Created By {{ $t('app.name') }} {{ version }}</span>
+        <span>{{ shareTime | formatDate("YYYY-MM-DD HH:mm:ss") }}</span>
+        <span class="ml-1">Created By {{ $t("app.name") }} {{ version }}</span>
       </v-card-actions>
     </div>
 
@@ -82,7 +124,7 @@ import {
   DownloadClient,
   EDataResultType,
   Dictionary,
-  ECommonKey
+  ECommonKey,
 } from "@/interface/common";
 import FileSaver from "file-saver";
 import { PPF } from "@/service/public";
@@ -132,7 +174,7 @@ function formatBonus(v: any) {
 
 export default Vue.extend({
   components: {
-    highcharts: Chart
+    highcharts: Chart,
   },
   data() {
     return {
@@ -150,7 +192,7 @@ export default Vue.extend({
       rawData: {} as Dictionary<any>,
       beginDate: "",
       endDate: "",
-      dateRange: "30day"
+      dateRange: "30day",
     };
   },
 
@@ -168,7 +210,7 @@ export default Vue.extend({
       host: ECommonKey.allSite,
       icon: "",
       url: "",
-      tags: []
+      tags: [],
     });
 
     this.options.sites.forEach((site: Site) => {
@@ -282,7 +324,7 @@ export default Vue.extend({
       }
 
       let datas: Dictionary<any> = {};
-      days.sort().forEach(day => {
+      days.sort().forEach((day) => {
         datas[day] = result[day];
       });
 
@@ -294,7 +336,9 @@ export default Vue.extend({
     getRelativeData(source: any) {
       const result: any = {};
       for (const [host, siteData] of Object.entries(source)) {
-        const site: Site = this.options.sites.find((item: Site) => item.host == host);
+        const site: Site = this.options.sites.find(
+          (item: Site) => item.host == host,
+        );
         if (!site) {
           continue;
         }
@@ -305,7 +349,7 @@ export default Vue.extend({
 
         // -> [ { date, uploaded }]
         const absoluteSiteData = [];
-        for (const [date, item] of (Object.entries(newSiteData) as any[])) {
+        for (const [date, item] of Object.entries(newSiteData) as any[]) {
           if (date == EUserDataRange.latest) {
             continue;
           }
@@ -317,10 +361,13 @@ export default Vue.extend({
 
         //-> [ { date, relativeUploaded }]
         const relativeSiteData = [];
-        for (let i=1; i<absoluteSiteData.length; i++) {
-          const a = absoluteSiteData[i-1];
+        for (let i = 1; i < absoluteSiteData.length; i++) {
+          const a = absoluteSiteData[i - 1];
           const b = absoluteSiteData[i];
-          relativeSiteData.push({ date: a.date, relativeUploaded: b.uploaded - a.uploaded });
+          relativeSiteData.push({
+            date: a.date,
+            relativeUploaded: b.uploaded - a.uploaded,
+          });
         }
 
         result[site.name] = relativeSiteData;
@@ -422,12 +469,12 @@ export default Vue.extend({
         const newResult = this.fillData(result, false);
         this.resetBaseData(newResult);
         this.resetExtData(newResult);
-        this.resetBarData(this.getRelativeData({[this.host]: result}));
+        this.resetBarData(this.getRelativeData({ [this.host]: result }));
       } else {
         let data = this.getTotalData(result);
         this.selectedSite = {
           name: this.$t("statistic.allSite").toString(),
-          host: ECommonKey.allSite
+          host: ECommonKey.allSite,
         };
         this.resetBaseData(data);
         this.resetExtData(data);
@@ -444,33 +491,33 @@ export default Vue.extend({
           type: "spline",
           name: this.$t("statistic.upload").toString(),
           tooltip: {
-            formatter: function(): any {
+            formatter: function (): any {
               let _this = this as any;
               return filters.formatSize(_this.x);
-            }
+            },
           },
           fillOpacity: fillOpacity,
-          data: [] as any
+          data: [] as any,
         },
         {
           type: "spline",
           name: this.$t("statistic.download").toString(),
           tooltip: {
-            valueSuffix: " "
+            valueSuffix: " ",
           },
           fillOpacity: fillOpacity,
-          data: [] as any
+          data: [] as any,
         },
         {
           type: "spline",
           name: this.$t("statistic.bonus").toString(),
           yAxis: 1,
           tooltip: {
-            valueSuffix: " "
+            valueSuffix: " ",
           },
           fillOpacity: fillOpacity,
-          data: [] as any
-        }
+          data: [] as any,
+        },
       ];
       var types = {};
       var colors = ["#1b5e20", "#b71c1c", "#2f7ed8", "#03A9F4"];
@@ -479,7 +526,7 @@ export default Vue.extend({
         downloaded: 0,
         uploaded: 0,
         bonus: 0,
-        name: ""
+        name: "",
       };
 
       let _self = this;
@@ -508,26 +555,26 @@ export default Vue.extend({
 
       var chart = {
         chart: {
-          backgroundColor: null
+          backgroundColor: null,
         },
         series: datas,
         colors: colors,
         // 版权信息
         credits: {
-          enabled: false
+          enabled: false,
         },
         subtitle: {
           text: this.$t("statistic.baseDataSubTitle", {
             uploaded: filters.formatSize(latest.uploaded),
             downloaded: filters.formatSize(latest.downloaded),
-            bonus: filters.formatNumber(latest.bonus)
-          }).toString()
+            bonus: filters.formatNumber(latest.bonus),
+          }).toString(),
         },
         title: {
           text: this.$t("statistic.baseDataTitle", {
             userName: latest.name || this.userName,
-            site: this.selectedSite.name
-          }).toString()
+            site: this.selectedSite.name,
+          }).toString(),
         },
         xAxis: {
           type: "datetime",
@@ -535,63 +582,63 @@ export default Vue.extend({
             day: "%Y-%m-%d",
             week: "%Y-%m-%d",
             month: "%Y-%m-%d",
-            year: "%Y-%m-%d"
+            year: "%Y-%m-%d",
           },
           // categories: categories,
           gridLineDashStyle: "ShortDash",
           gridLineWidth: 1,
-          gridLineColor: "#dddddd"
+          gridLineColor: "#dddddd",
         },
         yAxis: [
           {
             labels: {
-              formatter: function(): any {
+              formatter: function (): any {
                 let _this = this as any;
                 return filters.formatSize(_this.value);
               },
               style: {
-                color: colors[3]
-              }
+                color: colors[3],
+              },
             },
             title: {
               text: this.$t("statistic.data").toString(),
               style: {
-                color: colors[3]
-              }
+                color: colors[3],
+              },
             },
             lineWidth: 1,
-            gridLineDashStyle: "ShortDash"
+            gridLineDashStyle: "ShortDash",
           },
           {
             opposite: true,
             labels: {
-              formatter: function(): any {
+              formatter: function (): any {
                 let _this = this as any;
                 return formatBonus(_this.value);
               },
               style: {
-                color: colors[2]
-              }
+                color: colors[2],
+              },
             },
             title: {
               text: this.$t("statistic.bonus").toString(),
               style: {
-                color: colors[2]
-              }
+                color: colors[2],
+              },
             },
             lineWidth: 1,
-            gridLineDashStyle: "ShortDash"
-          }
+            gridLineDashStyle: "ShortDash",
+          },
         ],
         tooltip: {
           shared: true,
           crosshairs: {
             width: 1,
             color: "red",
-            dashStyle: "shortdot"
+            dashStyle: "shortdot",
           },
           useHTML: true,
-          formatter: function(): any {
+          formatter: function (): any {
             function createTipItem(text: string, color: string = "#000") {
               return `<div style='color:${color};'>${text}</div>`;
             }
@@ -613,14 +660,14 @@ export default Vue.extend({
               }
 
               tips.push(
-                createTipItem(`${point.series.name}: ${value}`, point.color)
+                createTipItem(`${point.series.name}: ${value}`, point.color),
               );
             });
 
             let result = `<div>${tips.join("")}</div>`;
             return result;
-          }
-        }
+          },
+        },
       };
 
       this.chartBaseData = chart;
@@ -635,15 +682,15 @@ export default Vue.extend({
           type: "spline",
           name: this.$t("statistic.seedingSize").toString(),
           fillOpacity: fillOpacity,
-          data: [] as any
+          data: [] as any,
         },
         {
           type: "spline",
           name: this.$t("statistic.seedingCount").toString(), //"做种数",
           yAxis: 1,
           fillOpacity: fillOpacity,
-          data: [] as any
-        }
+          data: [] as any,
+        },
       ];
       var types = {};
       var colors = ["#FF6F00", "#2E7D32", "#2f7ed8", "#03A9F4"];
@@ -651,7 +698,7 @@ export default Vue.extend({
       let latest = {
         seeding: 0,
         seedingSize: 0,
-        name: ""
+        name: "",
       };
 
       // 数据
@@ -678,25 +725,25 @@ export default Vue.extend({
       let _self = this;
       var chart = {
         chart: {
-          backgroundColor: null
+          backgroundColor: null,
         },
         series: datas,
         colors: colors,
         // 版权信息
         credits: {
-          enabled: false
+          enabled: false,
         },
         subtitle: {
           text: this.$t("statistic.seedingDataSubTitle", {
             seedingSize: filters.formatSize(latest.seedingSize),
-            count: latest.seeding
-          }).toString()
+            count: latest.seeding,
+          }).toString(),
         },
         title: {
           text: this.$t("statistic.seedingDataTitle", {
             userName: latest.name || this.userName,
-            site: this.selectedSite.name
-          }).toString()
+            site: this.selectedSite.name,
+          }).toString(),
         },
         xAxis: {
           // categories: categories,
@@ -705,52 +752,52 @@ export default Vue.extend({
             day: "%Y-%m-%d",
             week: "%Y-%m-%d",
             month: "%Y-%m-%d",
-            year: "%Y-%m-%d"
+            year: "%Y-%m-%d",
           },
           gridLineDashStyle: "ShortDash",
           gridLineWidth: 1,
-          gridLineColor: "#dddddd"
+          gridLineColor: "#dddddd",
         },
         yAxis: [
           {
             labels: {
-              formatter: function(): any {
+              formatter: function (): any {
                 let _this = this as any;
                 return filters.formatSize(_this.value);
               },
               style: {
-                color: colors[0]
-              }
+                color: colors[0],
+              },
             },
             title: {
               text: this.$t("statistic.size").toString(), //"体积",
               style: {
-                color: colors[0]
-              }
+                color: colors[0],
+              },
             },
             lineWidth: 1,
-            gridLineDashStyle: "ShortDash"
+            gridLineDashStyle: "ShortDash",
           },
           {
             opposite: true,
             labels: {
-              formatter: function(): any {
+              formatter: function (): any {
                 let _this = this as any;
                 return formatBonus(_this.value);
               },
               style: {
-                color: colors[1]
-              }
+                color: colors[1],
+              },
             },
             title: {
               text: this.$t("statistic.count").toString(), //"数量",
               style: {
-                color: colors[1]
-              }
+                color: colors[1],
+              },
             },
             lineWidth: 1,
-            gridLineDashStyle: "ShortDash"
-          }
+            gridLineDashStyle: "ShortDash",
+          },
         ],
         tooltip: {
           shared: true,
@@ -758,9 +805,9 @@ export default Vue.extend({
           crosshairs: {
             width: 1,
             color: "red",
-            dashStyle: "shortdot"
+            dashStyle: "shortdot",
           },
-          formatter: function(): any {
+          formatter: function (): any {
             function createTipItem(text: string, color: string = "#000") {
               return `<div style='color:${color};'>${text}</div>`;
             }
@@ -778,14 +825,14 @@ export default Vue.extend({
               }
 
               tips.push(
-                createTipItem(`${point.series.name}: ${value}`, point.color)
+                createTipItem(`${point.series.name}: ${value}`, point.color),
               );
             });
 
             let result = `<div>${tips.join("")}</div>`;
             return result;
-          }
-        }
+          },
+        },
       };
 
       this.chartExtData = chart;
@@ -799,26 +846,23 @@ export default Vue.extend({
       // -> [ { name: siteName, data: [ [ date, relativeUploaded ] ]}]
       const series = Object.entries(result).map(([siteName, data]: any[]) => ({
         name: siteName,
-        data: data.map((v: any) => ([
-          v.date.getTime(),
-          v.relativeUploaded,
-        ]))
+        data: data.map((v: any) => [v.date.getTime(), v.relativeUploaded]),
       }));
 
       const chart = {
         series,
         chart: {
           backgroundColor: null,
-          type: 'column'
+          type: "column",
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         title: {
           text: this.$t("statistic.barDataTitle", {
             userName: this.userName,
-            site: this.selectedSite.name
-          }).toString()
+            site: this.selectedSite.name,
+          }).toString(),
         },
         xAxis: {
           type: "datetime",
@@ -826,68 +870,78 @@ export default Vue.extend({
             day: "%m-%d",
             week: "%m-%d",
             month: "%m-%d",
-            year: "%m-%d"
+            year: "%m-%d",
           },
           gridLineDashStyle: "ShortDash",
           gridLineWidth: 1,
-          gridLineColor: "#dddddd"
+          gridLineColor: "#dddddd",
         },
         yAxis: {
           title: {
             text: this.$t("statistic.data").toString(),
           },
           lineWidth: 1,
-          gridLineDashStyle: "ShortDash"
+          gridLineDashStyle: "ShortDash",
         },
         tooltip: {
           useHTML: true,
-          formatter: function(): any {
-            const { x, y, total, color, series: { name: siteName } }: any = this
-            let sites = []
+          formatter: function (): any {
+            const {
+              x,
+              y,
+              total,
+              color,
+              series: { name: siteName },
+            }: any = this;
+            let sites = [];
             for (const site of series) {
-              const siteY = (site.data.find(([a]: any[]) => a === x) || [0, 0])[1]
-              if (
-                (y < 0 && siteY < 0) ||
-                (y > 0 && siteY > 0)
-               ) {
-                const percentage = Math.ceil(siteY / total * 100)
+              const siteY = (site.data.find(([a]: any[]) => a === x) || [
+                0, 0,
+              ])[1];
+              if ((y < 0 && siteY < 0) || (y > 0 && siteY > 0)) {
+                const percentage = Math.ceil((siteY / total) * 100);
                 sites.push({
                   name: site.name,
                   value: siteY,
                   valueDisplay: filters.formatSizeWithNegative(siteY),
                   percentageDisplay: `${percentage}%`,
                   isActive: site.name === siteName,
-                })
+                });
               }
             }
-            sites.sort((a,b) => b.value-a.value)
-            const date = dayjs(x).format("YYYY-MM-DD")
-            const totalDisplay = filters.formatSizeWithNegative(total)
-            const totalText = $t('statistic.total').toString()
+            sites.sort((a, b) => b.value - a.value);
+            const date = dayjs(x).format("YYYY-MM-DD");
+            const totalDisplay = filters.formatSizeWithNegative(total);
+            const totalText = $t("statistic.total").toString();
 
-            const createTr = ({ name, valueDisplay, percentageDisplay, isActive }: any) => {
+            const createTr = ({
+              name,
+              valueDisplay,
+              percentageDisplay,
+              isActive,
+            }: any) => {
               return `
                 <tr style='color: ${isActive ? color : "inherit"};'>
                   <td>${name}</td>
                   <td style='padding-left: 5px;'>${valueDisplay}</td>
                   <td style='padding-left: 5px;'>${percentageDisplay}</td>
                 </tr>
-              `
-            }
+              `;
+            };
 
             return `
               ${date}<br/>
               <table>
-                ${createTr({ name: totalText, valueDisplay: totalDisplay, percentageDisplay: '100%' })}
-                ${sites.map(createTr).join('')}
+                ${createTr({ name: totalText, valueDisplay: totalDisplay, percentageDisplay: "100%" })}
+                ${sites.map(createTr).join("")}
               </table>
-            `
+            `;
           },
         },
         plotOptions: {
           column: {
-            stacking: 'normal',
-          }
+            stacking: "normal",
+          },
         },
       };
       this.chartBarData = chart;
@@ -902,30 +956,32 @@ export default Vue.extend({
       let div = this.$refs.charts as HTMLDivElement;
       this.shareing = true;
       this.shareTime = new Date();
-      domtoimage.toJpeg(div, {
-        filter: (node) => {
-          if (node.nodeType === 1) {
-            return !(node as Element).classList.contains('by_pass_canvas')
+      domtoimage
+        .toJpeg(div, {
+          filter: (node) => {
+            if (node.nodeType === 1) {
+              return !(node as Element).classList.contains("by_pass_canvas");
+            }
+            return true;
+          },
+        })
+        .then((dataUrl: any) => {
+          if (dataUrl) {
+            FileSaver.saveAs(dataUrl, "PT-Plugin-Plus-UserData.jpg");
           }
-          return true
-        }
-      }).then((dataUrl: any) => {
-        if (dataUrl) {
-          FileSaver.saveAs(dataUrl, "PT-Plugin-Plus-UserData.jpg");
-        }
-        this.shareing = false;
-      });
+          this.shareing = false;
+        });
     },
     /**
      * 导出原始数据
      */
     exportRawData() {
       const data = new Blob([JSON.stringify(this.rawData)], {
-        type: "text/plain"
+        type: "text/plain",
       });
       FileSaver.saveAs(
         data,
-        `PT-Plugin-Plus-Statistic-${this.selectedSite.host}.json`
+        `PT-Plugin-Plus-Statistic-${this.selectedSite.host}.json`,
       );
     },
 
@@ -957,18 +1013,18 @@ export default Vue.extend({
           this.beginDate = "";
           break;
       }
-    }
+    },
   },
 
   watch: {
     dateRange() {
       this.resetDateRange();
       this.resetData(this.rawData);
-    }
-  }
+    },
+  },
 });
 </script>
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
 .container {
   width: 900px;
   padding: 0;

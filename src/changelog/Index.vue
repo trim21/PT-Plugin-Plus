@@ -17,9 +17,9 @@ import { PPF } from "@/service/public";
 
 // 重写 version，因为使用 getVersion 获取到的是 `v1.5.1` 或者 `v1.5.1.dc988f6`，需要重写为 `v1.5.1` 否则无法获取release信息
 let MAIN_VERSION = PPF.getVersion();
-const mainVersionMatch = MAIN_VERSION.match(/v(\d+\.\d+\.\d+)\.?(.*)/)
+const mainVersionMatch = MAIN_VERSION.match(/v(\d+\.\d+\.\d+)\.?(.*)/);
 if (mainVersionMatch && mainVersionMatch[1]) {
-  MAIN_VERSION = `v${mainVersionMatch[1]}`
+  MAIN_VERSION = `v${mainVersionMatch[1]}`;
 }
 
 export default Vue.extend({
@@ -32,19 +32,21 @@ export default Vue.extend({
       version: MAIN_VERSION,
       failContent:
         "更新日志加载失败，请前往 https://github.com/pt-plugins/PT-Plugin-Plus/releases/ 查看发布说明",
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
     };
   },
 
   created() {
-    fetch(`https://api.github.com/repos/pt-plugins/PT-Plugin-Plus/releases/tags/${this.version}`)
-        .then(r => r.json())
-        .then((result: any) => {
-          this.content = this.parse(result.body);
-        })
-        .catch(() => {
-          this.content = this.failContent;
-        });
+    fetch(
+      `https://api.github.com/repos/pt-plugins/PT-Plugin-Plus/releases/tags/${this.version}`,
+    )
+      .then((r) => r.json())
+      .then((result: any) => {
+        this.content = this.parse(result.body);
+      })
+      .catch(() => {
+        this.content = this.failContent;
+      });
   },
 
   methods: {
@@ -52,10 +54,10 @@ export default Vue.extend({
     parse(content: string): string {
       return content.replace(
         /(#)(\d+)/g,
-        "[#$2](https://github.com/pt-plugins/PT-Plugin-Plus/issues/$2)"
+        "[#$2](https://github.com/pt-plugins/PT-Plugin-Plus/issues/$2)",
       );
-    }
-  }
+    },
+  },
 });
 </script>
 

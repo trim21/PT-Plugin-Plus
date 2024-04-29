@@ -93,7 +93,12 @@
         {{ $t("common.systemLog") }}
       </span>
     </v-btn>
-    <v-btn @click="toggle_dark_mode" flat small :icon="$vuetify.breakpoint.smAndDown">
+    <v-btn
+      @click="toggle_dark_mode"
+      flat
+      small
+      :icon="$vuetify.breakpoint.smAndDown"
+    >
       <v-icon small>invert_colors</v-icon>
       <span class="ml-1" v-if="$vuetify.breakpoint.mdAndUp">
         {{ $t("common.darkMode") }}
@@ -126,7 +131,7 @@ export default Vue.extend({
   data() {
     return {
       words: {
-        developmentMode: "zip"
+        developmentMode: "zip",
       },
       version: "",
       isDebugMode: APP.debugMode,
@@ -137,7 +142,7 @@ export default Vue.extend({
       fileInput: null as any,
       currentLanguage: "",
       invalidFile: false,
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
     };
   },
   created() {
@@ -154,11 +159,11 @@ export default Vue.extend({
     }
 
     APP.getInstallType()
-      .then(result => {
+      .then((result) => {
         console.log(result, EInstallType.development);
         this.isDevelopmentMode = [
           EInstallType.development,
-          EInstallType.crx
+          EInstallType.crx,
         ].includes(result);
         if (result === EInstallType.crx) {
           this.words.developmentMode = EInstallType.crx;
@@ -188,7 +193,7 @@ export default Vue.extend({
             }
           }
         })
-        .fail((result: any) => { });
+        .fail((result: any) => {});
     },
 
     /**
@@ -221,13 +226,13 @@ export default Vue.extend({
             this.invalidFile = true;
           }
         };
-        r.onerror = () => { };
+        r.onerror = () => {};
         r.readAsText(fileInput.files[0]);
         fileInput.value = "";
       }
     },
     toggle_dark_mode() {
-      this.$root.$emit('ToggleDarkMode');
+      this.$root.$emit("ToggleDarkMode");
     },
 
     /**
@@ -243,7 +248,7 @@ export default Vue.extend({
             .then(() => {
               this.currentLanguage = resource.code;
             })
-            .catch(() => { });
+            .catch(() => {});
         }
       } else {
         window.i18nService
@@ -252,16 +257,16 @@ export default Vue.extend({
             this.currentLanguage = resource.code;
             this.languages.push({
               name: resource.name,
-              code: resource.code
+              code: resource.code,
             });
           })
-          .catch(() => { });
+          .catch(() => {});
       }
     },
 
     selectFile() {
       this.fileInput.click();
-    }
-  }
+    },
+  },
 });
 </script>

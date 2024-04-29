@@ -104,7 +104,9 @@
     "fieldSelector": {
       "progress": {
         "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
-        "filters": ["query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"]
+        "filters": [
+          "query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"
+        ]
       },
       "status": {
         "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],

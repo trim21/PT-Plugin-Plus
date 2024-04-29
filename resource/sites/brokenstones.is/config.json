@@ -6,9 +6,7 @@
   "tags": ["软件"],
   "schema": "GazelleJSONAPI",
   "host": "brokenstones.is",
-  "formerHosts": [
-    "brokenstones.club"
-  ],
+  "formerHosts": ["brokenstones.club"],
   "supportedFeatures": {
     "imdbSearch": false
   },

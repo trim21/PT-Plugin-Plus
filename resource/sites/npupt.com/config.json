@@ -4,10 +4,7 @@
   "description": "界面独具一格的教育网站点",
   "url": "https://npupt.com/",
   "icon": "https://npupt.com/favicon.ico",
-  "tags": [
-    "教育网",
-    "综合"
-  ],
+  "tags": ["教育网", "综合"],
   "schema": "NexusPHP",
   "host": "npupt.com",
   "collaborator": ["Rhilip", "xfl03"],
@@ -92,20 +89,14 @@
         "id": {
           "selector": "span#curuser a[href*='userdetails.php'][class*='Name']:first",
           "attribute": "href",
-          "filters": [
-            "query ? query.getQueryString('id'):''"
-          ]
+          "filters": ["query ? query.getQueryString('id'):''"]
         },
         "name": {
           "selector": "span#curuser a[href*='userdetails.php'][class*='Name']:first"
         },
         "isLogged": {
-          "selector": [
-            "a[href*='logout.php']"
-          ],
-          "filters": [
-            "query.length>0"
-          ]
+          "selector": ["a[href*='logout.php']"],
+          "filters": ["query.length>0"]
         }
       }
     },
@@ -141,14 +132,10 @@
         },
         "levelName": {
           "selector": "td.rowhead:contains('等級'), td.rowhead:contains('等级')",
-          "filters": [
-            "query.next().find('img').attr('title')"
-          ]
+          "filters": ["query.next().find('img').attr('title')"]
         },
         "bonus": {
-          "selector": [
-            "td.rowhead:contains('沙粒') + td"
-          ],
+          "selector": ["td.rowhead:contains('沙粒') + td"],
           "filters": [
             "query.is(\":contains('沙粒:')\")?query.text().replace(/,/g,'').match(/沙粒.+?([\\d.]+)/)[1]:query.text().replace(/,/g,'')",
             "parseFloat(query)"
@@ -167,17 +154,11 @@
       "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
       "fields": {
         "seeding": {
-          "selector": [
-            "tr:not(:eq(0))"
-          ],
-          "filters": [
-            "query.find('td.rowfollow:eq(2)').length"
-          ]
+          "selector": ["tr:not(:eq(0))"],
+          "filters": ["query.find('td.rowfollow:eq(2)').length"]
         },
         "seedingSize": {
-          "selector": [
-            "tr:not(:eq(0))"
-          ],
+          "selector": ["tr:not(:eq(0))"],
           "filters": [
             "jQuery.map(query.find('td.rowfollow:eq(2)'), (item)=>{return $(item).text();})",
             "_self.getTotalSize(query)"
@@ -188,9 +169,7 @@
     "/details.php": {
       "fields": {
         "downloadURL": {
-          "selector": [
-            "a[href*='passkey'][href*='https']"
-          ],
+          "selector": ["a[href*='passkey'][href*='https']"],
           "filters": [
             "query.attr('href').match(/https?:\\/\\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g)",
             "(query && query.length > 0) ? query[0] : ''"

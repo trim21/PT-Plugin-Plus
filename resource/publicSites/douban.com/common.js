@@ -8,15 +8,18 @@
 
     /**
      * 按指定的关键字进行搜索
-     * @param {*} key 
-     * @param {*} button 
+     * @param {*} key
+     * @param {*} button
      */
     search(key, button) {
-      PTService.call(PTService.action.openOptions, `search-torrent/${key}`).catch((error) => {
+      PTService.call(
+        PTService.action.openOptions,
+        `search-torrent/${key}`,
+      ).catch((error) => {
         console.log(error);
         button && button.html(error.msg || "执行失败");
       });
     }
-  };
+  }
   window.DoubanCommon = Common;
 })(jQuery, window);

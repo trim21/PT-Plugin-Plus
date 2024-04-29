@@ -1,8 +1,16 @@
 if ("".getQueryString === undefined) {
-  String.prototype.getQueryString = function(name, split) {
+  String.prototype.getQueryString = function (name, split) {
     if (split == undefined) split = "&";
     var reg = new RegExp(
-        "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
+        "(^|" +
+          split +
+          "|\\?)" +
+          name +
+          "=([^" +
+          split +
+          "]*)(" +
+          split +
+          "|$)",
       ),
       r;
     if ((r = this.match(reg))) return decodeURI(r[2]);
@@ -10,7 +18,7 @@ if ("".getQueryString === undefined) {
   };
 }
 
-(function(options, User) {
+(function (options, User) {
   class Parser {
     constructor(options, dataURL) {
       this.options = options;
@@ -19,7 +27,7 @@ if ("".getQueryString === undefined) {
       this.rawData = "";
       this.pageInfo = {
         count: 0,
-        current: 1
+        current: 1,
       };
       this.result = {
         seedingSize: 0,
@@ -44,18 +52,23 @@ if ("".getQueryString === undefined) {
       this.getPageInfo();
 
       let results = {
-        seedingSize: 0
+        seedingSize: 0,
       };
 
       let status = this.body
-      .find("table.table > tbody > tr")
-      .find(">td[class*='text-']");
+        .find("table.table > tbody > tr")
+        .find(">td[class*='text-']");
 
-      let torrentsize = this.body.find("table.table > tbody > tr span[title='File Size']");
-      
-      for (let index = 0; index < status.length; index++){
+      let torrentsize = this.body.find(
+        "table.table > tbody > tr span[title='File Size']",
+      );
+
+      for (let index = 0; index < status.length; index++) {
         let status_i = status.eq(index).text();
-        let torrentsize_i = torrentsize.eq(index).text().replace(/\"+|\n+|\s+/g,'');
+        let torrentsize_i = torrentsize
+          .eq(index)
+          .text()
+          .replace(/\"+|\n+|\s+/g, "");
         if (status_i == "seed") {
           results.seedingSize += torrentsize_i.sizeToNumber();
         }
@@ -81,7 +94,9 @@ if ("".getQueryString === undefined) {
       // 获取最大页码
       const infos = this.body
         .find("a[href*='/active']:contains('›'):last")
-        .parent().prev().find("a[href*='/active']")
+        .parent()
+        .prev()
+        .find("a[href*='/active']")
         .attr("href");
 
       if (infos) {
@@ -100,7 +115,7 @@ if ("".getQueryString === undefined) {
         url += "&page=" + this.pageInfo.current;
       }
       $.get(url)
-        .done(result => {
+        .done((result) => {
           this.rawData = result;
           this.parse();
         })

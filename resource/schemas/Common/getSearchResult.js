@@ -1,7 +1,7 @@
 /**
  * 通用搜索解析脚本
  */
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -25,7 +25,7 @@
      * 获取搜索结果
      */
     getResult() {
-	   console.log("Common schemas search js");
+      console.log("Common schemas search js");
       if (!this.haveData) {
         return [];
       }
@@ -62,7 +62,7 @@
         // 发布人
         author: -1,
         // 分类
-        category: -1
+        category: -1,
       };
 
       try {
@@ -106,7 +106,7 @@
             entryName: options.entry.name,
             category: this.getFieldValue(row, cells, fieldIndex, "category"),
             progress: this.getFieldValue(row, cells, fieldIndex, "progress"),
-            status: this.getFieldValue(row, cells, fieldIndex, "status")
+            status: this.getFieldValue(row, cells, fieldIndex, "status"),
           };
           results.push(data);
         }

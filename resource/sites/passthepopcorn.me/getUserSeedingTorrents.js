@@ -1,4 +1,4 @@
-(function(options, User) {
+(function (options, User) {
   class Parser {
     constructor(options, dataURL) {
       this.options = options;
@@ -7,10 +7,10 @@
       this.rawData = "";
       this.pageInfo = {
         count: 0,
-        current: 1
+        current: 1,
       };
       this.result = {
-        seedingList: []
+        seedingList: [],
       };
       this.load();
     }
@@ -34,11 +34,13 @@
 
       let results = new User.InfoParser(User.service).getResult(
         this.body,
-        this.options.rule
+        this.options.rule,
       );
 
       if (results) {
-        this.result.seedingList = this.result.seedingList.concat(results.seedingList)
+        this.result.seedingList = this.result.seedingList.concat(
+          results.seedingList,
+        );
       }
 
       // 是否已到最后一页
@@ -78,7 +80,7 @@
         url += "&page=" + this.pageInfo.current;
       }
       $.get(url)
-        .done(result => {
+        .done((result) => {
           this.rawData = result;
           this.parse();
         })

@@ -1,11 +1,13 @@
 {
   "name": "GazelleJSONAPI",
   "ver": "0.0.1",
-  "plugins": [{
-    "name": "种子列表",
-    "pages": ["/torrents.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Gazelle/torrents.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子列表",
+      "pages": ["/torrents.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Gazelle/torrents.js"]
+    }
+  ],
   "securityKeyFields": ["authkey", "torrent_pass"],
   "searchEntryConfig": {
     "page": "/ajax.php",
@@ -14,10 +16,12 @@
     "asyncParse": true,
     "queryString": "action=browse&searchstr=$key$"
   },
-  "searchEntry": [{
-    "name": "all",
-    "enabled": true
-  }],
+  "searchEntry": [
+    {
+      "name": "all",
+      "enabled": true
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/ajax.php?action=index",
@@ -45,7 +49,10 @@
           "selector": ["response.userstats.class"]
         },
         "bonusPerHour": {
-          "selector": ["response.userstats.bonusPointsPerHour", "response.userstats.seedingBonusPointsPerHour"]
+          "selector": [
+            "response.userstats.bonusPointsPerHour",
+            "response.userstats.seedingBonusPointsPerHour"
+          ]
         }
       }
     },
@@ -55,7 +62,9 @@
       "fields": {
         "joinTime": {
           "selector": ["response.stats.joinedDate"],
-          "filters": ["dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         },
         "seeding": {
           "selector": ["response.community.seeding"]
@@ -76,7 +85,10 @@
       "fields": {
         "seedingSize": {
           "selector": ["tr.torrent_row > td.number_column.nobr"],
-          "filters": ["jQuery.map(query, (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+          "filters": [
+            "jQuery.map(query, (item)=>{return $(item).text();})",
+            "_self.getTotalSize(query)"
+          ]
         },
         "bonus": {
           "value": "N/A"

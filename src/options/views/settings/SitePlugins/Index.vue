@@ -178,13 +178,13 @@ import FileSaver from "file-saver";
 export default Vue.extend({
   components: {
     AddItem,
-    EditItem
+    EditItem,
   },
   data() {
     return {
       selected: [],
       pagination: {
-        rowsPerPage: -1
+        rowsPerPage: -1,
       },
       showAddDialog: false,
       showEditDialog: false,
@@ -197,7 +197,7 @@ export default Vue.extend({
         styles: [],
         script: "",
         style: "",
-        readonly: false
+        readonly: false,
       } as any,
       dialogRemoveConfirm: false,
       plugins: [] as any,
@@ -205,7 +205,7 @@ export default Vue.extend({
       errorMsg: "",
       haveError: false,
       haveSuccess: false,
-      successMsg: ""
+      successMsg: "",
     };
   },
   methods: {
@@ -228,7 +228,7 @@ export default Vue.extend({
       this.dialogRemoveConfirm = false;
       this.$store.commit("removePlugin", {
         host: this.site.host,
-        plugin: this.selectedItem
+        plugin: this.selectedItem,
       });
       this.selectedItem = {};
       this.reloadPlugins(this.site.host);
@@ -236,14 +236,16 @@ export default Vue.extend({
     removeSelected() {
       if (
         confirm(
-          this.$t("settings.sitePlugins.index.removeSelectedConfirm").toString()
+          this.$t(
+            "settings.sitePlugins.index.removeSelectedConfirm",
+          ).toString(),
         )
       ) {
         this.selected.forEach((item: Plugin) => {
           if (item.isCustom) {
             this.$store.commit("removePlugin", {
               host: this.site.host,
-              plugin: item
+              plugin: item,
             });
           }
         });
@@ -256,7 +258,7 @@ export default Vue.extend({
       this.selectedItem = item;
       this.$store.commit("updatePlugin", {
         host: this.site.host,
-        plugin: item
+        plugin: item,
       });
       this.reloadPlugins(this.site.host);
     },
@@ -264,7 +266,7 @@ export default Vue.extend({
       console.log(item);
       this.$store.commit("addPlugin", {
         host: this.site.host,
-        plugin: item
+        plugin: item,
       });
       this.reloadPlugins(this.site.host);
     },
@@ -281,7 +283,7 @@ export default Vue.extend({
           let _schema = this.$store.state.options.system.schemas.find(
             (item: Site) => {
               return item.name == schema;
-            }
+            },
           );
           if (_schema) {
             plugins.push(..._schema.plugins);
@@ -290,7 +292,7 @@ export default Vue.extend({
           let site = this.$store.state.options.system.sites.find(
             (item: Site) => {
               return item.host == host;
-            }
+            },
           );
           if (site && site.schema && site.schema.plugins) {
             plugins.push(...site.schema.plugins);
@@ -318,7 +320,7 @@ export default Vue.extend({
         (this.site.host || this.site.name) + "-plugin-" + item.name + ".json";
 
       const blob = new Blob([JSON.stringify(item)], {
-        type: "text/plain"
+        type: "text/plain",
       });
       FileSaver.saveAs(blob, fileName);
     },
@@ -369,7 +371,7 @@ export default Vue.extend({
         )
       ) {
         this.errorMsg = this.$t(
-          "settings.sitePlugins.index.invalidPlugin"
+          "settings.sitePlugins.index.invalidPlugin",
         ).toString();
         return;
       }
@@ -377,8 +379,8 @@ export default Vue.extend({
       if (plugin) {
         const newName = window.prompt(
           this.$t("settings.sitePlugins.index.importNameDuplicate", {
-            name: plugin.name
-          }).toString()
+            name: plugin.name,
+          }).toString(),
         );
 
         if (newName) {
@@ -402,7 +404,7 @@ export default Vue.extend({
         });
       }
       return null;
-    }
+    },
   },
   created() {
     let host = this.$route.params["host"];
@@ -424,25 +426,25 @@ export default Vue.extend({
         {
           text: this.$t("settings.sitePlugins.index.headers.name"),
           align: "left",
-          value: "name"
+          value: "name",
         },
         {
           text: this.$t("settings.sitePlugins.index.headers.pages"),
           align: "left",
-          value: "pages"
+          value: "pages",
         },
         {
           text: this.$t("settings.sitePlugins.index.headers.enable"),
           align: "left",
-          value: "enable"
+          value: "enable",
         },
         {
           text: this.$t("settings.sitePlugins.index.headers.action"),
           value: "name",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
+    },
   },
   watch: {
     successMsg() {
@@ -450,8 +452,8 @@ export default Vue.extend({
     },
     errorMsg() {
       this.haveError = this.errorMsg != "";
-    }
-  }
+    },
+  },
 });
 </script>
 

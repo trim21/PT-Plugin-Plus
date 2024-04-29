@@ -9,7 +9,9 @@
   >
     <v-icon v-if="haveSuccess" color="success" small>done</v-icon>
     <v-icon v-else-if="haveError" color="red" small>close</v-icon>
-    <v-icon v-else small :title="$t('collection.addToGroup')">{{ iconText }}</v-icon>
+    <v-icon v-else small :title="$t('collection.addToGroup')">{{
+      iconText
+    }}</v-icon>
     {{ label }}
   </v-btn>
 </template>
@@ -20,7 +22,7 @@ import {
   EAction,
   ICollection,
   ICollectionGroup,
-  ECommonKey
+  ECommonKey,
 } from "@/interface/common";
 
 import { PPF } from "@/service/public";
@@ -32,23 +34,23 @@ export default Vue.extend({
     small: Boolean,
     iconText: {
       type: String,
-      default: "add"
+      default: "add",
     },
     item: {
       type: Object,
       default: () => {
         return {} as ICollection;
-      }
+      },
     },
     groups: Array,
     color: {
       type: String,
-      default: "success"
+      default: "success",
     },
     label: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
 
   data() {
@@ -57,7 +59,7 @@ export default Vue.extend({
       contentMenus: [] as any[],
       loading: false,
       haveSuccess: false,
-      haveError: false
+      haveError: false,
     };
   },
 
@@ -78,7 +80,7 @@ export default Vue.extend({
             title: group.name,
             fn: () => {
               this.$emit("add", this.item, group);
-            }
+            },
           });
         }
       });
@@ -93,7 +95,7 @@ export default Vue.extend({
     clearStatus() {
       this.haveSuccess = false;
       this.haveError = false;
-    }
-  }
+    },
+  },
 });
 </script>

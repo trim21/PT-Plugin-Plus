@@ -7,15 +7,18 @@
   "tags": ["电子书"],
   "schema": "Common",
   "host": "bibliotik.me",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["^/torrents/(\\d+)$"],
-    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["^/torrents/$"],
-    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/torrents.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["^/torrents/(\\d+)$"],
+      "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["^/torrents/$"],
+      "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/torrents.js"]
+    }
+  ],
   "searchEntryConfig": {
     "page": "/torrents/",
     "resultType": "html",
@@ -60,18 +63,24 @@
       },
       "size": {
         "selector": [""],
-        "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)[1]"]
+        "filters": [
+          "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)[1]"
+        ]
       }
     }
   },
-  "searchEntry": [{
-    "name": "all",
-    "enabled": true
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "td:contains('[100% free!]')"
-  }],
+  "searchEntry": [
+    {
+      "name": "all",
+      "enabled": true
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "td:contains('[100% free!]')"
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/",
@@ -95,11 +104,17 @@
       "fields": {
         "uploaded": {
           "selector": ["#pre_header_status li:contains('Up: ')"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "downloaded": {
           "selector": ["#pre_header_status li:contains('Down: ')"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "levelName": {
           "selector": ["#detailsbox p:contains('Class: ')"],
@@ -107,7 +122,10 @@
         },
         "joinTime": {
           "selector": "#detailsbox p:contains('Joined ') time",
-          "filters": ["query.attr('datetime')", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "query.attr('datetime')",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         },
         "bonus": {
           "value": "N/A"
@@ -118,7 +136,10 @@
       "fields": {
         "size": {
           "selector": ["p#details_file_info"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>1)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>1)?(query[1]).sizeToNumber():0"
+          ]
         },
         "downloadURL": {
           "selector": ["a[href*='/download']"],
@@ -144,7 +165,10 @@
         },
         "seedingSize": {
           "selector": ["table#torrents_table:first tbody > tr"],
-          "filters": ["jQuery.map(query.find('td.t_files_size_added'), (item)=>{return $(item).text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)[1];})", "_self.getTotalSize(query)"]
+          "filters": [
+            "jQuery.map(query.find('td.t_files_size_added'), (item)=>{return $(item).text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)[1];})",
+            "_self.getTotalSize(query)"
+          ]
         }
       }
     }

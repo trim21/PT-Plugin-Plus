@@ -10,11 +10,11 @@ function resolve(dir) {
 
 module.exports = merge(common, {
   entry: {
-    background: path.join(__dirname, "../src/background/index.ts")
+    background: path.join(__dirname, "../src/background/index.ts"),
   },
   output: {
     path: path.join(__dirname, "../dist/js/background"),
-    filename: "[name].js"
+    filename: "[name].js",
   },
   devtool: "inline-source-map",
   mode: "development",
@@ -23,8 +23,8 @@ module.exports = merge(common, {
       {
         from: resolve("/resource/"),
         to: path.join(resolve("/dist/"), "resource"),
-        ignore: [".DS_Store", "README.md", "testSearchData.json"]
-      }
-    ])
-  ]
+        ignore: [".DS_Store", "README.md", "testSearchData.json"],
+      },
+    ]),
+  ],
 });

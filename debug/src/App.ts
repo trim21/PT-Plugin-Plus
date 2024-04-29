@@ -20,7 +20,7 @@ class App {
     this.options = options || {
       port: 80,
       from: "../resource",
-      to: "/"
+      to: "/",
     };
 
     let buildPlugin = new BuildPlugin("../../resource");
@@ -86,7 +86,7 @@ class App {
    * 启动服务
    */
   public start() {
-    this.express.listen(this.options.port, err => {
+    this.express.listen(this.options.port, (err) => {
       if (err) {
         return console.log(err);
       }

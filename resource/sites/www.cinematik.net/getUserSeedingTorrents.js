@@ -1,8 +1,16 @@
 if ("".getQueryString === undefined) {
-  String.prototype.getQueryString = function(name, split) {
+  String.prototype.getQueryString = function (name, split) {
     if (split == undefined) split = "&";
     var reg = new RegExp(
-        "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
+        "(^|" +
+          split +
+          "|\\?)" +
+          name +
+          "=([^" +
+          split +
+          "]*)(" +
+          split +
+          "|$)",
       ),
       r;
     if ((r = this.match(reg))) return decodeURI(r[2]);
@@ -10,7 +18,7 @@ if ("".getQueryString === undefined) {
   };
 }
 
-(function(options, User) {
+(function (options, User) {
   class Parser {
     constructor(options, dataURL) {
       this.options = options;
@@ -19,11 +27,11 @@ if ("".getQueryString === undefined) {
       this.rawData = "";
       this.pageInfo = {
         count: 0,
-        current: 0
+        current: 0,
       };
       this.result = {
         seeding: 0,
-        seedingSize: 0
+        seedingSize: 0,
       };
       this.load();
     }
@@ -47,7 +55,7 @@ if ("".getQueryString === undefined) {
 
       let results = new User.InfoParser(User.service).getResult(
         this.body,
-        this.options.rule
+        this.options.rule,
       );
 
       if (results) {
@@ -92,7 +100,7 @@ if ("".getQueryString === undefined) {
         url += "&page=" + this.pageInfo.current;
       }
       $.get(url)
-        .done(result => {
+        .done((result) => {
           this.rawData = result;
           this.parse();
         })

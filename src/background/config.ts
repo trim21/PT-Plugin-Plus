@@ -14,7 +14,7 @@ import {
   EUserDataRange,
   EPluginPosition,
   IBackupRawData,
-  ISiteIcon
+  ISiteIcon,
 } from "@/interface/common";
 import { API, APP } from "@/service/api";
 import localStorage from "@/service/localStorage";
@@ -75,7 +75,7 @@ class Config {
       rows: 50,
       // 搜索超时
       timeout: 30000,
-      saveKey: true
+      saveKey: true,
     },
     // 连接下载服务器超时时间（毫秒）
     connectClientTimeout: 30000,
@@ -85,7 +85,7 @@ class Config {
       50,
       100,
       200,
-      { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 }
+      { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 },
     ],
     searchSolutions: [],
     navBarIsOpen: true,
@@ -93,7 +93,7 @@ class Config {
     beforeSearchingOptions: {
       getMovieInformation: true,
       maxMovieInformationCount: 5,
-      searchModeForItem: EBeforeSearchingItemSearchMode.id
+      searchModeForItem: EBeforeSearchingItemSearchMode.id,
     },
     showToolbarOnContentPage: true,
     // 下载失败后是否进行重试
@@ -110,7 +110,7 @@ class Config {
     position: EPluginPosition.right,
     // 是否加密存储备份数据
     encryptBackupData: false,
-    allowSaveSnapshot: true
+    allowSaveSnapshot: true,
   };
 
   public uiOptions: UIOptions = {};
@@ -147,7 +147,10 @@ class Config {
         .then((results: any[]) => {
           results.forEach((result: any) => {
             let site = this.options.sites.find((item: Site) => {
-              let cdn = [item.url].concat(item.cdn, item.formerHosts?.map(x => `//${x}`));
+              let cdn = [item.url].concat(
+                item.cdn,
+                item.formerHosts?.map((x) => `//${x}`),
+              );
               return (
                 item.host == result.host ||
                 cdn.join("").indexOf(`//${result.host}`) > -1
@@ -163,7 +166,7 @@ class Config {
           this.service.options = this.options;
           resolve(this.options);
         })
-        .catch(error => {
+        .catch((error) => {
           this.service.debug(error);
           reject(error);
         });
@@ -180,7 +183,10 @@ class Config {
         .get(url, reset)
         .then((result: ISiteIcon) => {
           let site = this.options.sites.find((item: Site) => {
-            let cdn = [item.url].concat(item.cdn, item.formerHosts?.map(x => `//${x}`));
+            let cdn = [item.url].concat(
+              item.cdn,
+              item.formerHosts?.map((x) => `//${x}`),
+            );
             return (
               item.host == result.host ||
               cdn.join("").indexOf(`//${result.host}`) > -1
@@ -195,7 +201,7 @@ class Config {
 
           resolve(result);
         })
-        .catch(error => {
+        .catch((error) => {
           this.service.debug(error);
           reject(error);
         });
@@ -228,7 +234,7 @@ class Config {
             "searchEntryConfig",
             "schema",
             "supportedFeatures",
-            "mergeSchemaTagSelectors"
+            "mergeSchemaTagSelectors",
           ].forEach((key: string) => {
             let _item = item as any;
             if (_item[key]) {
@@ -242,7 +248,7 @@ class Config {
                 // 仅保存名称和是否启用
                 (item.searchEntry as any)[index] = {
                   name: entry.name,
-                  enabled: entry.enabled
+                  enabled: entry.enabled,
                 };
               }
             });
@@ -268,7 +274,7 @@ class Config {
           "warning",
           "scripts",
           "ver",
-          "icon"
+          "icon",
         ].forEach((key: string) => {
           if (item[key]) {
             delete item[key];
@@ -339,7 +345,7 @@ class Config {
       schemas: this.schemas,
       sites: this.sites,
       clients: this.clients,
-      publicSites: this.publicSites
+      publicSites: this.publicSites,
     };
 
     this.upgradeSites();
@@ -355,7 +361,7 @@ class Config {
         if (index > -1) {
           let _site: Site = Object.assign(
             Object.assign({}, systemSite),
-            this.options.sites[index]
+            this.options.sites[index],
           );
 
           if (systemSite.categories) {
@@ -401,8 +407,8 @@ class Config {
                   _site.searchEntry[_index] = Object.assign(
                     Object.assign({}, sysEntry),
                     {
-                      enabled: _site.searchEntry[_index].enabled
-                    }
+                      enabled: _site.searchEntry[_index].enabled,
+                    },
                   );
                 } else {
                   _site.searchEntry.push(Object.assign({}, sysEntry));
@@ -415,7 +421,7 @@ class Config {
 
           // 设置默认图标
           if (!systemSite.icon && !_site.icon) {
-            _site.icon = _site.url + "/favicon.ico"
+            _site.icon = _site.url + "/favicon.ico";
           }
 
           this.options.sites[index] = _site;
@@ -448,7 +454,7 @@ class Config {
         if (client) {
           this.options.clients[index] = Object.assign(
             Object.assign({}, client),
-            this.options.clients[index]
+            this.options.clients[index],
           );
         }
       });
@@ -500,14 +506,13 @@ class Config {
             console.log("upgradeSites.site", site, newHost);
             site.host = newHost;
             site.url = systemSite.url;
-            
+
             // 设置默认图标
             if (!systemSite.icon && !site.icon)
-              site.icon = site.url + "/favicon.ico"
-            else
-              site.icon = systemSite.icon;
+              site.icon = site.url + "/favicon.ico";
+            else site.icon = systemSite.icon;
           }
-          
+
           // 更新搜索方案
           if (this.options.searchSolutions) {
             this.options.searchSolutions.forEach(
@@ -517,12 +522,12 @@ class Config {
                     console.log(
                       "upgradeSites.searchSolutions",
                       range.host,
-                      newHost
+                      newHost,
                     );
                     range.host = newHost;
                   }
                 });
-              }
+              },
             );
           }
 
@@ -537,7 +542,7 @@ class Config {
                       "upgradeSites.client.paths",
                       client.name,
                       key,
-                      newHost
+                      newHost,
                     );
                     const element = paths[key];
                     paths[newHost] = Object.assign([], element);
@@ -601,7 +606,7 @@ class Config {
         result.forEach((item: any) => {
           if (item.type === "dir") {
             this.addSchema(
-              API.schemaConfig.replace(/\{\$schema\}/g, item.name)
+              API.schemaConfig.replace(/\{\$schema\}/g, item.name),
             );
           }
         });
@@ -646,7 +651,7 @@ class Config {
         result.forEach((item: any) => {
           if (item.type === "dir") {
             this.addClient(
-              API.clientConfig.replace(/\{\$client\}/g, item.name)
+              API.clientConfig.replace(/\{\$client\}/g, item.name),
             );
           }
         });
@@ -676,12 +681,12 @@ class Config {
         return;
       }
       $.getJSON(api)
-        .done(result => {
+        .done((result) => {
           APP.cache.set(api, result);
           PPF.updateBadge(--this.requestCount);
           resolve(result);
         })
-        .fail(result => {
+        .fail((result) => {
           PPF.updateBadge(--this.requestCount);
           reject && reject(result);
         });
@@ -801,12 +806,12 @@ class Config {
           userData: rawUserData,
           collection: {
             items: this.service.collection.items,
-            groups: this.service.collection.groups
+            groups: this.service.collection.groups,
           },
           cookies: undefined,
           searchResultSnapshot: this.service.searchResultSnapshot.items,
           keepUploadTask: this.service.keepUploadTask.items,
-          downloadHistory: undefined
+          downloadHistory: undefined,
         };
 
         const requests: Promise<any>[] = [];
@@ -823,7 +828,7 @@ class Config {
         }
 
         Promise.all(requests)
-          .then(results => {
+          .then((results) => {
             rawData.downloadHistory = results[0];
             if (results.length > 1) {
               rawData.cookies = results[1];
@@ -847,11 +852,11 @@ class Config {
   public createBackupFile(fileName?: string): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.getBackupFileBlob()
-        .then(blob => {
+        .then((blob) => {
           FileSaver.saveAs(blob, fileName || this.getNewBackupFileName());
           resolve(true);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -871,7 +876,7 @@ class Config {
                 resolve(blob);
               });
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       } catch (error) {
@@ -896,15 +901,15 @@ class Config {
             });
 
             Promise.all(requests)
-              .then(results => {
+              .then((results) => {
                 resolve(results);
               })
-              .catch(error => {
+              .catch((error) => {
                 reject(error);
               });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -919,9 +924,9 @@ class Config {
       const url = site.activeURL || site.url;
       chrome.cookies.getAll(
         {
-          url
+          url,
         },
-        result => {
+        (result) => {
           if (chrome.runtime.lastError) {
             reject(chrome.runtime.lastError.message);
             return;
@@ -929,10 +934,10 @@ class Config {
           resolve({
             host: site.host,
             url,
-            cookies: result
+            cookies: result,
           });
           console.log(result);
-        }
+        },
       );
     });
   }
@@ -953,7 +958,7 @@ class Config {
         "path",
         "secure",
         "httpOnly",
-        "expirationDate"
+        "expirationDate",
       ];
       datas.forEach((item: any) => {
         item.cookies.forEach((cookie: any) => {
@@ -990,7 +995,7 @@ class Config {
    */
   public setCookies(
     cookie: chrome.cookies.SetDetails,
-    host: string
+    host: string,
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let site: Site = PPF.getSiteFromHost(host, this.service.options);
@@ -999,9 +1004,9 @@ class Config {
       chrome.cookies.get(
         {
           url: (site.activeURL || site.url) + "",
-          name: cookie.name + ""
+          name: cookie.name + "",
         },
-        _cookie => {
+        (_cookie) => {
           // 默认不对已存在相同的name的内容进行更新
           let allowSet = false;
           const now = new Date().getTime() / 1000;
@@ -1023,7 +1028,7 @@ class Config {
               cookie.expirationDate = now + 60 * 60 * 24;
             }
 
-            chrome.cookies.set(cookie, result => {
+            chrome.cookies.set(cookie, (result) => {
               if (chrome.runtime.lastError) {
                 reject(chrome.runtime.lastError.message);
                 return;
@@ -1035,7 +1040,7 @@ class Config {
             console.log("跳过 %s: %s", host, cookie.name);
             resolve();
           }
-        }
+        },
       );
     });
   }
@@ -1055,7 +1060,7 @@ class Config {
       const fileName = this.getNewBackupFileName();
       let service: OWSS | WebDAV | null = null;
       this.getBackupFileBlob()
-        .then(blob => {
+        .then((blob) => {
           const formData = new FormData();
           formData.append("name", fileName);
           formData.append("data", blob);
@@ -1077,18 +1082,18 @@ class Config {
           if (service) {
             service
               .add(formData)
-              .then(result => {
+              .then((result) => {
                 resolve({
                   time,
-                  fileName
+                  fileName,
                 });
               })
-              .catch(error => {
+              .catch((error) => {
                 reject(error);
               });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -1120,12 +1125,12 @@ class Config {
       if (service) {
         service
           .get(path)
-          .then(data => {
+          .then((data) => {
             this.backupFileParser
               .loadZipData(
                 data,
                 this.service.i18n.t("settings.backup.enterSecretKey"),
-                this.service.options.encryptSecretKey
+                this.service.options.encryptSecretKey,
               )
               .then((result: any) => {
                 resolve(result);
@@ -1134,7 +1139,7 @@ class Config {
                 reject(error);
               });
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       }
@@ -1148,7 +1153,7 @@ class Config {
    */
   public getBackupListFromServer(
     server: IBackupServer,
-    options: any = {}
+    options: any = {},
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let service: OWSS | WebDAV | null = null;
@@ -1169,10 +1174,10 @@ class Config {
       if (service) {
         service
           .list(options)
-          .then(result => {
+          .then((result) => {
             resolve(result);
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       }
@@ -1186,7 +1191,7 @@ class Config {
    */
   public deleteFileFromBackupServer(
     server: IBackupServer,
-    path: string
+    path: string,
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let service: OWSS | WebDAV | null = null;
@@ -1207,10 +1212,10 @@ class Config {
       if (service) {
         service
           .delete(path)
-          .then(result => {
+          .then((result) => {
             resolve(result);
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       }
@@ -1241,10 +1246,10 @@ class Config {
       if (service) {
         service
           .ping()
-          .then(result => {
+          .then((result) => {
             resolve(result);
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       }

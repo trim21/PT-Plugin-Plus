@@ -6,7 +6,10 @@ export class SiteService {
 
   private _schema: SiteSchema = {};
 
-  constructor(public options: Site, public systemOptions: Options) {
+  constructor(
+    public options: Site,
+    public systemOptions: Options,
+  ) {
     this.mergeOptions();
   }
 

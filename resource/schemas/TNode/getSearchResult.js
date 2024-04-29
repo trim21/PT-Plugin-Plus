@@ -1,4 +1,4 @@
-/** 
+/**
  * @typedef {object} TNodeSearchResult
  * @property {number} status
  * @property {object} data
@@ -43,16 +43,16 @@
      * @param {TagOrCategory[]} tagsAndCategories
      */
     constructor(site, tagsAndCategories = []) {
-      this.site = site
+      this.site = site;
       /**
        * @type Record<number, string>
        */
-      this.tags_map = {}
+      this.tags_map = {};
       for (const item of tagsAndCategories) {
         this.tags_map[item.id] = {
-          color: '#22a2c3',
+          color: "#22a2c3",
           ...item,
-        }
+        };
       }
     }
     /**
@@ -72,18 +72,20 @@
       /**
        * @type {SearchResultItem[]}
        */
-      const results = []
-      const host = site.url.endsWith('/') ? site.url.slice(0, -1) : site.url;
-      
+      const results = [];
+      const host = site.url.endsWith("/") ? site.url.slice(0, -1) : site.url;
+
       try {
         for (const torrent of response.data.torrents) {
-          const link = host + '/torrent/info/' + torrent.id;
-          let url = host + '/api/torrent/download/'  + torrent.id;
+          const link = host + "/torrent/info/" + torrent.id;
+          let url = host + "/api/torrent/download/" + torrent.id;
           if (site.passkey) {
-            url += '/' + site.passkey;
+            url += "/" + site.passkey;
           }
-          const tags = (torrent.tags || []).map(x => this.tags_map[x]);
-          const category = torrent.category ? this.tags_map[torrent.category] : undefined;
+          const tags = (torrent.tags || []).map((x) => this.tags_map[x]);
+          const category = torrent.category
+            ? this.tags_map[torrent.category]
+            : undefined;
           results.push({
             title: torrent.title,
             subTitle: torrent.subtitle,
@@ -92,7 +94,7 @@
             site: this.site,
             size: torrent.size,
             time: torrent.upload_time,
-            author: torrent.anonymous ? undefined: torrent.user.username,
+            author: torrent.anonymous ? undefined : torrent.user.username,
             seeders: torrent.seeding,
             leechers: torrent.leeching,
             completed: torrent.complete,
@@ -102,7 +104,7 @@
             progress: undefined,
             status: undefined,
             imdbId: undefined,
-            entryName: '全部',
+            entryName: "全部",
           });
         }
       } catch (error) {
@@ -113,10 +115,9 @@
 
       return results;
     }
-
   }
   let site = options.site;
-  let tagsAndCategories = site.user && site.user.tagsAndCategories || [];
+  let tagsAndCategories = (site.user && site.user.tagsAndCategories) || [];
   let parser = new Parser(site, tagsAndCategories);
   options.results = parser.getResult(options.page);
   console.log(options.results);

@@ -152,7 +152,7 @@ import Vue from "vue";
 import SiteEditor from "./Editor.vue";
 export default Vue.extend({
   components: {
-    SiteEditor
+    SiteEditor,
   },
   data() {
     return {
@@ -163,15 +163,15 @@ export default Vue.extend({
       valid: false,
       isCustom: false,
       newData: {} as Site,
-      haveError: false
+      haveError: false,
     };
   },
   props: {
-    value: Boolean
+    value: Boolean,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -183,7 +183,7 @@ export default Vue.extend({
     },
     value() {
       this.show = this.value;
-    }
+    },
   },
   methods: {
     change(options: any) {
@@ -196,10 +196,10 @@ export default Vue.extend({
         "save",
         Object.assign(
           {
-            isCustom: this.isCustom
+            isCustom: this.isCustom,
           },
-          this.newData
-        )
+          this.newData,
+        ),
       );
       this.show = false;
     },
@@ -217,7 +217,7 @@ export default Vue.extend({
     custom() {
       this.selectedSite = {
         name: "",
-        isCustom: true
+        isCustom: true,
       };
       this.isCustom = true;
       this.valid = false;
@@ -240,15 +240,13 @@ export default Vue.extend({
       const query = hasValue(queryText);
 
       return (
-        text
-          .toString()
-          .toLowerCase()
-          .indexOf(query.toString().toLowerCase()) > -1
+        text.toString().toLowerCase().indexOf(query.toString().toLowerCase()) >
+        -1
       );
     },
     cancel() {
       this.show = false;
-    }
+    },
   },
   computed: {
     selectedSiteDescription(): string {
@@ -261,8 +259,8 @@ export default Vue.extend({
         description = "; " + site.description;
       }
       return (site.url ? site.url : "") + description;
-    }
+    },
   },
-  created() { }
+  created() {},
 });
 </script>

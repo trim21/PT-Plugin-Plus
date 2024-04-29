@@ -96,7 +96,7 @@
      *
      * 两个事件必需执行一个，可以传递一个参数
      */
-    click: (success, error) => {}
+    click: (success, error) => {},
   });
   ```
 
@@ -108,18 +108,11 @@
 
 ```js
 JSON.stringify(
-  jQuery.map(jQuery("#ksearchboxmain").find("a[href*='cat']"), function(n) {
+  jQuery.map(jQuery("#ksearchboxmain").find("a[href*='cat']"), function (n) {
     return {
-      id: parseInt(
-        jQuery(n)
-          .attr("href")
-          .replace("?cat=", "")
-      ),
-      name:
-        jQuery(n)
-          .find("img")
-          .attr("title") || jQuery(n).text()
+      id: parseInt(jQuery(n).attr("href").replace("?cat=", "")),
+      name: jQuery(n).find("img").attr("title") || jQuery(n).text(),
     };
-  })
+  }),
 );
 ```

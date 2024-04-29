@@ -3,7 +3,7 @@ import {
   Dictionary,
   Site,
   ERequestResultType,
-  ERequestMethod
+  ERequestMethod,
 } from "@/interface/common";
 import { PPF } from "@/service/public";
 import { APP } from "@/service/api";
@@ -31,7 +31,7 @@ export class PageParser {
     public options: IPageSelector,
     public site: Site,
     public timeout: number = 30000,
-    public commonDatas?: Dictionary<any>
+    public commonDatas?: Dictionary<any>,
   ) {
     let url: string = site.url + "";
 
@@ -65,7 +65,7 @@ export class PageParser {
                 this.requestData[key] = PPF.replaceKeys(
                   value,
                   this.commonDatas[commonKey],
-                  commonKey
+                  commonKey,
                 );
               }
             }
@@ -107,7 +107,7 @@ export class PageParser {
     if (this.options.dataCacheTime && this.options.dataCacheTime > 0) {
       let cache = {
         data: this.resultData,
-        time: new Date().getTime() + this.options.dataCacheTime * 1000
+        time: new Date().getTime() + this.options.dataCacheTime * 1000,
       };
       window.localStorage.setItem(this.cacheKey, JSON.stringify(cache));
     }
@@ -139,9 +139,9 @@ export class PageParser {
         dataType: "text",
         headers: this.options.headers,
         data: this.requestData,
-        timeout: this.timeout
+        timeout: this.timeout,
       })
-        .done(result => {
+        .done((result) => {
           let content: any;
           try {
             if (this.options.dataType !== ERequestResultType.JSON) {
@@ -168,7 +168,7 @@ export class PageParser {
             }
           }
         })
-        .fail(error => {
+        .fail((error) => {
           reject(error);
         });
     });
@@ -207,7 +207,7 @@ export class PageParser {
       rule: this.options,
       commonDatas: this.commonDatas,
       resolve,
-      reject
+      reject,
     };
 
     // 当前对象
@@ -217,7 +217,7 @@ export class PageParser {
     if (script) {
       eval(script);
     } else {
-      APP.getScriptContent(path).done(script => {
+      APP.getScriptContent(path).done((script) => {
         this.infoParserCache[path] = script;
         eval(script);
       });

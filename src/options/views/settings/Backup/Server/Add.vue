@@ -52,26 +52,26 @@ import Editor from "./Editor.vue";
 import { IBackupServer, EBackupServerType } from "@/interface/common";
 export default Vue.extend({
   components: {
-    Editor
+    Editor,
   },
   data() {
     return {
       show: false,
       selected: {} as any,
       valid: false,
-      newData: {} as any
+      newData: {} as any,
     };
   },
   props: {
     value: Boolean,
     type: {
       type: String,
-      default: EBackupServerType.OWSS
-    }
+      default: EBackupServerType.OWSS,
+    },
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -82,13 +82,13 @@ export default Vue.extend({
     },
     value() {
       this.show = this.value;
-    }
+    },
   },
   methods: {
     save() {
       this.$emit(
         "save",
-        Object.assign({ type: EBackupServerType.WebDAV }, this.newData)
+        Object.assign({ type: EBackupServerType.WebDAV }, this.newData),
       );
       this.show = false;
     },
@@ -99,8 +99,8 @@ export default Vue.extend({
       console.log(options);
       this.newData = options.data;
       this.valid = options.valid;
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

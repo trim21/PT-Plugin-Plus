@@ -7,12 +7,7 @@
   "tags": ["音乐", "日韩"],
   "schema": "Gazelle",
   "host": "jpopsuki.eu",
-  "collaborator": [
-    "ronggang",
-    "ted423",
-    "luckiestone",
-    "amorphobia"
-  ],
+  "collaborator": ["ronggang", "ted423", "luckiestone", "amorphobia"],
   "levelRequirements": [
     {
       "level": 1,
@@ -37,97 +32,149 @@
   "searchEntryConfig": {
     "skipIMDbId": true
   },
-  "plugins": [{
-    "name": "种子列表",
-    "pages": ["/artist.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "torrents.js"]
-  }],
-  "searchEntry": [{
-    "entry": "/torrents.php?searchstr=$key$&searchsubmit=1",
-    "name": "all",
-    "resultType": "html",
-    "parseScriptFile": "getSearchResult.js",
-    "resultSelector": "table.torrent_table:last > tbody > tr",
-    "enabled": true
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "strong:contains('Freeleech!')"
-  }],
-  "categories": [{
-    "entry": "*",
-    "result": "&filter_cat[$id$]=1",
-    "category": [{
-      "id": 1,
-      "name": "Album"
-    }, {
-      "id": 2,
-      "name": "Single"
-    }, {
-      "id": 3,
-      "name": "PV"
-    }, {
-      "id": 4,
-      "name": "DVD"
-    }, {
-      "id": 5,
-      "name": "TV-Music"
-    }, {
-      "id": 6,
-      "name": "TV-Variety"
-    }, {
-      "id": 7,
-      "name": "TV-Drama"
-    }, {
-      "id": 8,
-      "name": "Fansubs"
-    }, {
-      "id": 9,
-      "name": "Pictures"
-    }, {
-      "id": 10,
-      "name": "Misc"
-    }]
-  }],
+  "plugins": [
+    {
+      "name": "种子列表",
+      "pages": ["/artist.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "torrents.js"]
+    }
+  ],
+  "searchEntry": [
+    {
+      "entry": "/torrents.php?searchstr=$key$&searchsubmit=1",
+      "name": "all",
+      "resultType": "html",
+      "parseScriptFile": "getSearchResult.js",
+      "resultSelector": "table.torrent_table:last > tbody > tr",
+      "enabled": true
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "strong:contains('Freeleech!')"
+    }
+  ],
+  "categories": [
+    {
+      "entry": "*",
+      "result": "&filter_cat[$id$]=1",
+      "category": [
+        {
+          "id": 1,
+          "name": "Album"
+        },
+        {
+          "id": 2,
+          "name": "Single"
+        },
+        {
+          "id": 3,
+          "name": "PV"
+        },
+        {
+          "id": 4,
+          "name": "DVD"
+        },
+        {
+          "id": 5,
+          "name": "TV-Music"
+        },
+        {
+          "id": 6,
+          "name": "TV-Variety"
+        },
+        {
+          "id": 7,
+          "name": "TV-Drama"
+        },
+        {
+          "id": 8,
+          "name": "Fansubs"
+        },
+        {
+          "id": 9,
+          "name": "Pictures"
+        },
+        {
+          "id": 10,
+          "name": "Misc"
+        }
+      ]
+    }
+  ],
   "selectors": {
     "userExtendInfo": {
       "merge": true,
       "fields": {
-	    "uploaded": {
+        "uploaded": {
           "selector": "div:contains('Stats') + ul.stats > li:contains('Uploaded'), div:contains('統計情報') + ul.stats > li:contains('アップロード数')",
-          "filters": ["query.text().replace(/,/g,'').match(/[\\d.]+ ?[ZEPTGMK]?i?B/)", " query ?(query[0]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/[\\d.]+ ?[ZEPTGMK]?i?B/)",
+            " query ?(query[0]).sizeToNumber():null"
+          ]
         },
         "downloaded": {
           "selector": "div:contains('Stats') + ul.stats > li:contains('Downloaded'), div:contains('統計情報') + ul.stats > li:contains('Downloaded')",
-          "filters": ["query.text().replace(/,/g,'').match(/Downloaded.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/Downloaded.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "seeding": {
           "selector": "div:contains('Community') + ul.stats > li:contains('Seeding:'), div:contains('コミュニティ') + ul.stats > li:contains('シード中')",
           "filters": ["query.text().match(/[\\d.]+/)", " query ?query[0]:null"]
         },
         "bonus": {
-          "selector": ["div:contains('Stats') + ul.stats > li:contains('Bonus Points:')", "div:contains('統計情報') + ul.stats > li:contains('ボーナスポイント')"],
-          "filters": ["query.text().replace(/,/g,'')", "query.match(/Bonus Points.+?([\\d.]+)/)||query.match(/ボーナスポイント.+?([\\d.]+)/)", "(query && query.length>=2)?query[1]:null"]
+          "selector": [
+            "div:contains('Stats') + ul.stats > li:contains('Bonus Points:')",
+            "div:contains('統計情報') + ul.stats > li:contains('ボーナスポイント')"
+          ],
+          "filters": [
+            "query.text().replace(/,/g,'')",
+            "query.match(/Bonus Points.+?([\\d.]+)/)||query.match(/ボーナスポイント.+?([\\d.]+)/)",
+            "(query && query.length>=2)?query[1]:null"
+          ]
         },
         "levelName": {
           "selector": "div:contains('Personal') + ul.stats > li:contains('Class:'), div:contains('個人情報') + ul.stats > li:contains('階級:')",
-          "filters": ["query.text().match(/(Class:|階級:).+?(.+)/)", "(query && query.length>=2)?query[2]:''"]
+          "filters": [
+            "query.text().match(/(Class:|階級:).+?(.+)/)",
+            "(query && query.length>=2)?query[2]:''"
+          ]
         },
         "joinTime": {
-          "selector": ["div:contains('Stats') + ul.stats > li:contains('Joined:') > span, div:contains('統計情報') + ul.stats > li:contains('Joined:') > span"],
-          "filters": ["query.attr('title')||query.text()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "selector": [
+            "div:contains('Stats') + ul.stats > li:contains('Joined:') > span, div:contains('統計情報') + ul.stats > li:contains('Joined:') > span"
+          ],
+          "filters": [
+            "query.attr('title')||query.text()",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         },
         "messageCount": {
-          "selector": ["#alerts > .alertbar > a[href='notice.php']", "div.alertbar > a[href*='inbox.php']"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "selector": [
+            "#alerts > .alertbar > a[href='notice.php']",
+            "div.alertbar > a[href*='inbox.php']"
+          ],
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         },
         "uploads": {
           "selector": "div.box:eq(5) > div.head + ul.stats > li:eq(3)",
-          "filters": ["query.text().match(/[\\d.]+/)", " query ? query[0] : null"]
+          "filters": [
+            "query.text().match(/[\\d.]+/)",
+            " query ? query[0] : null"
+          ]
         },
         "downloads": {
           "selector": "div.box:eq(5) > div.head + ul.stats > li:eq(7)",
-          "filters": ["query.text().match(/[\\d.]+/)", " query ? query[0] : null"]
+          "filters": [
+            "query.text().match(/[\\d.]+/)",
+            " query ? query[0] : null"
+          ]
         }
       }
     },
@@ -137,7 +184,10 @@
       "fields": {
         "seedingSize": {
           "selector": ["tr.torrent"],
-          "filters": ["jQuery.map(query.find('td:eq(5)'), (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+          "filters": [
+            "jQuery.map(query.find('td:eq(5)'), (item)=>{return $(item).text();})",
+            "_self.getTotalSize(query)"
+          ]
         }
       }
     },
@@ -145,7 +195,10 @@
       "page": "/bonus.php",
       "fields": {
         "bonusPerHour": {
-          "selector": ["h3:contains('Bonus Points') + div.box > strong:contains('/')","h3:contains('ボーナスポイント') + div.box > strong:contains('/')"],
+          "selector": [
+            "h3:contains('Bonus Points') + div.box > strong:contains('/')",
+            "h3:contains('ボーナスポイント') + div.box > strong:contains('/')"
+          ],
           "filters": ["parseFloat(query.text().split('/')[0])"]
         }
       }

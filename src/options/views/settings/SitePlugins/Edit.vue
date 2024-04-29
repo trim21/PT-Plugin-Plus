@@ -49,23 +49,23 @@ import Vue from "vue";
 import Editor from "./Editor.vue";
 export default Vue.extend({
   components: {
-    Editor
+    Editor,
   },
   data() {
     return {
       show: false,
       defaultItem: {},
       newData: {} as any,
-      valid: false
+      valid: false,
     };
   },
   props: {
     value: Boolean,
-    initData: Object
+    initData: Object,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -76,7 +76,7 @@ export default Vue.extend({
       if (this.show) {
         this.defaultItem = Object.assign({}, this.initData);
       }
-    }
+    },
   },
   methods: {
     save() {
@@ -90,8 +90,8 @@ export default Vue.extend({
       console.log(options);
       this.newData = options.data;
       this.valid = options.valid;
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

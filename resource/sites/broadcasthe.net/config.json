@@ -14,7 +14,8 @@
     "parseScriptFile": "getSearchResult.js",
     "queryString": "searchstr=$key$"
   },
-  "searchEntry": [{
+  "searchEntry": [
+    {
       "name": "all",
       "enabled": true
     },
@@ -29,19 +30,22 @@
       "enabled": false
     }
   ],
-  "categories": [{
-    "entry": "*",
-    "result": "&filter_cat[$id$]=1",
-    "category": [{
-        "id": 1,
-        "name": "Episode"
-      },
-      {
-        "id": 2,
-        "name": "Season"
-      }
-    ]
-  }],
+  "categories": [
+    {
+      "entry": "*",
+      "result": "&filter_cat[$id$]=1",
+      "category": [
+        {
+          "id": 1,
+          "name": "Episode"
+        },
+        {
+          "id": 2,
+          "name": "Season"
+        }
+      ]
+    }
+  ],
   "selectors": {
     "userExtendInfo": {
       "page": "/user.php?id=$user.id$",
@@ -72,9 +76,7 @@
         },
         "bonus": {
           "selector": "#section2 > div > div.statistics > div:nth-child(1) > ul > li:nth-child(5) > a",
-          "filters": [
-            "query.text().replace(/,/g,'')"
-          ]
+          "filters": ["query.text().replace(/,/g,'')"]
         },
         "joinTime": {
           "selector": "#section2 > div > div.statistics > div:nth-child(1) > ul > li:nth-child(1) > span",
@@ -104,7 +106,9 @@
       "fields": {
         "seedingList": {
           "selector": ["a[href*='torrentid=']"],
-          "filters": ["jQuery.map(query, item=>$(item).attr('href').match(/torrentid=(\\d+)/)[1])"]
+          "filters": [
+            "jQuery.map(query, item=>$(item).attr('href').match(/torrentid=(\\d+)/)[1])"
+          ]
         }
       }
     }

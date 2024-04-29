@@ -52,14 +52,14 @@ import Editor from "./Editor.vue";
 import { IBackupServer, EBackupServerType } from "@/interface/common";
 export default Vue.extend({
   components: {
-    Editor
+    Editor,
   },
   data() {
     return {
       show: false,
       valid: false,
       newData: {} as any,
-      defaultItem: {} as IBackupServer
+      defaultItem: {} as IBackupServer,
     };
   },
   props: {
@@ -67,12 +67,12 @@ export default Vue.extend({
     initData: Object,
     type: {
       type: String,
-      default: EBackupServerType.OWSS
-    }
+      default: EBackupServerType.OWSS,
+    },
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -83,7 +83,7 @@ export default Vue.extend({
       if (this.show) {
         this.defaultItem = Object.assign({}, this.initData);
       }
-    }
+    },
   },
   methods: {
     save() {
@@ -97,7 +97,7 @@ export default Vue.extend({
       console.log(options);
       this.newData = options.data;
       this.valid = options.valid;
-    }
-  }
+    },
+  },
 });
 </script>

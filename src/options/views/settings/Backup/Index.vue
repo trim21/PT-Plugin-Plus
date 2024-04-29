@@ -1,16 +1,18 @@
 <template>
   <div>
-    <v-alert :value="true" type="info">{{ $t('settings.backup.title') }}</v-alert>
+    <v-alert :value="true" type="info">{{
+      $t("settings.backup.title")
+    }}</v-alert>
     <v-card>
       <v-card-actions class="pa-3">
-        <input type="file" ref="fileRestore" style="display:none;" />
+        <input type="file" ref="fileRestore" style="display: none" />
         <v-btn color="success" @click="createBackupFile">
           <v-icon>save</v-icon>
-          <span class="ml-1">{{ $t('settings.backup.backup') }}</span>
+          <span class="ml-1">{{ $t("settings.backup.backup") }}</span>
         </v-btn>
         <v-btn color="info" @click="restore">
           <v-icon>restore</v-icon>
-          <span class="ml-1">{{ $t('settings.backup.restore') }}</span>
+          <span class="ml-1">{{ $t("settings.backup.restore") }}</span>
         </v-btn>
 
         <v-divider class="mx-3 mt-0" vertical></v-divider>
@@ -19,7 +21,9 @@
           <template v-slot:activator="{ on }">
             <v-btn color="blue-grey" dark v-on="on">
               <v-icon>add</v-icon>
-              <span class="ml-1">{{ $t('settings.backup.server.add.title') }}</span>
+              <span class="ml-1">{{
+                $t("settings.backup.server.add.title")
+              }}</span>
             </v-btn>
           </template>
           <v-list>
@@ -43,7 +47,7 @@
             :title="$t('settings.backup.backupToGoogle')"
           >
             <v-icon>backup</v-icon>
-            <span class="ml-1">{{ $t('settings.backup.backupToGoogle') }}</span>
+            <span class="ml-1">{{ $t("settings.backup.backupToGoogle") }}</span>
           </v-btn>
           <v-btn
             color="info"
@@ -53,7 +57,9 @@
             :title="$t('settings.backup.restoreFromGoogle')"
           >
             <v-icon>cloud_download</v-icon>
-            <span class="ml-1">{{ $t('settings.backup.restoreFromGoogle') }}</span>
+            <span class="ml-1">{{
+              $t("settings.backup.restoreFromGoogle")
+            }}</span>
           </v-btn>
 
           <v-btn
@@ -64,7 +70,9 @@
             :title="$t('settings.backup.clearFromGoogleTip')"
           >
             <v-icon>delete_sweep</v-icon>
-            <span class="ml-1">{{ $t('settings.backup.clearFromGoogle') }}</span>
+            <span class="ml-1">{{
+              $t("settings.backup.clearFromGoogle")
+            }}</span>
           </v-btn>
         </div>
       </v-card-actions>
@@ -81,8 +89,12 @@
         class="elevation-1"
       >
         <template slot="items" slot-scope="props">
-          <td style="width:20px;">
-            <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+          <td style="width: 20px">
+            <v-checkbox
+              v-model="props.selected"
+              primary
+              hide-details
+            ></v-checkbox>
           </td>
           <td>
             <a @click="editBackupServer(props.item)">{{ props.item.name }}</a>
@@ -140,7 +152,7 @@
           <td>{{ props.item.lastBackupTime | formatDate }}</td>
         </template>
         <template slot="expand" slot-scope="props">
-          <div class="px-5" style="padding-left: 80px !important;">
+          <div class="px-5" style="padding-left: 80px !important">
             <ServerList
               :items="props.item.dataList"
               :server="props.item"
@@ -153,12 +165,22 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-alert :value="true" color="grey">{{ $t('settings.backup.subTitle') }}</v-alert>
-    <v-snackbar v-model="haveError" top :timeout="3000" color="error">{{ errorMsg }}</v-snackbar>
-    <v-snackbar v-model="haveSuccess" bottom :timeout="3000" color="success">{{ successMsg }}</v-snackbar>
+    <v-alert :value="true" color="grey">{{
+      $t("settings.backup.subTitle")
+    }}</v-alert>
+    <v-snackbar v-model="haveError" top :timeout="3000" color="error">{{
+      errorMsg
+    }}</v-snackbar>
+    <v-snackbar v-model="haveSuccess" bottom :timeout="3000" color="success">{{
+      successMsg
+    }}</v-snackbar>
 
     <!-- 新增备份服务器 -->
-    <ServerAdd v-model="showServerAdd" :type="currentServerType" @save="addBackupServer" />
+    <ServerAdd
+      v-model="showServerAdd"
+      :type="currentServerType"
+      @save="addBackupServer"
+    />
     <!-- 编辑备份服务器 -->
     <ServerEdit
       v-model="showServerEdit"
@@ -183,7 +205,7 @@ import {
   IWorkingStatusItem,
   EWorkingStatus,
   Site,
-  EInstallType
+  EInstallType,
 } from "@/interface/common";
 import { PPF } from "@/service/public";
 import { FileDownloader } from "@/service/downloader";
@@ -212,7 +234,7 @@ export default Vue.extend({
     WorkingStatus,
     ServerAdd,
     ServerEdit,
-    ServerList
+    ServerList,
   },
   data() {
     return {
@@ -226,11 +248,11 @@ export default Vue.extend({
       status: {
         backupToGoogle: false,
         restoreFromGoogle: false,
-        clearFromGoogle: false
+        clearFromGoogle: false,
       },
       isDevelopmentMode: true,
       pagination: {
-        rowsPerPage: -1
+        rowsPerPage: -1,
       },
       selected: [] as any,
       showServerAdd: false,
@@ -240,13 +262,13 @@ export default Vue.extend({
       selectedItem: {} as IBackupServer,
       backupServerTypes: [
         {
-          type: EBackupServerType.OWSS
+          type: EBackupServerType.OWSS,
         },
         {
-          type: EBackupServerType.WebDAV
-        }
+          type: EBackupServerType.WebDAV,
+        },
       ],
-      workingStatus: null as any
+      workingStatus: null as any,
     };
   },
   mounted() {
@@ -259,10 +281,10 @@ export default Vue.extend({
   },
   created() {
     APP.getInstallType()
-      .then(result => {
+      .then((result) => {
         this.isDevelopmentMode = [
           EInstallType.development,
-          EInstallType.crx
+          EInstallType.crx,
         ].includes(result);
       })
       .catch(() => {
@@ -293,12 +315,12 @@ export default Vue.extend({
                   backingup: false,
                   deleting: false,
                   restoring: false,
-                  dataList: []
+                  dataList: [],
                 },
-                JSON.parse(JSON.stringify(item))
-              )
+                JSON.parse(JSON.stringify(item)),
+              ),
             );
-          }
+          },
         );
       }
     },
@@ -310,7 +332,7 @@ export default Vue.extend({
           const Blob = window.Blob;
           delete options.system;
           const data = new Blob([JSON.stringify(options)], {
-            type: "text/plain"
+            type: "text/plain",
           });
           FileSaver.saveAs(data, this.fileName);
           this.successMsg = this.$t("settings.backup.backupDone").toString();
@@ -339,7 +361,7 @@ export default Vue.extend({
         r.onload = (e: any) => {
           let result = JSON.parse(e.target.result);
           this.restoreConfirm({
-            options: result
+            options: result,
           });
         };
         r.onerror = () => {
@@ -363,13 +385,13 @@ export default Vue.extend({
             switch (true) {
               case error.msg.message.indexOf("QUOTA_BYTES_PER_ITEM") != -1:
                 this.errorMsg = this.$t(
-                  "settings.backup.errorMessage.QUOTA_BYTES_PER_ITEM"
+                  "settings.backup.errorMessage.QUOTA_BYTES_PER_ITEM",
                 ).toString();
                 break;
 
               default:
                 this.errorMsg = this.$t(
-                  "settings.backup.backupError"
+                  "settings.backup.backupError",
                 ).toString();
                 break;
             }
@@ -380,7 +402,7 @@ export default Vue.extend({
             module: EModule.options,
             event: "backupToGoogle",
             msg: this.$t("settings.backup.backupError").toString(),
-            data: error
+            data: error,
           });
         })
         .finally(() => {
@@ -397,7 +419,7 @@ export default Vue.extend({
         .sendRequest(EAction.restoreFromGoogle)
         .then((options: Options) => {
           this.successMsg = this.$t(
-            "settings.backup.restoreSuccess"
+            "settings.backup.restoreSuccess",
           ).toString();
           this.$store.commit("updateOptions", options);
         })
@@ -407,7 +429,7 @@ export default Vue.extend({
             module: EModule.options,
             event: "restoreFromGoogle",
             msg: this.$t("settings.backup.restoreError").toString(),
-            data: error
+            data: error,
           });
         })
         .finally(() => {
@@ -430,18 +452,18 @@ export default Vue.extend({
         .sendRequest(EAction.clearFromGoogle)
         .then((options: Options) => {
           this.successMsg = this.$t(
-            "settings.backup.clearFromGoogleSuccess"
+            "settings.backup.clearFromGoogleSuccess",
           ).toString();
         })
         .catch((error: any) => {
           this.errorMsg = this.$t(
-            "settings.backup.clearFromGoogleError"
+            "settings.backup.clearFromGoogleError",
           ).toString();
           extension.sendRequest(EAction.writeLog, null, {
             module: EModule.options,
             event: "clearFromGoogle",
             msg: this.$t("settings.backup.clearFromGoogleError").toString(),
-            data: error
+            data: error,
           });
         })
         .finally(() => {
@@ -456,10 +478,10 @@ export default Vue.extend({
         case EBrowserType.Chrome:
           extension
             .sendRequest(EAction.createBackupFile)
-            .then(result => {
+            .then((result) => {
               console.log(result);
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
               this.errorMsg = this.$t("settings.backup.backupError").toString();
             });
@@ -468,7 +490,7 @@ export default Vue.extend({
         default:
           extension
             .sendRequest(EAction.getBackupRawData)
-            .then(result => {
+            .then((result) => {
               backupFileParser
                 .createBackupFileBlob(result)
                 .then((blob: any) => {
@@ -476,7 +498,7 @@ export default Vue.extend({
                 });
               console.log(result);
             })
-            .catch(error => {
+            .catch((error) => {
               console.log(error);
               this.errorMsg = this.$t("settings.backup.backupError").toString();
             });
@@ -491,18 +513,18 @@ export default Vue.extend({
         .loadZipData(
           file,
           this.$t("settings.backup.enterSecretKey").toString(),
-          this.$store.state.options.encryptSecretKey
+          this.$store.state.options.encryptSecretKey,
         )
-        .then(result => {
+        .then((result) => {
           console.log(result);
           this.restoreConfirm(result);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           if (typeof error === "string") {
             if (this.$te(`settings.backup.restoreErrorType.${error}`)) {
               this.errorMsg = this.$t(
-                `settings.backup.restoreErrorType.${error}`
+                `settings.backup.restoreErrorType.${error}`,
               ).toString();
               return;
             }
@@ -515,14 +537,14 @@ export default Vue.extend({
      */
     restoreConfirm(
       infos: any,
-      restoreContent: ERestoreContent = ERestoreContent.all
+      restoreContent: ERestoreContent = ERestoreContent.all,
     ) {
       // 如果指定了恢复内容，检测要恢复的内容是否存在
       switch (restoreContent) {
         case ERestoreContent.collection:
           if (!infos.collection) {
             this.errorMsg = this.$t(
-              "settings.backup.contentNotExist.collection"
+              "settings.backup.contentNotExist.collection",
             ).toString();
             return;
           }
@@ -531,7 +553,7 @@ export default Vue.extend({
         case ERestoreContent.cookies:
           if (!infos.cookies) {
             this.errorMsg = this.$t(
-              "settings.backup.contentNotExist.cookies"
+              "settings.backup.contentNotExist.cookies",
             ).toString();
             return;
           }
@@ -540,7 +562,7 @@ export default Vue.extend({
         case ERestoreContent.keepUploadTask:
           if (!infos.keepUploadTask) {
             this.errorMsg = this.$t(
-              "settings.backup.contentNotExist.keepUploadTask"
+              "settings.backup.contentNotExist.keepUploadTask",
             ).toString();
             return;
           }
@@ -549,7 +571,7 @@ export default Vue.extend({
         case ERestoreContent.searchResultSnapshot:
           if (!infos.searchResultSnapshot) {
             this.errorMsg = this.$t(
-              "settings.backup.contentNotExist.searchResultSnapshot"
+              "settings.backup.contentNotExist.searchResultSnapshot",
             ).toString();
             return;
           }
@@ -558,7 +580,7 @@ export default Vue.extend({
         case ERestoreContent.downloadHistory:
           if (!infos.downloadHistory) {
             this.errorMsg = this.$t(
-              "settings.backup.contentNotExist.downloadHistory"
+              "settings.backup.contentNotExist.downloadHistory",
             ).toString();
             return;
           }
@@ -576,7 +598,7 @@ export default Vue.extend({
           ) {
             this.workingStatus.add({
               key: "options",
-              title: this.t("settings.backup.backupItem.base")
+              title: this.t("settings.backup.backupItem.base"),
             });
 
             let sites: Site[] = [];
@@ -591,7 +613,8 @@ export default Vue.extend({
 
             infos.options.sites = sites;
             // 不覆盖当前的密钥值
-            infos.options.encryptSecretKey = this.$store.state.options.encryptSecretKey;
+            infos.options.encryptSecretKey =
+              this.$store.state.options.encryptSecretKey;
 
             this.$store.dispatch("resetRunTimeOptions", infos.options);
             this.workingStatus.update("options", EWorkingStatus.success);
@@ -605,7 +628,7 @@ export default Vue.extend({
           ) {
             this.workingStatus.add({
               key: "userDatas",
-              title: this.t("settings.backup.backupItem.userDatas")
+              title: this.t("settings.backup.backupItem.userDatas"),
             });
             extension
               .sendRequest(EAction.resetUserDatas, null, infos.datas)
@@ -625,18 +648,18 @@ export default Vue.extend({
           ) {
             this.workingStatus.add({
               key: "collection",
-              title: this.t("settings.backup.backupItem.collection")
+              title: this.t("settings.backup.backupItem.collection"),
             });
             extension
               .sendRequest(
                 EAction.resetTorrentCollections,
                 null,
-                infos.collection
+                infos.collection,
               )
               .then(() => {
                 // 取消默认收藏分组信息
                 this.$store.dispatch("saveConfig", {
-                  defaultCollectionGroupId: ""
+                  defaultCollectionGroupId: "",
                 });
                 this.workingStatus.update("collection", EWorkingStatus.success);
               })
@@ -653,24 +676,24 @@ export default Vue.extend({
           ) {
             this.workingStatus.add({
               key: "searchResultSnapshot",
-              title: this.t("settings.backup.backupItem.searchResultSnapshot")
+              title: this.t("settings.backup.backupItem.searchResultSnapshot"),
             });
             extension
               .sendRequest(
                 EAction.resetSearchResultSnapshot,
                 null,
-                infos.searchResultSnapshot
+                infos.searchResultSnapshot,
               )
               .then(() => {
                 this.workingStatus.update(
                   "searchResultSnapshot",
-                  EWorkingStatus.success
+                  EWorkingStatus.success,
                 );
               })
               .catch(() => {
                 this.workingStatus.update(
                   "searchResultSnapshot",
-                  EWorkingStatus.error
+                  EWorkingStatus.error,
                 );
               });
           }
@@ -683,24 +706,24 @@ export default Vue.extend({
           ) {
             this.workingStatus.add({
               key: "keepUploadTask",
-              title: this.t("settings.backup.backupItem.keepUploadTask")
+              title: this.t("settings.backup.backupItem.keepUploadTask"),
             });
             extension
               .sendRequest(
                 EAction.resetKeepUploadTask,
                 null,
-                infos.keepUploadTask
+                infos.keepUploadTask,
               )
               .then(() => {
                 this.workingStatus.update(
                   "keepUploadTask",
-                  EWorkingStatus.success
+                  EWorkingStatus.success,
                 );
               })
               .catch(() => {
                 this.workingStatus.update(
                   "keepUploadTask",
-                  EWorkingStatus.error
+                  EWorkingStatus.error,
                 );
               });
           }
@@ -713,24 +736,24 @@ export default Vue.extend({
           ) {
             this.workingStatus.add({
               key: "downloadHistory",
-              title: this.t("settings.backup.backupItem.downloadHistory")
+              title: this.t("settings.backup.backupItem.downloadHistory"),
             });
             extension
               .sendRequest(
                 EAction.resetDownloadHistory,
                 null,
-                infos.downloadHistory
+                infos.downloadHistory,
               )
               .then(() => {
                 this.workingStatus.update(
                   "downloadHistory",
-                  EWorkingStatus.success
+                  EWorkingStatus.success,
                 );
               })
               .catch(() => {
                 this.workingStatus.update(
                   "downloadHistory",
-                  EWorkingStatus.error
+                  EWorkingStatus.error,
                 );
               });
           }
@@ -746,39 +769,39 @@ export default Vue.extend({
             if (
               restoreContent == ERestoreContent.all &&
               !confirm(
-                this.$t("settings.backup.restoreCookiesConfirm").toString()
+                this.$t("settings.backup.restoreCookiesConfirm").toString(),
               )
             ) {
               this.successMsg = this.$t(
-                "settings.backup.restoreSuccess"
+                "settings.backup.restoreSuccess",
               ).toString();
               return;
             }
             this.workingStatus.add({
               key: "cookies",
-              title: this.t("settings.backup.backupItem.cookies")
+              title: this.t("settings.backup.backupItem.cookies"),
             });
             PPF.usePermissions(
               ["cookies"],
               true,
-              this.$t("permissions.request.cookies").toString()
+              this.$t("permissions.request.cookies").toString(),
             )
               .then(() => {
                 return extension.sendRequest(
                   EAction.restoreCookies,
                   null,
-                  infos.cookies
+                  infos.cookies,
                 );
               })
               .then(() => {
                 this.successMsg = this.$t(
-                  "settings.backup.restoreSuccess"
+                  "settings.backup.restoreSuccess",
                 ).toString();
                 this.workingStatus.update("cookies", EWorkingStatus.success);
               })
               .catch(() => {
                 this.errorMsg = this.$t(
-                  "settings.backup.restoreError"
+                  "settings.backup.restoreError",
                 ).toString();
                 this.workingStatus.update("cookies", EWorkingStatus.error);
               });
@@ -786,7 +809,7 @@ export default Vue.extend({
           }
 
           this.successMsg = this.$t(
-            "settings.backup.restoreSuccess"
+            "settings.backup.restoreSuccess",
           ).toString();
         } catch (error) {
           this.errorMsg = this.$t("settings.backup.restoreError").toString();
@@ -853,19 +876,19 @@ export default Vue.extend({
     restoreFromServer(
       server: IBackupServerPro,
       options: any,
-      restoreContent: ERestoreContent = ERestoreContent.all
+      restoreContent: ERestoreContent = ERestoreContent.all,
     ) {
       server.restoring = true;
       extension
         .sendRequest(EAction.restoreFromServer, null, {
           server,
-          path: options.name
+          path: options.name,
         })
         .then((result: any) => {
           this.restoreConfirm(result, restoreContent);
           // console.log(result);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           this.errorMsg = this.$t("settings.backup.restoreError").toString();
         })
@@ -884,7 +907,7 @@ export default Vue.extend({
         .sendRequest(EAction.getBackupListFromServer, null, {
           server,
           pageSize: 5,
-          search: "PT-Plugin-Plus"
+          search: "PT-Plugin-Plus",
         })
         .then((result: any) => {
           prop.item.dataList = result;
@@ -892,7 +915,7 @@ export default Vue.extend({
         })
         .catch(() => {
           this.errorMsg = this.$t(
-            "settings.backup.server.getFileListError"
+            "settings.backup.server.getFileListError",
           ).toString();
         })
         .finally(() => {
@@ -906,7 +929,7 @@ export default Vue.extend({
     deleteFileFromBackupServer(
       server: IBackupServerPro,
       options: any,
-      index: number
+      index: number,
     ) {
       if (!confirm(this.$t("common.removeConfirm").toString())) {
         return;
@@ -914,7 +937,7 @@ export default Vue.extend({
       extension
         .sendRequest(EAction.deleteFileFromBackupServer, null, {
           server,
-          path: options.name
+          path: options.name,
         })
         .then((result: any) => {
           if (server.dataList && server.dataList[index]) {
@@ -922,14 +945,14 @@ export default Vue.extend({
           }
           console.log(result);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           // this.errorMsg = this.$t("settings.backup.restoreError").toString();
         })
         .finally(() => {
           server.loading = false;
         });
-    }
+    },
   },
   watch: {
     successMsg() {
@@ -937,7 +960,7 @@ export default Vue.extend({
     },
     errorMsg() {
       this.haveError = this.errorMsg != "";
-    }
+    },
   },
   computed: {
     headers(): Array<any> {
@@ -946,25 +969,25 @@ export default Vue.extend({
           text: this.$t("settings.backup.index.headers.name"),
           align: "left",
           width: 280,
-          value: "name"
+          value: "name",
         },
         {
           text: this.$t("settings.backup.index.headers.action"),
           value: "name",
-          sortable: false
+          sortable: false,
         },
         {
           text: this.$t("settings.backup.index.headers.type"),
           align: "left",
-          value: "type"
+          value: "type",
         },
         {
           text: this.$t("settings.backup.index.headers.lastBackupTime"),
           align: "left",
-          value: "lastBackupTime"
-        }
+          value: "lastBackupTime",
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>

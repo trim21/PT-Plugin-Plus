@@ -19,14 +19,13 @@
       let url = PTServiceFilters.parseURL(this.options.address);
       let address = [url.protocol, "://", url.host];
       if (url.port) {
-        address.push(`:${url.port}`)
+        address.push(`:${url.port}`);
       }
       address.push(url.path);
       if (url.path.substr(-1) !== "/") {
         address.push("/");
       }
       this.options.address = address.join("");
-
 
       console.log("Flood.init", this.options.address);
     }
@@ -53,15 +52,17 @@
 
           // 测试是否可连接
           case "testClientConnectivity":
-            this.testClientConnectivity().then(result => {
-              resolve(true);
-            }).catch((code, msg) => {
-              reject({
-                status: "error",
-                code,
-                msg
+            this.testClientConnectivity()
+              .then((result) => {
+                resolve(true);
+              })
+              .catch((code, msg) => {
+                reject({
+                  status: "error",
+                  code,
+                  msg,
+                });
               });
-            });
             break;
         }
       });
@@ -73,7 +74,7 @@
       $.ajax({
         type: "POST",
         url: options.address + "api/auth/authenticate",
-        contentType: 'application/json',
+        contentType: "application/json",
         data: JSON.stringify({
           username: options.loginName,
           password: options.loginPwd,
@@ -82,11 +83,11 @@
           console.log(resultData);
           if (resultData.success) {
             console.log(resultData.token);
-            if (callback && typeof callback === 'function') {
+            if (callback && typeof callback === "function") {
               callback(resultData);
             }
           }
-        }
+        },
       });
     }
 
@@ -103,22 +104,24 @@
       return new Promise((resolve, reject) => {
         this.authenticate(function (authData) {
           $.ajax({
-            type: 'GET',
-            url: that.options.address + 'api/client/connection-test',  // ping_addr
-            timeout: PTBackgroundService.options.connectClientTimeout
-          }).done((resultData, textStatus, request) => {
-            if (resultData.isConnected) {
-              that.isInitialized = true;
-              if (callback) {
-                callback(resultData);
-              }
-              resolve();
-            }
-          }).fail((jqXHR, textStatus, errorThrown) => {
-            reject(jqXHR.status, textStatus)
+            type: "GET",
+            url: that.options.address + "api/client/connection-test", // ping_addr
+            timeout: PTBackgroundService.options.connectClientTimeout,
           })
+            .done((resultData, textStatus, request) => {
+              if (resultData.isConnected) {
+                that.isInitialized = true;
+                if (callback) {
+                  callback(resultData);
+                }
+                resolve();
+              }
+            })
+            .fail((jqXHR, textStatus, errorThrown) => {
+              reject(jqXHR.status, textStatus);
+            });
         });
-      })
+      });
     }
 
     /**
@@ -133,7 +136,7 @@
       let url = data.url;
 
       let addTorrentData = {
-        destination: data.savePath || '',
+        destination: data.savePath || "",
         /** isBasePath
          * @see https://github.com/Flood-UI/flood/blob/master/server/models/ClientRequest.js#L143-L149
          * @see https://rtorrent-docs.readthedocs.io/en/latest/cmd-ref.html
@@ -141,10 +144,10 @@
         isBasePath: false,
         start: !data.autoStart,
         tag: [],
-      }
+      };
 
       // 处理magent链接
-      if (url.startsWith('magnet:')) {
+      if (url.startsWith("magnet:")) {
         addTorrentData.urls = [url];
 
         this.addTorrentUrl(addTorrentData, callback);
@@ -154,12 +157,12 @@
       // 种子文件
       PTBackgroundService.requestMessage({
         action: "getTorrentDataFromURL",
-        data: url
+        data: url,
       })
         .then((result) => {
           var fileReader = new FileReader();
 
-          fileReader.onload = e => {
+          fileReader.onload = (e) => {
             var contents = e.target.result;
             var key = "base64,";
             var index = contents.indexOf(key);
@@ -169,7 +172,7 @@
             var metainfo = contents.substring(index + key.length);
             addTorrentData.files = [metainfo];
             this.addTorrentFile(addTorrentData, callback);
-          }
+          };
         })
         .catch((result) => {
           callback && callback(result);
@@ -177,11 +180,11 @@
     }
 
     addTorrentUrl(data, callback) {
-      this.addTorrent('api/torrents/add-urls', data, callback);
+      this.addTorrent("api/torrents/add-urls", data, callback);
     }
 
     addTorrentFile(data, callback) {
-      this.addTorrent('api/torrents/add-files', data, callback);
+      this.addTorrent("api/torrents/add-files", data, callback);
     }
 
     /**
@@ -202,22 +205,23 @@
           processData: false,
           success: (resultData, textStatus) => {
             if (callback) {
-              var result = Object.assign({
-                status: "success",
-                msg: i18n.t("downloadClient.addURLSuccess", {
-                  name: options.name
-                })
-              }, resultData);
+              var result = Object.assign(
+                {
+                  status: "success",
+                  msg: i18n.t("downloadClient.addURLSuccess", {
+                    name: options.name,
+                  }),
+                },
+                resultData,
+              );
               callback(result);
             }
           },
-        })
-      })
-
+        });
+      });
     }
   }
 
   // 添加到 window 对象，用于客户页面调用
   window.flood = Client;
-
 })(jQuery, window);

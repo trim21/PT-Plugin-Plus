@@ -30,31 +30,76 @@
         return [];
       }
 
-
       let results = [];
 
       //当搜索结果只有1条时会自动重定向到种子详情页，这时直接解析页面
       if (new RegExp(/Info\shash/, "").test(options.page.html())) {
-        return [{
-          title: options.page.find("div > div:nth-child(3) > div.pull-left > h1").text(),
-          subTitle: "",
-          link: this.getFullURL(options.page.find("h2.text-center > a").attr("href")),
-          url: this.getFullURL(options.page.find("div > div:nth-child(4) > table:nth-child(3) > tbody > tr:nth-child(1) > td.details-text-ellipsis > a").attr("href") + "&ssl=1"),
-          size: options.page.find("td.heading:contains('Size')").next().text().split("(")[0].trim().sizeToNumber(),
-          // time: dateTime(options.page.find("td.heading:contains('Added')").next().text().trim()).isValid() ? dateTime(options.page.find("td.heading:contains('Added')").next().text().trim()).valueOf() : options.page.find("td.heading:contains('Added')").next().text().trim(),
-          time: options.page.find("td.heading:contains('Added')").next().text().trim(),
-          author: "",
-          seeders: options.page.find("td.heading:contains('Peers')").next().text().split("seeder")[0].trim(),
-          leechers: options.page.find("td.heading:contains('Peers')").next().text().split("leecher")[0].split(",")[1].trim(),
-          completed: options.page.find("td.heading:contains('Snatched')").next().text().split("time")[0].trim(),
-          comments: 0,
-          site: this.site,
-          tags: Searcher.getRowTags(this.site, options.page.find("td.heading:contains('Ratio After Download')").next()),
-          entryName: options.entry.name,
-          category: options.page.find("td.heading:contains('Type')").next().text(),
-          progress: null,
-          status: null
-        }]
+        return [
+          {
+            title: options.page
+              .find("div > div:nth-child(3) > div.pull-left > h1")
+              .text(),
+            subTitle: "",
+            link: this.getFullURL(
+              options.page.find("h2.text-center > a").attr("href"),
+            ),
+            url: this.getFullURL(
+              options.page
+                .find(
+                  "div > div:nth-child(4) > table:nth-child(3) > tbody > tr:nth-child(1) > td.details-text-ellipsis > a",
+                )
+                .attr("href") + "&ssl=1",
+            ),
+            size: options.page
+              .find("td.heading:contains('Size')")
+              .next()
+              .text()
+              .split("(")[0]
+              .trim()
+              .sizeToNumber(),
+            // time: dateTime(options.page.find("td.heading:contains('Added')").next().text().trim()).isValid() ? dateTime(options.page.find("td.heading:contains('Added')").next().text().trim()).valueOf() : options.page.find("td.heading:contains('Added')").next().text().trim(),
+            time: options.page
+              .find("td.heading:contains('Added')")
+              .next()
+              .text()
+              .trim(),
+            author: "",
+            seeders: options.page
+              .find("td.heading:contains('Peers')")
+              .next()
+              .text()
+              .split("seeder")[0]
+              .trim(),
+            leechers: options.page
+              .find("td.heading:contains('Peers')")
+              .next()
+              .text()
+              .split("leecher")[0]
+              .split(",")[1]
+              .trim(),
+            completed: options.page
+              .find("td.heading:contains('Snatched')")
+              .next()
+              .text()
+              .split("time")[0]
+              .trim(),
+            comments: 0,
+            site: this.site,
+            tags: Searcher.getRowTags(
+              this.site,
+              options.page
+                .find("td.heading:contains('Ratio After Download')")
+                .next(),
+            ),
+            entryName: options.entry.name,
+            category: options.page
+              .find("td.heading:contains('Type')")
+              .next()
+              .text(),
+            progress: null,
+            status: null,
+          },
+        ];
       }
 
       let selector = options.resultSelector;
@@ -90,7 +135,7 @@
         // 发布人
         author: -1,
         // 分类
-        category: -1
+        category: -1,
       };
 
       try {
@@ -134,7 +179,7 @@
             entryName: options.entry.name,
             category: this.getFieldValue(row, cells, fieldIndex, "category"),
             progress: this.getFieldValue(row, cells, fieldIndex, "progress"),
-            status: this.getFieldValue(row, cells, fieldIndex, "status")
+            status: this.getFieldValue(row, cells, fieldIndex, "status"),
           };
           results.push(data);
         }

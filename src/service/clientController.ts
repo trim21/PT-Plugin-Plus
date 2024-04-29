@@ -4,13 +4,13 @@ import {
   DownloadClient,
   EAction,
   DataResult,
-  EDataResultType
+  EDataResultType,
 } from "@/interface/common";
 
 export class ClientController {
   public options: Options = {
     sites: [],
-    clients: []
+    clients: [],
   };
 
   public clients: any = {};
@@ -53,7 +53,7 @@ export class ClientController {
         // 加载初始化脚本
         APP.execScript({
           type: "file",
-          content: `clients/${clientOptions.type}/init.js`
+          content: `clients/${clientOptions.type}/init.js`,
         })
           .then(() => {
             let client: any;
@@ -62,7 +62,7 @@ export class ClientController {
               loginName: clientOptions.loginName,
               loginPwd: clientOptions.loginPwd,
               address: clientOptions.address,
-              name: clientOptions.name
+              name: clientOptions.name,
             });
             this.clients[clientOptions.id] = client;
             resolve({ client, options: clientOptions });
@@ -71,7 +71,7 @@ export class ClientController {
             console.log(e);
             reject({
               initFailed: true,
-              msg: e
+              msg: e,
             });
           });
       } else {
@@ -81,7 +81,7 @@ export class ClientController {
           loginName: clientOptions.loginName,
           loginPwd: clientOptions.loginPwd,
           address: clientOptions.address,
-          name: clientOptions.name
+          name: clientOptions.name,
         });
         this.clients[clientOptions.id] = client;
         resolve({ client, options: clientOptions });
@@ -97,7 +97,7 @@ export class ClientController {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let dataResult: DataResult = {
         type: EDataResultType.unknown,
-        success: false
+        success: false,
       };
       this.getClient(options)
         .then((clientOptions: any) => {

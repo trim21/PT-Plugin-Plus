@@ -7,10 +7,7 @@
   "tags": ["音乐"],
   "schema": "Gazelle",
   "host": "lztr.me",
-  "collaborator": [
-    "ylxb2016",
-    "amorphobia"
-  ],
+  "collaborator": ["ylxb2016", "amorphobia"],
   "levelRequirements": [
     {
       "level": 1,
@@ -55,15 +52,24 @@
       "fields": {
         "seeding": {
           "selector": "li:contains('Seeding:')",
-          "filters": ["query.text().match(/[\\d.]+/)", " query ? query[0] : null"]
+          "filters": [
+            "query.text().match(/[\\d.]+/)",
+            " query ? query[0] : null"
+          ]
         },
         "uploads": {
           "selector": "li:contains('Uploaded:')",
-          "filters": ["query.text().match(/[\\d.]+/)", " query ? query[0] : null"]
+          "filters": [
+            "query.text().match(/[\\d.]+/)",
+            " query ? query[0] : null"
+          ]
         },
         "downloads": {
           "selector": "li:contains('Snatched:')",
-          "filters": ["query.text().match(/[\\d.]+/)", " query ? query[0] : null"]
+          "filters": [
+            "query.text().match(/[\\d.]+/)",
+            " query ? query[0] : null"
+          ]
         }
       }
     }

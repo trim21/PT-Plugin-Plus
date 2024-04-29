@@ -75,7 +75,7 @@ export default Vue.extend({
   data() {
     return {
       rules: {
-        require: [(v: any) => !!v || "!"]
+        require: [(v: any) => !!v || "!"],
       },
       valid: false,
       option: {
@@ -86,8 +86,8 @@ export default Vue.extend({
         styles: [],
         script: "",
         style: "",
-        readonly: false
-      }
+        readonly: false,
+      },
     };
   },
   props: {
@@ -95,26 +95,26 @@ export default Vue.extend({
       type: Object,
       default: () => ({
         valid: false,
-        readonly: false
-      })
-    }
+        readonly: false,
+      }),
+    },
   },
   watch: {
     option: {
       handler() {
         this.$emit("change", {
           data: this.option,
-          valid: this.valid
+          valid: this.valid,
         });
       },
-      deep: true
+      deep: true,
     },
     initData() {
       if (this.initData) {
         this.option = Object.assign({}, this.initData);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

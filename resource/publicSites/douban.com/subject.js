@@ -14,14 +14,19 @@
           click: (success, error) => {
             this.search(key);
             success();
-          }
+          },
         });
 
         let recommendButton = $("span.rec a[share-id]");
         if (recommendButton.length > 0) {
-          $("<a href='javascript:void(0);' class='lnk-sharing' style='margin-right: 5px;'/>").html("用 PT 助手搜索").on("click", (event) => {
-            this.search(key, $(event.target));
-          }).insertBefore(recommendButton);
+          $(
+            "<a href='javascript:void(0);' class='lnk-sharing' style='margin-right: 5px;'/>",
+          )
+            .html("用 PT 助手搜索")
+            .on("click", (event) => {
+              this.search(key, $(event.target));
+            })
+            .insertBefore(recommendButton);
         }
       }
     }
@@ -36,7 +41,9 @@
       }
 
       // 尝试从文本中获取
-      link = $("#info").text().match(/IMDb: (tt\d+)/);
+      link = $("#info")
+        .text()
+        .match(/IMDb: (tt\d+)/);
 
       if (link) {
         return link[1];
@@ -48,6 +55,6 @@
     getTitle() {
       return document.title.replace(" (豆瓣)", "");
     }
-  };
-  (new App()).init();
+  }
+  new App().init();
 })(jQuery, window);

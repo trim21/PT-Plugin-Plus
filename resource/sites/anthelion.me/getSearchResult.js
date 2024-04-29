@@ -1,4 +1,4 @@
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -24,12 +24,12 @@
             msg: options.searcher.getErrorMessage(
               options.site,
               ESearchResultParseStatus.parseError,
-              options.errorMsg
+              options.errorMsg,
             ),
             data: {
               site: options.site,
-              isLogged: options.isLogged
-            }
+              isLogged: options.isLogged,
+            },
           });
         });
     }
@@ -53,16 +53,12 @@
       let passkey = this.passkey;
       console.log("groups.length", groups.length);
       try {
-        groups.forEach(group => {
+        groups.forEach((group) => {
           if (group.hasOwnProperty("torrents")) {
             let torrents = group.torrents;
-            torrents.forEach(torrent => {
+            torrents.forEach((torrent) => {
               let data = {
-                title:
-                  group.groupName +
-                  " [" +
-                  group.groupYear +
-                  "]",
+                title: group.groupName + " [" + group.groupYear + "]",
                 subTitle:
                   torrent.codec +
                   " / " +
@@ -70,7 +66,7 @@
                   " / " +
                   torrent.media +
                   " / " +
-                  torrent.resolution + 
+                  torrent.resolution +
                   " / " +
                   torrent.audio +
                   (torrent.hasLog ? ` / Log(${torrent.logScore})` : "") +
@@ -91,7 +87,7 @@
                 completed: torrent.snatches,
                 site: site,
                 entryName: options.entry.name,
-                category: group.releaseType
+                category: group.releaseType,
               };
               results.push(data);
             });
@@ -110,7 +106,7 @@
               site: site,
               tags: group.tags,
               entryName: options.entry.name,
-              category: group.category
+              category: group.category,
             };
             results.push(data);
           }
@@ -138,7 +134,7 @@
 
       return new Promise((resolve, reject) => {
         $.get(url)
-          .done(result => {
+          .done((result) => {
             if (result && result.status === "success" && result.response) {
               this.authkey = result.response.authkey;
               this.passkey = result.response.passkey;

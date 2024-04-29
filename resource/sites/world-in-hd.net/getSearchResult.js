@@ -1,8 +1,16 @@
 if (!"".getQueryString) {
-  String.prototype.getQueryString = function(name, split) {
+  String.prototype.getQueryString = function (name, split) {
     if (split == undefined) split = "&";
     var reg = new RegExp(
-        "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
+        "(^|" +
+          split +
+          "|\\?)" +
+          name +
+          "=([^" +
+          split +
+          "]*)(" +
+          split +
+          "|$)",
       ),
       r;
     if ((r = this.match(reg))) return decodeURI(r[2]);
@@ -10,7 +18,7 @@ if (!"".getQueryString) {
   };
 }
 
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -48,7 +56,7 @@ if (!"".getQueryString) {
         comments: 6,
         author: 7,
         category: 8,
-        title: 0
+        title: 0,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -59,17 +67,46 @@ if (!"".getQueryString) {
         // 遍历数据行
         for (let index = 0; index < rows.length; index++) {
           const row = rows.eq(index);
-          let timeStrMatch = row.find("div.torrent-h3 > span").text().split("-")[0].replace('Il y a','');
+          let timeStrMatch = row
+            .find("div.torrent-h3 > span")
+            .text()
+            .split("-")[0]
+            .replace("Il y a", "");
           let timeStr = timeStrMatch.trim();
           let cells = [];
-          cells[2] = row.find("div.torrent-h3 > span").text().split("-")[1].trim().replace('o','B');
-          cells[3] = row.find("div.seeders").text().replace('Seeders','').trim();
-          cells[4] = row.find("div.leechers").text().replace('Leechers','').trim();
-          cells[5] = row.find("div.completed").text().replace('Complétés','').trim();
-          cells[6] = row.find("div.comments").text().replace('Commentaires','').trim();
+          cells[2] = row
+            .find("div.torrent-h3 > span")
+            .text()
+            .split("-")[1]
+            .trim()
+            .replace("o", "B");
+          cells[3] = row
+            .find("div.seeders")
+            .text()
+            .replace("Seeders", "")
+            .trim();
+          cells[4] = row
+            .find("div.leechers")
+            .text()
+            .replace("Leechers", "")
+            .trim();
+          cells[5] = row
+            .find("div.completed")
+            .text()
+            .replace("Complétés", "")
+            .trim();
+          cells[6] = row
+            .find("div.comments")
+            .text()
+            .replace("Commentaires", "")
+            .trim();
           cells[7] = row.find("div.uploader a.username").text().trim();
           cells[8] = row.find("div.category img").attr("title");
-          cells[9] = row.find("div.completed").text().replace('Complétés','').trim();
+          cells[9] = row
+            .find("div.completed")
+            .text()
+            .replace("Complétés", "")
+            .trim();
           let title = row.find("div.torrent-h3 h3 a");
           if (title.length == 0) {
             continue;
@@ -81,7 +118,9 @@ if (!"".getQueryString) {
           }
 
           // 获取下载链接
-          let url = row.find("a[href*='/torrents/download/']:first").attr("href");
+          let url = row
+            .find("a[href*='/torrents/download/']:first")
+            .attr("href");
           if (url && url.substr(0, 4) !== "http") {
             url = `${site.url}${url}`;
           }
@@ -94,32 +133,22 @@ if (!"".getQueryString) {
             size: cells[fieldIndex.size] || 0,
             time: this.getTime(timeStr),
             author:
-              fieldIndex.author == -1
-                ? ""
-                : cells[fieldIndex.author] || "",
+              fieldIndex.author == -1 ? "" : cells[fieldIndex.author] || "",
             seeders:
-              fieldIndex.seeders == -1
-                ? ""
-                : cells[fieldIndex.seeders] || 0,
+              fieldIndex.seeders == -1 ? "" : cells[fieldIndex.seeders] || 0,
             leechers:
-              fieldIndex.leechers == -1
-                ? ""
-                : cells[fieldIndex.leechers] || 0,
+              fieldIndex.leechers == -1 ? "" : cells[fieldIndex.leechers] || 0,
             completed:
               fieldIndex.completed == -1
                 ? ""
                 : cells[fieldIndex.completed] || 0,
             comments:
-              fieldIndex.comments == -1
-                ? ""
-                : cells[fieldIndex.comments] || 0,
+              fieldIndex.comments == -1 ? "" : cells[fieldIndex.comments] || 0,
             site: site,
             entryName: options.entry.name,
             category:
-              fieldIndex.category == -1
-                ? ""
-                : cells[fieldIndex.category] || "",
-            tags: this.getTags(row, options.torrentTagSelectors)
+              fieldIndex.category == -1 ? "" : cells[fieldIndex.category] || "",
+            tags: this.getTags(row, options.torrentTagSelectors),
           };
           results.push(data);
         }
@@ -137,14 +166,16 @@ if (!"".getQueryString) {
 
     getTime(timeStr) {
       let timeRegex = timeStr.match(
-        /((\d+).+?(Minute|Heure|Jour|Moi|Année)s?.*?(\,|and))?.*?(\d+).+?(Minute|Heure|Jour|Moi|Année)s?/
+        /((\d+).+?(Minute|Heure|Jour|Moi|Année)s?.*?(\,|and))?.*?(\d+).+?(Minute|Heure|Jour|Moi|Année)s?/,
       );
       let milliseconds = 0;
       if (timeRegex) {
         if (timeRegex[1] == undefined) {
           milliseconds = this.getMilliseconds(timeRegex[5], timeRegex[6]);
         } else {
-          milliseconds = this.getMilliseconds(timeRegex[2], timeRegex[3]) + this.getMilliseconds(timeRegex[5], timeRegex[6]);
+          milliseconds =
+            this.getMilliseconds(timeRegex[2], timeRegex[3]) +
+            this.getMilliseconds(timeRegex[5], timeRegex[6]);
         }
       }
       let timeStamp = Date.now() - milliseconds;
@@ -154,15 +185,23 @@ if (!"".getQueryString) {
 
     getMilliseconds(num, unit) {
       let milliseconds = 0;
-      milliseconds = num*60*1000;
-      if(unit == "Minute") {return milliseconds;}
-      milliseconds = milliseconds*60;
-      if(unit == "Heure") {return milliseconds;}
-      milliseconds = milliseconds*24;
-      if(unit == "Jour") {return milliseconds;}
-      milliseconds = milliseconds*30;
-      if(unit == "Moi") {return milliseconds;}
-      milliseconds = milliseconds*12;
+      milliseconds = num * 60 * 1000;
+      if (unit == "Minute") {
+        return milliseconds;
+      }
+      milliseconds = milliseconds * 60;
+      if (unit == "Heure") {
+        return milliseconds;
+      }
+      milliseconds = milliseconds * 24;
+      if (unit == "Jour") {
+        return milliseconds;
+      }
+      milliseconds = milliseconds * 30;
+      if (unit == "Moi") {
+        return milliseconds;
+      }
+      milliseconds = milliseconds * 12;
       return milliseconds;
     }
 
@@ -176,13 +215,13 @@ if (!"".getQueryString) {
       let tags = [];
       if (selectors && selectors.length > 0) {
         // 使用 some 避免错误的背景类名返回多个标签
-        selectors.some(item => {
+        selectors.some((item) => {
           if (item.selector) {
             let result = row.find(item.selector);
             if (result.length) {
               tags.push({
                 name: "Free",
-                color: "blue"
+                color: "blue",
               });
               return true;
             }

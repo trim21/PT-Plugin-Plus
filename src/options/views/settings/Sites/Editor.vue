@@ -36,7 +36,7 @@
           v-model="site.schema"
           :items="$store.state.options.system.schemas"
           :label="$t('settings.sites.editor.schema')"
-          :menu-props="{maxHeight:'auto'}"
+          :menu-props="{ maxHeight: 'auto' }"
           persistent-hint
           single-line
           item-text="name"
@@ -51,7 +51,9 @@
               <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-list-tile-action-text>{{ data.item.ver }}</v-list-tile-action-text>
+              <v-list-tile-action-text>{{
+                data.item.ver
+              }}</v-list-tile-action-text>
             </v-list-tile-action>
           </template>
         </v-autocomplete>
@@ -111,13 +113,16 @@
           item-value="value"
         ></v-autocomplete>
 
-        <v-text-field v-model="site.description" :label="$t('settings.sites.editor.description')"></v-text-field>
+        <v-text-field
+          v-model="site.description"
+          :label="$t('settings.sites.editor.description')"
+        ></v-text-field>
 
         <v-autocomplete
           v-model="site.defaultClientId"
           :items="this.$store.state.options.clients"
           :label="$t('settings.sites.editor.defaultClient')"
-          :menu-props="{maxHeight:'auto'}"
+          :menu-props="{ maxHeight: 'auto' }"
           persistent-hint
           item-text="name"
           item-value="id"
@@ -128,18 +133,22 @@
           <template slot="item" slot-scope="data" style>
             <v-list-tile-content>
               <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-              <v-list-tile-sub-title v-html="data.item.address"></v-list-tile-sub-title>
+              <v-list-tile-sub-title
+                v-html="data.item.address"
+              ></v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-list-tile-action-text>{{ data.item.type }}</v-list-tile-action-text>
+              <v-list-tile-action-text>{{
+                data.item.type
+              }}</v-list-tile-action-text>
             </v-list-tile-action>
           </template>
         </v-autocomplete>
 
         <v-text-field
-                v-model="site.upLoadLimit"
-                :label="$t('settings.sites.editor.upLoadLimit')"
-                :placeholder="$t('settings.sites.editor.upLoadLimitTip')"
+          v-model="site.upLoadLimit"
+          :label="$t('settings.sites.editor.upLoadLimit')"
+          :placeholder="$t('settings.sites.editor.upLoadLimitTip')"
         ></v-text-field>
         <!-- 允许获取用户信息 -->
         <v-switch
@@ -149,8 +158,11 @@
         ></v-switch>
 
         <!-- 允许搜索 -->
-        <v-switch v-model="site.allowSearch" :disabled="site.offline"
-                  :label="$t('settings.sites.editor.allowSearch')"></v-switch>
+        <v-switch
+          v-model="site.allowSearch"
+          :disabled="site.offline"
+          :label="$t('settings.sites.editor.allowSearch')"
+        ></v-switch>
 
         <!-- 搜索入口设置 v-if="site.allowSearch"  -->
         <template v-if="site.allowSearch">
@@ -174,10 +186,16 @@
         </template>
 
         <!-- 站点已离线（停机/关闭） -->
-        <v-switch :label="$t('settings.sites.editor.offline')" v-model="site.offline"></v-switch>
+        <v-switch
+          :label="$t('settings.sites.editor.offline')"
+          v-model="site.offline"
+        ></v-switch>
 
         <!-- 消息提醒开关 -->
-        <v-switch :label="$t('settings.sites.editor.disableMessageCount')" v-model="site.disableMessageCount"></v-switch>
+        <v-switch
+          :label="$t('settings.sites.editor.disableMessageCount')"
+          v-model="site.disableMessageCount"
+        ></v-switch>
       </v-form>
     </v-card-text>
   </v-card>
@@ -194,10 +212,10 @@ export default Vue.extend({
         url: (v: any) => {
           return (
             /^(https?):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]$/.test(
-              v
+              v,
             ) || this.$t("settings.sites.editor.urlTip")
           );
-        }
+        },
       },
       cdn: "",
       valid: false,
@@ -205,125 +223,125 @@ export default Vue.extend({
       timezone: [
         {
           value: "-1200",
-          text: "(UTC -12:00) Enitwetok, Kwajalien"
+          text: "(UTC -12:00) Enitwetok, Kwajalien",
         },
         {
           value: "-1100",
-          text: "(UTC -11:00) Midway Island, Samoa"
+          text: "(UTC -11:00) Midway Island, Samoa",
         },
         {
           value: "-1000",
-          text: "(UTC -10:00) Hawaii"
+          text: "(UTC -10:00) Hawaii",
         },
         {
           value: "-0900",
-          text: "(UTC -09:00) Alaska"
+          text: "(UTC -09:00) Alaska",
         },
         {
           value: "-0800",
-          text: "(UTC -08:00) Pacific Time (US & Canada)"
+          text: "(UTC -08:00) Pacific Time (US & Canada)",
         },
         {
           value: "-0700",
-          text: "(UTC -07:00) Mountain Time (US & Canada)"
+          text: "(UTC -07:00) Mountain Time (US & Canada)",
         },
         {
           value: "-0600",
-          text: "(UTC -06:00) Central Time (US & Canada), Mexico City"
+          text: "(UTC -06:00) Central Time (US & Canada), Mexico City",
         },
         {
           value: "-0500",
-          text: "(UTC -05:00) Eastern Time (US & Canada), Bogota, Lima"
+          text: "(UTC -05:00) Eastern Time (US & Canada), Bogota, Lima",
         },
         {
           value: "-0400",
-          text: "(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz"
+          text: "(UTC -04:00) Atlantic Time (Canada), Caracas, La Paz",
         },
         {
           value: "-0330",
-          text: "(UTC -03:30) Newfoundland"
+          text: "(UTC -03:30) Newfoundland",
         },
         {
           value: "-0300",
-          text: "(UTC -03:00) Brazil, Buenos Aires, Falkland Is."
+          text: "(UTC -03:00) Brazil, Buenos Aires, Falkland Is.",
         },
         {
           value: "-0200",
-          text: "(UTC -02:00) Mid-Atlantic, Ascention Is., St Helena"
+          text: "(UTC -02:00) Mid-Atlantic, Ascention Is., St Helena",
         },
         {
           value: "-0100",
-          text: "(UTC -01:00) Azores, Cape Verde Islands"
+          text: "(UTC -01:00) Azores, Cape Verde Islands",
         },
         {
           value: "+0000",
-          text: "(UTC ±00:00) Casablanca, Dublin, London, Lisbon, Monrovia"
+          text: "(UTC ±00:00) Casablanca, Dublin, London, Lisbon, Monrovia",
         },
         {
           value: "+0100",
-          text: "(UTC +01:00) Brussels, Copenhagen, Madrid, Paris"
+          text: "(UTC +01:00) Brussels, Copenhagen, Madrid, Paris",
         },
         {
           value: "+0200",
-          text: "(UTC +02:00) Sofia, Izrael, South Africa,"
+          text: "(UTC +02:00) Sofia, Izrael, South Africa,",
         },
         {
           value: "+0300",
-          text: "(UTC +03:00) Baghdad, Riyadh, Moscow, Nairobi"
+          text: "(UTC +03:00) Baghdad, Riyadh, Moscow, Nairobi",
         },
         {
           value: "+0330",
-          text: "(UTC +03:30) Tehran"
+          text: "(UTC +03:30) Tehran",
         },
         {
           value: "+0400",
-          text: "(UTC +04:00) Abu Dhabi, Baku, Muscat, Tbilisi"
+          text: "(UTC +04:00) Abu Dhabi, Baku, Muscat, Tbilisi",
         },
         {
           value: "+0430",
-          text: "(UTC +04:30) Kabul"
+          text: "(UTC +04:30) Kabul",
         },
         {
           value: "+0500",
-          text: "(UTC +05:00) Ekaterinburg, Karachi, Tashkent"
+          text: "(UTC +05:00) Ekaterinburg, Karachi, Tashkent",
         },
         {
           value: "+0530",
-          text: "(UTC +05:30) Bombay, Calcutta, Madras, New Delhi"
+          text: "(UTC +05:30) Bombay, Calcutta, Madras, New Delhi",
         },
         {
           value: "+0600",
-          text: "(UTC +06:00) Almaty, Colomba, Dhakra"
+          text: "(UTC +06:00) Almaty, Colomba, Dhakra",
         },
         {
           value: "+0700",
-          text: "(UTC +07:00) Bangkok, Hanoi, Jakarta"
+          text: "(UTC +07:00) Bangkok, Hanoi, Jakarta",
         },
         {
           value: "+0800",
-          text: "(UTC +08:00) ShangHai, HongKong, Perth, Singapore, Taipei"
+          text: "(UTC +08:00) ShangHai, HongKong, Perth, Singapore, Taipei",
         },
         {
           value: "+0900",
-          text: "(UTC +09:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk"
+          text: "(UTC +09:00) Osaka, Sapporo, Seoul, Tokyo, Yakutsk",
         },
         {
           value: "+0930",
-          text: "(UTC +09:30) Adelaide, Darwin"
+          text: "(UTC +09:30) Adelaide, Darwin",
         },
         {
           value: "+1000",
-          text: "(UTC +10:00) Melbourne, Papua New Guinea, Sydney"
+          text: "(UTC +10:00) Melbourne, Papua New Guinea, Sydney",
         },
         {
           value: "+1100",
-          text: "(UTC +11:00) Magadan, New Caledonia, Solomon Is."
+          text: "(UTC +11:00) Magadan, New Caledonia, Solomon Is.",
         },
         {
           value: "+1200",
-          text: "(UTC +12:00) Auckland, Fiji, Marshall Island"
-        }
-      ]
+          text: "(UTC +12:00) Auckland, Fiji, Marshall Island",
+        },
+      ],
     };
   },
   props: {
@@ -331,9 +349,9 @@ export default Vue.extend({
     initData: {
       type: Object,
       default: () => ({
-        valid: false
-      })
-    }
+        valid: false,
+      }),
+    },
   },
   watch: {
     site: {
@@ -345,18 +363,18 @@ export default Vue.extend({
         }
         this.$emit("change", {
           data: this.site,
-          valid: this.valid
+          valid: this.valid,
         });
       },
-      deep: true
+      deep: true,
     },
     cdn() {
       let items = this.cdn.split("\n");
       let result: string[] = [];
-      items.forEach(cdn => {
+      items.forEach((cdn) => {
         if (
           /(https?):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/.test(
-            cdn
+            cdn,
           )
         ) {
           result.push(cdn);
@@ -376,7 +394,7 @@ export default Vue.extend({
         this.site = Object.assign({}, this.initData);
         this.valid = this.site.name && this.site.host ? true : false;
       }
-    }
+    },
   },
   computed: {
     getSchema(): string {
@@ -387,7 +405,7 @@ export default Vue.extend({
         result = this.site.schema.name;
       }
       return result;
-    }
-  }
+    },
+  },
 });
 </script>

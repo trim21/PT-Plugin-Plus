@@ -17,14 +17,14 @@ class Debugger {
     this.vm = new Vue({
       el: "#app",
 
-      render: h => h(App)
+      render: (h) => h(App),
     });
 
     this.initEvents();
   }
 
   private initEvents() {
-    chrome.runtime.onConnect.addListener(port => {
+    chrome.runtime.onConnect.addListener((port) => {
       console.assert(port.name == EModule.debugger);
       port.onMessage.addListener((request: IRequest) => {
         console.log(request);

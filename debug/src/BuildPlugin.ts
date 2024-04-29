@@ -157,13 +157,13 @@ export class BuildPlugin {
           search: true,
           imdbSearch: true,
           userData: true,
-          sendTorrent: true
+          sendTorrent: true,
         };
 
         if (content.supportedFeatures) {
           supportedFeatures = Object.assign(
             supportedFeatures,
-            content.supportedFeatures
+            content.supportedFeatures,
           );
         }
 
@@ -184,8 +184,8 @@ export class BuildPlugin {
             supportedFeatures.userData === true
               ? "√"
               : supportedFeatures.userData === false
-              ? ""
-              : supportedFeatures.userData,
+                ? ""
+                : supportedFeatures.userData,
           sendTorrent: supportedFeatures.sendTorrent === true ? "√" : "",
           torrentProgress:
             content.searchEntryConfig &&
@@ -193,7 +193,7 @@ export class BuildPlugin {
             content.searchEntryConfig.fieldSelector.progress
               ? "√"
               : "",
-          collaborator: this.getCollaborator(content.collaborator)
+          collaborator: this.getCollaborator(content.collaborator),
         });
         schemas[schema].push(item);
       }
@@ -251,7 +251,7 @@ export class BuildPlugin {
           console.log(path, content.name);
           results.push({
             name: content.name,
-            code: content.code
+            code: content.code,
           });
         }
       }
@@ -267,7 +267,7 @@ export class BuildPlugin {
   replaceKeys(
     source: string,
     keys: Dictionary<any>,
-    prefix: string = ""
+    prefix: string = "",
   ): string {
     let result: string = source;
 

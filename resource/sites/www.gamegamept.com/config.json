@@ -7,10 +7,7 @@
   "tags": ["游戏"],
   "schema": "NexusPHP",
   "host": "www.gamegamept.com",
-  "collaborator": [
-      "IITII",
-      "yiyule"
-  ],
+  "collaborator": ["IITII", "yiyule"],
   "levelRequirements": [
     {
       "level": 1,
@@ -77,16 +74,22 @@
       "privilege": "这个等级会永远保留账号。"
     }
   ],
-  "plugins": [{
-    "name": "9KG专区",
-    "pages": ["/special.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/NexusPHP/torrents.js"]
-  },{
-    "name": "种子列表封面模式",
-    "pages": ["/torrents.php", "/special.php"],
-    "scripts": ["/libs/album/album.js", "torrents.js"],
-    "styles": ["/libs/album/style.css"]
-  }],
+  "plugins": [
+    {
+      "name": "9KG专区",
+      "pages": ["/special.php"],
+      "scripts": [
+        "/schemas/NexusPHP/common.js",
+        "/schemas/NexusPHP/torrents.js"
+      ]
+    },
+    {
+      "name": "种子列表封面模式",
+      "pages": ["/torrents.php", "/special.php"],
+      "scripts": ["/libs/album/album.js", "torrents.js"],
+      "styles": ["/libs/album/style.css"]
+    }
+  ],
   "categories": [
     {
       "entry": "torrents.php",
@@ -125,7 +128,8 @@
           "name": "其他"
         }
       ]
-    },{
+    },
+    {
       "entry": "special.php",
       "result": "&cat$id$=1",
       "category": [
@@ -175,7 +179,9 @@
     "fieldSelector": {
       "progress": {
         "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
-        "filters": ["query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"]
+        "filters": [
+          "query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"
+        ]
       },
       "status": {
         "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
@@ -191,12 +197,8 @@
       "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
       "fields": {
         "seeding": {
-          "selector": [
-            "b:first"
-          ],
-          "filters": [
-            "query.text()"
-          ]
+          "selector": ["b:first"],
+          "filters": ["query.text()"]
         },
         "seedingSize": {
           "selector": "",

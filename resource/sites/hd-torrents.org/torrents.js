@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is torrent.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -23,7 +23,7 @@
         click: (success, error) => {
           // 获取目标表格
           let items = $(
-            "table.mainblockcontenttt a[href*='details.php?id='][onmouseover]"
+            "table.mainblockcontenttt a[href*='details.php?id='][onmouseover]",
           );
           let images = [];
           items.each((index, item) => {
@@ -37,7 +37,7 @@
                 url: url,
                 key: href,
                 title: title,
-                link: href
+                link: href,
               });
             }
           });
@@ -48,11 +48,11 @@
               images: images,
               onClose: () => {
                 PTService.buttonBar.show();
-              }
+              },
             });
             PTService.buttonBar.hide();
           }
-        }
+        },
       });
     }
 
@@ -72,7 +72,7 @@
         return this.t("getDownloadURLsFailed"); //"获取下载链接失败，未能正确定位到链接";
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let link = $(item).attr("href");
         if (link && link.substr(0, 4) != "http") {
           link = siteURL + link;
@@ -89,8 +89,8 @@
     confirmWhenExceedSize() {
       return this.confirmSize(
         $("table.mainblockcontenttt:first").find(
-          "td:contains('MiB'),td:contains('GiB'),td:contains('TiB')"
-        )
+          "td:contains('MiB'),td:contains('GiB'),td:contains('TiB')",
+        ),
       );
     }
   }

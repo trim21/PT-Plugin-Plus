@@ -7,7 +7,7 @@
     :color="color"
     :disabled="disabled"
     @click.stop="showContentMenus"
-    :class="$vuetify.breakpoint.smAndUp?'':'mini'"
+    :class="$vuetify.breakpoint.smAndUp ? '' : 'mini'"
     :title="$t('collection.add')"
     :dark="dark"
   >
@@ -25,7 +25,7 @@ import {
   ICollection,
   ICollectionGroup,
   ECommonKey,
-  BASE_COLORS
+  BASE_COLORS,
 } from "@/interface/common";
 
 import { PPF } from "@/service/public";
@@ -40,19 +40,19 @@ export default Vue.extend({
     dark: Boolean,
     iconText: {
       type: String,
-      default: "favorite_border"
+      default: "favorite_border",
     },
 
     color: {
       type: String,
-      default: "success"
+      default: "success",
     },
     label: {
       type: String,
-      default: ""
+      default: "",
     },
 
-    disabled: Boolean
+    disabled: Boolean,
   },
 
   data() {
@@ -62,7 +62,7 @@ export default Vue.extend({
       loading: false,
       haveSuccess: false,
       haveError: false,
-      groups: [] as ICollectionGroup[]
+      groups: [] as ICollectionGroup[],
     };
   },
 
@@ -73,29 +73,31 @@ export default Vue.extend({
      * @param event
      */
     showContentMenus(event?: any) {
-      extension.sendRequest(EAction.getTorrentCollectionGroups).then(result => {
-        this.groups = result;
-        let menus: any[] = [];
+      extension
+        .sendRequest(EAction.getTorrentCollectionGroups)
+        .then((result) => {
+          this.groups = result;
+          let menus: any[] = [];
 
-        this.groups.forEach((group: any) => {
-          menus.push({
-            title: group.name,
-            fn: () => {
-              this.$emit("add", group);
-            }
+          this.groups.forEach((group: any) => {
+            menus.push({
+              title: group.name,
+              fn: () => {
+                this.$emit("add", group);
+              },
+            });
           });
-        });
 
-        menus.push({});
-        menus.push({
-          title: this.$t("collection.addGroup"),
-          fn: () => {
-            this.createGroup();
-          }
-        });
+          menus.push({});
+          menus.push({
+            title: this.$t("collection.addGroup"),
+            fn: () => {
+              this.createGroup();
+            },
+          });
 
-        PPF.showContextMenu(menus, event);
-      });
+          PPF.showContextMenu(menus, event);
+        });
     },
 
     createGroup() {
@@ -104,9 +106,9 @@ export default Vue.extend({
         extension
           .sendRequest(EAction.addTorrentCollectionGroup, null, {
             name,
-            color: BASE_COLORS[Math.floor(Math.random() * BASE_COLORS.length)]
+            color: BASE_COLORS[Math.floor(Math.random() * BASE_COLORS.length)],
           })
-          .then(result => {
+          .then((result) => {
             if (result) {
               this.$emit("add", result[result.length - 1]);
             }
@@ -117,7 +119,7 @@ export default Vue.extend({
     clearStatus() {
       this.haveSuccess = false;
       this.haveError = false;
-    }
-  }
+    },
+  },
 });
 </script>

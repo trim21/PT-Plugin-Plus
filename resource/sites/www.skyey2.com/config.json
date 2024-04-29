@@ -6,12 +6,7 @@
   "description": "天雪",
   "icon": "https://www.skyey2.com/favicon.ico",
   "tags": ["动漫"],
-  "collaborator": [
-    "栽培者",
-    "MewX",
-    "fzlins",
-    "zhuweitung"
-  ],
+  "collaborator": ["栽培者", "MewX", "fzlins", "zhuweitung"],
   "host": "www.skyey2.com",
   "levelRequirements": [
     {
@@ -77,7 +72,10 @@
         },
         "messageCount": {
           "selector": ["a.a.showmenu.new"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         }
       }
     },
@@ -136,10 +134,13 @@
         },
         "seedingSize": {
           "selector": ["table.torrents > tbody > tr:not(:eq(0))"],
-          "filters": ["jQuery.map(query.find('td.rowfollow:eq(3)'), (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+          "filters": [
+            "jQuery.map(query.find('td.rowfollow:eq(3)'), (item)=>{return $(item).text();})",
+            "_self.getTotalSize(query)"
+          ]
         }
       }
-    } 
+    }
   },
   "supportedFeatures": {
     "imdbSearch": false
@@ -148,11 +149,18 @@
     "fieldSelector": {
       "progress": {
         "selector": ["div.tline1, div.tline2"],
-        "filters": ["query.attr('style')||''", "query.match(/width:([ \\d.]+)%/)", "(query && query.length>=2)?query[1]:null"]
+        "filters": [
+          "query.attr('style')||''",
+          "query.match(/width:([ \\d.]+)%/)",
+          "(query && query.length>=2)?query[1]:null"
+        ]
       },
       "status": {
         "selector": ["> td:eq(4), > td:eq(5), > td:eq(6)"],
-        "filters": ["query.map(function(){return $(this).attr('style') || ''}).get()", "query[0] ? 2 : (query[2] ? 255: (query[1] ? 1 : null))"]
+        "filters": [
+          "query.map(function(){return $(this).attr('style') || ''}).get()",
+          "query[0] ? 2 : (query[2] ? 255: (query[1] ? 1 : null))"
+        ]
       }
     }
   }

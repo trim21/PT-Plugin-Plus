@@ -4,9 +4,7 @@
   "url": "https://oldtoons.world/",
   "description": "",
   "icon": "https://oldtoons.world/favicon.ico",
-  "tags": [
-    "影视"
-  ],
+  "tags": ["影视"],
   "host": "oldtoons.world",
   "collaborator": "koal",
   "selectors": {

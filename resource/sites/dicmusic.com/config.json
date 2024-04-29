@@ -8,9 +8,7 @@
   "schema": "GazelleJSONAPI",
   "host": "dicmusic.com",
   "cdn": ["https://dicmusic.club/", "https://dicmusic.com/"],
-  "formerHosts": [
-    "dicmusic.club"
-  ],
+  "formerHosts": ["dicmusic.club"],
   "levelRequirements": [
     {
       "level": 1,
@@ -84,11 +82,7 @@
       "privilege": "拥有无限邀请；佩戴6枚印记；创建6个私人合集；访问「Guru」版块；查看种子检查日志"
     }
   ],
-  "collaborator": [
-    "ylxb2016",
-    "enigmaz",
-    "amorphobia"
-  ],
+  "collaborator": ["ylxb2016", "enigmaz", "amorphobia"],
   "searchEntryConfig": {
     "skipIMDbId": true
   },
@@ -107,11 +101,17 @@
       "fields": {
         "seedingSize": {
           "selector": ["table#bprates_overview > tbody > tr > td:eq(1)"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "bonus": {
           "selector": ["div#content > div.header > h3"],
-          "filters": ["query.text().replace(/,/g,'').match(/.+?([\\d.]+)/)", "(query && query.length>=2)?query[1]:null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/.+?([\\d.]+)/)",
+            "(query && query.length>=2)?query[1]:null"
+          ]
         },
         "bonusPerHour": {
           "selector": ["table#bprates_overview > tbody > tr > td:eq(2)"],

@@ -9,7 +9,7 @@ import {
   DownloadOptions,
   EModule,
   ECommonKey,
-  SearchSolution
+  SearchSolution,
 } from "@/interface/common";
 import PTPlugin from "./service";
 import URLParse from "url-parse";
@@ -21,7 +21,7 @@ type Service = PTPlugin;
 export class ContextMenus {
   public options: Options = {
     sites: [],
-    clients: []
+    clients: [],
   };
 
   private rootId = "PT-Plugin-Plugin-Content-Menu";
@@ -49,7 +49,7 @@ export class ContextMenus {
             this.createSiteMenus(host);
           }
         });
-      }
+      },
     );
 
     // 标签页面更新事件
@@ -57,7 +57,7 @@ export class ContextMenus {
       (
         tabId: number,
         changeInfo: chrome.tabs.TabChangeInfo,
-        tab: chrome.tabs.Tab
+        tab: chrome.tabs.Tab,
       ) => {
         this.clearSiteMenus();
         if (tab.url) {
@@ -65,7 +65,7 @@ export class ContextMenus {
 
           this.createSiteMenus(host);
         }
-      }
+      },
     );
 
     // 图标单击事件
@@ -102,9 +102,9 @@ export class ContextMenus {
       contexts: ["browser_action"],
       onclick: () => {
         chrome.tabs.create({
-          url: "index.html#/history"
+          url: "index.html#/history",
         });
-      }
+      },
     });
 
     // 查看助手日志
@@ -113,14 +113,14 @@ export class ContextMenus {
       contexts: ["browser_action"],
       onclick: () => {
         chrome.tabs.create({
-          url: "index.html#/system-logs"
+          url: "index.html#/system-logs",
         });
-      }
+      },
     });
 
     this.add({
       type: "separator",
-      contexts: ["browser_action"]
+      contexts: ["browser_action"],
     });
 
     // 使用问题反馈
@@ -129,9 +129,9 @@ export class ContextMenus {
       contexts: ["browser_action"],
       onclick: () => {
         chrome.tabs.create({
-          url: "https://github.com/pt-plugins/PT-Plugin-Plus/issues/new"
+          url: "https://github.com/pt-plugins/PT-Plugin-Plus/issues/new",
         });
-      }
+      },
     });
   }
 
@@ -166,8 +166,11 @@ export class ContextMenus {
 
     if (site.cdn && site.cdn.length > 0) {
       for (let i = 0; i < site.cdn.length; i++) {
-        const url = site.cdn[i]
-        documentUrlPatterns.push(`${url}${url.substr(-1) != '/' ? '/*' : '*'}`, url);
+        const url = site.cdn[i];
+        documentUrlPatterns.push(
+          `${url}${url.substr(-1) != "/" ? "/*" : "*"}`,
+          url,
+        );
       }
     }
 
@@ -185,7 +188,7 @@ export class ContextMenus {
     paths: string[],
     site: Site,
     client: DownloadClient,
-    parentId: string
+    parentId: string,
   ) {
     paths.forEach((path: string, index: number) => {
       let id = `${client.id}**${site.host}**${path}**${index}`;
@@ -198,17 +201,17 @@ export class ContextMenus {
         targetUrlPatterns: this.getSiteUrlPatterns(site),
         onclick: (
           info: chrome.contextMenus.OnClickData,
-          tab: chrome.tabs.Tab
+          tab: chrome.tabs.Tab,
         ) => {
           let data = info.menuItemId.split("**");
           let options: DownloadOptions = {
             clientId: data[0],
             url: info.linkUrl as string,
-            savePath: data[2]
+            savePath: data[2],
           };
 
           this.sendTorrentToClient(tab.id, options);
-        }
+        },
       });
     });
   }
@@ -234,16 +237,16 @@ export class ContextMenus {
       this.add({
         id: menuId,
         title: this.service.i18n.t(
-          "service.contextMenus.searchSelectionTextOnThisSite"
+          "service.contextMenus.searchSelectionTextOnThisSite",
         ),
         contexts: ["selection"],
         documentUrlPatterns: this.getSiteDocumentUrlPatterns(site),
         onclick: (
           info: chrome.contextMenus.OnClickData,
-          tab: chrome.tabs.Tab
+          tab: chrome.tabs.Tab,
         ) => {
           this.service.controller.searchTorrent(info.selectionText, host);
-        }
+        },
       });
     }
 
@@ -259,12 +262,12 @@ export class ContextMenus {
           title: this.service.i18n.t(
             "service.contextMenus.downloadClientPath",
             {
-              clientName: client.name
-            }
+              clientName: client.name,
+            },
           ),
           contexts: ["link"],
           documentUrlPatterns: this.getSiteDocumentUrlPatterns(site),
-          targetUrlPatterns: this.getSiteUrlPatterns(site)
+          targetUrlPatterns: this.getSiteUrlPatterns(site),
         });
 
         // 根据已定义的路径创建菜单
@@ -345,7 +348,7 @@ export class ContextMenus {
       if (savePath === false) {
         // "用户已取消"
         APP.showNotifications({
-          message: this.service.i18n.t("service.contextMenus.userCanceled")
+          message: this.service.i18n.t("service.contextMenus.userCanceled"),
         });
         return;
       }
@@ -363,8 +366,8 @@ export class ContextMenus {
             type: EDataResultType.info,
             msg: this.service.i18n.t("service.contextMenus.sendingLink"),
             timeout: 2,
-            indeterminate: true
-          }
+            indeterminate: true,
+          },
         },
         (result: any) => {
           if (chrome.runtime.lastError) {
@@ -373,22 +376,22 @@ export class ContextMenus {
               // "插件状态未知，当前操作可能失败，请刷新页面后再试"
               APP.showNotifications({
                 message: this.service.i18n.t(
-                  "service.contextMenus.pluginStatusIsUnknown"
-                )
+                  "service.contextMenus.pluginStatusIsUnknown",
+                ),
               });
             } else {
               APP.showNotifications({
-                message: chrome.runtime.lastError.message
+                message: chrome.runtime.lastError.message,
               });
             }
             return;
           }
           notice = result;
-        }
+        },
       );
     } catch (error) {
       APP.showNotifications({
-        message: error
+        message: error,
       });
       return;
     }
@@ -397,7 +400,7 @@ export class ContextMenus {
       module: EModule.background,
       event: "contextMenus.sendTorrentToClient.begin",
       msg: this.service.i18n.t("service.contextMenus.sendingLink"),
-      data: options
+      data: options,
     });
 
     let client = this.options.clients.find((item: DownloadClient) => {
@@ -410,18 +413,18 @@ export class ContextMenus {
         data: {
           type: EDataResultType.error,
           msg: this.service.i18n.t(
-            "service.contextMenus.downloadClientGetFailed"
-          )
-        }
+            "service.contextMenus.downloadClientGetFailed",
+          ),
+        },
       });
 
       this.service.logger.add({
         module: EModule.background,
         event: "contextMenus.sendTorrentToClient.getClientError",
         msg: this.service.i18n.t(
-          "service.contextMenus.downloadClientGetFailed"
+          "service.contextMenus.downloadClientGetFailed",
         ),
-        data: options
+        data: options,
       });
       this.hideNotice(tabid, notice);
       return;
@@ -435,7 +438,7 @@ export class ContextMenus {
     if (typeof url !== "string") {
       chrome.tabs.sendMessage(tabid, {
         action: EAction.showMessage,
-        data: url
+        data: url,
       });
       this.hideNotice(tabid, notice);
       return;
@@ -450,13 +453,13 @@ export class ContextMenus {
           module: EModule.background,
           event: "contextMenus.sendTorrentToClient.done",
           msg: this.service.i18n.t(
-            "service.contextMenus.sendTorrentToClientDone"
+            "service.contextMenus.sendTorrentToClientDone",
           ), // "下载链接发送完成。",
-          data: result
+          data: result,
         });
         chrome.tabs.sendMessage(tabid, {
           action: EAction.showMessage,
-          data: result
+          data: result,
         });
       })
       .catch((result: any) => {
@@ -464,13 +467,18 @@ export class ContextMenus {
           module: EModule.background,
           event: "contextMenus.sendTorrentToClient.error",
           msg: this.service.i18n.t(
-            "service.contextMenus.sendTorrentToClientError"
+            "service.contextMenus.sendTorrentToClientError",
           ), // "下载链接发送失败！",
-          data: result
+          data: result,
         });
         chrome.tabs.sendMessage(tabid, {
           action: EAction.showMessage,
-          data: result.status == "" ? this.service.i18n.t("service.contextMenus.sendTorrentToClientError") : result
+          data:
+            result.status == ""
+              ? this.service.i18n.t(
+                  "service.contextMenus.sendTorrentToClientError",
+                )
+              : result,
         });
       })
       .finally(() => {
@@ -488,7 +496,7 @@ export class ContextMenus {
     if (notice.id) {
       chrome.tabs.sendMessage(tabid, {
         action: EAction.hideMessage,
-        data: notice.id
+        data: notice.id,
       });
     } else if (notice.hide) {
       notice.hide();
@@ -507,10 +515,10 @@ export class ContextMenus {
         contexts: ["selection"],
         onclick: (
           info: chrome.contextMenus.OnClickData,
-          tab: chrome.tabs.Tab
+          tab: chrome.tabs.Tab,
         ) => {
           this.service.controller.searchTorrent(info.selectionText);
-        }
+        },
       });
 
       this.pushMoreSearchMenus();
@@ -522,7 +530,7 @@ export class ContextMenus {
       id: imdbMenuId,
       title: this.service.i18n.t("service.contextMenus.searchByIMDb"), // "搜索当前IMDb相关种子",
       contexts: ["link"],
-      targetUrlPatterns: ["*://www.imdb.com/title/tt*"]
+      targetUrlPatterns: ["*://www.imdb.com/title/tt*"],
     });
 
     // 搜索IMDb相关种子
@@ -533,7 +541,7 @@ export class ContextMenus {
       targetUrlPatterns: ["*://www.imdb.com/title/tt*"],
       onclick: (
         info: chrome.contextMenus.OnClickData,
-        tab: chrome.tabs.Tab
+        tab: chrome.tabs.Tab,
       ) => {
         if (info.linkUrl) {
           let link = info.linkUrl.match(/(tt\d+)/);
@@ -541,14 +549,14 @@ export class ContextMenus {
             this.service.controller.searchTorrent(link[1]);
           }
         }
-      }
+      },
     });
 
     this.pushMoreSearchMenus(
       imdbMenuId,
       ["link"],
       ["*://www.imdb.com/title/tt*"],
-      /(tt\d+)/
+      /(tt\d+)/,
     );
 
     let donbanMenuId = "searchWithDouban";
@@ -557,7 +565,7 @@ export class ContextMenus {
       id: donbanMenuId,
       title: this.service.i18n.t("service.contextMenus.searchByDouban"),
       contexts: ["link"],
-      targetUrlPatterns: ["*://movie.douban.com/subject/*"]
+      targetUrlPatterns: ["*://movie.douban.com/subject/*"],
     });
 
     // "搜索当前豆瓣链接相关种子"
@@ -568,7 +576,7 @@ export class ContextMenus {
       targetUrlPatterns: ["*://movie.douban.com/subject/*"],
       onclick: (
         info: chrome.contextMenus.OnClickData,
-        tab: chrome.tabs.Tab
+        tab: chrome.tabs.Tab,
       ) => {
         if (info.linkUrl) {
           let link = info.linkUrl.match(/subject\/(\d+)/);
@@ -576,7 +584,7 @@ export class ContextMenus {
             this.service.controller.searchTorrent("douban" + link[1]);
           }
         }
-      }
+      },
     });
 
     this.pushMoreSearchMenus(
@@ -584,7 +592,7 @@ export class ContextMenus {
       ["link"],
       ["*://movie.douban.com/subject/*"],
       /subject\/(\d+)/,
-      "douban"
+      "douban",
     );
   }
 
@@ -601,7 +609,7 @@ export class ContextMenus {
     contexts: string[] = ["selection"],
     targetUrlPatterns: string[] | undefined = undefined,
     match: RegExp = /(tt\d+)/,
-    keyPrefix: string = ""
+    keyPrefix: string = "",
   ) {
     const sites = this.options.sites;
     // 以指定的站点进行搜索
@@ -613,7 +621,7 @@ export class ContextMenus {
         title: this.service.i18n.t("service.contextMenus.searchInSite"),
         contexts: contexts,
         parentId: _parentId,
-        targetUrlPatterns
+        targetUrlPatterns,
       });
 
       // 添加站点
@@ -627,28 +635,28 @@ export class ContextMenus {
           targetUrlPatterns,
           onclick: (
             info: chrome.contextMenus.OnClickData,
-            tab: chrome.tabs.Tab
+            tab: chrome.tabs.Tab,
           ) => {
             let data = info.menuItemId.split("**");
             this.service.debug(
               this.service.i18n.t("service.contextMenus.searchInSite"),
-              info
+              info,
             );
             if (contexts.includes("link") && info.linkUrl) {
               let link = info.linkUrl.match(match);
               if (link && link.length >= 2) {
                 this.service.controller.searchTorrent(
                   keyPrefix + link[1],
-                  data[1]
+                  data[1],
                 );
               }
             } else {
               this.service.controller.searchTorrent(
                 info.selectionText,
-                data[1]
+                data[1],
               );
             }
-          }
+          },
         });
       });
     }
@@ -663,7 +671,7 @@ export class ContextMenus {
         title: this.service.i18n.t("service.contextMenus.searchInSolution"),
         contexts: contexts,
         parentId: _parentId,
-        targetUrlPatterns
+        targetUrlPatterns,
       });
       solutions.forEach((item: SearchSolution) => {
         let id = `${parentId}**${item.id}`;
@@ -675,11 +683,11 @@ export class ContextMenus {
           targetUrlPatterns,
           onclick: (
             info: chrome.contextMenus.OnClickData,
-            tab: chrome.tabs.Tab
+            tab: chrome.tabs.Tab,
           ) => {
             this.service.debug(
               this.service.i18n.t("service.contextMenus.searchInSolution"),
-              info
+              info,
             );
             let data = info.menuItemId.split("**");
             if (contexts.includes("link") && info.linkUrl) {
@@ -687,16 +695,16 @@ export class ContextMenus {
               if (link && link.length >= 2) {
                 this.service.controller.searchTorrent(
                   keyPrefix + link[1],
-                  data[1]
+                  data[1],
                 );
               }
             } else {
               this.service.controller.searchTorrent(
                 info.selectionText,
-                data[1]
+                data[1],
               );
             }
-          }
+          },
         });
       });
     }
@@ -709,7 +717,7 @@ export class ContextMenus {
       targetUrlPatterns,
       onclick: (
         info: chrome.contextMenus.OnClickData,
-        tab: chrome.tabs.Tab
+        tab: chrome.tabs.Tab,
       ) => {
         if (info.linkUrl) {
           let link = info.linkUrl.match(match);
@@ -719,7 +727,7 @@ export class ContextMenus {
         } else {
           this.service.controller.searchTorrent(info.selectionText, "all");
         }
-      }
+      },
     });
   }
 
@@ -737,19 +745,19 @@ export class ContextMenus {
           title: this.service.i18n.t(
             "service.contextMenus.sendTorrentToDefaultClient",
             {
-              client
-            }
+              client,
+            },
           ), // `发送到默认服务器 ${client.name} -> ${client.address}`,
           contexts: ["link"],
           onclick: (
             info: chrome.contextMenus.OnClickData,
-            tab: chrome.tabs.Tab
+            tab: chrome.tabs.Tab,
           ) => {
             this.sendTorrentToClient(tab.id, {
               clientId: info.menuItemId,
-              url: info.linkUrl as string
+              url: info.linkUrl as string,
             });
-          }
+          },
         });
       }
     }
@@ -758,7 +766,7 @@ export class ContextMenus {
       this.add({
         id: this.rootId,
         title: this.service.i18n.t("service.contextMenus.sendTorrentToClient"), // "发送到其他服务器",
-        contexts: ["link"]
+        contexts: ["link"],
       });
 
       // 创建可用的客户端菜单
@@ -771,13 +779,13 @@ export class ContextMenus {
             contexts: ["link"],
             onclick: (
               info: chrome.contextMenus.OnClickData,
-              tab: chrome.tabs.Tab
+              tab: chrome.tabs.Tab,
             ) => {
               this.sendTorrentToClient(tab.id, {
                 clientId: info.menuItemId,
-                url: info.linkUrl as string
+                url: info.linkUrl as string,
               });
-            }
+            },
           });
         }
       });
@@ -791,7 +799,7 @@ export class ContextMenus {
    */
   private add(
     options: chrome.contextMenus.CreateProperties,
-    callback?: (() => void) | undefined
+    callback?: (() => void) | undefined,
   ) {
     if (!options.id) {
       options.id = this.getRandomString();
@@ -825,7 +833,7 @@ export class ContextMenus {
    */
   private getRandomString(
     length: number = 16,
-    noSimilar: boolean = true
+    noSimilar: boolean = true,
   ): string {
     // 是否包含容易混淆的字符[oO,Ll,9gq,Vv,Uu,I1]，默认为包含
     let chars = noSimilar
@@ -856,7 +864,7 @@ export class ContextMenus {
       url,
       site,
       result: source,
-      error: {} as DataResult
+      error: {} as DataResult,
     };
 
     let parser = this.getSiteParser(site.host as string, "downloadURL");

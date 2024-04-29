@@ -36,8 +36,10 @@
             "
           >
             <v-container fluid grid-list-lg class="pa-3">
-              <div v-if="topSearches.length == 0"> {{ $t('common.loading') }} </div>
-              <v-layout  v-else row wrap>
+              <div v-if="topSearches.length == 0">
+                {{ $t("common.loading") }}
+              </div>
+              <v-layout v-else row wrap>
                 <v-flex v-for="(item, index) in topSearches" :key="index" xs4>
                   <v-card
                     @click="searchHotItem(item)"
@@ -179,12 +181,13 @@
             <v-list-tile-avatar class="album" :size="75">
               <img
                 :src="
-                  item.image || item.img ||
+                  item.image ||
+                  item.img ||
                   (item.images
                     ? item.images.small
                     : item.pic
-                    ? item.pic.normal
-                    : '')
+                      ? item.pic.normal
+                      : '')
                 "
               />
             </v-list-tile-avatar>
@@ -218,7 +221,11 @@
                 <img src="https://img3.doubanio.com/favicon.ico" width="16" />
                 {{
                   parseFloat(
-                    item.average ?item.average : item.rating? (item.rating.average || item.rating.value) : null
+                    item.average
+                      ? item.average
+                      : item.rating
+                        ? item.rating.average || item.rating.value
+                        : null,
                   ).toFixed(1)
                 }}
               </a>
@@ -226,9 +233,11 @@
                 :value="
                   item.average
                     ? parseFloat(item.average) / 2
-                    : item.rating? (item.rating.stars
-                    ? parseInt(item.rating.stars) / 10
-                    : item.rating.star_count): 0
+                    : item.rating
+                      ? item.rating.stars
+                        ? parseInt(item.rating.stars) / 10
+                        : item.rating.star_count
+                      : 0
                 "
                 background-color="grey lighten-2"
                 color="yellow accent-4"
@@ -372,15 +381,18 @@ export default Vue.extend({
       extension
         .sendRequest(EAction.queryMovieInfoFromDouban, null, {
           key,
-          count: this.$store.state.options.beforeSearchingOptions
-            .maxMovieInformationCount,
+          count:
+            this.$store.state.options.beforeSearchingOptions
+              .maxMovieInformationCount,
         })
         .then((result) => {
           this.isLoading = false;
           if (result) {
             if (result.subjects) {
               // issue 615: frodo 接口不止返回电影类型，而模板只考虑了电影类型的展示，把其他都筛掉
-              this.items = result.subjects.filter((x: { type: string; }) => x.type == 'movie');
+              this.items = result.subjects.filter(
+                (x: { type: string }) => x.type == "movie",
+              );
               this.showMenu = this.items.length > 0;
             } else if (result.title && result.updateTime) {
               this.items = [result];
@@ -422,9 +434,8 @@ export default Vue.extend({
         this.selectedSearchSolutionName = solution.name;
         defaultSearchSolutionId = solution.id;
       } else {
-        this.selectedSearchSolutionName = this.$t(
-          "searchBox.default"
-        ).toString();
+        this.selectedSearchSolutionName =
+          this.$t("searchBox.default").toString();
       }
 
       this.$store.dispatch("saveConfig", {
@@ -498,13 +509,10 @@ export default Vue.extend({
       this.options.defaultSearchSolutionId &&
       this.options.searchSolutions
     ) {
-      let searchSolution:
-        | SearchSolution
-        | undefined = this.options.searchSolutions.find(
-          (item: SearchSolution) => {
-            return item.id === this.options.defaultSearchSolutionId;
-          }
-        );
+      let searchSolution: SearchSolution | undefined =
+        this.options.searchSolutions.find((item: SearchSolution) => {
+          return item.id === this.options.defaultSearchSolutionId;
+        });
 
       if (searchSolution) {
         this.selectedSearchSolutionName = searchSolution.name;

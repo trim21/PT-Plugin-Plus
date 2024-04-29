@@ -11,8 +11,8 @@ export class i18nService {
     i18next.init({
       interpolation: {
         prefix: "{",
-        suffix: "}"
-      }
+        suffix: "}",
+      },
     });
     return this.reset(this.service.options.locale || "en");
   }
@@ -33,14 +33,14 @@ export class i18nService {
                 "translation",
                 result.words,
                 true,
-                true
+                true,
               );
               this.loadedLanguages.push(langCode);
               i18next.changeLanguage(langCode).then(() => {
                 resolve(langCode);
               });
             })
-            .fail(e => {
+            .fail((e) => {
               if (langCode != "en") {
                 this.reset("en").then(() => {
                   resolve(langCode);
@@ -75,7 +75,7 @@ export class i18nService {
             "translation",
             resource.words,
             true,
-            true
+            true,
           );
           this.loadedLanguages.push(resource.code);
           i18next.changeLanguage(resource.code).then(() => {
@@ -101,7 +101,7 @@ export class i18nService {
             "translation",
             resource.words,
             true,
-            true
+            true,
           );
           i18next.changeLanguage(resource.code).then(() => {
             resolve(resource.code);

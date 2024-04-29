@@ -14,14 +14,17 @@
     "parseScriptFile": "getSearchResult.js",
     "queryString": "searchstr=$key$&group_results=0&searchsubmit=1",
     "asyncParse": false,
-    "area": [{
-      "name": "IMDB",
-      "keyAutoMatch": "^(tt\\d+)$",
-      "replaceKey": ["tt", ""],
-      "queryString": "imdbid=$key$&group_results=0&searchsubmit=1"
-    }]
+    "area": [
+      {
+        "name": "IMDB",
+        "keyAutoMatch": "^(tt\\d+)$",
+        "replaceKey": ["tt", ""],
+        "queryString": "imdbid=$key$&group_results=0&searchsubmit=1"
+      }
+    ]
   },
-  "searchEntry": [{
+  "searchEntry": [
+    {
       "name": "all",
       "enabled": true
     },
@@ -41,23 +44,26 @@
       "enabled": false
     }
   ],
-  "categories": [{
-    "entry": "*",
-    "result": "&filter_cat[$id$]=1",
-    "category": [{
-        "id": 1,
-        "name": "Movie"
-      },
-      {
-        "id": 2,
-        "name": "Music"
-      },
-      {
-        "id": 3,
-        "name": "TV"
-      }
-    ]
-  }],
+  "categories": [
+    {
+      "entry": "*",
+      "result": "&filter_cat[$id$]=1",
+      "category": [
+        {
+          "id": 1,
+          "name": "Movie"
+        },
+        {
+          "id": 2,
+          "name": "Music"
+        },
+        {
+          "id": 3,
+          "name": "TV"
+        }
+      ]
+    }
+  ],
   "selectors": {
     "userSeedingTorrents": {
       "page": "/torrents.php?type=seeding&userid=$user.id$",
@@ -69,11 +75,16 @@
         },
         "seedingSize": {
           "selector": ["td.number_column.nobr"],
-          "filters": ["jQuery.map(query, (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+          "filters": [
+            "jQuery.map(query, (item)=>{return $(item).text();})",
+            "_self.getTotalSize(query)"
+          ]
         },
         "seedingList": {
           "selector": ["a[href*='torrentid=']"],
-          "filters": ["jQuery.map(query, item=>$(item).attr('href').match(/torrentid=(\\d+)/)[1])"]
+          "filters": [
+            "jQuery.map(query, item=>$(item).attr('href').match(/torrentid=(\\d+)/)[1])"
+          ]
         }
       }
     }

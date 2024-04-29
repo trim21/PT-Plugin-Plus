@@ -23,7 +23,7 @@ export default class KeepUploadTask {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.storage.get(this.configKey, (result: any) => {
         let data = {
-          items: [] as IDetail[]
+          items: [] as IDetail[],
         };
 
         if (Array.isArray(result)) {
@@ -50,9 +50,9 @@ export default class KeepUploadTask {
       let saveData = Object.assign(
         {
           time: new Date().getTime(),
-          id: PPF.getNewId()
+          id: PPF.getNewId(),
         },
-        newItem
+        newItem,
       );
 
       this.items.push(saveData);
@@ -83,7 +83,7 @@ export default class KeepUploadTask {
 
   private updateData() {
     this.storage.set(this.configKey, {
-      items: this.items
+      items: this.items,
     });
   }
 

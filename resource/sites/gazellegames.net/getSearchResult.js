@@ -1,8 +1,16 @@
 if (!"".getQueryString) {
-  String.prototype.getQueryString = function(name, split) {
+  String.prototype.getQueryString = function (name, split) {
     if (split == undefined) split = "&";
     var reg = new RegExp(
-        "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
+        "(^|" +
+          split +
+          "|\\?)" +
+          name +
+          "=([^" +
+          split +
+          "]*)(" +
+          split +
+          "|$)",
       ),
       r;
     if ((r = this.match(reg))) return decodeURI(r[2]);
@@ -10,7 +18,7 @@ if (!"".getQueryString) {
   };
 }
 
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -23,7 +31,7 @@ if (!"".getQueryString) {
 
       if (
         /没有种子|Your search did not match anything|用准确的关键字重试/.test(
-          options.responseText
+          options.responseText,
         )
       ) {
         options.status = ESearchResultParseStatus.noTorrents; //`[${options.site.name}]没有搜索到相关的种子`;
@@ -41,7 +49,7 @@ if (!"".getQueryString) {
       let results = [];
       // 获取种子列表行
       let rows = options.page.find(
-        options.resultSelector || "table.torrent_table:first > tbody > tr"
+        options.resultSelector || "table.torrent_table:first > tbody > tr",
       );
       if (rows.length == 0) {
         options.status = ESearchResultParseStatus.torrentTableIsEmpty; //`[${options.site.name}]没有定位到种子列表，或没有相关的种子`;
@@ -51,32 +59,51 @@ if (!"".getQueryString) {
       let movienames = {};
       let categories = {};
       let groupid;
-        let torrentinforows = options.page.find("tr.torrent, tr.group");
-        for(let index = 0; index < torrentinforows.length; index++){
-          let torrentinforow = torrentinforows.eq(index);
-          let torrentinfo = torrentinforow.find("td.center.cats_col").first();
-          let torrenttitle = torrentinforow.find("a[title='View Torrent'][href ^='torrents.php?id=']").first();
+      let torrentinforows = options.page.find("tr.torrent, tr.group");
+      for (let index = 0; index < torrentinforows.length; index++) {
+        let torrentinforow = torrentinforows.eq(index);
+        let torrentinfo = torrentinforow.find("td.center.cats_col").first();
+        let torrenttitle = torrentinforow
+          .find("a[title='View Torrent'][href ^='torrents.php?id=']")
+          .first();
 
-          groupid = torrenttitle.attr("href").getQueryString("id");
-          movienames[groupid] = torrenttitle.parent().text().replace(/[\r\n]/g,"").replace(/Bookmark.*/g,"").trim();
-          if(!movienames[groupid] || new RegExp("\t[DL	| RP]\t").test(movienames[groupid])){
-            movienames[groupid] = torrenttitle.parent().text().replace(/[\r\n]/g,"").replace(/\t+/g,"\t").replace("\t[DL	| RP]\t","").split('\t')[0];
-          }
-          categories[groupid] = torrentinfo.find("div").first().attr("class").split(" ")[0].replace("cats_","");
+        groupid = torrenttitle.attr("href").getQueryString("id");
+        movienames[groupid] = torrenttitle
+          .parent()
+          .text()
+          .replace(/[\r\n]/g, "")
+          .replace(/Bookmark.*/g, "")
+          .trim();
+        if (
+          !movienames[groupid] ||
+          new RegExp("\t[DL	| RP]\t").test(movienames[groupid])
+        ) {
+          movienames[groupid] = torrenttitle
+            .parent()
+            .text()
+            .replace(/[\r\n]/g, "")
+            .replace(/\t+/g, "\t")
+            .replace("\t[DL	| RP]\t", "")
+            .split("\t")[0];
         }
-      
+        categories[groupid] = torrentinfo
+          .find("div")
+          .first()
+          .attr("class")
+          .split(" ")[0]
+          .replace("cats_", "");
+      }
 
       // 用于定位每个字段所列的位置
       let fieldIndex = {
-          time: 1,
-          size: 3,
-          seeders: 5,
-          leechers: 6,
-          completed: 4,
-          comments: -1,
-          author: 2
-        };
- 
+        time: 1,
+        size: 3,
+        seeders: 5,
+        leechers: 6,
+        completed: 4,
+        comments: -1,
+        author: 2,
+      };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
         site.url += "/";
@@ -95,7 +122,7 @@ if (!"".getQueryString) {
           let subTitle = row.find("div.torrent_info").first();
 
           // 获取下载链接
-          let url = row.find("a[href*='torrents.php?action=download']").first();                        
+          let url = row.find("a[href*='torrents.php?action=download']").first();
           if (url.length == 0) {
             continue;
           }
@@ -112,8 +139,8 @@ if (!"".getQueryString) {
           }
 
           let time = "";
-            groupid = title.attr("href").getQueryString("id");
-            time =
+          groupid = title.attr("href").getQueryString("id");
+          time =
             fieldIndex.time == -1
               ? ""
               : cells
@@ -122,7 +149,6 @@ if (!"".getQueryString) {
                   .attr("title") ||
                 cells.eq(fieldIndex.time).text() ||
                 "";
-          
 
           if (time) {
             time += ":00";
@@ -159,7 +185,7 @@ if (!"".getQueryString) {
             tags: this.getTags(row, options.torrentTagSelectors),
             category: categories[groupid],
             status: Searcher.getFieldValue(site, cells, "status"),
-            progress: Searcher.getFieldValue(site, cells, "progress")
+            progress: Searcher.getFieldValue(site, cells, "progress"),
           };
           results.push(data);
         }
@@ -184,13 +210,13 @@ if (!"".getQueryString) {
     getTags(row, selectors) {
       let tags = [];
       if (selectors && selectors.length > 0) {
-        selectors.forEach(item => {
+        selectors.forEach((item) => {
           if (item.selector) {
             let result = row.find(item.selector);
             if (result.length) {
               tags.push({
                 name: item.name,
-                color: item.color
+                color: item.color,
               });
             }
           }
@@ -198,8 +224,6 @@ if (!"".getQueryString) {
       }
       return tags;
     }
-
-
   }
 
   let parser = new Parser(options);

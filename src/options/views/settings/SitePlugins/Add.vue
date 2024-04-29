@@ -46,7 +46,7 @@ import Vue from "vue";
 import Editor from "./Editor.vue";
 export default Vue.extend({
   components: {
-    Editor
+    Editor,
   },
   data() {
     return {
@@ -54,18 +54,18 @@ export default Vue.extend({
       selected: {
         script: `(function() {
   console.log("I'm a plugin.");
-})();`
+})();`,
       } as any,
       valid: false,
-      newData: {}
+      newData: {},
     };
   },
   props: {
-    value: Boolean
+    value: Boolean,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     show() {
@@ -76,7 +76,7 @@ export default Vue.extend({
     },
     value() {
       this.show = this.value;
-    }
+    },
   },
   methods: {
     save() {
@@ -90,8 +90,8 @@ export default Vue.extend({
       console.log(options);
       this.newData = options.data;
       this.valid = options.valid;
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

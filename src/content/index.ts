@@ -14,7 +14,7 @@ import {
   EButtonType,
   ECommonKey,
   Dictionary,
-  EPluginPosition
+  EPluginPosition,
 } from "@/interface/common";
 import { APP } from "@/service/api";
 import { filters } from "@/service/filters";
@@ -36,10 +36,10 @@ class PTPContent {
   public extension: Extension;
   public options: Options = {
     sites: [],
-    clients: []
+    clients: [],
   };
   public site: Site = {
-    name: ""
+    name: "",
   };
 
   public action = EAction;
@@ -58,7 +58,7 @@ class PTPContent {
 
   public buttonBar: JQuery = <any>null;
   public droper: JQuery = $(
-    "<div style='display:none;' class='pt-plugin-droper'/>"
+    "<div style='display:none;' class='pt-plugin-droper'/>",
   );
   private buttons: any[] = [];
   private logo: JQuery = <any>null;
@@ -115,7 +115,7 @@ class PTPContent {
   private initI18n() {
     this.extension
       .sendRequest(EAction.getCurrentLanguageResource, null, "contentPage")
-      .then(resource => {
+      .then((resource) => {
         // console.log(resource);
         let locale = this.options.locale || "en";
         // 初始化
@@ -123,13 +123,13 @@ class PTPContent {
           lng: locale,
           interpolation: {
             prefix: "{",
-            suffix: "}"
+            suffix: "}",
           },
           resources: {
             [locale]: {
-              translation: resource
-            }
-          }
+              translation: resource,
+            },
+          },
         });
         this.init();
       });
@@ -166,11 +166,13 @@ class PTPContent {
    * 初始化符合条件的附加页面
    */
   private initPages() {
-    this.initSiteConfig().then(() => {
-      this.initPlugins();
-    }).catch(() => {
-      APP.debugMode && console.log("initPages 失败");
-    });
+    this.initSiteConfig()
+      .then(() => {
+        this.initPlugins();
+      })
+      .catch(() => {
+        APP.debugMode && console.log("initPages 失败");
+      });
   }
 
   /**
@@ -259,7 +261,7 @@ class PTPContent {
             }
             this.scripts.push({
               type: "file",
-              content: path
+              content: path,
             });
           });
         }
@@ -323,7 +325,7 @@ class PTPContent {
               // 文件
               this.scripts.push({
                 type: "file",
-                content: path
+                content: path,
               });
             });
 
@@ -331,7 +333,7 @@ class PTPContent {
             // 代码
             this.scripts.push({
               type: "code",
-              content: plugin.script
+              content: plugin.script,
             });
           }
 
@@ -343,7 +345,7 @@ class PTPContent {
               }
               this.styles.push({
                 type: "file",
-                content: path
+                content: path,
               });
             });
           }
@@ -352,7 +354,7 @@ class PTPContent {
             // 代码
             this.styles.push({
               type: "code",
-              content: plugin.style
+              content: plugin.style,
             });
           }
         }
@@ -375,7 +377,7 @@ class PTPContent {
     }
 
     // 通知后台添加了一个新页面
-    this.extension.sendRequest(EAction.addContentPage).catch(error => {
+    this.extension.sendRequest(EAction.addContentPage).catch((error) => {
       console.log(error);
     });
   }
@@ -390,7 +392,7 @@ class PTPContent {
     return new Promise<any>((resolve?: any, reject?: any) => {
       if (this.backgroundServiceIsStoped) {
         reject({
-          msg: i18n.t("backgroundServiceIsStoped") //"插件已被禁用过重启过，请刷新页面后再重试"
+          msg: i18n.t("backgroundServiceIsStoped"), //"插件已被禁用过重启过，请刷新页面后再重试"
         });
         return;
       }
@@ -411,8 +413,8 @@ class PTPContent {
         //`${action} 执行出错，可能后台服务不可用`
         this.showNotice(
           i18n.t("actionExecutionFailed", {
-            action
-          })
+            action,
+          }),
         );
         reject(error);
       }
@@ -432,7 +434,9 @@ class PTPContent {
     // 启用拖放功能
     if (window.Drag) {
       let dragTitle = $(
-        "<div class='pt-plugin-drag-title' title='" + i18n.t("dragTitle") + "'>"
+        "<div class='pt-plugin-drag-title' title='" +
+          i18n.t("dragTitle") +
+          "'>",
       ).appendTo(this.buttonBar);
 
       new window.Drag(this.buttonBar.get(0), {
@@ -440,7 +444,7 @@ class PTPContent {
         onStop: (result: any) => {
           console.log(result);
           this.saveButtonBarPosition(result);
-        }
+        },
       });
 
       // 双击重置位置
@@ -450,7 +454,7 @@ class PTPContent {
     }
 
     this.logo = $(
-      "<div class='pt-plugin-logo' title='" + i18n.t("pluginTitle") + "'/>"
+      "<div class='pt-plugin-logo' title='" + i18n.t("pluginTitle") + "'/>",
     ).appendTo(this.buttonBar);
     this.logo.on("click", () => {
       this.call(EAction.openOptions);
@@ -470,7 +474,7 @@ class PTPContent {
 
         this.buttonBar.css({
           top: position.top,
-          left: position.left
+          left: position.left,
         });
         this.autoPosition = false;
         return;
@@ -480,13 +484,13 @@ class PTPContent {
     }
     this.buttonBar.css({
       top: window.innerHeight / 2,
-      left: "unset"
+      left: "unset",
     });
 
     if (this.options.position == EPluginPosition.left) {
       this.buttonBar.css({
         right: "unset",
-        left: "5px"
+        left: "5px",
       });
     }
   }
@@ -508,7 +512,7 @@ class PTPContent {
   private saveButtonBarPosition(position: any) {
     window.localStorage.setItem(
       this.positionStorageKey,
-      JSON.stringify(position)
+      JSON.stringify(position),
     );
     this.autoPosition = false;
   }
@@ -520,9 +524,9 @@ class PTPContent {
   public addButton(options: ButtonOption) {
     options = Object.assign(
       {
-        type: EButtonType.normal
+        type: EButtonType.normal,
       },
-      options
+      options,
     );
 
     let line = $("<hr/>").appendTo(this.buttonBar);
@@ -533,7 +537,7 @@ class PTPContent {
     let button = $(buttonType)
       .attr({
         title: options.title,
-        key: options.key
+        key: options.key,
       })
       .data("line", line);
     let inner = $("<div class='pt-plugin-button-inner'/>").appendTo(button);
@@ -542,13 +546,9 @@ class PTPContent {
       .html('<div class="action-success-ani"></div>')
       .appendTo(button);
     if (options.icon) {
-      $("<i class='material-icons md-36'/>")
-        .html(options.icon)
-        .appendTo(inner);
+      $("<i class='material-icons md-36'/>").html(options.icon).appendTo(inner);
     }
-    $("<div/>")
-      .html(options.label)
-      .appendTo(inner);
+    $("<div/>").html(options.label).appendTo(inner);
 
     let onSuccess = (result: any) => {
       if (options.type == EButtonType.normal) {
@@ -579,13 +579,13 @@ class PTPContent {
         msg:
           error ||
           i18n.t("callbackFailed", {
-            label: options.label
-          }) // `${options.label} 发生错误，请重试。`
+            label: options.label,
+          }), // `${options.label} 发生错误，请重试。`
       });
     };
 
     if (options.click) {
-      button.click(event => {
+      button.click((event) => {
         if (options.type == EButtonType.normal) {
           inner.hide();
           loading.show();
@@ -642,7 +642,7 @@ class PTPContent {
       return;
     }
     this.buttonBar.css({
-      top: window.innerHeight / 2 - <any>this.buttonBar.outerHeight(true) / 2
+      top: window.innerHeight / 2 - <any>this.buttonBar.outerHeight(true) / 2,
     });
   }
 
@@ -660,13 +660,13 @@ class PTPContent {
         position: "bottomRight",
         progressBar: true,
         width: 320,
-        indeterminate: false
+        indeterminate: false,
       },
       typeof options === "string"
         ? { msg: options }
         : typeof options.msg === "object"
           ? options.msg
-          : options
+          : options,
     );
 
     options.text = options.text || options.msg;
@@ -752,7 +752,7 @@ class PTPContent {
       if (e.target.tagName == "A") {
         let data = {
           url: e.target.getAttribute("href"),
-          title: e.target.getAttribute("title")
+          title: e.target.getAttribute("title"),
         };
         e.dataTransfer.setData("text/plain", JSON.stringify(data));
       }
@@ -793,7 +793,7 @@ class PTPContent {
         this.logo.addClass("pt-plugin-onLoading");
         this.buttonBar.addClass("pt-plugin-body-over");
       },
-      false
+      false,
     );
 
     // 拖放事件
@@ -816,7 +816,7 @@ class PTPContent {
                 this.extension.sendRequest(
                   EAction.openOptions,
                   null,
-                  `search-torrent/${IMDbMatch[1]}`
+                  `search-torrent/${IMDbMatch[1]}`,
                 );
                 this.logo.removeClass("pt-plugin-onLoading");
                 return;
@@ -834,7 +834,7 @@ class PTPContent {
                 this.showNotice({
                   type: EDataResultType.info,
                   msg: i18n.t("notSupported"), // "当前页面不支持此操作",
-                  timeout: 3
+                  timeout: 3,
                 });
                 this.logo.removeClass("pt-plugin-onLoading");
               }
@@ -846,7 +846,7 @@ class PTPContent {
           this.logo.removeClass("pt-plugin-onLoading");
         }
       },
-      false
+      false,
     );
 
     // 离开拖放时
@@ -868,13 +868,13 @@ class PTPContent {
     parent: any,
     onDrop: Function,
     onSuccess: Function,
-    onError: Function
+    onError: Function,
   ) {
     if (!onDrop) {
       return;
     }
     let droper: JQuery = $(
-      "<div style='display:none;' class='pt-plugin-droper'/>"
+      "<div style='display:none;' class='pt-plugin-droper'/>",
     );
 
     droper.appendTo(this.buttonBar);
@@ -896,7 +896,7 @@ class PTPContent {
       // 获取未处理的地址
       try {
         let data = JSON.parse(
-          e.originalEvent.dataTransfer.getData("text/plain")
+          e.originalEvent.dataTransfer.getData("text/plain"),
         );
         if (data && data.url) {
           onDrop.call(this, data, e, onSuccess, onError);
@@ -906,7 +906,7 @@ class PTPContent {
         let data = e.originalEvent.dataTransfer.getData("text/plain");
         if (data) {
           data = {
-            url: data
+            url: data,
           };
 
           onDrop.call(this, data, e, onSuccess, onError);
@@ -939,7 +939,7 @@ class PTPContent {
       (
         message: Request,
         sender: chrome.runtime.MessageSender,
-        callback: (response: any) => void
+        callback: (response: any) => void,
       ) => {
         APP.debugMode && console.log("content.onMessage", message);
         switch (message.action) {
@@ -956,7 +956,7 @@ class PTPContent {
             this.backgroundServiceIsStoped = true;
             break;
         }
-      }
+      },
     );
   }
 
@@ -977,9 +977,9 @@ class PTPContent {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.call(EAction.getSiteSelectorConfig, {
         host: this.site.host,
-        name: location.pathname
+        name: location.pathname,
       })
-        .then(result => {
+        .then((result) => {
           this.pageSelector = result;
           resolve();
         })
@@ -987,9 +987,9 @@ class PTPContent {
           // 如果没有当前页面的选择器，则尝试获取通用的选择器
           this.call(EAction.getSiteSelectorConfig, {
             host: this.site.host,
-            name: "common"
+            name: "common",
           })
-            .then(result => {
+            .then((result) => {
               this.pageSelector = result;
               resolve();
             })
@@ -1027,5 +1027,5 @@ class PTPContent {
 // 暴露到 window 对象
 Object.assign(window, {
   PTService: new PTPContent(),
-  PPF
+  PPF,
 });

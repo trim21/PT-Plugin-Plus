@@ -53,7 +53,7 @@ export class Favicon {
         .then((results: any[]) => {
           resolve(results);
         })
-        .catch(e => {
+        .catch((e) => {
           reject(e);
         });
     });
@@ -73,7 +73,7 @@ export class Favicon {
           .then((result: any) => {
             resolve(result);
           })
-          .catch(e => {
+          .catch((e) => {
             reject(e);
           });
         return;
@@ -90,13 +90,13 @@ export class Favicon {
   private cacheFavicon(url: string, host: string): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.download(`${url}/favicon.ico`)
-        .then(result => {
+        .then((result) => {
           if (result && result.size > 0) {
             this.transformBlob(result, "base64")
-              .then(base64 => {
+              .then((base64) => {
                 resolve(this.set(url, base64));
               })
-              .catch(e => {
+              .catch((e) => {
                 reject(e);
               });
           } else {
@@ -104,7 +104,7 @@ export class Favicon {
               .then((result: any) => {
                 resolve(result);
               })
-              .catch(e => {
+              .catch((e) => {
                 reject(e);
               });
           }
@@ -114,7 +114,7 @@ export class Favicon {
             .then((result: any) => {
               resolve(result);
             })
-            .catch(e => {
+            .catch((e) => {
               reject(e);
             });
         });
@@ -126,7 +126,7 @@ export class Favicon {
     let item = {
       origin: URL.origin,
       host: URL.host,
-      data
+      data,
     };
     this.cache[URL.host] = item;
     this.saveCache();
@@ -141,14 +141,14 @@ export class Favicon {
   private cacheFromIndex(url: string, host: string): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.download(url)
-        .then(result => {
+        .then((result) => {
           if (result && /text/gi.test(result.type)) {
             this.transformBlob(result, "text")
-              .then(text => {
+              .then((text) => {
                 try {
                   const doc = new DOMParser().parseFromString(
                     text,
-                    "text/html"
+                    "text/html",
                   );
                   // 构造 jQuery 对象
                   const head = $(doc).find("head");
@@ -160,17 +160,19 @@ export class Favicon {
                     if (link.substr(0, 2) === "//") {
                       link = `${URL.protocol}:${link}`;
                     } else if (link.substr(0, 4) !== "http") {
-                      link = link.startsWith('/') ? `${URL.origin}${link}` : `${URL.origin}/${link}`;
+                      link = link.startsWith("/")
+                        ? `${URL.origin}${link}`
+                        : `${URL.origin}/${link}`;
                     }
 
                     this.download(link)
-                      .then(result => {
+                      .then((result) => {
                         if (result && /image/gi.test(result.type)) {
                           this.transformBlob(result, "base64")
-                            .then(base64 => {
+                            .then((base64) => {
                               resolve(this.set(url, base64));
                             })
-                            .catch(e => {
+                            .catch((e) => {
                               this.debug(e);
                               reject(e);
                             });
@@ -190,7 +192,7 @@ export class Favicon {
                   resolve(this.set(url, NOIMAGE));
                 }
               })
-              .catch(e => {
+              .catch((e) => {
                 this.debug(e);
                 reject(e);
               });
@@ -232,7 +234,7 @@ export class Favicon {
       let file = new FileDownloader({
         url,
         getDataOnly: true,
-        timeout: 5000
+        timeout: 5000,
       });
 
       file.onCompleted = () => {

@@ -1,18 +1,30 @@
 <template>
   <div class="set-download-clients">
-    <v-alert :value="true" type="info">{{ $t('settings.downloadClients.index.title') }}</v-alert>
+    <v-alert :value="true" type="info">{{
+      $t("settings.downloadClients.index.title")
+    }}</v-alert>
     <v-card>
       <v-card-title>
         <v-btn color="success" @click="add">
           <v-icon class="mr-2">add</v-icon>
-          {{ $t('settings.downloadClients.index.add') }}
+          {{ $t("settings.downloadClients.index.add") }}
         </v-btn>
-        <v-btn color="error" :disabled="selected.length==0" @click="removeSelected">
+        <v-btn
+          color="error"
+          :disabled="selected.length == 0"
+          @click="removeSelected"
+        >
           <v-icon class="mr-2">remove</v-icon>
-          {{ $t('settings.downloadClients.index.remove') }}
+          {{ $t("settings.downloadClients.index.remove") }}
         </v-btn>
         <v-spacer></v-spacer>
-        <v-text-field class="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+        <v-text-field
+          class="search"
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
       </v-card-title>
 
       <v-data-table
@@ -25,8 +37,12 @@
         class="elevation-1"
       >
         <template slot="items" slot-scope="props">
-          <td style="width:20px;">
-            <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+          <td style="width: 20px">
+            <v-checkbox
+              v-model="props.selected"
+              primary
+              hide-details
+            ></v-checkbox>
           </td>
           <td>
             <a @click="edit(props.item)">{{ props.item.name }}</a>
@@ -37,41 +53,54 @@
               :href="props.item.address"
               target="_blank"
               rel="noopener noreferrer nofollow"
-            >{{ props.item.address }}</a>
+              >{{ props.item.address }}</a
+            >
           </td>
           <td>
             <v-icon small class="mr-2" @click="edit(props.item)">edit</v-icon>
-            <v-icon small color="error" @click="removeConfirm(props.item)">delete</v-icon>
+            <v-icon small color="error" @click="removeConfirm(props.item)"
+              >delete</v-icon
+            >
           </td>
         </template>
       </v-data-table>
     </v-card>
 
     <!-- 新增 -->
-    <AddItem v-model="showAddDialog" @save="addItem"/>
+    <AddItem v-model="showAddDialog" @save="addItem" />
     <!-- 编辑 -->
-    <EditItem v-model="showEditDialog" :option="selectedItem" @save="updateItem"/>
+    <EditItem
+      v-model="showEditDialog"
+      :option="selectedItem"
+      @save="updateItem"
+    />
 
     <!-- 删除确认 -->
     <v-dialog v-model="dialogRemoveConfirm" width="300">
       <v-card>
-        <v-card-title
-          class="headline red lighten-2"
-        >{{ $t('settings.downloadClients.index.removeConfirmTitle') }}</v-card-title>
+        <v-card-title class="headline red lighten-2">{{
+          $t("settings.downloadClients.index.removeConfirmTitle")
+        }}</v-card-title>
 
-        <v-card-text>{{ $t('settings.downloadClients.index.removeConfirm') }}</v-card-text>
+        <v-card-text>{{
+          $t("settings.downloadClients.index.removeConfirm")
+        }}</v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat color="info" @click="dialogRemoveConfirm=false">
+          <v-btn flat color="info" @click="dialogRemoveConfirm = false">
             <v-icon>cancel</v-icon>
-            <span class="ml-1">{{ $t('settings.downloadClients.index.cancel') }}</span>
+            <span class="ml-1">{{
+              $t("settings.downloadClients.index.cancel")
+            }}</span>
           </v-btn>
           <v-btn color="error" flat @click="remove">
             <v-icon>check_circle_outline</v-icon>
-            <span class="ml-1">{{ $t('settings.downloadClients.index.ok') }}</span>
+            <span class="ml-1">{{
+              $t("settings.downloadClients.index.ok")
+            }}</span>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -81,12 +110,9 @@
       <div v-html="$t('settings.downloadClients.index.subTitle')"></div>
     </v-alert>
 
-    <v-snackbar
-      v-model="itemDuplicate"
-      top
-      :timeout="3000"
-      color="error"
-    >{{ $t('settings.downloadClients.index.itemDuplicate') }}</v-snackbar>
+    <v-snackbar v-model="itemDuplicate" top :timeout="3000" color="error">{{
+      $t("settings.downloadClients.index.itemDuplicate")
+    }}</v-snackbar>
   </div>
 </template>
 
@@ -97,7 +123,7 @@ import EditItem from "./Edit.vue";
 export default Vue.extend({
   components: {
     AddItem,
-    EditItem
+    EditItem,
   },
   data() {
     return {
@@ -107,10 +133,10 @@ export default Vue.extend({
       selected: [],
       selectedItem: {},
       pagination: {
-        rowsPerPage: -1
+        rowsPerPage: -1,
       },
       items: [],
-      dialogRemoveConfirm: false
+      dialogRemoveConfirm: false,
     };
   },
   created() {
@@ -157,7 +183,7 @@ export default Vue.extend({
     clear() {
       if (
         confirm(
-          this.$t("settings.downloadClients.index.clearConfirm").toString()
+          this.$t("settings.downloadClients.index.clearConfirm").toString(),
         )
       ) {
         this.$store.commit("clearClients");
@@ -167,8 +193,8 @@ export default Vue.extend({
       if (
         confirm(
           this.$t(
-            "settings.downloadClients.index.removeSelectedConfirm"
-          ).toString()
+            "settings.downloadClients.index.removeSelectedConfirm",
+          ).toString(),
         )
       ) {
         console.log(this.selected);
@@ -177,7 +203,7 @@ export default Vue.extend({
         });
         this.selected = [];
       }
-    }
+    },
   },
   computed: {
     headers(): Array<any> {
@@ -185,26 +211,26 @@ export default Vue.extend({
         {
           text: this.$t("settings.downloadClients.index.headers.name"),
           align: "left",
-          value: "name"
+          value: "name",
         },
         {
           text: this.$t("settings.downloadClients.index.headers.type"),
           align: "left",
-          value: "type"
+          value: "type",
         },
         {
           text: this.$t("settings.downloadClients.index.headers.address"),
           align: "left",
-          value: "address"
+          value: "address",
         },
         {
           text: this.$t("settings.downloadClients.index.headers.action"),
           value: "name",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>
 

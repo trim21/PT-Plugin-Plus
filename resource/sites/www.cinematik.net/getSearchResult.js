@@ -1,4 +1,4 @@
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -12,7 +12,7 @@
 
       if (
         /没有种子|No [Tt]orrents?|Your search did not match anything|用准确的关键字重试/.test(
-          options.responseText
+          options.responseText,
         )
       ) {
         options.status = ESearchResultParseStatus.noTorrents; //`[${options.site.name}]没有搜索到相关的种子`;
@@ -30,7 +30,7 @@
       let results = [];
       // 获取种子列表行
       let rows = options.page.find(
-        options.resultSelector || "table[border='1']:last > tbody > tr"
+        options.resultSelector || "table[border='1']:last > tbody > tr",
       );
       if (rows.length == 0) {
         options.status = ESearchResultParseStatus.torrentTableIsEmpty; //`[${options.site.name}]没有定位到种子列表，或没有相关的种子`;
@@ -49,7 +49,7 @@
         comments: -1,
         author: -1,
         category: 0,
-        title: 1
+        title: 1,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -80,10 +80,7 @@
           let time =
             fieldIndex.time == -1
               ? ""
-              : cells
-                  .eq(fieldIndex.time)
-                  .find("div.addedtor")
-                  .text() || "";
+              : cells.eq(fieldIndex.time).find("div.addedtor").text() || "";
 
           let data = {
             title: title.text(),
@@ -115,7 +112,7 @@
             site: site,
             entryName: options.entry.name,
             category: this.getCategory(cells.eq(fieldIndex.category)),
-            tags: options.searcher.getRowTags(site, row)
+            tags: options.searcher.getRowTags(site, row),
           };
           results.push(data);
         }
@@ -138,7 +135,7 @@
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       let img = link.find("img:first");

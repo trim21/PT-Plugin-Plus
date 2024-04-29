@@ -28,7 +28,7 @@
         return "";
       }
 
-      if (url.substr(0, 2) === '//') { 
+      if (url.substr(0, 2) === "//") {
         url = `${location.protocol}${url}`;
       } else if (url.substr(0, 1) === "/") {
         url = `${location.origin}${url}`;
@@ -37,7 +37,7 @@
       }
 
       if (url.indexOf("ssl=yes") === -1) {
-        url += "&ssl=yes"
+        url += "&ssl=yes";
       }
 
       return url;
@@ -54,6 +54,6 @@
       }
       return title;
     }
-  };
-  (new App()).init();
+  }
+  new App().init();
 })(jQuery, window);

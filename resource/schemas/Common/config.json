@@ -5,8 +5,10 @@
     "resultType": "html",
     "parseScriptFile": "/schemas/Common/getSearchResult.js"
   },
-  "searchEntry": [{
-    "name": "全部",
-    "enabled": true
-  }]
+  "searchEntry": [
+    {
+      "name": "全部",
+      "enabled": true
+    }
+  ]
 }

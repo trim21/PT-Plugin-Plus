@@ -10,7 +10,7 @@ class HelpFunctions {
   public manifest: chrome.runtime.Manifest = {
     manifest_version: 2,
     name: "",
-    version: ""
+    version: "",
   };
   constructor() {
     try {
@@ -59,7 +59,7 @@ class HelpFunctions {
       } else {
         chrome.browserAction.setBadgeText({ text: count.toString() });
         chrome.browserAction.setBadgeBackgroundColor({
-          color: "#aabbcc"
+          color: "#aabbcc",
         });
         chrome.browserAction.disable();
       }
@@ -87,7 +87,7 @@ class HelpFunctions {
    */
   public getRandomString(
     length: number = 32,
-    noSimilar: boolean = false
+    noSimilar: boolean = false,
   ): string {
     // 是否包含容易混淆的字符[oO,Ll,9gq,Vv,Uu,I1]，默认为包含
     let chars = noSimilar
@@ -107,7 +107,7 @@ class HelpFunctions {
    */
   public getNewId(): string {
     return md5(
-      new Date().getTime().toString() + this.getRandomString()
+      new Date().getTime().toString() + this.getRandomString(),
     ).toString();
   }
 
@@ -117,7 +117,7 @@ class HelpFunctions {
    */
   public showNotifications(
     options: chrome.notifications.NotificationOptions,
-    timeout: number = 3000
+    timeout: number = 3000,
   ) {
     options = Object.assign(
       {
@@ -125,14 +125,14 @@ class HelpFunctions {
         iconUrl: chrome.runtime.getURL("/assets/icon-128.png"),
         title: "PT 助手 Plus",
         priority: 0,
-        message: ""
+        message: "",
       },
-      options
+      options,
     );
 
     let id = Math.floor(Math.random() * 99999) + "";
 
-    chrome.notifications.create(id, options, function(myId) {
+    chrome.notifications.create(id, options, function (myId) {
       id = myId;
     });
 
@@ -252,7 +252,7 @@ class HelpFunctions {
       // 修正偏移量
       $(".basicContext").css({
         left: "-=20px",
-        top: "+=10px"
+        top: "+=10px",
       });
     } catch (error) {}
   }
@@ -271,21 +271,21 @@ class HelpFunctions {
         // 查询当前权限
         chrome.permissions.contains(
           {
-            permissions: permissions
+            permissions: permissions,
           },
-          result => {
+          (result) => {
             if (result === true) {
               resolve(true);
             } else {
               reject({
-                success: false
+                success: false,
               });
             }
-          }
+          },
         );
       } else {
         reject({
-          success: false
+          success: false,
         });
       }
     });
@@ -300,21 +300,21 @@ class HelpFunctions {
       if (chrome && chrome.permissions) {
         chrome.permissions.request(
           {
-            permissions: permissions
+            permissions: permissions,
           },
-          granted => {
+          (granted) => {
             if (granted === true) {
               resolve(true);
             } else {
               reject({
-                success: false
+                success: false,
               });
             }
-          }
+          },
         );
       } else {
         reject({
-          success: false
+          success: false,
         });
       }
     });
@@ -328,11 +328,11 @@ class HelpFunctions {
   public usePermissions(
     permissions: string[],
     needConfirm: boolean = false,
-    confirmMsg: string = ""
+    confirmMsg: string = "",
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.checkPermissions(permissions)
-        .then(result => {
+        .then((result) => {
           resolve(result);
         })
         .catch(() => {
@@ -342,15 +342,15 @@ class HelpFunctions {
           }
           if (!confirmed) {
             reject({
-              success: false
+              success: false,
             });
             return;
           }
           this.requestPermissions(permissions)
-            .then(result => {
+            .then((result) => {
               resolve(result);
             })
-            .catch(error => {
+            .catch((error) => {
               reject(error);
             });
         });
@@ -372,7 +372,10 @@ class HelpFunctions {
     }
 
     let site = sites.find((item: Site) => {
-      let cdn = [item.url].concat(item.cdn, item.formerHosts?.map(x => `//${x}`));
+      let cdn = [item.url].concat(
+        item.cdn,
+        item.formerHosts?.map((x) => `//${x}`),
+      );
       return item.host == host || cdn.join("").indexOf(`//${host}`) > -1;
     });
 
@@ -397,9 +400,9 @@ class HelpFunctions {
   public replaceKeys(
     source: string,
     maps: Dictionary<any>,
-    prefix: string = ""
+    prefix: string = "",
   ): string {
-    if (!source || typeof source !== 'string') {
+    if (!source || typeof source !== "string") {
       return source;
     }
     let result: string = source;

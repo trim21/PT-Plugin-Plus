@@ -6,20 +6,20 @@
         :small="small"
         v-on="on"
         :dark="dark"
-        :class="['ma-0',mini?'btn-mini':'']"
+        :class="['ma-0', mini ? 'btn-mini' : '']"
         :title="title"
       >
         <v-icon :small="small">color_lens</v-icon>
       </v-btn>
     </template>
     <div v-for="(color, index) in colors" :key="index">
-      <template v-if="color!='black'">
+      <template v-if="color != 'black'">
         <v-btn
-          v-for="(value, n) in [4,3,2,1]"
+          v-for="(value, n) in [4, 3, 2, 1]"
           :key="`${index}.darken-${n}`"
           :color="`${color} darken-${value}`"
           class="white--text pa-0 ma-0"
-          style="border-radius:0;min-width:30px;"
+          style="border-radius: 0; min-width: 30px"
           small
           @click.stop="changeColor(`${color} darken-${value}`)"
         ></v-btn>
@@ -27,17 +27,17 @@
         <v-btn
           :color="color"
           class="white--text pa-0 ma-0"
-          style="border-radius:0;min-width:30px;"
+          style="border-radius: 0; min-width: 30px"
           small
           @click.stop="changeColor(color)"
         ></v-btn>
 
         <v-btn
-          v-for="(value, n) in [1,2,3,4,5]"
+          v-for="(value, n) in [1, 2, 3, 4, 5]"
           :key="`${index}.${n}`"
           :color="`${color} lighten-${value}`"
           class="white--text pa-0 ma-0"
-          style="border-radius:0;min-width:30px;"
+          style="border-radius: 0; min-width: 30px"
           small
           @click.stop="changeColor(`${color} lighten-${value}`)"
         ></v-btn>
@@ -54,19 +54,19 @@ export default Vue.extend({
     dark: Boolean,
     title: String,
     mini: Boolean,
-    small: Boolean
+    small: Boolean,
   },
   data() {
     return {
       colors: BASE_COLORS,
-      show: false
+      show: false,
     };
   },
 
   methods: {
     changeColor(color: string) {
       this.$emit("change", color);
-    }
+    },
   },
 
   watch: {
@@ -76,7 +76,7 @@ export default Vue.extend({
       } else {
         this.$emit("hide");
       }
-    }
-  }
+    },
+  },
 });
 </script>

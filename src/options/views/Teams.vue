@@ -48,14 +48,14 @@ export default Vue.extend({
         "tongyifan (杯杯杯杯具)",
         "the chosen one (三哥)",
         "橙子",
-        "frank777777777 (杀死那个异教徒)"
-      ]
+        "frank777777777 (杀死那个异教徒)",
+      ],
     };
   },
   computed: {
     peoples(): string[] {
       return this.items.sort();
-    }
-  }
+    },
+  },
 });
 </script>

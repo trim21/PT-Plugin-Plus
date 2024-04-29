@@ -58,7 +58,10 @@
         },
         "levelName": {
           "selector": ["li:contains('Class:')"],
-          "filters": ["query.text().match(/Class:(.+)/)", "(query && query.length>=2)?query[1]:''"]
+          "filters": [
+            "query.text().match(/Class:(.+)/)",
+            "(query && query.length>=2)?query[1]:''"
+          ]
         },
         "bonus": {
           "selector": ["li:contains('Bonus Points:') > a"],

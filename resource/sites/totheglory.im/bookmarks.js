@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is bookmarks.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -30,7 +30,7 @@
         return this.t("getDownloadURLsFailed"); //"获取下载链接失败，未能正确定位到链接";
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let link = $(item).attr("href");
         if (link && link.substr(0, 4) != "http") {
           link = siteURL + link;
@@ -40,7 +40,6 @@
 
       return urls;
     }
-
 
     /**
      * 执行指定的操作
@@ -61,7 +60,7 @@
       });
     }
 
-   /**
+    /**
      * 下载拖放的种子
      * @param {*} data
      * @param {*} callback
@@ -70,7 +69,7 @@
       if (typeof data === "string") {
         data = {
           url: data,
-          title: ""
+          title: "",
         };
       }
 
@@ -78,7 +77,7 @@
 
       if (!data.url) {
         PTService.showNotice({
-          msg: this.t("invalidURL") //"无效的链接"
+          msg: this.t("invalidURL"), //"无效的链接"
         });
         callback();
         return;
@@ -91,10 +90,10 @@
       }
 
       this.sendTorrentToDefaultClient(result)
-        .then(result => {
+        .then((result) => {
           callback(result);
         })
-        .catch(result => {
+        .catch((result) => {
           callback(result);
         });
     }
@@ -105,8 +104,8 @@
     confirmWhenExceedSize() {
       return this.confirmSize(
         $("#torrent_table").find(
-          "td[align='center']:contains('MB'),td[align='center']:contains('GB'),td[align='center']:contains('TB')"
-        )
+          "td[align='center']:contains('MB'),td[align='center']:contains('GB'),td[align='center']:contains('TB')",
+        ),
       );
     }
   }

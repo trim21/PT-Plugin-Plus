@@ -1,10 +1,10 @@
-(function($) {
+(function ($) {
   $("#btnConfig").on("click", () => {
     chrome.runtime.sendMessage(
       {
-        action: "openOptions"
+        action: "openOptions",
       },
-      () => {}
+      () => {},
     );
   });
 
@@ -12,9 +12,9 @@
     chrome.runtime.sendMessage(
       {
         action: "openOptions",
-        data: "system-logs"
+        data: "system-logs",
       },
-      () => {}
+      () => {},
     );
   });
 })(jQuery);

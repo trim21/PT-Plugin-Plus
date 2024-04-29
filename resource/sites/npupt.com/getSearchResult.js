@@ -1,7 +1,7 @@
 /**
  * @see https://github.com/Rhilip/PT-help/blob/master/docs/js/ptsearch.user.js
  */
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -57,34 +57,31 @@
 
         // 定位种子大小，做种和优惠tag
         let _size_peer_block = torrent_data_raw.find(
-          ".rowfollow.vcenter.nowrap"
+          ".rowfollow.vcenter.nowrap",
         );
         let _size_tag = _size_peer_block.find("center");
         let _seeders_tag = _size_peer_block.find("span.badge").eq(0);
         let _leechers_tag = _size_peer_block.find("span.badge").eq(1);
         let _completed_tag = torrent_data_raw.find(
-          "a[href^='viewsnatches.php?id=']"
+          "a[href^='viewsnatches.php?id=']",
         );
         let _buff_tag = _title_tag.parent("td.embedded"); // 转交给 this.getTags() 处理
 
         // 发布时间
-        let _date_tag = torrent_data_raw.find("div.small").filter(function() {
-          return time_regex.test(
-            $(this).html()
-          );
+        let _date_tag = torrent_data_raw.find("div.small").filter(function () {
+          return time_regex.test($(this).html());
         });
-        let _date = ((_date_tag.html().match(time_regex) || ["", "0000-00-00 00:00:00"] )[1]).trim();
+        let _date = (_date_tag.html().match(time_regex) || [
+          "",
+          "0000-00-00 00:00:00",
+        ])[1].trim();
 
         // 做种，评论信息
         let _tag_comments = torrent_data_raw.find("a[href$='#startcomments']");
 
         let _comments = 0;
         if (_tag_comments) {
-          _comments =
-            _tag_comments
-              .text()
-              .trim()
-              .replace(",", "") || 0;
+          _comments = _tag_comments.text().trim().replace(",", "") || 0;
         }
 
         let _category = torrent_data_raw
@@ -109,7 +106,7 @@
           site: site,
           tags: this.getTags(_buff_tag, options.torrentTagSelectors),
           entryName: options.entry.name,
-          category: _category
+          category: _category,
         };
         results.push(data);
       }
@@ -127,13 +124,13 @@
       let tags = [];
       if (selectors && selectors.length > 0) {
         // 使用 some 避免错误的背景类名返回多个标签
-        selectors.some(item => {
+        selectors.some((item) => {
           if (item.selector) {
             let result = row.find(item.selector);
             if (result.length) {
               tags.push({
                 name: item.name,
-                color: item.color
+                color: item.color,
               });
               return true;
             }

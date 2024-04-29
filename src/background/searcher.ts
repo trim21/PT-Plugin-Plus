@@ -15,7 +15,7 @@ import {
   SiteCategory,
   ERequestMethod,
   BASE_TAG_COLORS,
-  ERequestType
+  ERequestType,
 } from "@/interface/common";
 import { APP } from "@/service/api";
 import { SiteService } from "./site";
@@ -40,11 +40,11 @@ export enum ESearchResultParseStatus {
   needLogin = "needLogin",
   noTorrents = "noTorrents",
   torrentTableIsEmpty = "torrentTableIsEmpty",
-  parseError = "parseError"
+  parseError = "parseError",
 }
 
 Object.assign(window, {
-  ESearchResultParseStatus
+  ESearchResultParseStatus,
 });
 
 /**
@@ -57,12 +57,12 @@ export class Searcher {
   private parseScriptCache: any = {};
   public options: Options = {
     sites: [],
-    clients: []
+    clients: [],
   };
 
   private searchRequestQueue: Dictionary<JQueryXHR> = {};
 
-  constructor(public service: PTPlugin) { }
+  constructor(public service: PTPlugin) {}
 
   /**
    * 搜索种子
@@ -73,17 +73,17 @@ export class Searcher {
   public searchTorrent(
     site: Site,
     key: string = "",
-    payload?: ISearchPayload
+    payload?: ISearchPayload,
   ): Promise<any> {
     this.service.debug("searchTorrent: start", key, payload);
     return new Promise<any>((resolve?: any, reject?: any) => {
       let result: DataResult = {
-        success: false
+        success: false,
       };
 
       let siteService: SiteService = new SiteService(
         PPF.clone(site),
-        PPF.clone(this.options)
+        PPF.clone(this.options),
       );
       let searchConfig: SearchConfig = {};
       let schema = this.getSiteSchema(site);
@@ -94,10 +94,10 @@ export class Searcher {
       let searchEntryConfig: SearchEntryConfig | undefined = extend(
         true,
         {
-          torrentTagSelectors: []
+          torrentTagSelectors: [],
         },
         schema && schema.searchEntryConfig ? schema.searchEntryConfig : {},
-        siteService.options.searchEntryConfig
+        siteService.options.searchEntryConfig,
       );
       let searchEntryConfigQueryString = "";
 
@@ -116,9 +116,10 @@ export class Searcher {
       if (siteService.options.torrentTagSelectors) {
         // 是否合并 Schema 的标签选择器
         if (siteService.options.mergeSchemaTagSelectors) {
-          searchConfig.torrentTagSelectors = siteService.options.torrentTagSelectors.concat(
-            searchConfig.torrentTagSelectors
-          );
+          searchConfig.torrentTagSelectors =
+            siteService.options.torrentTagSelectors.concat(
+              searchConfig.torrentTagSelectors,
+            );
         } else {
           searchConfig.torrentTagSelectors =
             siteService.options.torrentTagSelectors;
@@ -129,8 +130,8 @@ export class Searcher {
         result.msg = this.service.i18n.t(
           "service.searcher.siteSearchConfigEntryIsEmpty",
           {
-            site
-          }
+            site,
+          },
         ); //`该站点[${site.name}]未配置搜索页面，请先配置`;
         result.type = EDataResultType.error;
         reject(result);
@@ -180,7 +181,7 @@ export class Searcher {
               if (area.replaceKey) {
                 key = key.replace(
                   new RegExp(area.replaceKey[0], "g"),
-                  area.replaceKey[1]
+                  area.replaceKey[1],
                 );
               }
 
@@ -188,7 +189,7 @@ export class Searcher {
               if (area.parseScript) {
                 try {
                   key = eval(area.parseScript);
-                } catch (error) { }
+                } catch (error) {}
               }
 
               return true;
@@ -243,7 +244,8 @@ export class Searcher {
           entry.parseScriptFile =
             searchEntryConfig.parseScriptFile || entry.parseScriptFile;
           entry.resultType = searchEntryConfig.resultType || entry.resultType;
-          entry.requestDataType = searchEntryConfig.requestDataType || entry.requestDataType;
+          entry.requestDataType =
+            searchEntryConfig.requestDataType || entry.requestDataType;
           entry.resultSelector =
             searchEntryConfig.resultSelector || entry.resultSelector;
           entry.headers = searchEntryConfig.headers || entry.headers;
@@ -291,7 +293,7 @@ export class Searcher {
           url = this.replaceKeys(url, {
             key: searchKey,
             rows: rows,
-            passkey: site.passkey ? site.passkey : ""
+            passkey: site.passkey ? site.passkey : "",
           });
 
           // 替换要提交数据中包含的关键字内容
@@ -300,17 +302,17 @@ export class Searcher {
               for (const key in entry.requestData) {
                 if (entry.requestData.hasOwnProperty(key)) {
                   const value = entry.requestData[key];
-                  if (typeof value !== 'string') continue
+                  if (typeof value !== "string") continue;
                   entry.requestData[key] = PPF.replaceKeys(value, {
                     key: searchKey,
-                    passkey: site.passkey ? site.passkey : ""
+                    passkey: site.passkey ? site.passkey : "",
                   });
 
                   if (site.user) {
                     entry.requestData[key] = PPF.replaceKeys(
                       entry.requestData[key],
                       site.user,
-                      "user"
+                      "user",
                     );
                   }
                 }
@@ -327,14 +329,14 @@ export class Searcher {
                 const value = entry.headers[key];
                 entry.headers[key] = PPF.replaceKeys(value, {
                   key: searchKey,
-                  passkey: site.passkey ? site.passkey : ""
+                  passkey: site.passkey ? site.passkey : "",
                 });
 
                 if (site.user) {
                   entry.headers[key] = PPF.replaceKeys(
                     entry.headers[key],
                     site.user,
-                    "user"
+                    "user",
                   );
                 }
               }
@@ -361,7 +363,7 @@ export class Searcher {
               .done((script: string) => {
                 this.service.debug(
                   "searchTorrent: getScriptContent done",
-                  scriptPath
+                  scriptPath,
                 );
                 this.parseScriptCache[scriptPath] = script;
                 entry.parseScript = script;
@@ -369,12 +371,12 @@ export class Searcher {
                   url,
                   site,
                   Object.assign(PPF.clone(searchEntryConfig), PPF.clone(entry)),
-                  searchConfig.torrentTagSelectors
+                  searchConfig.torrentTagSelectors,
                 )
                   .then((result: any) => {
                     this.service.debug(
                       "searchTorrent: getSearchResult done",
-                      url
+                      url,
                     );
                     if (result && result.length) {
                       results.push(...result);
@@ -389,7 +391,7 @@ export class Searcher {
                     this.service.debug(
                       "searchTorrent: getSearchResult catch",
                       url,
-                      result
+                      result,
                     );
                     doneCount++;
 
@@ -402,10 +404,10 @@ export class Searcher {
                     }
                   });
               })
-              .fail(error => {
+              .fail((error) => {
                 this.service.debug(
                   "searchTorrent: getScriptContent fail",
-                  error
+                  error,
                 );
               });
           } else {
@@ -413,7 +415,7 @@ export class Searcher {
               url,
               site,
               Object.assign(PPF.clone(searchEntryConfig), PPF.clone(entry)),
-              searchConfig.torrentTagSelectors
+              searchConfig.torrentTagSelectors,
             )
               .then((result: any) => {
                 if (result && result.length) {
@@ -445,8 +447,8 @@ export class Searcher {
         result.msg = this.service.i18n.t(
           "service.searcher.siteSearchEntryIsEmpty",
           {
-            site
-          }
+            site,
+          },
         ); //`该站点[${site.name}]未指定搜索页面，请先指定一个搜索入口`;
         result.type = EDataResultType.error;
         reject(result);
@@ -467,7 +469,7 @@ export class Searcher {
     url: string,
     site: Site,
     entry: SearchEntry,
-    torrentTagSelectors?: any[]
+    torrentTagSelectors?: any[],
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       // 是否有需要搜索前处理的数据
@@ -479,37 +481,37 @@ export class Searcher {
         );
         pageParser
           .getInfos()
-          .then(beforeSearchData => {
+          .then((beforeSearchData) => {
             this.addSearchRequestQueue(
               url,
               site,
               entry,
               torrentTagSelectors,
-              beforeSearchData
+              beforeSearchData,
             )
-              .then(result => {
+              .then((result) => {
                 resolve(result);
               })
-              .catch(error => {
+              .catch((error) => {
                 reject(error);
               });
           })
-          .catch(error => {
+          .catch((error) => {
             this.service.writeErrorLog(error);
             this.addSearchRequestQueue(url, site, entry, torrentTagSelectors)
-              .then(result => {
+              .then((result) => {
                 resolve(result);
               })
-              .catch(error => {
+              .catch((error) => {
                 reject(error);
               });
           });
       } else {
         this.addSearchRequestQueue(url, site, entry, torrentTagSelectors)
-          .then(result => {
+          .then((result) => {
             resolve(result);
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       }
@@ -528,7 +530,7 @@ export class Searcher {
     site: Site,
     entry: SearchEntry,
     torrentTagSelectors?: any[],
-    beforeSearchData?: any
+    beforeSearchData?: any,
   ): Promise<any> {
     let _entry = PPF.clone(entry);
     if (_entry.parseScript) {
@@ -549,7 +551,7 @@ export class Searcher {
               entry.requestData[key] = PPF.replaceKeys(
                 value,
                 beforeSearchData,
-                "beforeSearchData"
+                "beforeSearchData",
               );
             }
           }
@@ -563,16 +565,15 @@ export class Searcher {
     this.service.debug("getSearchResult.start", {
       url,
       site: site.host,
-      entry: _entry
+      entry: _entry,
     });
     let logId = "";
-    let contentType = 'text/plain';
-    let data: Dictionary<any> | string | undefined = entry.requestData
+    let contentType = "text/plain";
+    let data: Dictionary<any> | string | undefined = entry.requestData;
     switch (entry.requestDataType) {
       case ERequestType.JSON:
-        contentType = 'application/json';
-        if (data)
-          data = JSON.stringify(data);
+        contentType = "application/json";
+        if (data) data = JSON.stringify(data);
       case ERequestType.TEXT:
       default:
     }
@@ -585,7 +586,7 @@ export class Searcher {
         timeout: this.options.connectClientTimeout || 30000,
         headers: entry.headers,
         method: entry.requestMethod || ERequestMethod.GET,
-        data
+        data,
       })
         .done((result: any) => {
           this.service.debug("getSearchResult.done", url);
@@ -613,7 +614,7 @@ export class Searcher {
                 module: EModule.background,
                 event:
                   "service.searcher.getSearchResult.siteSearchResultParseFailed",
-                msg: error
+                msg: error,
               });
 
               // 数据解析失败
@@ -622,13 +623,13 @@ export class Searcher {
                 msg: this.service.i18n.t(
                   "service.searcher.siteSearchResultParseFailed",
                   {
-                    site
-                  }
+                    site,
+                  },
                 ),
                 data: {
-                  logId
+                  logId,
                 },
-                type: EDataResultType.error
+                type: EDataResultType.error,
               });
               return;
             }
@@ -645,7 +646,7 @@ export class Searcher {
               isLogged: false,
               status: ESearchResultParseStatus.success,
               searcher: this,
-              url
+              url,
             };
 
             // 执行获取结果的脚本
@@ -656,9 +657,9 @@ export class Searcher {
                   options = Object.assign(
                     {
                       reject,
-                      resolve
+                      resolve,
                     },
-                    options
+                    options,
                   );
                   eval(entry.parseScript);
                   return;
@@ -675,12 +676,12 @@ export class Searcher {
                   msg: this.getErrorMessage(
                     site,
                     options.status,
-                    options.errorMsg
+                    options.errorMsg,
                   ),
                   data: {
                     site,
-                    isLogged: options.isLogged
-                  }
+                    isLogged: options.isLogged,
+                  },
                 });
               } else {
                 resolve(PPF.clone(options.results));
@@ -690,7 +691,7 @@ export class Searcher {
               logId = this.service.logger.add({
                 module: EModule.background,
                 event: "service.searcher.getSearchResult.siteEvalScriptFailed",
-                msg: error
+                msg: error,
               });
               // 脚本执行出错
               reject({
@@ -698,19 +699,19 @@ export class Searcher {
                 msg: this.service.i18n.t(
                   "service.searcher.siteEvalScriptFailed",
                   {
-                    site
-                  }
+                    site,
+                  },
                 ),
                 data: {
-                  logId
-                }
+                  logId,
+                },
               });
             }
           } else {
             logId = this.service.logger.add({
               module: EModule.background,
               event: "service.searcher.getSearchResult.siteSearchResultError",
-              msg: result
+              msg: result,
             });
             // 没有返回预期的数据
             reject({
@@ -718,13 +719,13 @@ export class Searcher {
               msg: this.service.i18n.t(
                 "service.searcher.siteSearchResultError",
                 {
-                  site
-                }
+                  site,
+                },
               ),
               data: {
-                logId
+                logId,
               },
-              type: EDataResultType.error
+              type: EDataResultType.error,
             });
           }
         })
@@ -736,7 +737,7 @@ export class Searcher {
             url,
             entry,
             textStatus,
-            errorThrown
+            errorThrown,
           });
           logId = this.service.logger.add({
             module: EModule.background,
@@ -748,22 +749,22 @@ export class Searcher {
               code: jqXHR.status,
               textStatus,
               errorThrown,
-              responseText: jqXHR.responseText
-            }
+              responseText: jqXHR.responseText,
+            },
           });
 
           // 网络请求失败
           reject({
             data: {
               logId,
-              textStatus
+              textStatus,
             },
             msg: this.service.i18n.t("service.searcher.siteNetworkFailed", {
               site,
-              msg: `${jqXHR.status} ${errorThrown}, ${textStatus}`
+              msg: `${jqXHR.status} ${errorThrown}, ${textStatus}`,
             }),
             success: false,
-            type: EDataResultType.error
+            type: EDataResultType.error,
           });
         });
     });
@@ -776,12 +777,12 @@ export class Searcher {
   public getErrorMessage(
     site: Site,
     status: ESearchResultParseStatus = ESearchResultParseStatus.success,
-    msg: string = ""
+    msg: string = "",
   ): string {
     if (status != ESearchResultParseStatus.success) {
       return this.service.i18n.t(`contentPage.search.${status}`, {
         siteName: site.name,
-        msg
+        msg,
       });
     }
     return msg;
@@ -802,12 +803,12 @@ export class Searcher {
           module: EModule.background,
           event: "searcher.abortSearch",
           msg: this.service.i18n.t("service.searcher.siteAbortSearch", {
-            site
+            site,
           }), //`正在取消[${site.host}]的搜索请求`,
           data: {
             site: site.host,
-            key: key
-          }
+            key: key,
+          },
         });
         searchConfig.entry.forEach((entry: SearchEntry) => {
           // 判断是否指定了搜索页和用于获取搜索结果的脚本
@@ -826,7 +827,7 @@ export class Searcher {
             url = this.replaceKeys(url, {
               key: key,
               rows: rows,
-              passkey: site.passkey ? site.passkey : ""
+              passkey: site.passkey ? site.passkey : "",
             });
             let queue = this.searchRequestQueue[url];
             if (queue) {
@@ -840,14 +841,14 @@ export class Searcher {
                   msg: this.service.i18n.t(
                     "service.searcher.siteAbortSearchError",
                     {
-                      site
-                    }
+                      site,
+                    },
                   ), // "取消搜索请求失败",
                   data: {
                     site: site.host,
                     key: key,
-                    error
-                  }
+                    error,
+                  },
                 });
                 reject(error);
               }
@@ -892,7 +893,7 @@ export class Searcher {
   replaceKeys(
     source: string,
     keys: Dictionary<any>,
-    prefix: string = ""
+    prefix: string = "",
   ): string {
     let result: string = source;
 
@@ -919,7 +920,7 @@ export class Searcher {
   public getFieldValue(
     site: Site,
     row: JQuery<HTMLElement>,
-    fieldName: string = ""
+    fieldName: string = "",
   ) {
     let selector: any;
     if (site.searchEntryConfig && site.searchEntryConfig.fieldSelector) {
@@ -936,7 +937,7 @@ export class Searcher {
     return parser.getFieldData(
       row,
       selector,
-      site.searchEntryConfig.fieldSelector
+      site.searchEntryConfig.fieldSelector,
     );
   }
 
@@ -1003,7 +1004,7 @@ export class Searcher {
 
               let data: Dictionary<any> = {
                 name: item.name,
-                color
+                color,
               };
 
               if (item.title && result.attr(item.title)) {

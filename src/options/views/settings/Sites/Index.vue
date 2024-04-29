@@ -1,17 +1,21 @@
 <template>
   <div class="set-sites">
     <v-alert :value="true" type="info">
-      <div>{{ $t('settings.sites.index.title') }}</div>
+      <div>{{ $t("settings.sites.index.title") }}</div>
     </v-alert>
     <v-card>
       <v-card-title>
         <v-btn color="success" @click="add">
           <v-icon class="mr-2">add</v-icon>
-          {{$t('common.add')}}
+          {{ $t("common.add") }}
         </v-btn>
-        <v-btn color="error" :disabled="selected.length==0" @click="removeSelected">
+        <v-btn
+          color="error"
+          :disabled="selected.length == 0"
+          @click="removeSelected"
+        >
           <v-icon class="mr-2">remove</v-icon>
-          {{$t('common.remove')}}
+          {{ $t("common.remove") }}
         </v-btn>
 
         <v-divider class="mx-3 mt-0" inset vertical></v-divider>
@@ -19,14 +23,14 @@
         <input
           type="file"
           ref="fileImport"
-          style="display:none;"
+          style="display: none"
           multiple
           accept="application/json"
         />
         <!-- 导入配置文件 -->
         <v-btn color="info" @click="importConfig">
           <v-icon class="mr-2">folder_open</v-icon>
-          {{$t('settings.sites.index.importConfig')}}
+          {{ $t("settings.sites.index.importConfig") }}
         </v-btn>
 
         <v-divider class="mx-3 mt-0" inset vertical></v-divider>
@@ -34,20 +38,34 @@
         <!-- 一键导入已登录站点 -->
         <v-btn color="info" @click="importAll" :loading="importing">
           <v-icon class="mr-2">gps_fixed</v-icon>
-          {{$t('settings.sites.index.importAll')}}
+          {{ $t("settings.sites.index.importAll") }}
         </v-btn>
-        <span v-if="importing">{{ $t('settings.sites.index.importedText') }} {{importedCount}}</span>
+        <span v-if="importing"
+          >{{ $t("settings.sites.index.importedText") }}
+          {{ importedCount }}</span
+        >
 
         <v-divider class="mx-3 mt-0" inset vertical></v-divider>
 
         <!-- 重置站点图标缓存 -->
-        <v-btn color="purple" dark @click="resetFavicons" :loading="faviconReseting">
+        <v-btn
+          color="purple"
+          dark
+          @click="resetFavicons"
+          :loading="faviconReseting"
+        >
           <v-icon class="mr-2">cached</v-icon>
-          {{$t('settings.sites.index.resetFavicons')}}
+          {{ $t("settings.sites.index.resetFavicons") }}
         </v-btn>
 
         <v-spacer></v-spacer>
-        <v-text-field class="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+        <v-text-field
+          class="search"
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
       </v-card-title>
       <v-data-table
         v-model="selected"
@@ -59,8 +77,12 @@
         class="elevation-1"
       >
         <template slot="items" slot-scope="props">
-          <td style="width:20px;">
-            <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+          <td style="width: 20px">
+            <v-checkbox
+              v-model="props.selected"
+              primary
+              hide-details
+            ></v-checkbox>
           </td>
           <td class="text-xs-center pb-1">
             <v-btn
@@ -71,7 +93,10 @@
               :loading="loadingIconSites.includes(props.item.host)"
               class="siteIcon"
             >
-              <v-avatar :size="18" v-if="!loadingIconSites.includes(props.item.host)">
+              <v-avatar
+                :size="18"
+                v-if="!loadingIconSites.includes(props.item.host)"
+              >
                 <img :src="props.item.icon" />
               </v-avatar>
             </v-btn>
@@ -85,7 +110,7 @@
             <v-switch
               true-value="true"
               false-value="false"
-              :input-value="props.item.allowSearch?'true':'false'"
+              :input-value="props.item.allowSearch ? 'true' : 'false'"
               hide-details
               :disabled="props.item.offline"
               @click.stop="updateSearchStatus(props.item)"
@@ -95,7 +120,7 @@
             <v-switch
               true-value="true"
               false-value="false"
-              :input-value="props.item.allowGetUserInfo?'true':'false'"
+              :input-value="props.item.allowGetUserInfo ? 'true' : 'false'"
               hide-details
               :disabled="props.item.offline"
               @click.stop="updateAllowGetUserInfo(props.item)"
@@ -105,7 +130,7 @@
             <v-switch
               true-value="true"
               false-value="false"
-              :input-value="props.item.offline?'true':'false'"
+              :input-value="props.item.offline ? 'true' : 'false'"
               hide-details
               @click.stop="updateOfflineStatus(props.item)"
             ></v-switch>
@@ -115,43 +140,51 @@
               :href="props.item.activeURL"
               target="_blank"
               rel="noopener noreferrer nofollow"
-            >{{ props.item.activeURL }}</a>
+              >{{ props.item.activeURL }}</a
+            >
           </td>
           <td>
-            <v-icon small @click="edit(props.item)" :title="$t('common.edit')">edit</v-icon>
+            <v-icon small @click="edit(props.item)" :title="$t('common.edit')"
+              >edit</v-icon
+            >
             <v-icon
               small
               class="ml-2"
               @click="editPlugins(props.item)"
               :title="$t('settings.sites.index.plugins')"
-            >assistant</v-icon>
+              >assistant</v-icon
+            >
             <v-icon
-                v-if="props.item.allowGetUserInfo"
-                small
-                class="ml-2"
-                @click="editUserInfo(props.item)"
-                :title="$t('settings.sites.index.showUserInfo')"
-            >view_list</v-icon>
+              v-if="props.item.allowGetUserInfo"
+              small
+              class="ml-2"
+              @click="editUserInfo(props.item)"
+              :title="$t('settings.sites.index.showUserInfo')"
+              >view_list</v-icon
+            >
             <v-icon
               small
               class="ml-2"
               @click="editSearchEntry(props.item)"
               :title="$t('settings.sites.index.searchEntry')"
-            >search</v-icon>
+              >search</v-icon
+            >
             <v-icon
               small
               color="error"
               class="ml-2"
               @click="removeConfirm(props.item)"
               :title="$t('common.remove')"
-            >delete</v-icon>
+              >delete</v-icon
+            >
             <v-icon
               small
               color="info"
               class="ml-2"
               @click="shareSiteConfig(props.item)"
               :title="$t('common.share')"
-            >share</v-icon>
+              >share</v-icon
+            >
           </td>
         </template>
       </v-data-table>
@@ -160,26 +193,34 @@
     <!-- 新增站点 -->
     <AddSite v-model="showAddDialog" @save="addSite" />
     <!-- 编辑站点 -->
-    <EditSite v-model="showEditDialog" :site="selectedSite" @save="updateSite" />
+    <EditSite
+      v-model="showEditDialog"
+      :site="selectedSite"
+      @save="updateSite"
+    />
     <UserInfo v-model="showUserInfo" :site="selectedSite"></UserInfo>
 
     <v-dialog v-model="dialogRemoveConfirm" width="300">
       <v-card>
-        <v-card-title class="headline red lighten-2">{{ $t('settings.sites.index.removeTitle') }}</v-card-title>
+        <v-card-title class="headline red lighten-2">{{
+          $t("settings.sites.index.removeTitle")
+        }}</v-card-title>
 
-        <v-card-text>{{ $t('settings.sites.index.removeConfirm') }}</v-card-text>
+        <v-card-text>{{
+          $t("settings.sites.index.removeConfirm")
+        }}</v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat color="info" @click="dialogRemoveConfirm=false">
+          <v-btn flat color="info" @click="dialogRemoveConfirm = false">
             <v-icon>cancel</v-icon>
-            <span class="ml-1">{{ $t('common.cancel') }}</span>
+            <span class="ml-1">{{ $t("common.cancel") }}</span>
           </v-btn>
           <v-btn color="error" flat @click="remove">
             <v-icon>check_circle_outline</v-icon>
-            <span class="ml-1">{{ $t('common.ok') }}</span>
+            <span class="ml-1">{{ $t("common.ok") }}</span>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -189,15 +230,16 @@
       <div v-html="$t('settings.sites.index.subTitle')"></div>
     </v-alert>
 
-    <v-snackbar
-      v-model="siteDuplicate"
-      top
-      :timeout="3000"
-      color="error"
-    >{{ $t('settings.sites.index.siteDuplicateText') }}</v-snackbar>
+    <v-snackbar v-model="siteDuplicate" top :timeout="3000" color="error">{{
+      $t("settings.sites.index.siteDuplicateText")
+    }}</v-snackbar>
 
-    <v-snackbar v-model="haveError" top :timeout="3000" color="error">{{ errorMsg }}</v-snackbar>
-    <v-snackbar v-model="haveSuccess" bottom :timeout="3000" color="success">{{ successMsg }}</v-snackbar>
+    <v-snackbar v-model="haveError" top :timeout="3000" color="error">{{
+      errorMsg
+    }}</v-snackbar>
+    <v-snackbar v-model="haveSuccess" bottom :timeout="3000" color="success">{{
+      successMsg
+    }}</v-snackbar>
   </div>
 </template>
 
@@ -210,7 +252,7 @@ import {
   EModule,
   Plugin,
   SearchEntry,
-  Options
+  Options,
 } from "@/interface/common";
 import AddSite from "./Add.vue";
 import EditSite from "./Edit.vue";
@@ -227,13 +269,13 @@ export default Vue.extend({
   components: {
     AddSite,
     EditSite,
-    UserInfo
+    UserInfo,
   },
   data() {
     return {
       selected: [],
       pagination: {
-        rowsPerPage: -1
+        rowsPerPage: -1,
       },
       showAddDialog: false,
       showEditDialog: false,
@@ -252,7 +294,7 @@ export default Vue.extend({
       haveSuccess: false,
       successMsg: "",
       faviconReseting: false,
-      loadingIconSites: [] as string[]
+      loadingIconSites: [] as string[],
     };
   },
   methods: {
@@ -291,7 +333,7 @@ export default Vue.extend({
     removeSelected() {
       if (
         confirm(
-          this.$t("settings.sites.index.removeSelectedConfirm").toString()
+          this.$t("settings.sites.index.removeSelectedConfirm").toString(),
         )
       ) {
         this.selected.forEach((item: any) => {
@@ -373,8 +415,8 @@ export default Vue.extend({
       this.$router.push({
         name: "set-site-plugins",
         params: {
-          host: item.host
-        }
+          host: item.host,
+        },
       });
     },
     writeLog(options: LogItem) {
@@ -382,15 +424,15 @@ export default Vue.extend({
         module: EModule.options,
         event: options.event,
         msg: options.msg,
-        data: options.data
+        data: options.data,
       });
     },
     editSearchEntry(item: Site) {
       this.$router.push({
         name: "set-site-search-entry",
         params: {
-          host: item.host as string
-        }
+          host: item.host as string,
+        },
       });
     },
     /**
@@ -410,15 +452,15 @@ export default Vue.extend({
                   valid: true,
                   activeURL: site.url,
                   allowSearch: true,
-                  allowGetUserInfo: true
+                  allowGetUserInfo: true,
                 },
-                site
-              )
+                site,
+              ),
             );
             this.importedCount++;
           }
         })
-        .catch(result => {
+        .catch((result) => {
           console.log("error", result);
         })
         .finally(() => {
@@ -460,7 +502,7 @@ export default Vue.extend({
           "url",
           "schema",
           "tags",
-          "formerHosts"
+          "formerHosts",
         ].forEach((field: string) => {
           if ((data as any)[field]) {
             delete (data as any)[field];
@@ -491,7 +533,7 @@ export default Vue.extend({
       }
 
       const blob = new Blob([JSON.stringify(data)], {
-        type: "text/plain"
+        type: "text/plain",
       });
       FileSaver.saveAs(blob, fileName);
     },
@@ -562,8 +604,8 @@ export default Vue.extend({
         if (
           !confirm(
             this.$t("settings.sites.index.importDuplicateConfirm", {
-              name: site.name || site.host
-            }).toString()
+              name: site.name || site.host,
+            }).toString(),
           )
         ) {
           return;
@@ -623,8 +665,8 @@ export default Vue.extend({
         if (
           !confirm(
             this.$t("settings.sites.index.importConfirm", {
-              name: sourceSite.name || sourceSite.host
-            }).toString()
+              name: sourceSite.name || sourceSite.host,
+            }).toString(),
           )
         ) {
           return;
@@ -645,7 +687,7 @@ export default Vue.extend({
       this.faviconReseting = true;
       extension
         .sendRequest(EAction.resetFavicons)
-        .then(options => {
+        .then((options) => {
           this.$store.commit("updateOptions", options);
         })
         .finally(() => {
@@ -664,11 +706,11 @@ export default Vue.extend({
 
       extension
         .sendRequest(EAction.resetFavicon, null, site.activeURL || site.url)
-        .then(options => {
+        .then((options) => {
           // 重新加载配置信息
           this.$store.commit("readConfig");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         })
         .finally(() => {
@@ -678,20 +720,20 @@ export default Vue.extend({
             this.loadingIconSites.splice(index, 1);
           }
         });
-    }
+    },
   },
   created() {
     if (!this.options.system) {
       this.writeLog({
         event: "Sites.init.error",
-        msg: "系统配置信息丢失"
+        msg: "系统配置信息丢失",
       });
     }
 
     if (this.options.system && !this.options.system.sites) {
       this.writeLog({
         event: "Sites.init.error",
-        msg: "系统配置网站信息丢失"
+        msg: "系统配置网站信息丢失",
       });
     }
   },
@@ -709,40 +751,40 @@ export default Vue.extend({
           text: this.$t("settings.sites.index.headers.name"),
           align: "center",
           value: "name",
-          width: "110px"
+          width: "110px",
         },
         {
           text: this.$t("settings.sites.index.headers.tags"),
           align: "left",
-          value: "tags"
+          value: "tags",
         },
         {
           text: this.$t("settings.sites.index.headers.allowSearch"),
           align: "left",
-          value: "allowSearch"
+          value: "allowSearch",
         },
         {
           text: this.$t("settings.sites.index.headers.allowGetUserInfo"),
           align: "left",
-          value: "allowGetUserInfo"
+          value: "allowGetUserInfo",
         },
         {
           text: this.$t("settings.sites.index.headers.offline"),
           align: "left",
-          value: "offline"
+          value: "offline",
         },
         {
           text: this.$t("settings.sites.index.headers.activeURL"),
           align: "left",
-          value: "activeURL"
+          value: "activeURL",
         },
         {
           text: this.$t("settings.sites.index.headers.action"),
           value: "name",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
+    },
   },
   watch: {
     successMsg() {
@@ -750,8 +792,8 @@ export default Vue.extend({
     },
     errorMsg() {
       this.haveError = this.errorMsg != "";
-    }
-  }
+    },
+  },
 });
 </script>
 

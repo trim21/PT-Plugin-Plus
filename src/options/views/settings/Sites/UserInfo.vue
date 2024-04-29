@@ -1,10 +1,11 @@
 <template>
   <v-dialog v-model="show" max-width="1200">
     <v-card>
-      <v-card-title
-          class="headline blue-grey darken-2"
-          style="color:white"
-      >{{ $t('settings.sites.userinfo.title') }}@{{ this.site.name }}</v-card-title>
+      <v-card-title class="headline blue-grey darken-2" style="color: white"
+        >{{ $t("settings.sites.userinfo.title") }}@{{
+          this.site.name
+        }}</v-card-title
+      >
 
       <v-card-text>
         <v-data-table
@@ -15,7 +16,7 @@
           <template slot="items" slot-scope="props">
             <td>{{ props.item.date }}</td>
             <td>{{ props.item.name }}</td>
-            <td>{{ props.item.levelName  }}</td>
+            <td>{{ props.item.levelName }}</td>
             <td class="number">
               <div>
                 {{ props.item.uploaded | formatSize }}
@@ -32,16 +33,16 @@
             <td class="number">{{ props.item.bonus | formatNumber }}</td>
             <td>
               <v-icon
-                  small
-                  color="error"
-                  class="ml-2"
-                  @click="removeConfirm(props.item)"
-                  :title="$t('common.remove')"
-                  :disabled="props.item.date === 'latest'"
-              >delete</v-icon>
+                small
+                color="error"
+                class="ml-2"
+                @click="removeConfirm(props.item)"
+                :title="$t('common.remove')"
+                :disabled="props.item.date === 'latest'"
+                >delete</v-icon
+              >
             </td>
           </template>
-
         </v-data-table>
       </v-card-text>
 
@@ -51,7 +52,7 @@
         <v-spacer></v-spacer>
         <v-btn flat color="success" @click="save">
           <v-icon>check_circle_outline</v-icon>
-          <span class="ml-1">{{ $t('common.ok') }}</span>
+          <span class="ml-1">{{ $t("common.ok") }}</span>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -66,73 +67,73 @@ export default Vue.extend({
   name: "UserInfo",
   data() {
     return {
-      dataKey: 'PT-Plugin-Plus-User-Datas',
+      dataKey: "PT-Plugin-Plus-User-Datas",
       show: false,
       rawUserData: [],
       pagination: {
         descending: true,
         sortBy: "date",
-        rowsPerPage: 25
+        rowsPerPage: 25,
       },
       headers: [
         {
           text: this.$t("home.headers.date"),
           align: "left",
           value: "date",
-          width: "130px"
+          width: "130px",
         },
         {
           text: this.$t("home.headers.userName"),
           align: "left",
-          value: "name"
+          value: "name",
         },
         {
           text: this.$t("home.headers.levelName"),
           align: "left",
-          value: "levelName"
+          value: "levelName",
         },
         {
           text: this.$t("home.headers.activitiyData"),
           align: "right",
           value: "uploaded",
-          width: "160px"
+          width: "160px",
         },
         {
           text: this.$t("home.headers.ratio"),
           align: "right",
-          value: "ratio"
+          value: "ratio",
         },
         {
           text: this.$t("home.headers.seeding"),
           align: "right",
-          value: "seeding"
+          value: "seeding",
         },
         {
           text: this.$t("home.headers.seedingSize"),
           align: "right",
-          value: "seedingSize"
+          value: "seedingSize",
         },
         {
           text: this.$t("home.headers.bonus"),
           align: "right",
-          value: "bonus"
+          value: "bonus",
         },
         {
           text: this.$t("settings.sites.index.headers.action"),
           value: "name",
           sortable: false,
-          width: '50px'
-        }
-      ]
-    }
+          width: "50px",
+        },
+      ],
+    };
   },
   props: {
     value: Boolean,
-    site: Object
+    site: Object,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   filters: {
     formatRatio(v: any) {
@@ -144,7 +145,7 @@ export default Vue.extend({
         return "";
       }
       return number.toFixed(2);
-    }
+    },
   },
   watch: {
     show() {
@@ -157,13 +158,13 @@ export default Vue.extend({
           this.show = this.value;
         });
       }
-    }
+    },
   },
   computed: {
     userData() {
-      return Object.entries(this.rawUserData).map(v => {
+      return Object.entries(this.rawUserData).map((v) => {
         const user = v[1];
-        const {downloaded, uploaded} = user;
+        const { downloaded, uploaded } = user;
         if (downloaded == 0 && uploaded > 0) {
           user.ratio = -1;
         }
@@ -171,28 +172,26 @@ export default Vue.extend({
         else if (downloaded > 0) {
           user.ratio = uploaded / downloaded;
         }
-        user['date'] = v[0];
+        user["date"] = v[0];
         return user;
-      })
-    }
+      });
+    },
   },
   methods: {
     save() {
       this.show = false;
     },
     removeConfirm(item) {
-      if (confirm(this.$t('settings.sites.userinfo.deleteConfirm'))) {
+      if (confirm(this.$t("settings.sites.userinfo.deleteConfirm"))) {
         this.$delete(this.rawUserData, item.date);
         chrome.storage.local.get(this.dataKey, (result) => {
           delete result[this.dataKey][this.site.host][item.date];
-          chrome.storage.local.set(result, () => {
-
-          });
+          chrome.storage.local.set(result, () => {});
         });
       }
-    }
-  }
-})
+    },
+  },
+});
 </script>
 
 <style scoped>

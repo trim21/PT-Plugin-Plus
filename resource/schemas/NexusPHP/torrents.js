@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is torrent.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -21,7 +21,7 @@
     getDownloadURLs() {
       let urlParser = PTService.filters.parseURL(location.href);
       let site = PTService.getSiteFromHost(urlParser.host);
-      
+
       let urls = PTService.getFieldValue("downloadURLs");
       if (!urls) {
         let links = $("a[href*='download.php']").toArray();
@@ -35,7 +35,7 @@
           return this.t("getDownloadURLsFailed");
         }
 
-        urls = $.map(links, item => {
+        urls = $.map(links, (item) => {
           let url = $(item)
             .attr("href")
             .replace(/details\.php/gi, "download.php");
@@ -52,12 +52,11 @@
               url += "&https=1";
             }
 
-            try
-            {
+            try {
               if (site) {
                 switch (site.name) {
-                  case 'HDChina': 
-                    url += `&uid=${site.user.id}` 
+                  case "HDChina":
+                    url += `&uid=${site.user.id}`;
                     break;
                   default:
                     break;
@@ -71,8 +70,8 @@
 
       if (urls) {
         urls = urls.map((x) => {
-          return this.getFullURL(x)
-        })
+          return this.getFullURL(x);
+        });
       }
 
       return urls;
@@ -84,8 +83,8 @@
     confirmWhenExceedSize() {
       return this.confirmSize(
         $(".torrents").find(
-          "td:contains('MB'),td:contains('GB'),td:contains('TB'),td:contains('MiB'),td:contains('GiB'),td:contains('TiB')"
-        )
+          "td:contains('MB'),td:contains('GB'),td:contains('TB'),td:contains('MiB'),td:contains('GiB'),td:contains('TiB')",
+        ),
       );
     }
 
@@ -101,8 +100,7 @@
 
       if (!url.getQueryString) {
         PTService.showNotice({
-          msg:
-            "系统依赖函数（getQueryString）未正确加载，请尝试刷新页面或重新启用插件。"
+          msg: "系统依赖函数（getQueryString）未正确加载，请尝试刷新页面或重新启用插件。",
         });
         return null;
       }

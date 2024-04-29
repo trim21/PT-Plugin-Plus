@@ -31,14 +31,17 @@
       }
 
       if (!url) {
-        url = $("a[href*='download'][href*='?id']:first").attr("href") || $("a[href*='download.php?']:first").attr("href");
+        url =
+          $("a[href*='download'][href*='?id']:first").attr("href") ||
+          $("a[href*='download.php?']:first").attr("href");
       }
 
       if (!url) {
         return "";
       }
 
-      if (url.substr(0, 2) === '//') { // 首先尝试适配HUDBT、WHU这样以相对链接开头
+      if (url.substr(0, 2) === "//") {
+        // 首先尝试适配HUDBT、WHU这样以相对链接开头
         url = `${location.protocol}${url}`;
       } else if (url.substr(0, 1) === "/") {
         url = `${location.origin}${url}`;
@@ -47,7 +50,7 @@
       }
 
       if (url.indexOf("https=1") === -1) {
-        url += "&https=1"
+        url += "&https=1";
       }
 
       return url;
@@ -64,6 +67,6 @@
       }
       return title;
     }
-  };
-  (new App()).init();
+  }
+  new App().init();
 })(jQuery, window);

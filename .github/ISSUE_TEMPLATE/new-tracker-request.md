@@ -1,13 +1,12 @@
 ---
 name: New Tracker Request
 about: Initiate a new tracker support request
-title: ''
-labels: 'New Tracker'
-assignees: ''
-
+title: ""
+labels: "New Tracker"
+assignees: ""
 ---
 
-<!-- 
+<!--
 1. Before initiating a request, please confirm whether it is within the supported schema;
 2. If within the supported schema, this topic will be considered invalid and closed;
 3. If you are a developer, please follow the https://github.com/pt-plugins/PT-Plugin-Plus/wiki/developer document to adapt and submit the PR;
@@ -16,12 +15,10 @@ assignees: ''
 6. A topic only initiates a tracker request;
 -->
 
-- Tracker Name: 
-- Tracker Url: 
-- Tracker Description: 
+- Tracker Name:
+- Tracker Url:
+- Tracker Description:
 
-
-- Resource Type: 
+- Resource Type:
 - Open registration: Yes / No
-- Tracker rules: 
-
+- Tracker rules:

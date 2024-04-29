@@ -34,14 +34,14 @@ export class DownloadHistory {
     data: any,
     host: string = "",
     clientId: string = "",
-    success: boolean = true
+    success: boolean = true,
   ) {
     let saveData = {
       data,
       clientId,
       host,
       success,
-      time: new Date().getTime()
+      time: new Date().getTime(),
     };
     if (!this.items) {
       this.load().then(() => {

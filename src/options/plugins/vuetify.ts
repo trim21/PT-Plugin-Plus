@@ -11,8 +11,8 @@ class VuetifyService {
       iconfont: "md",
       lang: {
         locales: { "zh-Hans": zhHans, en },
-        current: lang
-      }
+        current: lang,
+      },
     });
   }
 }

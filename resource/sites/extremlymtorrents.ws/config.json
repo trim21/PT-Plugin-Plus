@@ -7,26 +7,31 @@
   "tags": ["综合"],
   "schema": "Common",
   "host": "extremlymtorrents.ws",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["/file.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["/torrents.php", "/torrents-search.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/torrents.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["/file.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["/torrents.php", "/torrents-search.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/torrents.js"]
+    }
+  ],
   "searchEntryConfig": {
     "page": "/torrents-search.php",
     "resultType": "html",
     "queryString": "search=$key$&cat=0&lang=0&sort=id&order=desc",
     "parseScriptFile": "/schemas/Common/getSearchResult.js",
     "resultSelector": "table.xtrz",
-    "area": [{
-      "name": "IMDB",
-      "keyAutoMatch": "^(tt\\d+)$",
-      "parseScript": "(payload && payload.en)?payload.en:key"
-    }],
+    "area": [
+      {
+        "name": "IMDB",
+        "keyAutoMatch": "^(tt\\d+)$",
+        "parseScript": "(payload && payload.en)?payload.en:key"
+      }
+    ],
     "firstDataRowIndex": 1,
     "fieldIndex": {
       "title": 1,
@@ -56,7 +61,9 @@
       },
       "time": {
         "selector": [""],
-        "filters": ["query.text().replace(/(\\d{2}).(\\d{2}).(\\d{4})\\n?(\\d{2}:\\d{2}:\\d{2})/,'$3-$2-$1 $4')"]
+        "filters": [
+          "query.text().replace(/(\\d{2}).(\\d{2}).(\\d{4})\\n?(\\d{2}:\\d{2}:\\d{2})/,'$3-$2-$1 $4')"
+        ]
       },
       "category": {
         "selector": ["img:first"],
@@ -64,17 +71,22 @@
       }
     }
   },
-  "searchEntry": [{
-    "name": "all",
-    "enabled": true
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "img[title='Free Torrents']"
-  }, {
-    "name": "VIP",
-    "selector": "img[alt='Only VIP']"
-  }],
+  "searchEntry": [
+    {
+      "name": "all",
+      "enabled": true
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "img[title='Free Torrents']"
+    },
+    {
+      "name": "VIP",
+      "selector": "img[alt='Only VIP']"
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/",
@@ -86,7 +98,9 @@
         },
         "name": {
           "selector": ["a[href*='account-details.php']:first"],
-          "filters": ["query && query.attr('href').getQueryString('id') > 0 ? query.text(): ''"]
+          "filters": [
+            "query && query.attr('href').getQueryString('id') > 0 ? query.text(): ''"
+          ]
         },
         "isLogged": {
           "selector": ["a[href*='account-logout.php']"],
@@ -99,18 +113,27 @@
       "fields": {
         "uploaded": {
           "selector": ["td.ttable_col2:contains('Uploaded:') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "downloaded": {
           "selector": ["td.ttable_col2:contains('Downloaded:') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "levelName": {
           "selector": "td.ttable_col2:contains('User Class:') + td"
         },
         "joinTime": {
           "selector": "td.ttable_col2:contains('Joined:') + td",
-          "filters": ["query.text()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "query.text()",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         },
         "seeding": {
           "value": "N/A"
@@ -127,7 +150,10 @@
       "fields": {
         "size": {
           "selector": ["extremlymsmall3"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>1)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>1)?(query[1]).sizeToNumber():0"
+          ]
         },
         "downloadURL": {
           "selector": ["a[href*='download.php']:first"],
@@ -147,7 +173,9 @@
         },
         "confirmSize": {
           "selector": ["table.xtrz"],
-          "filters": ["query.find(\"td:contains('MB'),td:contains('GB'),td:contains('TB')\")"]
+          "filters": [
+            "query.find(\"td:contains('MB'),td:contains('GB'),td:contains('TB')\")"
+          ]
         }
       }
     }

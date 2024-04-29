@@ -1,4 +1,4 @@
-(function($, window) {
+(function ($, window) {
   console.log("this is details.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -22,13 +22,13 @@
 
       return this.getFullURL(url);
     }
-    
+
     showTorrentSize() {
       let size = PTService.filters.formatSize(PTService.getFieldValue("size"));
       PTService.addButton({
-       title: "当前种子大小",
+        title: "当前种子大小",
         icon: "attachment",
-        label: size
+        label: size,
       });
     }
     /**
@@ -42,24 +42,19 @@
      * 获取当前种子IMDb Id
      */
     getIMDbId() {
-      try
-      {
+      try {
         let imdbId = PTService.getFieldValue("imdbId");
         console.log(imdbId);
-        if (imdbId)
-          return imdbId;
+        if (imdbId) return imdbId;
         else {
           const link = $("a[href*='www.imdb.com/title/']:first");
           if (link.length > 0) {
             let match = link.attr("href").match(/(tt\d+)/);
 
-            if (match && match.length >= 2)
-              return imdbId = match[1];
-
+            if (match && match.length >= 2) return (imdbId = match[1]);
           }
         }
-      } catch {
-      }
+      } catch {}
       return null;
     }
   }

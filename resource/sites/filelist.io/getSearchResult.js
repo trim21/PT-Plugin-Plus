@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -11,7 +11,7 @@
 
       if (
         /没有种子|No [Tt]orrents?|Your search did not match anything|用准确的关键字重试/.test(
-          options.responseText
+          options.responseText,
         )
       ) {
         options.status = ESearchResultParseStatus.noTorrents;
@@ -34,10 +34,11 @@
       // 获取种子列表行
       let rows = options.page.find(
         options.resultSelector ||
-          "div.visitedlinks:last > div[class=torrentrow]"
+          "div.visitedlinks:last > div[class=torrentrow]",
       );
       let time_regex = /(\d{2}:\d{2}:\d{2}[^\d]+?\d{2}\/\d{2}\/\d{4})/;
-      let time_regen_replace1 = /(\d{2}:\d{2}:\d{2})[^\d]+?(\d{2}\/\d{2}\/\d{4})/;
+      let time_regen_replace1 =
+        /(\d{2}:\d{2}:\d{2})[^\d]+?(\d{2}\/\d{2}\/\d{4})/;
       let time_regen_replace2 = /(\d{2})\/(\d{2})\/(\d{4})/;
 
       // 用于定位每个字段所列的位置
@@ -60,7 +61,7 @@
         comments: 4,
         // 发布人
         author: 10,
-        category: 0
+        category: 0,
       };
 
       if (site.url.substr(-1) == "/") {
@@ -71,14 +72,8 @@
       for (let index = 0; index < rows.length; index++) {
         const row = rows.eq(index);
         let cells = row.find(">div");
-        let titleStrings = cells
-          .eq(fieldIndex.title)
-          .find("a")
-          .attr("title");
-        let title = cells
-          .eq(fieldIndex.title)
-          .find("a")
-          .first();
+        let titleStrings = cells.eq(fieldIndex.title).find("a").attr("title");
+        let title = cells.eq(fieldIndex.title).find("a").first();
         if (title.length == 0) {
           continue;
         }
@@ -106,9 +101,7 @@
         }
         let subTitle = "";
         let data = {
-          title: $("<span>")
-            .html(titleStrings)
-            .text(),
+          title: $("<span>").html(titleStrings).text(),
           subTitle: subTitle || "",
           link,
           url: url,
@@ -121,22 +114,14 @@
             .replace(time_regen_replace1, "$2 $1")
             .replace(time_regen_replace2, "$3-$2-$1"),
           author: cells.eq(fieldIndex.author).text() || "",
-          seeders:
-            cells
-              .eq(fieldIndex.seeders)
-              .text()
-              .split("/")[0] || 0,
-          leechers:
-            cells
-              .eq(fieldIndex.leechers)
-              .text()
-              .split("/")[1] || 0,
+          seeders: cells.eq(fieldIndex.seeders).text().split("/")[0] || 0,
+          leechers: cells.eq(fieldIndex.leechers).text().split("/")[1] || 0,
           completed: cells.eq(fieldIndex.completed).text() || 0,
           comments: cells.eq(fieldIndex.comments).text() || 0,
           site: site,
           entryName: options.entry.name,
           category: this.getCategory(cells.eq(fieldIndex.category)),
-          tags: Searcher.getRowTags(site, row)
+          tags: Searcher.getRowTags(site, row),
         };
         results.push(data);
       }
@@ -155,7 +140,7 @@
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       let img = link.find("img:first");

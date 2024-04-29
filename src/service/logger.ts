@@ -34,9 +34,9 @@ export class Logger {
       {
         module: "",
         time,
-        id: PPF.getNewId()
+        id: PPF.getNewId(),
       },
-      data
+      data,
     );
     if (!this.items) {
       this.load().then(() => {

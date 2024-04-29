@@ -1,4 +1,4 @@
-(function($, window) {
+(function ($, window) {
   console.log("this is details.js");
   class App extends window.TNodeCommon {
     init() {
@@ -12,7 +12,10 @@
     }
     // 获取下载链接
     getDownloadURL() {
-      let url = PTService.getFieldValue("downloadURL") || $("a[href*='/api/torrent/download/']:contains('复制')").attr('href') || $("a[href*='/api/torrent/download/']").attr('href'); 
+      let url =
+        PTService.getFieldValue("downloadURL") ||
+        $("a[href*='/api/torrent/download/']:contains('复制')").attr("href") ||
+        $("a[href*='/api/torrent/download/']").attr("href");
       if (!url) {
         return "";
       }
@@ -20,7 +23,10 @@
     }
     // 获取当前种子标题
     getTitle() {
-      let title = $('label[for="form_item_subtitle"]').parent().next().text() || $('label[for="form_item_title"]').parent().next().text() || '';
+      let title =
+        $('label[for="form_item_subtitle"]').parent().next().text() ||
+        $('label[for="form_item_title"]').parent().next().text() ||
+        "";
       return title;
     }
     // 获取当前种子IMDb Id

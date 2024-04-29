@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -51,23 +51,17 @@
             time: this.getTime(row.find(".torrent_added")),
             author: "",
             seeders: this.getTorrentCount(
-              row
-                .find(".torrent_count.strong")
-                .eq(0)
-                .text()
+              row.find(".torrent_count.strong").eq(0).text(),
             ),
             leechers: this.getTorrentCount(
-              row
-                .find(".torrent_count.strong")
-                .eq(1)
-                .text()
+              row.find(".torrent_count.strong").eq(1).text(),
             ),
             completed: -1,
             comments: 0,
             site: site,
             tags: Searcher.getRowTags(site, row),
             entryName: options.entry.name,
-            category: null
+            category: null,
           };
           results.push(data);
         }
@@ -93,9 +87,7 @@
      * @param {*} el
      */
     getTime(el) {
-      let time = $("<span>")
-        .html(el.html().replace("<br>", " "))
-        .text();
+      let time = $("<span>").html(el.html().replace("<br>", " ")).text();
       return time || "";
     }
   }

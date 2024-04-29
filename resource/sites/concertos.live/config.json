@@ -5,59 +5,66 @@
   "url": "https://concertos.live/",
   "tags": ["MV"],
   "schema": "Common",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["/torrent/"],
-    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["/torrents"],
-    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/torrents.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["/torrent/"],
+      "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["/torrents"],
+      "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/torrents.js"]
+    }
+  ],
   "host": "concertos.live",
   "searchEntryConfig": {
     "page": "/torrents?title=$key$&order_by=created_at&direction=desc",
     "resultType": "html",
     "resultSelector": "table.table.table--bordered-big.torrents",
     "fieldIndex": {
-	    "category": 0,
-	    "title": 1,
-	    "link": 1,
-	    "url": 1,
-        "time": 2,
-        "size": 3,
-        "author": 1,
-        "seeders": 4,
-        "leechers": 5,
-        "completed": 6
-	},
-	"fieldSelector": {
-	  "title": {
-		"selector": ["a.torrents__title"],
+      "category": 0,
+      "title": 1,
+      "link": 1,
+      "url": 1,
+      "time": 2,
+      "size": 3,
+      "author": 1,
+      "seeders": 4,
+      "leechers": 5,
+      "completed": 6
+    },
+    "fieldSelector": {
+      "title": {
+        "selector": ["a.torrents__title"],
         "filters": ["query.text()"]
-	  },
-	  "link": {
-		"selector": ["a.torrents__title"],
+      },
+      "link": {
+        "selector": ["a.torrents__title"],
         "filters": ["query.attr('href')"]
-	  },
-	  "url": {
-		"selector": ["a.torrents__title"],
+      },
+      "url": {
+        "selector": ["a.torrents__title"],
         "filters": ["query.attr('href')", "query + '/download'"]
-	  },
-	  "time": {
-		"selector": [""],
+      },
+      "time": {
+        "selector": [""],
         "filters": [""]
-	  }
-	}
+      }
+    }
   },
-  "searchEntry": [{
-    "name": "全部",
-    "enabled": true
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "img[src='images/freeleech.png']"
-  }],
+  "searchEntry": [
+    {
+      "name": "全部",
+      "enabled": true
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "img[src='images/freeleech.png']"
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/",
@@ -67,8 +74,10 @@
           "filters": ["$(query[0].firstChild).text().trim()"]
         },
         "id": {
-	      "selector": [".nav > a.nav__link[href*='/user']:first"],
-          "filters": ["query.attr('href').replace('https://concertos.live/user/', '')"]
+          "selector": [".nav > a.nav__link[href*='/user']:first"],
+          "filters": [
+            "query.attr('href').replace('https://concertos.live/user/', '')"
+          ]
         },
         "isLogged": {
           "selector": ["div.user-info"],
@@ -76,23 +85,34 @@
         },
         "messageCount": {
           "selector": ["div.info-bar"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         },
         "uploaded": {
           "selector": [".user-info__item > .fa-upload"],
-          "filters": ["query.parent().text().trim().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.parent().text().trim().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "downloaded": {
           "selector": [".user-info__item > .fa-download"],
-          "filters": ["query.parent().text().trim().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.parent().text().trim().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "ratio": {
           "selector": [".user-info__item > .fa-percent"],
           "filters": ["query.parent().text().trim().replace('Ratio: ', '')"]
-        }, 
+        },
         "levelName": {
           "selector": [".user-info__item > .fa-bolt"],
-          "filters":  ["query.parent().text().trim().replace(/(?<=.*)\\s[^\\s]*$/,'')"]
+          "filters": [
+            "query.parent().text().trim().replace(/(?<=.*)\\s[^\\s]*$/,'')"
+          ]
         }
       }
     },
@@ -101,16 +121,20 @@
       "fields": {
         "joinTime": {
           "selector": ["div.profile-block__age"],
-          "filters": ["dateTime(query.text().replace('Member since ', '')).valueOf()"]
+          "filters": [
+            "dateTime(query.text().replace('Member since ', '')).valueOf()"
+          ]
         },
         "bonus": {
-	      "selector": ["td:contains('BONs') + td"],
+          "selector": ["td:contains('BONs') + td"],
           "filters": ["query.text().trim().replace(' ', '')"]
-          
         },
         "seeding": {
-	      "selector": ["td:contains('Total Seeding') + td"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):null"]
+          "selector": ["td:contains('Total Seeding') + td"],
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):null"
+          ]
         },
         "seedingSize": {
           "value": -1
@@ -118,7 +142,7 @@
       }
     },
     "common": {
-	  "page": "/torrent/",
+      "page": "/torrent/",
       "fields": {
         "downloadURL": {
           "selector": ["a[href*='/download']"],
@@ -126,15 +150,21 @@
         },
         "size": {
           "selector": ["td.torrent__meta-title:contains('Size') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>1)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>1)?(query[1]).sizeToNumber():0"
+          ]
         },
         "sayThanksButton": {
           "selector": ["a[href*='/thank']"],
           "filters": ["query"]
         },
         "downloadURLs": {
-		"selector": ["a.torrents__title"],
-        "filters": ["query.toArray()", "query.map((item)=>{return item.href+'/download'})"]
+          "selector": ["a.torrents__title"],
+          "filters": [
+            "query.toArray()",
+            "query.map((item)=>{return item.href+'/download'})"
+          ]
         },
         "confirmSize": {
           "selector": ["table.table.table--bordered-big.torrents"],

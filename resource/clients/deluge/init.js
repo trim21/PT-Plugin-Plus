@@ -47,7 +47,7 @@
       return new Promise((resolve, reject) => {
         switch (action) {
           case "addTorrentFromURL":
-            this.addTorrentFromUrl(data, result => {
+            this.addTorrentFromUrl(data, (result) => {
               resolve(result);
             });
             break;
@@ -55,10 +55,10 @@
           // 测试是否可连接
           case "testClientConnectivity":
             this.getSessionId()
-              .then(result => {
+              .then((result) => {
                 resolve(result != "");
               })
-              .catch(result => {
+              .catch((result) => {
                 reject(result);
               });
             break;
@@ -75,7 +75,7 @@
         var data = {
           id: ++this.requestCount,
           method: "auth.login",
-          params: [this.options.loginPwd]
+          params: [this.options.loginPwd],
         };
 
         $.ajax({
@@ -84,7 +84,7 @@
           dataType: "json",
           contentType: "application/json",
           data: JSON.stringify(data),
-          timeout: PTBackgroundService.options.connectClientTimeout
+          timeout: PTBackgroundService.options.connectClientTimeout,
         })
           .done((resultData, textStatus) => {
             this.isInitialized = true;
@@ -97,11 +97,14 @@
             let result = {
               status: textStatus || "error",
               code: jqXHR.status,
-              msg: textStatus === "timeout" ? i18n.t("downloadClient.timeout") : i18n.t("downloadClient.unknownError") //"连接超时" : "未知错误"
+              msg:
+                textStatus === "timeout"
+                  ? i18n.t("downloadClient.timeout")
+                  : i18n.t("downloadClient.unknownError"), //"连接超时" : "未知错误"
             };
             switch (jqXHR.status) {
               case 0:
-                result.msg = i18n.t("downloadClient.serverIsUnavailable") //"服务器不可用或网络错误"
+                result.msg = i18n.t("downloadClient.serverIsUnavailable"); //"服务器不可用或网络错误"
                 break;
 
               case 401:
@@ -125,7 +128,7 @@
      */
     exec(options, callback, tags) {
       var data = {
-        id: ++this.requestCount
+        id: ++this.requestCount,
       };
 
       $.extend(data, options);
@@ -143,7 +146,7 @@
               .then(() => {
                 this.exec(options, callback, tags);
               })
-              .catch(result => {
+              .catch((result) => {
                 callback && callback(result);
               });
             return;
@@ -158,10 +161,10 @@
             .then(() => {
               this.exec(options, callback, tags);
             })
-            .catch(result => {
+            .catch((result) => {
               callback && callback(result);
             });
-        }
+        },
       };
       $.ajax(settings);
     }
@@ -175,29 +178,30 @@
       let url = data.url;
 
       // 磁性连接（代码来自原版WEBUI）
-      if (url.startsWith('magnet:')) {
-        this.addTorrent({
+      if (url.startsWith("magnet:")) {
+        this.addTorrent(
+          {
             method: "core.add_torrent_url",
             params: [
               url,
               {
-                download_location: data.savePath
-              }
-            ]
+                download_location: data.savePath,
+              },
+            ],
           },
-          callback
+          callback,
         );
         return;
       }
 
       PTBackgroundService.requestMessage({
         action: "getTorrentDataFromURL",
-        data: url
+        data: url,
       })
-        .then(result => {
+        .then((result) => {
           var fileReader = new FileReader();
 
-          fileReader.onload = e => {
+          fileReader.onload = (e) => {
             var contents = e.target.result;
             var key = "base64,";
             var index = contents.indexOf(key);
@@ -206,34 +210,35 @@
             }
             var metainfo = contents.substring(index + key.length);
 
-            this.addTorrent({
-              method: "core.add_torrent_file",
-              params: [
-                "",
-                metainfo,
-                {
-                  download_location: data.savePath
-                }
-              ]
-            },
-              callback
+            this.addTorrent(
+              {
+                method: "core.add_torrent_file",
+                params: [
+                  "",
+                  metainfo,
+                  {
+                    download_location: data.savePath,
+                  },
+                ],
+              },
+              callback,
             );
           };
           fileReader.readAsDataURL(result);
         })
-        .catch(result => {
+        .catch((result) => {
           callback && callback(result);
         });
     }
 
     addTorrent(options, callback) {
-      this.exec(options, resultData => {
+      this.exec(options, (resultData) => {
         if (callback) {
           var result = resultData;
           if (!resultData.error && resultData.result) {
             result.status = "success";
             result.msg = i18n.t("downloadClient.addURLSuccess", {
-              name: this.options.name
+              name: this.options.name,
             }); //"URL已添加至 Deluge 。";
           }
           callback(result);

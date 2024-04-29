@@ -10,12 +10,14 @@
   "host": "hdf.world",
   "securityKeyFields": ["authkey", "torrent_pass"],
   "searchEntryConfig": {
-	"skipIMDbId": true
+    "skipIMDbId": true
   },
-  "searchEntry": [{
-    "name": "all",
-    "enabled": true
-  }],
+  "searchEntry": [
+    {
+      "name": "all",
+      "enabled": true
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/ajax.php?action=index",
@@ -50,7 +52,9 @@
       "fields": {
         "joinTime": {
           "selector": ["response.stats.joinedDate"],
-          "filters": ["dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         },
         "seeding": {
           "selector": ["response.community.seeding"]
@@ -62,7 +66,10 @@
       "fields": {
         "seedingSize": {
           "selector": ["table.torrent_table:first td.nobr"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "bonus": {
           "selector": "li#BonusPoints a[href*='store.php']",

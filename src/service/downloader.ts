@@ -95,10 +95,10 @@ export class FileDownloader {
   public percent: number | string = 0;
   public speed: number = 0;
   public showSpeed: string = "";
-  public onProgress: Function = function() {};
-  public onCompleted: Function = function() {};
-  public onError: Function = function() {};
-  public onStart: Function = function() {};
+  public onProgress: Function = function () {};
+  public onCompleted: Function = function () {};
+  public onError: Function = function () {};
+  public onStart: Function = function () {};
   public getDataOnly: boolean = false;
   public timeout: number = 0;
 
@@ -138,7 +138,7 @@ export class FileDownloader {
             default:
               if (this.xhr.status != 0) {
                 this.downloadError(
-                  `[${this.url}] 下载失败，返回的状态码为：${this.xhr.status}`
+                  `[${this.url}] 下载失败，返回的状态码为：${this.xhr.status}`,
                 );
               }
 
@@ -150,7 +150,7 @@ export class FileDownloader {
         // 已获取响应头 HEADERS_RECEIVED
         case 2:
           var contentDisposition = this.xhr.getResponseHeader(
-            "Content-Disposition"
+            "Content-Disposition",
           );
           // 从服务端获取文件名
           if (contentDisposition && !this.fileName && !this.getDataOnly) {
@@ -176,7 +176,7 @@ export class FileDownloader {
     };
 
     // 错误事件
-    this.xhr.onerror = e => {
+    this.xhr.onerror = (e) => {
       this.downloadError(e);
     };
 
@@ -192,7 +192,7 @@ export class FileDownloader {
     if (this.requestMethod == ERequestMethod.POST) {
       this.xhr.setRequestHeader(
         "Content-Type",
-        "application/x-www-form-urlencoded"
+        "application/x-www-form-urlencoded",
       );
     }
     // 开始下载

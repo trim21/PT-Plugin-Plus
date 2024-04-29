@@ -4,7 +4,7 @@
  *
  */
 
-(function($) {
+(function ($) {
   // ruTorrent
   class Client {
     /**
@@ -43,7 +43,7 @@
       return new Promise((resolve, reject) => {
         switch (action) {
           case "addTorrentFromURL":
-            this.addTorrentFromUrl(data, result => {
+            this.addTorrentFromUrl(data, (result) => {
               if (result.result === "Success") {
                 resolve(result);
               } else {
@@ -55,14 +55,14 @@
           // 测试是否可连接
           case "testClientConnectivity":
             this.testClientConnectivity()
-              .then(result => {
+              .then((result) => {
                 resolve(true);
               })
               .catch((code, msg) => {
                 reject({
                   status: "error",
                   code,
-                  msg
+                  msg,
                 });
               });
             break;
@@ -86,7 +86,7 @@
           url: this.options.address + "php/getsettings.php", // ping_addr
           username: this.options.loginName,
           password: this.options.loginPwd,
-          timeout: PTBackgroundService.options.connectClientTimeout
+          timeout: PTBackgroundService.options.connectClientTimeout,
         })
           .done((resultData, textStatus, request) => {
             this.isInitialized = true;
@@ -116,9 +116,9 @@
             dir_edit: data.savePath,
             paused: !data.autoStart,
             url: url,
-            json: 1 // 输出json格式
+            json: 1, // 输出json格式
           },
-          callback
+          callback,
         );
         return;
       }
@@ -126,9 +126,9 @@
       // 种子文件
       PTBackgroundService.requestMessage({
         action: "getTorrentDataFromURL",
-        data: url
+        data: url,
       })
-        .then(result => {
+        .then((result) => {
           let formData = new FormData();
           formData.append("json", 1); // 输出json格式
           // 如果有传值时，则设置路径参数
@@ -141,7 +141,7 @@
 
           this.addTorrent(formData, callback);
         })
-        .catch(result => {
+        .catch((result) => {
           callback && callback(result);
         });
     }
@@ -170,12 +170,12 @@
         data: data,
         contentType: false,
         processData: false,
-        dataType: 'json',
+        dataType: "json",
         success: (resultData, textStatus) => {
           if (callback) {
             callback(resultData);
           }
-        }
+        },
       });
     }
   }

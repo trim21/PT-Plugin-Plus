@@ -14,7 +14,8 @@
     "parseScriptFile": "getSearchResult.js",
     "queryString": "searchtext=$key$"
   },
-  "searchEntry": [{
+  "searchEntry": [
+    {
       "name": "All",
       "enabled": true
     },
@@ -60,23 +61,38 @@
       "fields": {
         "messageCount": {
           "selector": ["div.alertbar a[href*='inbox.php']"],
-          "filters": ["query.text().replace(/\\s+/g,'').match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().replace(/\\s+/g,'').match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         },
         "seeding": {
           "selector": "ul.stats.nobullet > li:contains('Seeding:')",
-          "filters": ["query.text().trim().replace(/,|\\n/g,'').match(/:.+?([\\d.]+)/)", "(query && query.length>=2)?parseFloat(query[1]):0"]
+          "filters": [
+            "query.text().trim().replace(/,|\\n/g,'').match(/:.+?([\\d.]+)/)",
+            "(query && query.length>=2)?parseFloat(query[1]):0"
+          ]
         },
         "seedingSize": {
           "selector": "ul.stats.nobullet > li:contains('Seeding Size:')",
-          "filters": ["query.text().trim().replace(/,/g,'').match(/Seeding Size:.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().trim().replace(/,/g,'').match(/Seeding Size:.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "bonus": {
           "selector": "ul#userinfo_major > li > a:contains('Cubits:')",
-          "filters": ["query.text().replace(/,/g,'').match(/Cubits:.+?([\\d.]+)/)", "(query && query.length>=2)?query[1]:0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/Cubits:.+?([\\d.]+)/)",
+            "(query && query.length>=2)?query[1]:0"
+          ]
         },
         "joinTime": {
           "selector": ["ul.stats.nobullet > li:contains('Joined:') > span"],
-          "filters": ["query.attr('title')||query.text()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "query.attr('title')||query.text()",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         }
       }
     }

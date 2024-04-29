@@ -31,7 +31,7 @@
         siteURL += "/";
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let url = $(item).attr("href");
         return this.getFullURL(siteURL + url.substr(1));
       });

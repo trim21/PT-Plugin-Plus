@@ -2,16 +2,16 @@ name: Build Action Release
 
 on:
   push:
-    branches: [ dev ]
+    branches: [dev]
   pull_request:
-    branches: [ dev ]
+    branches: [dev]
   workflow_call:
     inputs:
       ref:
-        default: 'dev'
+        default: "dev"
         type: string
       auto_update_file:
-        default: 'canary.xml'
+        default: "canary.xml"
         type: string
       build_xpi:
         default: false
@@ -39,7 +39,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: "16"
 
       - name: Get yarn cache
         id: yarn-cache
@@ -78,8 +78,8 @@ jobs:
         name: Build Zip
         uses: cardinalby/webext-buildtools-pack-extension-dir-action@v1
         with:
-          extensionDir: 'dist'
-          zipFilePath: 'artifact/extension.zip'
+          extensionDir: "dist"
+          zipFilePath: "artifact/extension.zip"
 
       - name: Upload Built Zip to action
         uses: actions/upload-artifact@v3
@@ -122,8 +122,8 @@ jobs:
           CRX_PRIVATE_KEY: ${{ secrets.CRX_PRIVATE_KEY }}
         if: ${{ env.CRX_PRIVATE_KEY != ''  }}
         with:
-          extensionDir: 'dist'
-          zipFilePath: 'extension.zip'
+          extensionDir: "dist"
+          zipFilePath: "extension.zip"
 
       - name: Build Crx
         env:
@@ -131,8 +131,8 @@ jobs:
         if: ${{ env.CRX_PRIVATE_KEY != ''  }}
         uses: cardinalby/webext-buildtools-chrome-crx-action@v2
         with:
-          zipFilePath: 'extension.zip'
-          crxFilePath: 'artifact/extension.crx'
+          zipFilePath: "extension.zip"
+          crxFilePath: "artifact/extension.crx"
           privateKey: ${{ secrets.CRX_PRIVATE_KEY }}
           updateXmlPath: artifact/${{ steps.auto_update_file.outputs.value }}
           updateXmlCodebaseUrl: https://github.com/pt-plugins/PT-Plugin-Plus/releases/download/v${{ steps.zip.outputs.extensionVersion }}/PT-Plugin-Plus-${{ steps.zip.outputs.extensionVersion }}.crx

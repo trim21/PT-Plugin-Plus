@@ -59,11 +59,15 @@
           // 下载链接，无法下载的VIP种子置为ONLY_FOR_VIP
           let url = row.find(".directDownload").attr("href");
           if (!url) {
-            url = "ONLY_FOR_VIP"
+            url = "ONLY_FOR_VIP";
           }
 
           // 解析种子大小
-          let size = row.find("> td:eq(4)").text().split("[")[1].replace("]", "");
+          let size = row
+            .find("> td:eq(4)")
+            .text()
+            .split("[")[1]
+            .replace("]", "");
 
           // 解析发布时间和发布者
           let addedAndUploader = row.find("> td:eq(5)").text().split("[");
@@ -87,10 +91,13 @@
             seeders: seeders,
             leechers: leechers,
             completed: completed,
-            comments: row.find(" >td:eq(2)").text().match(/(\d+) comments/)[1],
+            comments: row
+              .find(" >td:eq(2)")
+              .text()
+              .match(/(\d+) comments/)[1],
             site: this.site,
             tags: Searcher.getRowTags(this.site, row),
-            entryName: options.entry.name
+            entryName: options.entry.name,
           };
           results.push(data);
         }

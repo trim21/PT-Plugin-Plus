@@ -68,20 +68,34 @@
           @click="testClientConnectivity"
         >
           <v-icon class="mr-2">{{ testButtonIcon }}</v-icon>
-          {{ successMsg || errorMsg || $t('settings.downloadClients.editor.test') }}
+          {{
+            successMsg || errorMsg || $t("settings.downloadClients.editor.test")
+          }}
         </v-btn>
-        <v-alert :value="true" color="info" v-if="option.description">{{ option.description }}</v-alert>
-        <v-alert :value="true" color="warning" v-if="option.warning">{{ option.warning }}</v-alert>
+        <v-alert :value="true" color="info" v-if="option.description">{{
+          option.description
+        }}</v-alert>
+        <v-alert :value="true" color="warning" v-if="option.warning">{{
+          option.warning
+        }}</v-alert>
       </v-card-text>
     </v-card>
-    <v-snackbar v-model="haveError" absolute top :timeout="3000" color="error">{{ errorMsg }}</v-snackbar>
+    <v-snackbar
+      v-model="haveError"
+      absolute
+      top
+      :timeout="3000"
+      color="error"
+      >{{ errorMsg }}</v-snackbar
+    >
     <v-snackbar
       v-model="haveSuccess"
       absolute
       bottom
       :timeout="3000"
       color="success"
-    >{{ successMsg }}</v-snackbar>
+      >{{ successMsg }}</v-snackbar
+    >
   </div>
 </template>
 
@@ -100,10 +114,10 @@ export default Vue.extend({
         url: (v: any) => {
           return (
             /^(https?):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;\[\]]+[-A-Za-z0-9+&@#/%=~_|]$/.test(
-              v
+              v,
             ) || this.$t("settings.downloadClients.editor.addressTip")
           );
-        }
+        },
       },
       testing: false,
       haveError: false,
@@ -114,22 +128,22 @@ export default Vue.extend({
       testButtonColor: "info",
       testButtonStatus: {
         success: "success",
-        error: "error"
+        error: "error",
       },
       buttonColor: {
         default: "info",
         success: "success",
-        error: "error"
+        error: "error",
       } as Dictionary<any>,
       buttonIcon: {
         default: "compass_calibration",
         success: "done",
-        error: "close"
-      } as Dictionary<any>
+        error: "close",
+      } as Dictionary<any>,
     };
   },
   props: {
-    option: Object
+    option: Object,
   },
   watch: {
     successMsg() {
@@ -137,7 +151,7 @@ export default Vue.extend({
     },
     errorMsg() {
       this.haveError = this.errorMsg != "";
-    }
+    },
   },
   methods: {
     testClientConnectivity() {
@@ -146,7 +160,7 @@ export default Vue.extend({
       let options = Object.assign({}, this.option);
       if (!options.address) {
         this.errorMsg = this.$t(
-          "settings.downloadClients.editor.testAddressError"
+          "settings.downloadClients.editor.testAddressError",
         ).toString();
         return;
       }
@@ -158,7 +172,7 @@ export default Vue.extend({
           console.log(result);
           if (result.success) {
             this.successMsg = this.$t(
-              "settings.downloadClients.editor.testSuccess"
+              "settings.downloadClients.editor.testSuccess",
             ).toString();
             this.setTestButtonStatus(this.testButtonStatus.success);
           } else if (result && result.data) {
@@ -166,19 +180,19 @@ export default Vue.extend({
               this.errorMsg = result.data.msg;
             } else if (result.data.code === 0) {
               this.errorMsg = this.$t(
-                "settings.downloadClients.editor.testConnectionError"
+                "settings.downloadClients.editor.testConnectionError",
               ).toString();
             } else {
               this.errorMsg = this.$t(
                 "settings.downloadClients.editor.testOtherError",
                 {
-                  code: result.data.code
-                }
+                  code: result.data.code,
+                },
               ).toString();
             }
           } else {
             this.errorMsg = this.$t(
-              "settings.downloadClients.editor.testUnknownError"
+              "settings.downloadClients.editor.testUnknownError",
             ).toString();
           }
           this.errorMsg &&
@@ -191,7 +205,7 @@ export default Vue.extend({
             this.errorMsg = result.data.msg;
           } else {
             this.errorMsg = this.$t(
-              "settings.downloadClients.editor.testError"
+              "settings.downloadClients.editor.testError",
             ).toString();
           }
 
@@ -209,7 +223,7 @@ export default Vue.extend({
         this.successMsg = "";
         this.errorMsg = "";
       }, 3000);
-    }
-  }
+    },
+  },
 });
 </script>

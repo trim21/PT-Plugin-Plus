@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -28,7 +28,7 @@
       let results = [];
 
       try {
-        torrentList.forEach(item => {
+        torrentList.forEach((item) => {
           if (item.hasOwnProperty("fid")) {
             let data = {
               title: item.name,
@@ -47,9 +47,9 @@
               category: options.searcher.getCategoryById(
                 site,
                 options.url,
-                item.categoryID
+                item.categoryID,
               ),
-              imdbId: item.imdbID
+              imdbId: item.imdbID,
             };
             results.push(data);
           }
@@ -66,14 +66,15 @@
       return results;
     }
     getTags(item) {
-      var tag = [{
-        name: "Free",
-        color: "blue"
-      }]
-      if(item.tags.indexOf("FREELEECH")>-1)return tag;
+      var tag = [
+        {
+          name: "Free",
+          color: "blue",
+        },
+      ];
+      if (item.tags.indexOf("FREELEECH") > -1) return tag;
     }
   }
-
 
   let parser = new Parser(options);
   options.results = parser.getResult();

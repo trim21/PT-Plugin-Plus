@@ -7,66 +7,73 @@
   "tags": ["影视", "综合"],
   "schema": "NexusPHP",
   "host": "pterclub.com",
-  "levelRequirements": [{
-    "level": "1", 
-    "name": "Power User",
-    "interval": "5",
-    "downloaded": "50GB",
-    "ratio": "1.05",
-    "privilege": "直接发布种子；查看邀请区；请求续种；上传字幕和删除自己上传的字幕"
-  },{
-    "level": "2", 
-    "name": "Elite User",
-    "interval": "10",
-    "downloaded": "120GB",
-    "ratio": "1.55",
-    "privilege": "可以查看排行榜"
-  },{
-    "level": "3", 
-    "name": "Crazy User",
-    "interval": "15",
-    "downloaded": "300GB",
-    "ratio": "2.05",
-    "privilege": "无"
-  },{
-    "level": "4", 
-    "name": "Insane User",
-    "interval": "25",
-    "downloaded": "500GB",
-    "ratio": "2.55",
-    "privilege": "查看普通日志"
-  },{
-    "level": "5", 
-    "name": "Veteran User",
-    "interval": "30",
-    "downloaded": "750GB",
-    "ratio": "3.05",
-    "privilege": "用户封存账号后不会被封禁"
-  },{
-    "level": "6", 
-    "name": "Extreme User",
-    "interval": "35",
-    "downloaded": "1024GB",
-    "ratio": "3.55",
-    "privilege": "无"
-  },{
-    "level": "7", 
-    "name": "Ultimate User",
-    "interval": "40",
-    "downloaded": "1536GB",
-    "ratio": "4.05",
-    "privilege": "无"
-  },{
-    "level": "8", 
-    "name": "Nexus Master",
-    "interval": "45",
-    "downloaded": "3072GB",
-    "ratio": "4.55",
-    "privilege": "永远保留账号"
-  }],
-  "formerHosts": [
-    "pter.club"
+  "levelRequirements": [
+    {
+      "level": "1",
+      "name": "Power User",
+      "interval": "5",
+      "downloaded": "50GB",
+      "ratio": "1.05",
+      "privilege": "直接发布种子；查看邀请区；请求续种；上传字幕和删除自己上传的字幕"
+    },
+    {
+      "level": "2",
+      "name": "Elite User",
+      "interval": "10",
+      "downloaded": "120GB",
+      "ratio": "1.55",
+      "privilege": "可以查看排行榜"
+    },
+    {
+      "level": "3",
+      "name": "Crazy User",
+      "interval": "15",
+      "downloaded": "300GB",
+      "ratio": "2.05",
+      "privilege": "无"
+    },
+    {
+      "level": "4",
+      "name": "Insane User",
+      "interval": "25",
+      "downloaded": "500GB",
+      "ratio": "2.55",
+      "privilege": "查看普通日志"
+    },
+    {
+      "level": "5",
+      "name": "Veteran User",
+      "interval": "30",
+      "downloaded": "750GB",
+      "ratio": "3.05",
+      "privilege": "用户封存账号后不会被封禁"
+    },
+    {
+      "level": "6",
+      "name": "Extreme User",
+      "interval": "35",
+      "downloaded": "1024GB",
+      "ratio": "3.55",
+      "privilege": "无"
+    },
+    {
+      "level": "7",
+      "name": "Ultimate User",
+      "interval": "40",
+      "downloaded": "1536GB",
+      "ratio": "4.05",
+      "privilege": "无"
+    },
+    {
+      "level": "8",
+      "name": "Nexus Master",
+      "interval": "45",
+      "downloaded": "3072GB",
+      "ratio": "4.55",
+      "privilege": "永远保留账号"
+    }
   ],
+  "formerHosts": ["pter.club"],
   "searchEntryConfig": {
     "fieldSelector": {
       "title": {
@@ -83,7 +90,13 @@
         "filters": ["this.formatIMDbId(query)"]
       },
       "progress": {
-        "selector": [".progbargreen", ".progbarred + .progbarrest", ".progbarred", ".progbarrest", ""],
+        "selector": [
+          ".progbargreen",
+          ".progbarred + .progbarrest",
+          ".progbarred",
+          ".progbarrest",
+          ""
+        ],
         "switchFilters": [
           ["100"],
           ["query.prev().attr('style').replace('width: ','').replace('%;','')"],
@@ -93,30 +106,35 @@
         ]
       },
       "status": {
-        "selector": [".progbargreen", ".progbarred + .progbarrest", ".progbarred", ".progbarrest"],
-        "switchFilters": [
-          ["2"],
-          ["3"],
-          ["255"],
-          ["3"]
-        ]
+        "selector": [
+          ".progbargreen",
+          ".progbarred + .progbarrest",
+          ".progbarred",
+          ".progbarrest"
+        ],
+        "switchFilters": [["2"], ["3"], ["255"], ["3"]]
       }
     }
   },
-  "searchEntry": [{
-    "name": "综合",
-    "enabled": true
-  }, {
-    "entry": "/music.php?search=$key$&notnewword=1",
-    "name": "音乐",
-    "enabled": true
-  }],
+  "searchEntry": [
+    {
+      "name": "综合",
+      "enabled": true
+    },
+    {
+      "entry": "/music.php?search=$key$&notnewword=1",
+      "name": "音乐",
+      "enabled": true
+    }
+  ],
   "selectors": {
     "userExtendInfo": {
       "merge": true,
       "fields": {
         "bonus": {
-          "selector": ["td.rowhead:contains('猫粮') + td, td.rowhead:contains('Karma Points') + td, td.rowhead:contains('貓糧') + td"],
+          "selector": [
+            "td.rowhead:contains('猫粮') + td, td.rowhead:contains('Karma Points') + td, td.rowhead:contains('貓糧') + td"
+          ],
           "filters": ["query.text().replace(/,/g,'')", "parseFloat(query)"]
         },
         "seeding": {
@@ -124,7 +142,9 @@
           "filters": ["query ? parseInt(query.text().replace(/,/g,'')) : 0"]
         },
         "seedingSize": {
-          "selector": ["td.rowhead:contains('做种大小') + td, td.rowhead:contains('Seeding Size') + td, td.rowhead:contains('做種大小') + td"],
+          "selector": [
+            "td.rowhead:contains('做种大小') + td, td.rowhead:contains('Seeding Size') + td, td.rowhead:contains('做種大小') + td"
+          ],
           "filters": ["query.text().trim().sizeToNumber()"]
         }
       }
@@ -142,18 +162,24 @@
   },
   "plugins": [
     {
-    "name": "保种和官方列表",
-    "pages": ["/reseed.php", "/officialgroup.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "/schemas/NexusPHP/torrents.js"]
-    },{
+      "name": "保种和官方列表",
+      "pages": ["/reseed.php", "/officialgroup.php"],
+      "scripts": [
+        "/schemas/NexusPHP/common.js",
+        "/schemas/NexusPHP/torrents.js"
+      ]
+    },
+    {
       "name": "游戏种子详情页面",
       "pages": ["/detailsgame.php"],
       "scripts": ["/schemas/NexusPHP/common.js", "/schemas/Common/details.js"]
     }
   ],
   "mergeSchemaTagSelectors": true,
-  "torrentTagSelectors": [{
-    "name": "⛔️",
-    "selector": "a[href*='torrents.php?tag_exclusive=yes']"
-  }]
+  "torrentTagSelectors": [
+    {
+      "name": "⛔️",
+      "selector": "a[href*='torrents.php?tag_exclusive=yes']"
+    }
+  ]
 }

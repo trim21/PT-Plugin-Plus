@@ -1,4 +1,4 @@
-(function($, window) {
+(function ($, window) {
   console.log("this is details.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -40,7 +40,7 @@
         PTService.addButton({
           title: "当前种子大小",
           icon: "attachment",
-          label: size
+          label: size,
         });
       }
     }
@@ -49,9 +49,7 @@
      * 获取当前种子标题
      */
     getTitle() {
-      return $("table.main h1:first")
-        .text()
-        .trim();
+      return $("table.main h1:first").text().trim();
     }
   }
   new App().init();

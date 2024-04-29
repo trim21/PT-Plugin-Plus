@@ -51,7 +51,7 @@ export default class DownloadQuene {
         .then(() => {
           this.successCount++;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           this.failedCount++;
         })
@@ -73,11 +73,11 @@ export default class DownloadQuene {
             "service.controller.downloadTaskIsCompleted",
             {
               success: this.successCount,
-              failed: this.failedCount
-            }
-          )
+              failed: this.failedCount,
+            },
+          ),
         },
-        10000
+        10000,
       );
 
       this.successCount = 0;

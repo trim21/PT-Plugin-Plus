@@ -3,11 +3,16 @@
     <v-card color="blue-grey darken-2" class="white--text">
       <!-- 标题 -->
       <v-card-title class="pb-2">
-        <div :class="$vuetify.breakpoint.mdAndUp?'headline': 'title'">
+        <div :class="$vuetify.breakpoint.mdAndUp ? 'headline' : 'title'">
           <span>{{ info.title }}</span>
           <span
-            :class="['ml-1','grey--text',$vuetify.breakpoint.mdAndUp?'title':'caption']"
-          >({{ info.year || info.attrs.year[0] }})</span>
+            :class="[
+              'ml-1',
+              'grey--text',
+              $vuetify.breakpoint.mdAndUp ? 'title' : 'caption',
+            ]"
+            >({{ info.year || info.attrs.year[0] }})</span
+          >
         </div>
       </v-card-title>
       <v-img
@@ -17,7 +22,7 @@
         :max-height="maxHeight"
         position="left center"
       >
-        <v-layout style="margin-left: 220px;" v-if="$vuetify.breakpoint.mdAndUp">
+        <v-layout style="margin-left: 220px" v-if="$vuetify.breakpoint.mdAndUp">
           <!-- omit 格式 -->
           <v-card-title class="pt-0" v-if="info.updateTime">
             <v-flex xs12>
@@ -51,7 +56,10 @@
             <v-flex xs12 class="my-2">
               <v-divider light></v-divider>
             </v-flex>
-            <div class="caption" v-html="`　　${info.summary.replace(/\n/g, '<br>')} @豆瓣`"></div>
+            <div
+              class="caption"
+              v-html="`　　${info.summary.replace(/\n/g, '<br>')} @豆瓣`"
+            ></div>
           </v-card-title>
 
           <v-card-title class="pt-0" v-else-if="info.attrs">
@@ -61,7 +69,9 @@
             </v-flex>
             <v-flex xs12>
               <span>{{ $t("movieInfoCard.director") }}</span>
-              <span class="caption">{{ formatArray(info.attrs.director) }}</span>
+              <span class="caption">{{
+                formatArray(info.attrs.director)
+              }}</span>
             </v-flex>
             <v-flex xs12>
               <span>{{ $t("movieInfoCard.writer") }}</span>
@@ -73,7 +83,9 @@
             </v-flex>
             <v-flex xs12>
               <span>{{ $t("movieInfoCard.type") }}</span>
-              <span class="caption">{{ formatArray(info.attrs.movie_type) }}</span>
+              <span class="caption">{{
+                formatArray(info.attrs.movie_type)
+              }}</span>
             </v-flex>
             <v-flex xs12>
               <span>{{ $t("movieInfoCard.pubdate") }}</span>
@@ -81,7 +93,9 @@
             </v-flex>
             <v-flex xs12>
               <span>{{ $t("movieInfoCard.duration") }}</span>
-              <span class="caption">{{ formatArray(info.attrs.movie_duration) }}</span>
+              <span class="caption">{{
+                formatArray(info.attrs.movie_duration)
+              }}</span>
             </v-flex>
             <v-flex xs12 class="my-2">
               <v-divider light></v-divider>
@@ -120,19 +134,27 @@
             <div class="caption" v-html="`${info.intro} @豆瓣`"></div>
           </v-card-title>
         </v-layout>
-        <v-layout v-else style="margin-left: 75px;">
+        <v-layout v-else style="margin-left: 75px">
           <v-card-text class="pt-0">
             <v-flex xs12>
-              <span class="caption">{{ info.original_title || info.alt_title }}</span>
+              <span class="caption">{{
+                info.original_title || info.alt_title
+              }}</span>
             </v-flex>
             <v-flex xs12>
-              <span class="caption">{{ formatArray(info.genres || info.attrs.movie_type) }}</span>
+              <span class="caption">{{
+                formatArray(info.genres || info.attrs.movie_type)
+              }}</span>
             </v-flex>
             <v-flex xs12>
-              <span class="caption">{{ formatArray(info.pubdate || info.attrs.pubdate) }}</span>
+              <span class="caption">{{
+                formatArray(info.pubdate || info.attrs.pubdate)
+              }}</span>
             </v-flex>
             <v-flex xs12>
-              <span class="caption">{{ formatArray(info.durations || info.attrs.movie_duration) }}</span>
+              <span class="caption">{{
+                formatArray(info.durations || info.attrs.movie_duration)
+              }}</span>
             </v-flex>
           </v-card-text>
         </v-layout>
@@ -145,7 +167,9 @@
           :href="info.link || info.url || info.mobile_link"
           target="_blank"
           rel="noopener noreferrer nofollow"
-        >豆瓣 {{ info.average || info.rating.value || info.rating.average }}</v-btn>
+          >豆瓣
+          {{ info.average || info.rating.value || info.rating.average }}</v-btn
+        >
 
         <!-- IMDb评分 -->
         <v-btn
@@ -153,18 +177,19 @@
           :href="`https://www.imdb.com/title/${this.IMDbId}/`"
           target="_blank"
           rel="noopener noreferrer nofollow"
-        >IMDb {{ ratings.imdbRating }}</v-btn>
+          >IMDb {{ ratings.imdbRating }}</v-btn
+        >
 
         <!-- 烂番茄新鲜度 -->
         <v-btn
-          v-if="tomatoRating>0"
+          v-if="tomatoRating > 0"
           color="red lighten-3"
           :href="ratings.tomatoURL"
           target="_blank"
           rel="noopener noreferrer nofollow"
         >
           <v-avatar size="20" class="mr-1">
-            <img :src="rottenTomatoes.fresh" v-if="tomatoRating>=60" />
+            <img :src="rottenTomatoes.fresh" v-if="tomatoRating >= 60" />
             <img :src="rottenTomatoes.rotten" v-else />
           </v-avatar>
           {{ tomatoRating }}%
@@ -172,22 +197,26 @@
 
         <!-- Metacritic评分 -->
         <v-btn
-          v-if="metascore>0"
-          :color="metascore>60?'success':metascore>40?'warning':'error'"
+          v-if="metascore > 0"
+          :color="
+            metascore > 60 ? 'success' : metascore > 40 ? 'warning' : 'error'
+          "
           :href="`https://www.metacritic.com/search/movie/${info.title}/results`"
           target="_blank"
           rel="noopener noreferrer nofollow"
-          style="min-width: unset;"
+          style="min-width: unset"
         >
           <v-avatar size="20" class="mr-2">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Metacritic_M.png" />
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Metacritic_M.png"
+            />
           </v-avatar>
           {{ metascore }}
         </v-btn>
 
         <v-spacer></v-spacer>
         <v-layout v-if="$vuetify.breakpoint.mdAndUp">
-          <v-flex xs6 v-if="rating>0">
+          <v-flex xs6 v-if="rating > 0">
             <v-rating
               v-model="rating"
               background-color="white"
@@ -197,11 +226,16 @@
               half-increments
               size="30"
             ></v-rating>
-            <span
-              class="ma-2"
-            >{{ $t("movieInfoCard.ratings.douban", {average: info.average || info.rating.value || info.rating.average, numRaters: info.votes || info.rating.count || info.rating.numRaters}) }}</span>
+            <span class="ma-2">{{
+              $t("movieInfoCard.ratings.douban", {
+                average:
+                  info.average || info.rating.value || info.rating.average,
+                numRaters:
+                  info.votes || info.rating.count || info.rating.numRaters,
+              })
+            }}</span>
           </v-flex>
-          <v-flex xs6 v-if="imdbRating>0">
+          <v-flex xs6 v-if="imdbRating > 0">
             <v-rating
               v-model="imdbRating"
               background-color="white"
@@ -211,9 +245,12 @@
               half-increments
               size="30"
             ></v-rating>
-            <span
-              class="ma-2"
-            >{{ $t("movieInfoCard.ratings.imdb", {average: ratings.imdbRating, numRaters: ratings.imdbVotes.replace(/,/g, "")}) }}</span>
+            <span class="ma-2">{{
+              $t("movieInfoCard.ratings.imdb", {
+                average: ratings.imdbRating,
+                numRaters: ratings.imdbVotes.replace(/,/g, ""),
+              })
+            }}</span>
           </v-flex>
         </v-layout>
       </v-card-actions>
@@ -231,7 +268,7 @@ const extension = new Extension();
 export default Vue.extend({
   props: {
     IMDbId: String,
-    doubanId: String
+    doubanId: String,
   },
   data() {
     return {
@@ -242,7 +279,7 @@ export default Vue.extend({
         rating: {
           average: "",
           numRaters: 0,
-          value: ""
+          value: "",
         },
         attrs: {
           year: [],
@@ -251,28 +288,28 @@ export default Vue.extend({
           cast: [],
           movie_type: [],
           pubdate: [],
-          movie_duration: []
-        }
+          movie_duration: [],
+        },
       } as any,
       ratings: {
         imdbRating: "",
         Ratings: [],
-        imdbVotes: ""
+        imdbVotes: "",
       } as any,
 
       rottenTomatoes: {
         fresh:
           "https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-fresh.587bf3a5e47.png",
         rotten:
-          "https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-rotten.efc30acb29c.png"
+          "https://www.rottentomatoes.com/assets/pizza-pie/images/icons/global/new-rotten.efc30acb29c.png",
       },
-      visible: false
+      visible: false,
     };
   },
   watch: {
     IMDbId() {
       this.reset();
-    }
+    },
   },
   created() {
     this.reset();
@@ -283,13 +320,17 @@ export default Vue.extend({
       this.ratings = {
         imdbRating: "",
         Ratings: [],
-        imdbVotes: ""
+        imdbVotes: "",
       };
       console.log(this.doubanId, this.IMDbId);
       if (this.IMDbId) {
         extension
-          .sendRequest(EAction.getMovieInfos, null, this.doubanId ? `douban${this.doubanId}` : this.IMDbId)
-          .then(result => {
+          .sendRequest(
+            EAction.getMovieInfos,
+            null,
+            this.doubanId ? `douban${this.doubanId}` : this.IMDbId,
+          )
+          .then((result) => {
             console.log(result);
             this.visible = true;
             if (Array.isArray(result)) {
@@ -298,17 +339,17 @@ export default Vue.extend({
               this.info = result;
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
 
         extension
           .sendRequest(EAction.getMovieRatings, null, this.IMDbId)
-          .then(result => {
+          .then((result) => {
             console.log(result);
             this.ratings = result;
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       }
@@ -316,7 +357,7 @@ export default Vue.extend({
     formatArray(
       array: any,
       splitChar: string = " / ",
-      maxLength: number = 10
+      maxLength: number = 10,
     ): string {
       if (array && array.length > 0) {
         if (maxLength > 0 && array.length > maxLength) {
@@ -327,7 +368,11 @@ export default Vue.extend({
       return "";
     },
     // 获取数组中指定的字段
-    getArrayValues(array: any, field: string = "name", splitChar: string = " / "): string {
+    getArrayValues(
+      array: any,
+      field: string = "name",
+      splitChar: string = " / ",
+    ): string {
       if (array && array.length > 0) {
         const result: string[] = [];
         array.forEach((item: any) => {
@@ -336,12 +381,18 @@ export default Vue.extend({
         return result.join(splitChar);
       }
       return "";
-    }
+    },
   },
   computed: {
     rating(): number {
       if (this.info && (this.info.rating || this.info.average)) {
-        return parseFloat(this.info.average || this.info.rating.value || this.info.rating.average) / 2;
+        return (
+          parseFloat(
+            this.info.average ||
+              this.info.rating.value ||
+              this.info.rating.average,
+          ) / 2
+        );
       }
       return 0;
     },
@@ -379,8 +430,8 @@ export default Vue.extend({
     },
     maxHeight(): number {
       return this.$vuetify.breakpoint.smAndDown ? 120 : 300;
-    }
-  }
+    },
+  },
 });
 </script>
 

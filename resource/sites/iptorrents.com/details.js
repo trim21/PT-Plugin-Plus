@@ -28,6 +28,6 @@
 
       return url;
     }
-  };
-  (new App()).init();
+  }
+  new App().init();
 })(jQuery, window);

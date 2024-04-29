@@ -155,7 +155,7 @@ import {
   Site,
   SearchEntry,
   SiteCategory,
-  SiteCategories
+  SiteCategories,
 } from "@/interface/common";
 import AddItem from "./Add.vue";
 import EditItem from "./Edit.vue";
@@ -165,13 +165,13 @@ import { PPF } from "@/service/public";
 export default Vue.extend({
   components: {
     AddItem,
-    EditItem
+    EditItem,
   },
   data() {
     return {
       selected: [],
       pagination: {
-        rowsPerPage: -1
+        rowsPerPage: -1,
       },
       showAddDialog: false,
       showEditDialog: false,
@@ -179,7 +179,7 @@ export default Vue.extend({
       selectedItem: {},
       dialogRemoveConfirm: false,
       searchEntry: [] as any,
-      options: this.$store.state.options
+      options: this.$store.state.options,
     };
   },
   methods: {
@@ -206,7 +206,7 @@ export default Vue.extend({
       this.dialogRemoveConfirm = false;
       this.$store.dispatch("removeSiteSearchEntry", {
         host: this.site.host,
-        item: this.selectedItem
+        item: this.selectedItem,
       });
       this.selectedItem = {};
       this.reloadEntry(this.site.host);
@@ -215,14 +215,14 @@ export default Vue.extend({
       if (
         confirm(
           this.$t(
-            "settings.siteSearchEntry.index.removeSelectedConfirm"
-          ).toString()
+            "settings.siteSearchEntry.index.removeSelectedConfirm",
+          ).toString(),
         )
       ) {
         this.selected.forEach((item: any) => {
           this.$store.dispatch("removeSiteSearchEntry", {
             host: this.site.host,
-            item
+            item,
           });
         });
         this.selected = [];
@@ -234,7 +234,7 @@ export default Vue.extend({
       this.selectedItem = item;
       this.$store.dispatch("updateSiteSearchEntry", {
         host: this.site.host,
-        item
+        item,
       });
       this.reloadEntry(this.site.host);
     },
@@ -242,7 +242,7 @@ export default Vue.extend({
       console.log(item);
       this.$store.dispatch("addSiteSearchEntry", {
         host: this.site.host,
-        item: item
+        item: item,
       });
       this.reloadEntry(this.site.host);
     },
@@ -269,7 +269,7 @@ export default Vue.extend({
             let _schema = this.$store.state.options.system.schemas.find(
               (item: Site) => {
                 return item.name == schema;
-              }
+              },
             );
             if (_schema) {
               searchEntry.push(..._schema.searchEntry);
@@ -302,7 +302,7 @@ export default Vue.extend({
         });
       }
       return result;
-    }
+    },
   },
   created() {
     let host = this.$route.params["host"];
@@ -317,26 +317,26 @@ export default Vue.extend({
         {
           text: this.$t("settings.siteSearchEntry.index.headers.name"),
           align: "left",
-          value: "name"
+          value: "name",
         },
         {
           text: this.$t("settings.siteSearchEntry.index.headers.categories"),
           align: "left",
-          value: "categories"
+          value: "categories",
         },
         {
           text: this.$t("settings.siteSearchEntry.index.headers.enable"),
           align: "left",
-          value: "enable"
+          value: "enable",
         },
         {
           text: this.$t("settings.siteSearchEntry.index.headers.action"),
           value: "name",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>
 

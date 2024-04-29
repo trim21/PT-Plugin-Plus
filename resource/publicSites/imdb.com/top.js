@@ -28,12 +28,16 @@
       if (!key) {
         return;
       }
-      let div = $("<div style='text-align:right;'/>").attr("title", `搜索 ${title}`).appendTo(parent);
-      $("<a href='javascript:void(0);'/>").html("用 PT 助手搜索").on("click", () => {
-        PTService.call(PTService.action.openOptions, `search-torrent/${key}`);
-      }).appendTo(div);
+      let div = $("<div style='text-align:right;'/>")
+        .attr("title", `搜索 ${title}`)
+        .appendTo(parent);
+      $("<a href='javascript:void(0);'/>")
+        .html("用 PT 助手搜索")
+        .on("click", () => {
+          PTService.call(PTService.action.openOptions, `search-torrent/${key}`);
+        })
+        .appendTo(div);
     }
-
-  };
-  (new App()).init();
+  }
+  new App().init();
 })(jQuery, window);

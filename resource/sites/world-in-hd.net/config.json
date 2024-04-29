@@ -7,15 +7,18 @@
   "tags": ["影视"],
   "host": "world-in-hd.net",
   "collaborator": "luckiestone",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["/torrent/view/"],
-    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["/torrents"],
-    "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["/torrent/view/"],
+      "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["/torrents"],
+      "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
+    }
+  ],
   "levelRequirements": [
     {
       "level": "1",
@@ -39,7 +42,7 @@
       "ratio": "4.5"
     }
   ],
-"searchEntryConfig": {
+  "searchEntryConfig": {
     "skipIMDbId": true,
     "page": "/torrent/ajaxsearchtorrent/$key$",
     "resultType": "html",
@@ -50,14 +53,18 @@
     "imdbSearch": false,
     "userData": "◐"
   },
-  "searchEntry": [{
-    "name": "all",
-    "enabled": true
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "div.fl-item"
-  }],
+  "searchEntry": [
+    {
+      "name": "all",
+      "enabled": true
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "div.fl-item"
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/",
@@ -69,7 +76,10 @@
           "value": "N/A"
         },
         "messageCount": {
-          "selector": ["li.messages li.message", "li.notifications li.notification"],
+          "selector": [
+            "li.messages li.message",
+            "li.notifications li.notification"
+          ],
           "filters": ["(query && query.length>=1)?11:0"]
         },
         "seeding": {
@@ -85,18 +95,27 @@
       "fields": {
         "uploaded": {
           "selector": ["div.stats a.btn:contains('Upload')"],
-          "filters": ["query.text().replace(/,/g,'').replace('o','B').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').replace('o','B').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "downloaded": {
           "selector": ["div.stats a.btn:contains('Download')"],
-          "filters": ["query.text().replace(/,/g,'').replace('o','B').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').replace('o','B').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "levelName": {
           "selector": "span.class"
         },
         "joinTime": {
           "selector": "div.user-block-content:first",
-          "filters": ["query.text().trim()", "dateTime(query,'DD\/MM\/YYYY').isValid()?dateTime(query,'DD\/MM\/YYYY').valueOf():query"]
+          "filters": [
+            "query.text().trim()",
+            "dateTime(query,'DD/MM/YYYY').isValid()?dateTime(query,'DD/MM/YYYY').valueOf():query"
+          ]
         }
       }
     }

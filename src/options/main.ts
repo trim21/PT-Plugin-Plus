@@ -11,7 +11,7 @@ import { Options, i18nResource } from "@/interface/common";
 class Main {
   private options: Options = {
     sites: [],
-    clients: []
+    clients: [],
   };
 
   private vm: any;
@@ -56,7 +56,7 @@ class Main {
           return dayjs(val).format(format);
         }
         return val;
-      }
+      },
     );
 
     /**
@@ -68,12 +68,24 @@ class Main {
         return "";
       }
       let unit = {
-        year: this.i18n.vuei18n.t("timeline.time.year", this.i18n.currentLanguage).toString(),
-        month: this.i18n.vuei18n.t("timeline.time.month", this.i18n.currentLanguage).toString(),
-        day: this.i18n.vuei18n.t("timeline.time.day", this.i18n.currentLanguage).toString(),
-        hour: this.i18n.vuei18n.t("timeline.time.hour", this.i18n.currentLanguage).toString(),
-        mins: this.i18n.vuei18n.t("timeline.time.mins", this.i18n.currentLanguage).toString(),
-        week: this.i18n.vuei18n.t("timeline.time.week", this.i18n.currentLanguage).toString()
+        year: this.i18n.vuei18n
+          .t("timeline.time.year", this.i18n.currentLanguage)
+          .toString(),
+        month: this.i18n.vuei18n
+          .t("timeline.time.month", this.i18n.currentLanguage)
+          .toString(),
+        day: this.i18n.vuei18n
+          .t("timeline.time.day", this.i18n.currentLanguage)
+          .toString(),
+        hour: this.i18n.vuei18n
+          .t("timeline.time.hour", this.i18n.currentLanguage)
+          .toString(),
+        mins: this.i18n.vuei18n
+          .t("timeline.time.mins", this.i18n.currentLanguage)
+          .toString(),
+        week: this.i18n.vuei18n
+          .t("timeline.time.week", this.i18n.currentLanguage)
+          .toString(),
       };
 
       let now = new Date().getTime();
@@ -87,7 +99,9 @@ class Main {
       if (weekOnly) {
         let week = Math.floor(days / 7);
         if (week < 1) {
-          return this.i18n.vuei18n.t("timeline.time.lessThanAWeek", this.i18n.currentLanguage).toString();
+          return this.i18n.vuei18n
+            .t("timeline.time.lessThanAWeek", this.i18n.currentLanguage)
+            .toString();
         }
         return `${week}${unit.week}`;
       }
@@ -127,7 +141,12 @@ class Main {
           result = "< 1" + unit["mins"];
       }
 
-      return result + this.i18n.vuei18n.t("timeline.time.ago", this.i18n.currentLanguage).toString();
+      return (
+        result +
+        this.i18n.vuei18n
+          .t("timeline.time.ago", this.i18n.currentLanguage)
+          .toString()
+      );
     });
   }
 
@@ -138,7 +157,7 @@ class Main {
     this.i18n.onChanged = (locale: string) => {
       this.options.locale = locale;
       store.dispatch("saveConfig", {
-        locale
+        locale,
       });
       if (!this.vm) {
         return;
@@ -174,7 +193,7 @@ class Main {
       router,
       store,
       i18n: this.i18n.vuei18n,
-      render: h => h(App)
+      render: (h) => h(App),
     });
     this.vm.$mount("#app");
   }
@@ -201,7 +220,7 @@ class Main {
           this.vm.$children[0].init();
         });
       })
-      .catch(error => {
+      .catch((error) => {
         // alert("加载配置失败？？" + error);
         if (++this.loadCount < 5) {
           setTimeout(() => {

@@ -6,15 +6,18 @@
   "icon": "https://sdbits.org/favicon.ico",
   "tags": ["影视", "综合"],
   "schema": "SDB",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["^/t/(\\d+)/$", "/details.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["/browse.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["^/t/(\\d+)/$", "/details.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["/browse.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
+    }
+  ],
   "host": "sdbits.org",
   "collaborator": "luckiestone",
   "levelRequirements": [
@@ -43,19 +46,22 @@
       "privilege": "As DVD"
     }
   ],
-"searchEntryConfig": {
+  "searchEntryConfig": {
     "page": "/browse.php",
     "queryString": "search=$key$",
     "resultType": "html",
     "parseScriptFile": "getSearchResult.js",
     "resultSelector": "table#torrent-list:last > tbody > tr:not(:eq(0))",
-    "area": [{
-      "name": "IMDB",
-      "keyAutoMatch": "^(tt\\d+)$",
-      "queryString": "imdb=$key$"
-    }]
+    "area": [
+      {
+        "name": "IMDB",
+        "keyAutoMatch": "^(tt\\d+)$",
+        "queryString": "imdb=$key$"
+      }
+    ]
   },
-  "searchEntry": [{
+  "searchEntry": [
+    {
       "name": "全部",
       "enabled": true
     },
@@ -95,43 +101,48 @@
       "enabled": false
     }
   ],
-  "categories": [{
-    "entry": "browse.php?",
-    "result": "cat=$id$",
-    "category": [{
-        "id": 1,
-        "name": "Movie"
-      },
-      {
-        "id": 2,
-        "name": "TV"
-      },
-      {
-        "id": 3,
-        "name": "Documentary"
-      },
-      {
-        "id": 4,
-        "name": "Music"
-      },
-      {
-        "id": 5,
-        "name": "Sports"
-      },
-      {
-        "id": 6,
-        "name": "Audio"
-      },
-      {
-        "id": 7,
-        "name": "Stand-up Comedy"
-      }
-    ]
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "a[style^='color:#000099']"
-  }],
+  "categories": [
+    {
+      "entry": "browse.php?",
+      "result": "cat=$id$",
+      "category": [
+        {
+          "id": 1,
+          "name": "Movie"
+        },
+        {
+          "id": 2,
+          "name": "TV"
+        },
+        {
+          "id": 3,
+          "name": "Documentary"
+        },
+        {
+          "id": 4,
+          "name": "Music"
+        },
+        {
+          "id": 5,
+          "name": "Sports"
+        },
+        {
+          "id": 6,
+          "name": "Audio"
+        },
+        {
+          "id": 7,
+          "name": "Stand-up Comedy"
+        }
+      ]
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "a[style^='color:#000099']"
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/index.php",
@@ -150,7 +161,10 @@
         },
         "messageCount": {
           "selector": ["table[bgcolor*='red'] a[href*='inbox.php']"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         }
       }
     },
@@ -159,11 +173,17 @@
       "fields": {
         "uploaded": {
           "selector": ["td.rowhead:contains('Uploaded') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "downloaded": {
           "selector": ["td.rowhead:contains('Downloaded') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "ratio": {
           "selector": "font:contains('Ratio') +",
@@ -174,11 +194,17 @@
         },
         "bonus": {
           "selector": ["td.heading:contains('Bonus') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+)/)", "(query && query.length>=2)?query[1]:''"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+)/)",
+            "(query && query.length>=2)?query[1]:''"
+          ]
         },
         "joinTime": {
           "selector": ["td.rowhead:contains('JOIN'):contains('date') + td"],
-          "filters": ["query.text().split(' (')[0]", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "query.text().split(' (')[0]",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         }
       }
     },
@@ -186,11 +212,18 @@
       "page": "/userdetails.php?id=$user.id$&seeding=1",
       "fields": {
         "seedingSize": {
-          "selector": ["td.heading:contains('Currently'):contains('seeding') + td tr:not(:eq(0))"],
-          "filters": ["jQuery.map(query.find('td:eq(3)'), (item)=>{return $(item).text();})", "_self.getTotalSize(query)"]
+          "selector": [
+            "td.heading:contains('Currently'):contains('seeding') + td tr:not(:eq(0))"
+          ],
+          "filters": [
+            "jQuery.map(query.find('td:eq(3)'), (item)=>{return $(item).text();})",
+            "_self.getTotalSize(query)"
+          ]
         },
         "seeding": {
-          "selector": ["td.heading:contains('Currently'):contains('seeding') + td tr:not(:eq(0))"],
+          "selector": [
+            "td.heading:contains('Currently'):contains('seeding') + td tr:not(:eq(0))"
+          ],
           "filters": ["query.length"]
         }
       }

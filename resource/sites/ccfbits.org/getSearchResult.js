@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -29,7 +29,7 @@
       let site = options.site;
       // 获取种子列表行
       let rows = options.page.find(
-        "table.mainouter > tbody > tr:eq(1) > td > table:last > tbody > tr"
+        "table.mainouter > tbody > tr:eq(1) > td > table:last > tbody > tr",
       );
       const time_regex = /(\d{4}-\d{2}-\d{2}[^\d]+?\d{2}:\d{2}:\d{2})/;
       const time_regen_replace = /-(\d{2})[^\d]+?(\d{2}):/;
@@ -41,7 +41,7 @@
         seeders: 7, // 上传人数
         leechers: 8, // 下载人数
         author: 9, // 发布人
-        category: 0
+        category: 0,
       };
 
       if (site.url.substr(-1) === "/") {
@@ -92,8 +92,7 @@
         let size_completed_cell = cells.eq(6);
         let _size = (size_completed_cell.text().match(size_regex) || [0])[0];
         let _completed = (size_completed_cell.text().match(/(\d+) 次/) || [
-          0,
-          0
+          0, 0,
         ])[1];
 
         let comments_cell = cells.eq(3);
@@ -120,7 +119,7 @@
           site: site,
           entryName: options.entry.name,
           category: this.getCategory(cells.eq(fieldIndex.category)),
-          tags: Searcher.getRowTags(site, row)
+          tags: Searcher.getRowTags(site, row),
         };
         results.push(data);
       }
@@ -139,7 +138,7 @@
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       let img = link.find("img:first");

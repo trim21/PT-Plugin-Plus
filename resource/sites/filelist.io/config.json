@@ -6,15 +6,18 @@
   "icon": "https://filelist.io/favicon.ico",
   "tags": ["影视", "综合"],
   "schema": "FileList",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["^/t/(\\d+)/$", "/details.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["/browse.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["^/t/(\\d+)/$", "/details.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["/browse.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
+    }
+  ],
   "host": "filelist.io",
   "levelRequirements": [
     {
@@ -49,14 +52,18 @@
     "parseScriptFile": "getSearchResult.js",
     "resultSelector": "div.visitedlinks:last > div[class=torrentrow]"
   },
-  "searchEntry": [{
-    "name": "All",
-    "enabled": true
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "img[alt='FreeLeech']"
-  }],
+  "searchEntry": [
+    {
+      "name": "All",
+      "enabled": true
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "img[alt='FreeLeech']"
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/index.php",
@@ -75,11 +82,17 @@
         },
         "messageCount": {
           "selector": [".alert a[href*='messages.php']"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         },
         "bonus": {
           "selector": ["a[href='/shop.php']"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+)/)", "(query && query.length>=2)?query[1]:''"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+)/)",
+            "(query && query.length>=2)?query[1]:''"
+          ]
         }
       }
     },
@@ -103,15 +116,28 @@
         },
         "joinTime": {
           "selector": ["td.colhead:contains('Join'):contains('date') + td"],
-          "filters": ["query.text().split(' (')[0]", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "query.text().split(' (')[0]",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         },
         "seeding": {
-          "selector": ["td.colhead:contains('Seed'):contains('bonus') + td > div > b"],
-          "filters": ["query.first().text().match(/([\\d.]+)/)", "(query && query.length>=1)?query[0]:''"]
+          "selector": [
+            "td.colhead:contains('Seed'):contains('bonus') + td > div > b"
+          ],
+          "filters": [
+            "query.first().text().match(/([\\d.]+)/)",
+            "(query && query.length>=1)?query[0]:''"
+          ]
         },
         "seedingSize": {
-          "selector": ["td.colhead:contains('Seed'):contains('bonus') + td > div > b:nth-child(2)"],
-          "filters": ["query.last().text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "selector": [
+            "td.colhead:contains('Seed'):contains('bonus') + td > div > b:nth-child(2)"
+          ],
+          "filters": [
+            "query.last().text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         }
       }
     },
@@ -120,7 +146,9 @@
       "page": "/userdetails.php?id=$user.id$",
       "fields": {
         "bonusPerHour": {
-          "selector": ["td.colhead:contains('Seed'):contains('bonus') + td > div:eq(2) > b"],
+          "selector": [
+            "td.colhead:contains('Seed'):contains('bonus') + td > div:eq(2) > b"
+          ],
           "filters": ["parseFloat(query.text().match(/[\\d.]+/)[0])"]
         }
       }

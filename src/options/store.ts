@@ -11,7 +11,7 @@ import {
   SearchSolution,
   SearchEntry,
   ECommonKey,
-  IBackupServer
+  IBackupServer,
 } from "@/interface/common";
 import Extension from "@/service/extension";
 
@@ -35,12 +35,12 @@ export default new Vuex.Store({
   state: {
     options: {
       sites: [],
-      clients: []
+      clients: [],
     } as Options,
     schemas: [],
     uiOptions: {} as UIOptions,
     initialized: false,
-    searching: false
+    searching: false,
   },
 
   /**
@@ -82,7 +82,7 @@ export default new Vuex.Store({
      * @param site
      */
     updateSite(state, site) {
-      let index = state.options.sites.findIndex(item => {
+      let index = state.options.sites.findIndex((item) => {
         return item.host === site.host;
       });
 
@@ -98,7 +98,7 @@ export default new Vuex.Store({
      * @param site
      */
     removeSite(state, site) {
-      let index = state.options.sites.findIndex(item => {
+      let index = state.options.sites.findIndex((item) => {
         return item.host === site.host;
       });
 
@@ -126,7 +126,7 @@ export default new Vuex.Store({
      * @param item
      */
     updateClient(state, item) {
-      let index = state.options.clients.findIndex(data => {
+      let index = state.options.clients.findIndex((data) => {
         return item.id === data.id;
       });
 
@@ -142,7 +142,7 @@ export default new Vuex.Store({
      * @param item
      */
     removeClient(state, item) {
-      let index = state.options.clients.findIndex(data => {
+      let index = state.options.clients.findIndex((data) => {
         return data.id === item.id;
       });
 
@@ -168,7 +168,7 @@ export default new Vuex.Store({
      * @param options
      */
     updatePathsOfClient(state, options) {
-      let client = state.options.clients.find(data => {
+      let client = state.options.clients.find((data) => {
         return options.clientId === data.id;
       });
       if (client) {
@@ -193,7 +193,7 @@ export default new Vuex.Store({
      * @param options
      */
     removePathsOfClient(state, options) {
-      let client = state.options.clients.find(data => {
+      let client = state.options.clients.find((data) => {
         return options.clientId === data.id;
       });
       if (client && client.paths) {
@@ -279,7 +279,7 @@ export default new Vuex.Store({
 
     updateSearchStatus(state, searching: boolean) {
       state.searching = searching;
-    }
+    },
   },
   actions: {
     /**
@@ -289,10 +289,10 @@ export default new Vuex.Store({
     resetRunTimeOptions({ commit, state }, options: Options) {
       extension
         .sendRequest(EAction.resetRunTimeOptions, null, options)
-        .then(result => {
+        .then((result) => {
           commit("updateOptions", result);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("store.resetRunTimeOptions.error", error);
         });
     },
@@ -302,7 +302,7 @@ export default new Vuex.Store({
         extension.sendRequest(EAction.writeLog, null, {
           module: EModule.options,
           event: "Options.readConfig",
-          msg: "开始加载配置信息"
+          msg: "开始加载配置信息",
         });
         extension
           .sendRequest(EAction.readConfig)
@@ -312,7 +312,7 @@ export default new Vuex.Store({
               extension.sendRequest(EAction.writeLog, null, {
                 module: EModule.options,
                 event: "Options.readConfig.Error",
-                msg: "配置信息加载失败，没有获取到系统定义信息"
+                msg: "配置信息加载失败，没有获取到系统定义信息",
               });
               reject("Options.readConfig.Error");
               return;
@@ -322,7 +322,7 @@ export default new Vuex.Store({
               extension.sendRequest(EAction.writeLog, null, {
                 module: EModule.options,
                 event: "Options.readConfig.Error",
-                msg: "配置信息加载失败，没有获取到下载服务器或站点架构信息"
+                msg: "配置信息加载失败，没有获取到下载服务器或站点架构信息",
               });
               reject("Options.readConfig.Error");
               return;
@@ -331,13 +331,13 @@ export default new Vuex.Store({
             extension.sendRequest(EAction.writeLog, null, {
               module: EModule.options,
               event: "Options.readConfig.Finished",
-              msg: "配置加载完成"
+              msg: "配置加载完成",
             });
 
             state.initialized = true;
             resolve(options);
           })
-          .catch(e => {
+          .catch((e) => {
             reject(e);
           });
       });
@@ -352,7 +352,7 @@ export default new Vuex.Store({
         .then(() => {
           commit("updateOptions", _options);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("store.saveConfig.error", error);
         });
     },
@@ -365,7 +365,7 @@ export default new Vuex.Store({
             commit("updateUIOptions", options);
             resolve(options);
           })
-          .catch(error => {
+          .catch((error) => {
             console.log("store.saveConfig.error", error);
             reject(error);
           });
@@ -556,14 +556,14 @@ export default new Vuex.Store({
       extension
         .sendRequest(EAction.addLanguage, null, options)
         .then(() => {})
-        .catch(error => {});
+        .catch((error) => {});
     },
 
     replaceLanguage({ commit, state }, options) {
       extension
         .sendRequest(EAction.replaceLanguage, null, options)
         .then(() => {})
-        .catch(error => {});
+        .catch((error) => {});
     },
 
     /**
@@ -627,17 +627,17 @@ export default new Vuex.Store({
           extension.save(_options);
         }
       }
-    }
+    },
   },
   getters: {
-    sites: state => {
+    sites: (state) => {
       return (
         state.options.system &&
         state.options.system.sites &&
         state.options.system.sites.filter((site: Site) => {
           if (state.options.sites) {
             return (
-              state.options.sites.findIndex(item => {
+              state.options.sites.findIndex((item) => {
                 return item.host === site.host;
               }) === -1
             );
@@ -647,14 +647,14 @@ export default new Vuex.Store({
         })
       );
     },
-    clients: state => {
+    clients: (state) => {
       return (
         state.options.system &&
         state.options.system.clients &&
         state.options.system.clients.filter((systemItem: any) => {
           if (state.options.clients) {
             return (
-              state.options.clients.findIndex(item => {
+              state.options.clients.findIndex((item) => {
                 return item.name === systemItem.name;
               }) === -1
             );
@@ -664,11 +664,11 @@ export default new Vuex.Store({
         })
       );
     },
-    defaultClient: state => {
+    defaultClient: (state) => {
       if (!state.options.defaultClientId) {
         return null;
       }
-      return state.options.clients.find(data => {
+      return state.options.clients.find((data) => {
         return state.options.defaultClientId === data.id;
       });
     },
@@ -676,60 +676,64 @@ export default new Vuex.Store({
      * 获取指定客户端配置
      * @param clientId
      */
-    clientOptions: state => (site: Site, clientId: string = "") => {
-      if (!clientId) {
-        clientId =
-          site.defaultClientId || <string>state.options.defaultClientId;
-      }
+    clientOptions:
+      (state) =>
+      (site: Site, clientId: string = "") => {
+        if (!clientId) {
+          clientId =
+            site.defaultClientId || <string>state.options.defaultClientId;
+        }
 
-      let client = state.options.clients.find((item: any) => {
-        return item.id === clientId;
-      });
+        let client = state.options.clients.find((item: any) => {
+          return item.id === clientId;
+        });
 
-      return client;
-    },
+        return client;
+      },
 
     /**
      * 获取当前站点的默认下载目录
      * @param string clientId 指定客户端ID，不指定表示使用默认下载客户端
      * @return string 目录信息，如果没有定义，则返回空字符串
      */
-    siteDefaultPath: state => (site: Site, clientId: string = ""): string => {
-      if (!clientId) {
-        clientId =
-          site.defaultClientId || <string>state.options.defaultClientId;
-      }
+    siteDefaultPath:
+      (state) =>
+      (site: Site, clientId: string = ""): string => {
+        if (!clientId) {
+          clientId =
+            site.defaultClientId || <string>state.options.defaultClientId;
+        }
 
-      let client = state.options.clients.find((item: any) => {
-        return item.id === clientId;
-      });
-      let path = "";
-      if (client && client.paths) {
-        for (const host in client.paths) {
-          if (site.host === host) {
-            path = client.paths[host][0];
-            break;
+        let client = state.options.clients.find((item: any) => {
+          return item.id === clientId;
+        });
+        let path = "";
+        if (client && client.paths) {
+          for (const host in client.paths) {
+            if (site.host === host) {
+              path = client.paths[host][0];
+              break;
+            }
           }
         }
-      }
 
-      return path;
-    },
+        return path;
+      },
 
-    pagination: state => (key: string, defalutValue: any) => {
+    pagination: (state) => (key: string, defalutValue: any) => {
       if (state.uiOptions && state.uiOptions.paginations) {
         return state.uiOptions.paginations[key] || defalutValue;
       }
       return defalutValue;
     },
 
-    viewsOptions: state => (key: string, defalutValue: any) => {
+    viewsOptions: (state) => (key: string, defalutValue: any) => {
       if (state.uiOptions && state.uiOptions.views) {
         return state.uiOptions.views[key] || defalutValue;
       }
       return defalutValue;
-    }
-  }
+    },
+  },
 });
 
 // 用于本地调试

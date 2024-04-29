@@ -3,7 +3,7 @@
     <v-card
       :color="color"
       slot-scope="{ hover }"
-      :class="`elevation-${hover||active ? 5 : 1} mr-2`"
+      :class="`elevation-${hover || active ? 5 : 1} mr-2`"
       :style="styles"
       @click="click"
       :dark="dark"
@@ -17,10 +17,12 @@
       </v-card-title>
 
       <v-card-actions class="toolbar">
-        <span class="ma-1 caption" v-if="count>0">{{ size | formatSize}}</span>
+        <span class="ma-1 caption" v-if="count > 0">{{
+          size | formatSize
+        }}</span>
         <v-spacer></v-spacer>
 
-        <template v-if="hover && count>0">
+        <template v-if="hover && count > 0">
           <!-- 下载到 -->
           <DownloadTo
             :downloadOptions="items"
@@ -44,14 +46,24 @@
         </template>
 
         <template v-if="!readOnly">
-          <template v-if="hover||colorBoxIsOpen">
+          <template v-if="hover || colorBoxIsOpen">
             <!-- 编辑 -->
-            <v-btn icon @click.stop="rename" class="ma-0 btn-mini" :title="$t('common.edit')">
+            <v-btn
+              icon
+              @click.stop="rename"
+              class="ma-0 btn-mini"
+              :title="$t('common.edit')"
+            >
               <v-icon>edit</v-icon>
             </v-btn>
 
             <!-- 删除 -->
-            <v-btn icon @click.stop="remove" class="ma-0 btn-mini" :title="$t('common.remove')">
+            <v-btn
+              icon
+              @click.stop="remove"
+              class="ma-0 btn-mini"
+              :title="$t('common.remove')"
+            >
               <v-icon>delete</v-icon>
             </v-btn>
 
@@ -61,8 +73,8 @@
               :dark="dark"
               class="ma-0"
               mini
-              @show="colorBoxIsOpen=true"
-              @hide="colorBoxIsOpen=false"
+              @show="colorBoxIsOpen = true"
+              @hide="colorBoxIsOpen = false"
               :title="$t('common.color')"
             />
 
@@ -112,29 +124,29 @@ const extension = new Extension();
 export default Vue.extend({
   components: {
     ColorSelector,
-    DownloadTo
+    DownloadTo,
   },
   props: {
     width: {
       type: [String, Number],
-      default: "205px"
+      default: "205px",
     },
     height: {
       type: [String, Number],
-      default: "90px"
+      default: "90px",
     },
     name: String,
     description: String,
     count: {
       type: Number,
-      default: 0
+      default: 0,
     },
     color: {
       type: String,
-      default: "grey"
+      default: "grey",
     },
     group: {
-      type: Object
+      type: Object,
     },
     active: Boolean,
     readOnly: Boolean,
@@ -143,13 +155,13 @@ export default Vue.extend({
       type: Array,
       default: () => {
         return [] as ICollection[];
-      }
-    }
+      },
+    },
   },
   data() {
     return {
       dark: true,
-      colorBoxIsOpen: false
+      colorBoxIsOpen: false,
     };
   },
 
@@ -160,7 +172,7 @@ export default Vue.extend({
       } else {
         this.dark = true;
       }
-    }
+    },
   },
 
   methods: {
@@ -179,7 +191,7 @@ export default Vue.extend({
     rename() {
       let newValue = window.prompt(
         this.$t("collection.changeGroupName").toString(),
-        this.name
+        this.name,
       );
       if (newValue && newValue !== this.name) {
         this.$emit("rename", newValue, this.group);
@@ -212,26 +224,26 @@ export default Vue.extend({
 
       extension
         .sendRequest(EAction.copyTextToClipboard, null, urls.join("\n"))
-        .then(result => {
+        .then((result) => {
           let msg = this.$t("searchTorrent.copySelectedToClipboardSuccess", {
-            count: urls.length
+            count: urls.length,
           }).toString();
           this.$emit("downloadSuccess", msg);
         })
         .catch(() => {
           let msg = this.$t(
-            "searchTorrent.copyLinkToClipboardError"
+            "searchTorrent.copyLinkToClipboardError",
           ).toString();
           this.$emit("downloadError", msg);
         });
-    }
+    },
   },
 
   computed: {
     styles() {
       let result = {
         width: this.width,
-        height: this.height
+        height: this.height,
       };
 
       if (isNumber(this.width)) {
@@ -259,7 +271,7 @@ export default Vue.extend({
       }
 
       return size;
-    }
-  }
+    },
+  },
 });
 </script>

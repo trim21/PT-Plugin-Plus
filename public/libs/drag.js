@@ -8,7 +8,7 @@ function Drag() {
 }
 Drag.prototype = {
   // 参数设置
-  setOptions: function(options) {
+  setOptions: function (options) {
     this.options = {
       // 事件对象
       handle: this.drag,
@@ -24,16 +24,16 @@ Drag.prototype = {
       maxContainer: document.documentElement || document.body,
 
       // 开始时回调函数
-      onStart: function() {},
+      onStart: function () {},
       // 拖拽时回调函数
-      onMove: function() {},
+      onMove: function () {},
       // 停止时回调函数
-      onStop: function() {}
+      onStop: function () {},
     };
     for (var p in options) this.options[p] = options[p];
   },
   // 初始化
-  initialize: function(drag, options) {
+  initialize: function (drag, options) {
     this.drag = this.$(drag);
     this._x = this._y = this.left = this.top = 0;
     this._moveDrag = this.bind(this, this.moveDrag);
@@ -60,7 +60,7 @@ Drag.prototype = {
     this.handle.style.cursor = "move";
     this.addHandler(this.handle, "mousedown", this.bind(this, this.startDrag));
   },
-  startDrag: function(event) {
+  startDrag: function (event) {
     var event = event || window.event;
     this._x = event.clientX - this.drag.offsetLeft;
     this._y = event.clientY - this.drag.offsetTop;
@@ -70,7 +70,7 @@ Drag.prototype = {
     this.handle.setCapture && this.handle.setCapture();
     this.onStart();
   },
-  moveDrag: function(event) {
+  moveDrag: function (event) {
     var event = event || window.event;
     var iTop = event.clientY - this._y;
     var iLeft = event.clientX - this._x;
@@ -87,36 +87,36 @@ Drag.prototype = {
     this.top = iTop;
     this.onMove();
   },
-  stopDrag: function() {
+  stopDrag: function () {
     this.removeHandler(document, "mousemove", this._moveDrag);
     this.removeHandler(document, "mouseup", this._stopDrag);
     this.handle.releaseCapture && this.handle.releaseCapture();
     this.onStop({
       left: this.left,
-      top: this.top
+      top: this.top,
     });
   },
 
   // 获取id
-  $: function(id) {
+  $: function (id) {
     return typeof id === "string" ? document.getElementById(id) : id;
   },
   // 添加绑定事件
-  addHandler: function(oElement, sEventType, fnHandler) {
+  addHandler: function (oElement, sEventType, fnHandler) {
     return oElement.addEventListener
       ? oElement.addEventListener(sEventType, fnHandler, false)
       : oElement.attachEvent("on" + sEventType, fnHandler);
   },
   // 删除绑定事件
-  removeHandler: function(oElement, sEventType, fnHandler) {
+  removeHandler: function (oElement, sEventType, fnHandler) {
     return oElement.removeEventListener
       ? oElement.removeEventListener(sEventType, fnHandler, false)
       : oElement.detachEvent("on" + sEventType, fnHandler);
   },
   // 绑定事件到对象
-  bind: function(object, fnHandler) {
-    return function() {
+  bind: function (object, fnHandler) {
+    return function () {
       return fnHandler.apply(object, arguments);
     };
-  }
+  },
 };

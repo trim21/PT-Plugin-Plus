@@ -61,7 +61,6 @@
       "ratio": "3.55",
       "seedingPoints": "400000",
       "privilege": "可以更新过期的外部信息；可以查看Extreme User论坛。"
-      
     },
     {
       "level": 7,
@@ -87,17 +86,13 @@
     "skipIMDbId": true,
     "fieldSelector": {
       "progress": {
-        "selector": [
-          "> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"
-        ],
+        "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
         "filters": [
           "query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"
         ]
       },
       "status": {
-        "selector": [
-          "> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"
-        ],
+        "selector": ["> td.rowfollow:eq(1) td.embedded:eq(1) > div:last"],
         "filters": [
           "query ? query.attr('title') : ''",
           "query.indexOf('seeding') != -1 ? 2 : query.indexOf('leeching') != -1 ? 1 : query.indexOf('100%') != -1 ? 255 : 3"
@@ -110,12 +105,8 @@
       "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
       "fields": {
         "seeding": {
-          "selector": [
-            "b:first"
-          ],
-          "filters": [
-            "query.text()"
-          ]
+          "selector": ["b:first"],
+          "filters": ["query.text()"]
         },
         "seedingSize": {
           "selector": "",

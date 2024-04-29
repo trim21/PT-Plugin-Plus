@@ -262,7 +262,7 @@ import {
   DownloadOptions,
   Site,
   Dictionary,
-  IKeepUploadTask
+  IKeepUploadTask,
 } from "@/interface/common";
 import Extension from "@/service/extension";
 import { PPF } from "@/service/public";
@@ -271,7 +271,7 @@ import DownloadTo from "@/options/components/DownloadTo.vue";
 const extension = new Extension();
 export default Vue.extend({
   components: {
-    DownloadTo
+    DownloadTo,
   },
   data() {
     return {
@@ -280,7 +280,7 @@ export default Vue.extend({
       pagination: {
         rowsPerPage: 10,
         sortBy: "time",
-        descending: true
+        descending: true,
       },
       items: [] as any[],
       dialogRemoveConfirm: false,
@@ -292,7 +292,7 @@ export default Vue.extend({
       siteCache: {} as Dictionary<any>,
       filterKey: "",
       // 已过滤的数据
-      filteredDatas: [] as any
+      filteredDatas: [] as any,
     };
   },
 
@@ -304,7 +304,7 @@ export default Vue.extend({
       extension.sendRequest(
         EAction.updateKeepUploadTask,
         null,
-        options.payload
+        options.payload,
       );
     },
     clear() {
@@ -323,8 +323,8 @@ export default Vue.extend({
         if (
           confirm(
             this.$t("common.removeSelectedConfirm", {
-              count: this.selected.length
-            }).toString()
+              count: this.selected.length,
+            }).toString(),
           )
         ) {
           this.remove(this.selected);
@@ -390,7 +390,7 @@ export default Vue.extend({
           title: item.title,
           url: item.url,
           link: item.link,
-          imdbId: item.imdbId
+          imdbId: item.imdbId,
         });
         items.push(downloadOptions);
       });
@@ -405,7 +405,7 @@ export default Vue.extend({
           title: item.title,
           url: item.url,
           link: item.link,
-          imdbId: item.imdbId
+          imdbId: item.imdbId,
         });
         items.push(downloadOptions);
       });
@@ -422,8 +422,8 @@ export default Vue.extend({
         if (
           !confirm(
             this.$t("keepUploadTask.sendConfirm", {
-              count: items.length
-            }).toString()
+              count: items.length,
+            }).toString(),
           )
         ) {
           return;
@@ -442,7 +442,7 @@ export default Vue.extend({
           console.log(result);
           this.errorMsg = this.$t("keepUploadTask.sendError").toString();
         })
-        .finally(() => { });
+        .finally(() => {});
     },
 
     copyLinksToClipboard(source: any) {
@@ -455,17 +455,17 @@ export default Vue.extend({
       this.clearMessage();
       extension
         .sendRequest(EAction.copyTextToClipboard, null, urls.join("\n"))
-        .then(result => {
+        .then((result) => {
           this.successMsg = this.$t(
             "searchTorrent.copySelectedToClipboardSuccess",
             {
-              count: urls.length
-            }
+              count: urls.length,
+            },
           ).toString();
         })
         .catch(() => {
           this.errorMsg = this.$t(
-            "searchTorrent.copyLinkToClipboardError"
+            "searchTorrent.copyLinkToClipboardError",
           ).toString();
         });
     },
@@ -474,7 +474,7 @@ export default Vue.extend({
      * @param items
      * @param search
      */
-     searchResultFilter(items: any[], search: string) {
+    searchResultFilter(items: any[], search: string) {
       search = search.toString().toLowerCase();
       this.filteredDatas = [];
       if (search.trim() === "") return items;
@@ -484,7 +484,9 @@ export default Vue.extend({
 
       this.filteredDatas = items.filter((item: IKeepUploadTask) => {
         // 过滤标题和副标题
-        let source = (item.title + (item.items[0].subTitle || "")).toLowerCase();
+        let source = (
+          item.title + (item.items[0].subTitle || "")
+        ).toLowerCase();
         let result = true;
         searchs.forEach((key) => {
           if (key.trim() != "") {
@@ -508,30 +510,30 @@ export default Vue.extend({
           text: this.$t("keepUploadTask.headers.site"),
           align: "center",
           width: "60px",
-          value: "site.name"
+          value: "site.name",
         },
         {
           text: this.$t("keepUploadTask.headers.title"),
           align: "left",
-          value: "title"
+          value: "title",
         },
         {
           text: this.$t("keepUploadTask.headers.size"),
           align: "right",
-          value: "size"
+          value: "size",
         },
         {
           text: this.$t("keepUploadTask.headers.time"),
           align: "left",
-          value: "time"
+          value: "time",
         },
         {
           text: this.$t("history.headers.action"),
           value: "name",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
+    },
   },
 
   watch: {
@@ -540,12 +542,12 @@ export default Vue.extend({
     },
     errorMsg() {
       this.haveError = this.errorMsg != "";
-    }
-  }
+    },
+  },
 });
 </script>
-<style lang="scss" >
+<style lang="scss">
 .v-datatable .caption {
-  line-height: 1px!important;
+  line-height: 1px !important;
 }
 </style>

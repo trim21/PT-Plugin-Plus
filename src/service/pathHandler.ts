@@ -26,7 +26,7 @@ export class PathHandler {
       "site.host": site.host,
       YYYY: now.getFullYear(),
       MM: ("0" + (now.getMonth() + 1).toString()).substr(-2),
-      DD: ("0" + now.getDate().toString()).substr(-2)
+      DD: ("0" + now.getDate().toString()).substr(-2),
     });
   }
 
@@ -45,7 +45,7 @@ export class PathHandler {
       // 自定义路径
       if (path.indexOf(key) >= 0) {
         let tmp = window.prompt(
-          `当前为自定义路径：${path} \n请输入路径中 ${key} 部分的内容: `
+          `当前为自定义路径：${path} \n请输入路径中 ${key} 部分的内容: `,
         );
         // 取消
         if (tmp === null) {

@@ -1,7 +1,7 @@
 import {
   IBackupServer,
   EResourceOrderBy,
-  EResourceOrderMode
+  EResourceOrderMode,
 } from "@/interface/common";
 import { createClient as WebDAVClient } from "webdav";
 
@@ -18,7 +18,7 @@ export class WebDAV {
     this.service = WebDAVClient(this.options.address, {
       username: this.options.loginName,
       password: this.options.loginPwd,
-      digest: this.options.digest ? true : undefined
+      digest: this.options.digest ? true : undefined,
     });
   }
 
@@ -42,7 +42,7 @@ export class WebDAV {
                 name: item.basename,
                 size: item.size,
                 type: item.type,
-                time: new Date(item.lastmod).getTime()
+                time: new Date(item.lastmod).getTime(),
               });
             });
           }
@@ -71,7 +71,7 @@ export class WebDAV {
               } else {
                 return v1.toString().localeCompare(v2);
               }
-            })
+            }),
           );
         })
         .catch((error: any) => {

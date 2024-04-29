@@ -11,7 +11,8 @@
   "searchEntryConfig": {
     "skipIMDbId": true
   },
-  "searchEntry": [{
+  "searchEntry": [
+    {
       "name": "all",
       "enabled": true
     },
@@ -61,8 +62,8 @@
           "filters": ["query.replace(/,/g,'').sizeToNumber()"]
         },
         "bonus": {
-	      "value":"N/A"
-	    }
+          "value": "N/A"
+        }
       }
     }
   },

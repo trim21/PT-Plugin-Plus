@@ -119,19 +119,23 @@
       }
     }
   },
-  "torrentTagSelectors": [{
-    "name": "Neutral",
-    "selector": "strong.neutralleech_label",
-    "color": "purple"
-  },{
-    "name": "Free",
-    "selector": "strong.freeleech_label",
-    "color": "blue"
-  },{
-    "name": "50%",
-    "selector": "strong.partial_freeleech_label",
-    "color": "orange"
-  }],
+  "torrentTagSelectors": [
+    {
+      "name": "Neutral",
+      "selector": "strong.neutralleech_label",
+      "color": "purple"
+    },
+    {
+      "name": "Free",
+      "selector": "strong.freeleech_label",
+      "color": "blue"
+    },
+    {
+      "name": "50%",
+      "selector": "strong.partial_freeleech_label",
+      "color": "orange"
+    }
+  ],
   "supportedFeatures": {
     "imdbSearch": false
   }

@@ -20,7 +20,7 @@
     getDownloadURL() {
       // 有一些扩展会为链接添加class，导致选择器失效，因此使用正则来获取链接
       // let query = $("a[href*='/dl/']:not([class])");
-      let query = $("a[href*='download.php']")
+      let query = $("a[href*='download.php']");
 
       let url = "";
       if (query.length > 0) {
@@ -32,7 +32,9 @@
           let id = values[values.length - 2];
 
           // 格式：vvvid|||passkeyzz
-          let key = (new Base64).encode("vvv" + id + "|||" + PTService.site.passkey + "zz");
+          let key = new Base64().encode(
+            "vvv" + id + "|||" + PTService.site.passkey + "zz",
+          );
           url = `https://${PTService.site.host}/rssdd.php?par=${key}&ssl=yes`;
         }
       }
@@ -49,7 +51,7 @@
         PTService.addButton({
           title: "当前种子大小",
           icon: "attachment",
-          label: size
+          label: size,
         });
       }
     }
@@ -58,5 +60,5 @@
       return /"(.*?)"/.exec($("title").text())[1];
     }
   }
-  (new App()).init();
+  new App().init();
 })(jQuery, window);

@@ -22,7 +22,7 @@ export default class SearchResultSnapshot {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.storage.get(this.configKey, (result: any) => {
         let data = {
-          items: [] as ISearchResultSnapshot[]
+          items: [] as ISearchResultSnapshot[],
         };
 
         if (Array.isArray(result)) {
@@ -49,9 +49,9 @@ export default class SearchResultSnapshot {
       let saveData = Object.assign(
         {
           time: new Date().getTime(),
-          id: PPF.getNewId()
+          id: PPF.getNewId(),
         },
-        newItem
+        newItem,
       );
 
       this.items.push(saveData);
@@ -62,7 +62,7 @@ export default class SearchResultSnapshot {
 
   private updateData() {
     this.storage.set(this.configKey, {
-      items: this.items
+      items: this.items,
     });
   }
 

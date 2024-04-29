@@ -1,4 +1,4 @@
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -111,9 +111,7 @@
           const row = rows.eq(index);
           let cells = row.find(">td");
 
-          let title = row.find(
-            "span.title a[href*='/torrent/']"
-          );
+          let title = row.find("span.title a[href*='/torrent/']");
           if (title.length == 0) {
             title = row.find("a[href*='/t/']:first");
           }
@@ -141,11 +139,7 @@
             subTitle: "",
             link,
             url: url,
-            size:
-              cells
-                .eq(fieldIndex.size)
-                .text()
-                .trim() || 0,
+            size: cells.eq(fieldIndex.size).text().trim() || 0,
             time: this.getTime(row),
             author:
               fieldIndex.author == -1
@@ -168,7 +162,7 @@
                 ? ""
                 : cells.eq(fieldIndex.comments).text() || 0,
             site: site,
-            entryName: options.entry.name
+            entryName: options.entry.name,
           };
           results.push(data);
         }
@@ -186,7 +180,7 @@
     }
 
     getTime(row) {
-      let text = row.find(".subnote").text().replace('Added on ','');
+      let text = row.find(".subnote").text().replace("Added on ", "");
       if (text) {
         if (text.indexOf("|") > 0) {
           return text.split("|")[1].trim();

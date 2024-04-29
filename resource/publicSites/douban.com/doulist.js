@@ -39,14 +39,14 @@
       }
       let label = "PT 助手搜索";
       parent.css({
-        "max-height": "unset"
+        "max-height": "unset",
       });
       let div = $("<div style='padding: 5px;'/>")
         .attr("title", `搜索 ${title}`)
         .appendTo(parent);
       $("<a href='javascript:void(0);' class='lnk-sharing'/>")
         .html(label)
-        .on("click", event => {
+        .on("click", (event) => {
           let button = $(event.target);
           this.search(key, button);
         })

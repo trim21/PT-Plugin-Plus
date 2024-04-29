@@ -7,13 +7,8 @@
   "url": "https://cyanbug.net",
   "icon": "https://cyanbug.net/favicon.ico",
   "ver": "0.0.1",
-  "tags": [
-    "综合",
-    "影视"
-  ],
-  "collaborator": [
-    "jinglekang"
-  ],
+  "tags": ["综合", "影视"],
+  "collaborator": ["jinglekang"],
   "levelRequirements": [
     {
       "level": "1",
@@ -88,9 +83,7 @@
       "privilege": "得到十个邀请名额。"
     }
   ],
-  "securityKeyFields": [
-    "passkey"
-  ],
+  "securityKeyFields": ["passkey"],
   "searchEntryConfig": {
     "page": "/torrents.php",
     "queryString": "search=$key$&notnewword=1",
@@ -135,9 +128,7 @@
             "a[href*='userdetails.php']:first"
           ],
           "attribute": "href",
-          "filters": [
-            "query ? query.getQueryString('id'):''"
-          ]
+          "filters": ["query ? query.getQueryString('id'):''"]
         },
         "name": {
           "selector": [
@@ -149,17 +140,11 @@
           ]
         },
         "isLogged": {
-          "selector": [
-            "a[href*='usercp.php']"
-          ],
-          "filters": [
-            "query.length>0"
-          ]
+          "selector": ["a[href*='usercp.php']"],
+          "filters": ["query.length>0"]
         },
         "messageCount": {
-          "selector": [
-            "td[style*='background: red'] a[href*='messages.php']"
-          ],
+          "selector": ["td[style*='background: red'] a[href*='messages.php']"],
           "filters": [
             "query.text().match(/(\\d+)/)",
             "(query && query.length>=2)?parseInt(query[1]):0"
@@ -200,9 +185,7 @@
             "td.rowhead:contains('等級')",
             "td.rowhead:contains('Class')"
           ],
-          "filters": [
-            "query.next().find('img').attr('title')"
-          ]
+          "filters": ["query.next().find('img').attr('title')"]
         },
         "bonus": {
           "selector": [
@@ -255,9 +238,7 @@
             "div:contains('You are currently getting'):last",
             "div:contains('你當前每小時能獲取'):last"
           ],
-          "filters": [
-            "parseFloat(query.text().match(/[\\d.]+/)[0])"
-          ]
+          "filters": ["parseFloat(query.text().match(/[\\d.]+/)[0])"]
         }
       }
     },
@@ -265,12 +246,8 @@
       "page": "/getusertorrentlistajax.php?userid=$user.id$&type=seeding",
       "fields": {
         "seeding": {
-          "selector": [
-            "b:first"
-          ],
-          "filters": [
-            "query.text()"
-          ]
+          "selector": ["b:first"],
+          "filters": ["query.text()"]
         },
         "seedingSize": {
           "selector": "",

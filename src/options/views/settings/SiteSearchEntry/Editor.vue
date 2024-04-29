@@ -40,7 +40,8 @@
               :selected="data.selected"
               close
               @input="remove(data.item)"
-            >{{ data.item.name }}</v-chip>
+              >{{ data.item.name }}</v-chip
+            >
           </template>
         </v-autocomplete>
 
@@ -85,20 +86,20 @@ export default Vue.extend({
   data() {
     return {
       rules: {
-        require: [(v: any) => !!v || "!"]
+        require: [(v: any) => !!v || "!"],
       },
       checked: [],
-      categoryConfig: {} as SiteCategories
+      categoryConfig: {} as SiteCategories,
     };
   },
   props: {
     data: {
       type: Object,
       default: () => ({
-        valid: false
-      })
+        valid: false,
+      }),
     },
-    site: Object
+    site: Object,
   },
   watch: {
     "data.categories"() {
@@ -123,7 +124,7 @@ export default Vue.extend({
       } else {
         this.data.queryString = result.join("");
       }
-    }
+    },
   },
   methods: {
     remove(category: SiteCategory) {
@@ -134,7 +135,7 @@ export default Vue.extend({
       if (index != -1) {
         this.data.categories.splice(index, 1);
       }
-    }
+    },
   },
   computed: {
     /**
@@ -156,10 +157,10 @@ export default Vue.extend({
               result.push(
                 Object.assign(
                   {
-                    key: key.replace(/\$id\$/gi, category.id + "")
+                    key: key.replace(/\$id\$/gi, category.id + ""),
                   },
-                  category
-                )
+                  category,
+                ),
               );
             });
             return true;
@@ -168,8 +169,8 @@ export default Vue.extend({
         });
       }
       return result;
-    }
-  }
+    },
+  },
 });
 </script>
 

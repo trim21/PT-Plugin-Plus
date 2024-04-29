@@ -130,7 +130,7 @@ import { SearchSolution, Site, SearchEntry, Options } from "@/interface/common";
 import { PPF } from "@/service/public";
 export default Vue.extend({
   components: {
-    EditItem
+    EditItem,
   },
   data() {
     return {
@@ -140,11 +140,11 @@ export default Vue.extend({
       selected: [],
       selectedItem: {},
       pagination: {
-        rowsPerPage: -1
+        rowsPerPage: -1,
       },
       items: [] as SearchSolution[],
       dialogRemoveConfirm: false,
-      options: {} as Options
+      options: {} as Options,
     };
   },
   methods: {
@@ -185,8 +185,8 @@ export default Vue.extend({
       if (
         confirm(
           this.$t(
-            "settings.searchSolution.index.removeSelectedConfirm"
-          ).toString()
+            "settings.searchSolution.index.removeSelectedConfirm",
+          ).toString(),
         )
       ) {
         console.log(this.selected);
@@ -224,10 +224,10 @@ export default Vue.extend({
       this.$router.push({
         name: "set-site-search-entry",
         params: {
-          host: host
-        }
+          host: host,
+        },
       });
-    }
+    },
   },
   created() {
     this.options = this.$store.state.options;
@@ -239,21 +239,21 @@ export default Vue.extend({
         {
           text: this.$t("settings.searchSolution.index.headers.name"),
           align: "left",
-          value: "name"
+          value: "name",
         },
         {
           text: this.$t("settings.searchSolution.index.headers.range"),
           align: "left",
-          value: "range"
+          value: "range",
         },
         {
           text: this.$t("settings.searchSolution.index.headers.action"),
           value: "name",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>
 

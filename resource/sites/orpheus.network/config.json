@@ -17,7 +17,10 @@
       "fields": {
         "seedingSize": {
           "selector": ["div#content > table > tbody > tr > td:eq(1)"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "bonus": {
           "selector": ["div#content > table > tbody > tr > td:eq(2)"],

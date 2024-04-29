@@ -5,11 +5,7 @@
   "url": "https://www.htpt.cc",
   "description": "主打曲艺、戏曲、相声、评书、小品、广播剧、有声小说等中国传统有声资源",
   "icon": "https://www.htpt.cc/favicon.ico",
-  "tags": [
-    "曲艺",
-    "小品",
-    "有声小说"
-  ],
+  "tags": ["曲艺", "小品", "有声小说"],
   "host": "htpt.cc",
   "levelRequirements": [
     {
@@ -77,10 +73,7 @@
       "privilege": "得到一个邀请名额。"
     }
   ],
-  "collaborator": [
-    "sabersalv",
-    "amorphobia"
-  ],
+  "collaborator": ["sabersalv", "amorphobia"],
   "supportedFeatures": {
     "imdbSearch": false
   },
@@ -97,10 +90,7 @@
   "plugins": [
     {
       "name": "种子列表",
-      "pages": [
-        "/torrents.php",
-        "/live.php"
-      ],
+      "pages": ["/torrents.php", "/live.php"],
       "scripts": [
         "/schemas/NexusPHP/common.js",
         "/schemas/NexusPHP/torrents.js"
@@ -108,13 +98,8 @@
     },
     {
       "name": "种子详情页面",
-      "pages": [
-        "/details.php"
-      ],
-      "scripts": [
-        "/schemas/NexusPHP/common.js",
-        "/schemas/NexusPHP/details.js"
-      ]
+      "pages": ["/details.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "/schemas/NexusPHP/details.js"]
     }
   ]
 }

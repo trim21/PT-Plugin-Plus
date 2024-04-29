@@ -1,4 +1,4 @@
-(function($, window) {
+(function ($, window) {
   class Common {
     constructor() {
       this.siteContentMenus = {};
@@ -27,9 +27,9 @@
       }
       PTService.call(PTService.action.getFreeSpace, {
         path: this.defaultPath,
-        clientId: PTService.site.defaultClientId
+        clientId: PTService.site.defaultClientId,
       })
-        .then(result => {
+        .then((result) => {
           console.log("命令执行完成", result);
           if (result && result.arguments) {
             // console.log(PTService.filters.formatSize(result.arguments["size-bytes"]));
@@ -37,12 +37,12 @@
             PTService.addButton({
               title: this.t("buttons.freeSpaceTip", {
                 path: this.defaultPath,
-                interpolation: { escapeValue: false }
+                interpolation: { escapeValue: false },
               }), // "默认服务器剩余空间\n" + this.defaultPath,
               icon: "filter_drama",
               label: PTService.filters.formatSize(
-                result.arguments["size-bytes"]
-              )
+                result.arguments["size-bytes"],
+              ),
             });
           }
           // success();
@@ -73,7 +73,9 @@
 
       // 初始化说谢谢按钮
       this.initSayThanksButton();
-      if(document.domain.match("keepfrds.com")){$(".pt-plugin-body").css("z-index","39")}
+      if (document.domain.match("keepfrds.com")) {
+        $(".pt-plugin-body").css("z-index", "39");
+      }
     }
 
     /**
@@ -84,7 +86,7 @@
       this.defaultClientOptions &&
         PTService.addButton({
           title: this.t("buttons.downloadAllTip", {
-            name: this.defaultClientOptions.name
+            name: this.defaultClientOptions.name,
           }), //`将当前页面所有种子下载到[${this.defaultClientOptions.name}]`,
           icon: "get_app",
           label: this.t("buttons.downloadAll"), //"下载所有",
@@ -94,7 +96,7 @@
               return;
             }
             this.startDownloadURLs(success, error);
-          }
+          },
         });
 
       // 添加下载到按钮
@@ -127,13 +129,13 @@
             {
               url,
               title: data.title,
-              link: data.url
+              link: data.url,
             },
             event.originalEvent,
             success,
-            error
+            error,
           );
-        }
+        },
       });
 
       // 复制下载链接
@@ -154,7 +156,7 @@
           }
 
           PTService.call(PTService.action.copyTextToClipboard, urls.join("\n"))
-            .then(result => {
+            .then((result) => {
               console.log("命令执行完成", result);
               success();
             })
@@ -170,14 +172,14 @@
           let url = this.getDroperURL(data.url);
           url &&
             PTService.call(PTService.action.copyTextToClipboard, url)
-              .then(result => {
+              .then((result) => {
                 console.log("命令执行完成", result);
                 success();
               })
               .catch(() => {
                 error();
               });
-        }
+        },
       });
 
       // 检查是否有下载管理权限
@@ -194,7 +196,7 @@
             click: (success, error) => {
               PTService.call(PTService.action.openOptions, "set-permissions");
               success();
-            }
+            },
           });
         });
     }
@@ -222,25 +224,25 @@
           }
 
           let downloads = [];
-          urls.forEach(url => {
+          urls.forEach((url) => {
             downloads.push({
               url,
-              method: PTService.site.downloadMethod
+              method: PTService.site.downloadMethod,
             });
           });
 
           console.log(downloads);
 
           PTService.call(PTService.action.addBrowserDownloads, downloads)
-            .then(result => {
+            .then((result) => {
               console.log("命令执行完成", result);
               success();
             })
-            .catch(e => {
+            .catch((e) => {
               console.log(e);
               error(e);
             });
-        }
+        },
       });
     }
 
@@ -257,13 +259,13 @@
         if (typeof option === "string") {
           option = {
             url: option,
-            title: ""
+            title: "",
           };
         }
 
         let savePath = PTService.pathHandler.getSavePath(
           this.defaultPath,
-          PTService.site
+          PTService.site,
         );
 
         if (savePath === false) {
@@ -278,7 +280,7 @@
             type: "info",
             timeout: 2,
             indeterminate: true,
-            msg: this.t("sendingTorrent") //"正在发送下载链接到服务器，请稍候……"
+            msg: this.t("sendingTorrent"), //"正在发送下载链接到服务器，请稍候……"
           });
         }
 
@@ -289,16 +291,16 @@
           autoStart: this.defaultClientOptions.autoStart,
           tagIMDb: this.defaultClientOptions.tagIMDb,
           link: option.link,
-          imdbId: option.imdbId
+          imdbId: option.imdbId,
         })
-          .then(result => {
+          .then((result) => {
             console.log("命令执行完成", result);
             if (showNotice) {
               PTService.showNotice(result);
             }
             resolve(result);
           })
-          .catch(result => {
+          .catch((result) => {
             // PTService.showNotice({
             //   msg: (result && result.msg) || result
             // });
@@ -332,7 +334,7 @@
         if (typeof options === "string") {
           options = {
             url: options,
-            title: ""
+            title: "",
           };
         }
 
@@ -344,7 +346,7 @@
 
         options.savePath = PTService.pathHandler.getSavePath(
           options.savePath,
-          PTService.site
+          PTService.site,
         );
         if (options.savePath === false) {
           // "用户取消操作"
@@ -358,19 +360,19 @@
             type: "info",
             timeout: 2,
             indeterminate: true,
-            msg: this.t("sendingTorrent") //"正在发送下载链接到服务器，请稍候……"
+            msg: this.t("sendingTorrent"), //"正在发送下载链接到服务器，请稍候……"
           });
         }
 
         PTService.call(PTService.action.sendTorrentToClient, options)
-          .then(result => {
+          .then((result) => {
             console.log("命令执行完成", result);
             if (showNotice) {
               PTService.showNotice(result);
             }
             resolve(result);
           })
-          .catch(result => {
+          .catch((result) => {
             // PTService.showNotice({
             //   msg: (result && result.msg) || result
             // });
@@ -392,7 +394,7 @@
         data = {
           url: data,
           title: "",
-          link: data
+          link: data,
         };
       }
 
@@ -400,17 +402,17 @@
 
       if (!data.url) {
         PTService.showNotice({
-          msg: this.t("invalidURL") //"无效的链接"
+          msg: this.t("invalidURL"), //"无效的链接"
         });
         callback();
         return;
       }
 
       this.sendTorrentToDefaultClient(data)
-        .then(result => {
+        .then((result) => {
           callback(result);
         })
-        .catch(result => {
+        .catch((result) => {
           callback(result);
         });
     }
@@ -507,13 +509,13 @@
               url,
               title,
               link: this.currentURL,
-              imdbId: this.getIMDbId ? this.getIMDbId() : null
+              imdbId: this.getIMDbId ? this.getIMDbId() : null,
             },
             event.originalEvent,
             success,
-            error
+            error,
           );
-        }
+        },
       });
     }
 
@@ -526,7 +528,7 @@
         PTService.addButton({
           title:
             this.t("buttons.downloadToDefaultTip", {
-              name: this.defaultClientOptions.name
+              name: this.defaultClientOptions.name,
             }) + (this.defaultPath ? "\n" + this.defaultPath : ""), //`将当前种子下载到[${this.defaultClientOptions.name}]` +
           icon: "get_app",
           label: this.t("buttons.downloadToDefault"), //"一键下载",
@@ -565,15 +567,15 @@
               url,
               title,
               link: this.currentURL,
-              imdbId: this.getIMDbId ? this.getIMDbId() : null
+              imdbId: this.getIMDbId ? this.getIMDbId() : null,
             })
               .then(() => {
                 success();
               })
-              .catch(result => {
+              .catch((result) => {
                 error(result);
               });
-          }
+          },
         });
     }
 
@@ -604,14 +606,14 @@
           }
 
           PTService.call(PTService.action.copyTextToClipboard, url)
-            .then(result => {
+            .then((result) => {
               console.log("命令执行完成", result);
               success();
             })
-            .catch(result => {
+            .catch((result) => {
               error(result);
             });
-        }
+        },
       });
     }
 
@@ -621,7 +623,7 @@
     initCollectionButton() {
       // 获取收藏情况
       PTService.call(PTService.action.getTorrentCollention, location.href)
-        .then(result => {
+        .then((result) => {
           this.addRemoveCollectionButton(result);
         })
         .catch(() => {
@@ -688,12 +690,12 @@
             subTitle: PTService.getFieldValue("subTitle"),
             movieInfo: {
               imdbId: imdbId,
-              doubanId: doubanId
-            }
+              doubanId: doubanId,
+            },
           };
 
           PTService.call(PTService.action.addTorrentToCollection, data)
-            .then(result => {
+            .then((result) => {
               success();
               setTimeout(() => {
                 this.addRemoveCollectionButton(data);
@@ -702,7 +704,7 @@
             .catch(() => {
               error();
             });
-        }
+        },
       });
     }
 
@@ -719,7 +721,7 @@
         key: "removeFromCollection",
         click: (success, error) => {
           PTService.call(PTService.action.deleteTorrentFromCollention, item)
-            .then(result => {
+            .then((result) => {
               success();
               setTimeout(() => {
                 this.addToCollectionButton();
@@ -728,7 +730,7 @@
             .catch(() => {
               error();
             });
-        }
+        },
       });
     }
 
@@ -759,20 +761,20 @@
        * @param client
        */
       function pushPath(paths, client) {
-        paths.forEach(path => {
+        paths.forEach((path) => {
           results.push({
             client: client,
             path: path,
-            host: host
+            host: host,
           });
         });
       }
 
-      PTService.options.clients.forEach(client => {
+      PTService.options.clients.forEach((client) => {
         clients.push({
           client: client,
           path: "",
-          host: host
+          host: host,
         });
 
         if (client.paths) {
@@ -819,17 +821,17 @@
       let items = this.getContentMenusForUrl(options.url);
       let menus = [];
 
-      items.forEach(item => {
+      items.forEach((item) => {
         if (item.client && item.client.name) {
           menus.push({
             title:
               this.t("buttons.menuDownloadTo", {
-                server: `${item.client.name} -> ${item.client.address}`
+                server: `${item.client.name} -> ${item.client.address}`,
               }) + //`下载到：${item.client.name} -> ${item.client.address}` +
               (item.path
                 ? ` -> ${PTService.pathHandler.replacePathKey(
                     item.path,
-                    PTService.site
+                    PTService.site,
                   )}`
                 : ""),
             fn: () => {
@@ -843,16 +845,16 @@
                   autoStart: item.client.autoStart,
                   tagIMDb: item.client.tagIMDb,
                   link: options.link,
-                  imdbId: options.imdbId
+                  imdbId: options.imdbId,
                 })
-                  .then(result => {
+                  .then((result) => {
                     success();
                   })
-                  .catch(result => {
+                  .catch((result) => {
                     error(result);
                   });
               }
-            }
+            },
           });
         } else {
           menus.push({});
@@ -864,7 +866,7 @@
       basicContext.show(menus, event);
       $(".basicContext").css({
         left: "-=20px",
-        top: "+=10px"
+        top: "+=10px",
       });
     }
 
@@ -921,7 +923,7 @@
         return size;
       }
       let _size_raw_match = size.match(
-        /^(\d*\.?\d+)(.*[^TGMK])?([TGMK](B|iB){0,1})$/i
+        /^(\d*\.?\d+)(.*[^TGMK])?([TGMK](B|iB){0,1})$/i,
       );
       if (_size_raw_match) {
         let _size_num = parseFloat(_size_raw_match[1]);
@@ -952,7 +954,7 @@
         let content = this.t("exceedSizeConfirm", {
           size,
           exceedSize: PTService.options.exceedSize,
-          exceedSizeUnit: PTService.options.exceedSizeUnit
+          exceedSizeUnit: PTService.options.exceedSizeUnit,
         });
         if (!confirm(content)) {
           return false;
@@ -992,23 +994,23 @@
       if (PTService.options.enableBackgroundDownload) {
         this.downloadURLsInBackground(
           urls,
-          msg => {
+          (msg) => {
             success({
-              msg
+              msg,
             });
           },
-          downloadOptions
+          downloadOptions,
         );
       } else {
         this.downloadURLs(
           urls,
           urls.length,
-          msg => {
+          (msg) => {
             success({
-              msg
+              msg,
             });
           },
-          downloadOptions
+          downloadOptions,
         );
       }
     }
@@ -1019,31 +1021,31 @@
       const savePath = downloadOptions
         ? PTService.pathHandler.getSavePath(
             downloadOptions.savePath || downloadOptions.path,
-            PTService.site
+            PTService.site,
           )
         : "";
 
-      urls.forEach(url => {
+      urls.forEach((url) => {
         if (downloadOptions) {
           items.push({
             clientId: downloadOptions.client.id,
             url,
             savePath,
             autoStart: downloadOptions.client.autoStart,
-            tagIMDb: downloadOptions.client.tagIMDb
+            tagIMDb: downloadOptions.client.tagIMDb,
           });
         } else {
           items.push({
-            url
+            url,
           });
         }
       });
 
       PTService.call(PTService.action.sendTorrentsInBackground, items)
-        .then(result => {
+        .then((result) => {
           callback(result);
         })
-        .catch(result => {
+        .catch((result) => {
           callback(result);
         });
     }
@@ -1064,8 +1066,8 @@
         // count + "条链接已发送完成。"
         callback(
           this.t("downloadURLsFinished", {
-            count
-          })
+            count,
+          }),
         );
         return;
       }
@@ -1078,17 +1080,17 @@
             (count - index) +
             "/" +
             count +
-            ")"
+            ")",
         }),
-        0
+        0,
       );
 
       if (!downloadOptions) {
         this.sendTorrentToDefaultClient(url, false)
-          .then(result => {
+          .then((result) => {
             this.downloadURLs(urls, count, callback);
           })
-          .catch(result => {
+          .catch((result) => {
             this.downloadURLs(urls, count, callback);
           });
       } else {
@@ -1100,9 +1102,9 @@
             savePath: downloadOptions.path,
             autoStart: downloadOptions.client.autoStart,
             tagIMDb: downloadOptions.client.tagIMDb,
-            imdbId: downloadOptions.imdbId
+            imdbId: downloadOptions.imdbId,
           },
-          false
+          false,
         )
           .finally(() => {
             // 是否设置了时间间隔
@@ -1114,7 +1116,7 @@
               this.downloadURLs(urls, count, callback, downloadOptions);
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
           });
       }
@@ -1126,7 +1128,7 @@
           text: msg,
           type: "info",
           width: 600,
-          progressBar: false
+          progressBar: false,
         });
       } else {
         this.statusBar.find(".noticejs-content").html(msg);
@@ -1152,12 +1154,12 @@
 
       function addMenu(item) {
         let title = _this.t("buttons.menuDownloadTo", {
-          server: `${item.client.name} -> ${item.client.address}`
+          server: `${item.client.name} -> ${item.client.address}`,
         }); //`下载到：${item.client.name} -> ${item.client.address}`;
         if (item.path) {
           title += ` -> ${PTService.pathHandler.replacePathKey(
             item.path,
-            PTService.site
+            PTService.site,
           )}`;
         }
         menus.push({
@@ -1168,7 +1170,7 @@
             console.log(item);
             let savePath = PTService.pathHandler.getSavePath(
               _item.path,
-              PTService.site
+              PTService.site,
             );
             if (savePath === false) {
               // "用户取消操作"
@@ -1177,18 +1179,18 @@
             }
             _item.path = savePath;
             _this.startDownloadURLs(success, error, _item);
-          }
+          },
         });
       }
 
       if (this.clientContentMenus.length == 0) {
-        PTService.options.clients.forEach(client => {
+        PTService.options.clients.forEach((client) => {
           clients.push({
             client: client,
-            path: ""
+            path: "",
           });
         });
-        clients.forEach(item => {
+        clients.forEach((item) => {
           if (item.client && item.client.name) {
             addMenu(item);
 
@@ -1196,7 +1198,7 @@
               // 添加适用于所有站点的目录
               let publicPaths = item.client.paths[PTService.allSiteKey];
               if (publicPaths) {
-                publicPaths.forEach(path => {
+                publicPaths.forEach((path) => {
                   let _item = this.clone(item);
                   _item.path = path;
                   addMenu(_item);
@@ -1215,7 +1217,7 @@
       basicContext.show(menus, event);
       $(".basicContext").css({
         left: "-=20px",
-        top: "+=10px"
+        top: "+=10px",
       });
     }
 
@@ -1256,7 +1258,7 @@
             setTimeout(() => {
               PTService.removeButton("sayThanks");
             }, 1000);
-          }
+          },
         });
       }
     }

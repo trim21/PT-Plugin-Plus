@@ -8,7 +8,7 @@ import {
   SiteSchema,
   Dictionary,
   EUserDataRequestStatus,
-  LogItem
+  LogItem,
 } from "@/interface/common";
 import Config from "./config";
 import Controller from "./controller";
@@ -32,7 +32,7 @@ export default class PTPlugin {
   public config: Config = new Config(this);
   public options: Options = {
     sites: [],
-    clients: []
+    clients: [],
   };
   // 本地模式，用于本地快速调试
   public localMode: boolean = false;
@@ -51,7 +51,8 @@ export default class PTPlugin {
   // 收藏
   public collection: Collection = new Collection();
   // 搜索结果快照
-  public searchResultSnapshot: SearchResultSnapshot = new SearchResultSnapshot();
+  public searchResultSnapshot: SearchResultSnapshot =
+    new SearchResultSnapshot();
   // 辅种任务
   public keepUploadTask: KeepUploadTask = new KeepUploadTask();
 
@@ -67,7 +68,7 @@ export default class PTPlugin {
 
     this.logger.add({
       module: EModule.background,
-      event: ELogEvent.init
+      event: ELogEvent.init,
     });
     this.localMode = localMode;
     this.initConfig();
@@ -194,9 +195,9 @@ export default class PTPlugin {
                   module: EModule.background,
                   event: `${EAction.testClientConnectivity}`,
                   msg: this.i18n.t("service.testClientConnectivityFailed", {
-                    address: request.data.address
+                    address: request.data.address,
                   }), // `测试客户连接失败[${request.data.address}]`,
-                  data: result
+                  data: result,
                 });
                 reject(result);
               });
@@ -439,8 +440,8 @@ export default class PTPlugin {
                 this.debug(
                   "数据刷新失败, 下次重试时间",
                   new Date(
-                    this.options.autoRefreshUserDataNextTime as number
-                  ).toLocaleString()
+                    this.options.autoRefreshUserDataNextTime as number,
+                  ).toLocaleString(),
                 );
               } else {
                 this.debug("数据刷新失败, 重试次数已超限制");
@@ -462,7 +463,7 @@ export default class PTPlugin {
   private getNextTime(addDays: number = 1) {
     let today = PPF.getToDay();
     let time = new Date(
-      `${today} ${this.options.autoRefreshUserDataHours}:${this.options.autoRefreshUserDataMinutes}:00`
+      `${today} ${this.options.autoRefreshUserDataHours}:${this.options.autoRefreshUserDataMinutes}:00`,
     );
 
     return new Date(time.setDate(time.getDate() + addDays)).getTime();
@@ -504,7 +505,7 @@ export default class PTPlugin {
     this.logger.add({
       module: EModule.background,
       event: "一般错误",
-      msg: typeof msg === "string" ? msg : JSON.stringify(msg)
+      msg: typeof msg === "string" ? msg : JSON.stringify(msg),
     });
   }
 
@@ -528,22 +529,22 @@ export default class PTPlugin {
             .then((result: any) => {
               callback &&
                 callback({
-                  resolve: result
+                  resolve: result,
                 });
             })
             .catch((result: any) => {
               callback &&
                 callback({
-                  reject: result
+                  reject: result,
                 });
             });
           // 这句不能去掉
           return true;
-        }
+        },
       );
 
     // 当扩展程序第一次安装、更新至新版本或 Chrome 浏览器更新至新版本时产生。
-    chrome.runtime.onInstalled.addListener(details => {
+    chrome.runtime.onInstalled.addListener((details) => {
       console.log("chrome.runtime.onInstalled", details);
       // 版本更新时
       if (details.reason == "update") {
@@ -602,7 +603,7 @@ export default class PTPlugin {
    */
   public getSiteSelector(
     hostOrSite: string | Site,
-    name: string
+    name: string,
   ): Dictionary<any> | null {
     let host = typeof hostOrSite == "string" ? hostOrSite : hostOrSite.host;
     let system = this.clone(this.options.system);
@@ -638,7 +639,7 @@ export default class PTPlugin {
         if (result.merge === true) {
           result.fields = Object.assign(
             schema.selectors[name].fields,
-            result.fields
+            result.fields,
           );
           result = Object.assign(schema.selectors[name], result);
         }

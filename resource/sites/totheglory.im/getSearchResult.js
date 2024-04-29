@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -11,7 +11,7 @@
 
       if (
         /没有种子|No [Tt]orrents?|Your search did not match anything|用准确的关键字重试/.test(
-          options.responseText
+          options.responseText,
         )
       ) {
         options.status = ESearchResultParseStatus.noTorrents;
@@ -33,7 +33,7 @@
       let site = options.site;
       // 获取种子列表行
       let rows = options.page.find(
-        options.resultSelector || "table#torrent_table:last > tbody > tr"
+        options.resultSelector || "table#torrent_table:last > tbody > tr",
       );
       let time_regex = /(\d{4}-\d{2}-\d{2}[^\d]+?\d{2}:\d{2}:\d{2})/;
       let time_regen_replace = /-(\d{2})[^\d]+?(\d{2}):/;
@@ -54,7 +54,7 @@
         comments: 3,
         // 发布人
         author: 9,
-        category: 0
+        category: 0,
       };
 
       if (site.url.substr(-1) == "/") {
@@ -73,9 +73,9 @@
 
         // 对title进行处理，防止出现cf的email protect
         if (title.find("span.__cf_email__")) {
-          title.find("span.__cf_email__").each(function() {
+          title.find("span.__cf_email__").each(function () {
             $(this).replaceWith(
-              Searcher.cfDecodeEmail($(this).data("cfemail"))
+              Searcher.cfDecodeEmail($(this).data("cfemail")),
             );
           });
         }
@@ -93,7 +93,7 @@
         if (site.passkey && id) {
           // 格式：vvvid|||passkeyzz
           let key = new Base64().encode(
-            "vvv" + id + "|||" + site.passkey + "zz"
+            "vvv" + id + "|||" + site.passkey + "zz",
           );
           url = `https://${site.host}/rssdd.php?par=${key}&ssl=yes`;
         } else {
@@ -109,15 +109,11 @@
 
         let subTitle = "";
         if (titleStrings.length > 0) {
-          subTitle = $("<span>")
-            .html(titleStrings[1])
-            .text();
+          subTitle = $("<span>").html(titleStrings[1]).text();
         }
 
         let data = {
-          title: $("<span>")
-            .html(titleStrings[0])
-            .text(),
+          title: $("<span>").html(titleStrings[0]).text(),
           subTitle: subTitle || "",
           link,
           url: url,
@@ -130,16 +126,8 @@
               .replace(time_regen_replace, "-$1 $2:") ||
             cells.eq(fieldIndex.time).text(),
           author: cells.eq(fieldIndex.author).text() || "",
-          seeders:
-            cells
-              .eq(fieldIndex.seeders)
-              .text()
-              .split("/")[0] || 0,
-          leechers:
-            cells
-              .eq(fieldIndex.leechers)
-              .text()
-              .split("/")[1] || 0,
+          seeders: cells.eq(fieldIndex.seeders).text().split("/")[0] || 0,
+          leechers: cells.eq(fieldIndex.leechers).text().split("/")[1] || 0,
           completed: cells.eq(fieldIndex.completed).text() || 0,
           comments: cells.eq(fieldIndex.comments).text() || 0,
           site: site,
@@ -148,7 +136,7 @@
           tags: options.searcher.getRowTags(site, row),
           progress: options.searcher.getFieldValue(site, row, "progress"),
           status: options.searcher.getFieldValue(site, row, "status"),
-          imdbId: this.getIMDbId(row)
+          imdbId: this.getIMDbId(row),
         };
         results.push(data);
       }
@@ -164,18 +152,18 @@
      * 获取IMDbId
      * @param {*} row
      */
-    getIMDbId(row)
-    {
+    getIMDbId(row) {
       try {
-        let link = row.find("a[href*='imdb.com/title/tt']").first().attr("href");
-        if (link)
-        {
+        let link = row
+          .find("a[href*='imdb.com/title/tt']")
+          .first()
+          .attr("href");
+        if (link) {
           let imdbId = link.match(/(tt\d+)/);
-          if (imdbId)
-            return imdbId[0];
+          if (imdbId) return imdbId[0];
         }
-      } catch (error){
-        console.log(error)
+      } catch (error) {
+        console.log(error);
         return null;
       }
       return null;
@@ -188,7 +176,7 @@
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       let img = link.find("img:first");

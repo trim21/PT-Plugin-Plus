@@ -7,15 +7,18 @@
   "tags": ["xxx"],
   "schema": "common",
   "host": "pussytorrents.org",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["^/torrent/(\\d+)$"],
-    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["/torrents/browse"],
-    "scripts": ["/schemas/NexusPHP/common.js", "torrents.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["^/torrent/(\\d+)$"],
+      "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["/torrents/browse"],
+      "scripts": ["/schemas/NexusPHP/common.js", "torrents.js"]
+    }
+  ],
   "searchEntryConfig": {
     "page": "/torrents/browse",
     "queryString": "query=$key$&page=1&inclusions=&exclusions=&inclusionsOp=ALL&order=&orderby=",
@@ -23,10 +26,12 @@
     "parseScriptFile": "getSearchResult.js",
     "resultSelector": "#torrenttable"
   },
-  "searchEntry": [{
-    "name": "all",
-    "enabled": true
-  }],
+  "searchEntry": [
+    {
+      "name": "all",
+      "enabled": true
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/",
@@ -39,11 +44,15 @@
         },
         "uploaded": {
           "selector": ["#memberBar .span8 span[title='Uploaded']"],
-          "filters": ["$(query[0].nextSibling).text().trim().replace(/,/g,'').sizeToNumber()"]
+          "filters": [
+            "$(query[0].nextSibling).text().trim().replace(/,/g,'').sizeToNumber()"
+          ]
         },
         "downloaded": {
           "selector": ["#memberBar .span8 span[title='Downloaded']"],
-          "filters": ["$(query[0].nextSibling).text().trim().replace(/,/g,'').sizeToNumber()"]
+          "filters": [
+            "$(query[0].nextSibling).text().trim().replace(/,/g,'').sizeToNumber()"
+          ]
         },
         "messageCount": {
           "selector": ["a[href='/users/messages'] i.news-notify"],
@@ -59,7 +68,9 @@
         },
         "joinTime": {
           "selector": ["#profileTable td:contains('Join Date') + td"],
-          "filters": ["dateTime(query.text().split(' ').slice(1).join(' '), 'Do MMMM YYYY').valueOf()"]
+          "filters": [
+            "dateTime(query.text().split(' ').slice(1).join(' '), 'Do MMMM YYYY').valueOf()"
+          ]
         }
       }
     },

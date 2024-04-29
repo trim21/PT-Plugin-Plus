@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is browse.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -20,7 +20,7 @@
      */
     getDownloadURLs() {
       let links = $(
-        "table.torrenttable:last a[href*='download.php?id=']"
+        "table.torrenttable:last a[href*='download.php?id=']",
       ).toArray();
       let siteURL = PTService.site.url;
       if (siteURL.substr(-1) != "/") {
@@ -32,7 +32,7 @@
         return this.t("getDownloadURLsFailed");
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let link = $(item).attr("href");
         if (link && link.substr(0, 4) != "http") {
           link = siteURL + link;
@@ -49,8 +49,8 @@
     confirmWhenExceedSize() {
       return this.confirmSize(
         $("table.torrenttable:last").find(
-          "td:contains('MB'),td:contains('GB'),td:contains('TB')"
-        )
+          "td:contains('MB'),td:contains('GB'),td:contains('TB')",
+        ),
       );
     }
 

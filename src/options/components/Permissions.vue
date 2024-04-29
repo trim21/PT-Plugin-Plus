@@ -20,14 +20,18 @@
               <template v-slot:items="props">
                 <tr v-if="props.item.visible">
                   <td>
-                    <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+                    <v-checkbox
+                      v-model="props.selected"
+                      primary
+                      hide-details
+                    ></v-checkbox>
                   </td>
                   <td>{{ $t(props.item.title) }}</td>
                   <td>
                     <v-switch
                       true-value="true"
                       false-value="false"
-                      :input-value="props.item.enabled?'true':'false'"
+                      :input-value="props.item.enabled ? 'true' : 'false'"
                       hide-details
                       @click.stop="updatePermissions(props.item)"
                     ></v-switch>
@@ -44,10 +48,13 @@
           <v-btn
             flat
             color="success"
-            :disabled="selected.length==0"
+            :disabled="selected.length == 0"
             @click="authorize"
-          >{{ $t("permissions.authorize") }}</v-btn>
-          <v-btn flat color="orange" @click="cancel">{{ $t("permissions.cancel") }}</v-btn>
+            >{{ $t("permissions.authorize") }}</v-btn
+          >
+          <v-btn flat color="orange" @click="cancel">{{
+            $t("permissions.cancel")
+          }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -63,19 +70,19 @@ export default Vue.extend({
           origins: ["http://*/*", "https://*/*"],
           title: "permissions.details.allSites",
           visible: true,
-          isOrigin: true
+          isOrigin: true,
         },
         // { key: "tabs", title: "permissions.details.tabs" },
         {
           key: "downloads",
           visible: true,
-          title: "permissions.details.downloads"
+          title: "permissions.details.downloads",
         },
-        { key: "cookies", visible: true, title: "permissions.details.cookies" }
+        { key: "cookies", visible: true, title: "permissions.details.cookies" },
       ],
       selected: [] as any,
       cancelled: false,
-      items: [] as any
+      items: [] as any,
     };
   },
   methods: {
@@ -86,7 +93,7 @@ export default Vue.extend({
       if (chrome && chrome.permissions) {
         let options = {
           permissions: [] as any,
-          origins: [] as any
+          origins: [] as any,
         };
         this.selected.forEach((item: any) => {
           if (!item.visible) {
@@ -99,7 +106,7 @@ export default Vue.extend({
           }
         });
         // 权限必须在用户操作下请求，例如按钮单击的事件处理函数。
-        chrome.permissions.request(options, granted => {
+        chrome.permissions.request(options, (granted) => {
           this.$emit("update", granted);
         });
       } else {
@@ -117,25 +124,25 @@ export default Vue.extend({
       let options = {};
       if (item.isOrigin) {
         options = {
-          origins: item.origins
+          origins: item.origins,
         };
       } else {
         options = {
-          permissions: [item.key]
+          permissions: [item.key],
         };
       }
       if (item.enabled) {
-        chrome.permissions.request(options, granted => {
+        chrome.permissions.request(options, (granted) => {
           item.enabled = granted;
         });
       } else {
-        chrome.permissions.remove(options, granted => {
+        chrome.permissions.remove(options, (granted) => {
           item.enabled = !granted;
         });
       }
 
       console.log(item);
-    }
+    },
   },
   created() {
     if (chrome && chrome.permissions) {
@@ -146,11 +153,11 @@ export default Vue.extend({
 
     let manifest = chrome.runtime.getManifest();
 
-    this.permissions.forEach(item => {
+    this.permissions.forEach((item) => {
       let options = {};
       if (item.isOrigin) {
         options = {
-          origins: item.origins
+          origins: item.origins,
         };
       } else {
         if (manifest.optional_permissions && item.key) {
@@ -158,12 +165,12 @@ export default Vue.extend({
         }
 
         options = {
-          permissions: [item.key]
+          permissions: [item.key],
         };
       }
       if (item.visible) {
         // 查询当前权限
-        chrome.permissions.contains(options, result => {
+        chrome.permissions.contains(options, (result) => {
           this.items.push(Object.assign({ enabled: result }, item));
         });
       }
@@ -176,17 +183,17 @@ export default Vue.extend({
           text: this.$t("permissions.headers.title"),
           align: "left",
           sortable: false,
-          value: "title"
+          value: "title",
         },
         {
           text: this.$t("permissions.headers.enabled"),
           align: "left",
           value: "enabled",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

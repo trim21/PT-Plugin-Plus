@@ -5,7 +5,9 @@
         <v-form v-model="isValid" class="content">
           <v-layout row>
             <v-flex xs3>
-              <v-subheader>{{ $t('settings.searchSolution.editor.name') }}</v-subheader>
+              <v-subheader>{{
+                $t("settings.searchSolution.editor.name")
+              }}</v-subheader>
             </v-flex>
             <v-flex xs9>
               <v-text-field
@@ -20,7 +22,9 @@
           </v-layout>
           <v-layout row>
             <v-flex xs3>
-              <v-subheader>{{$t('settings.searchSolution.editor.range')}}</v-subheader>
+              <v-subheader>{{
+                $t("settings.searchSolution.editor.range")
+              }}</v-subheader>
             </v-flex>
             <v-flex xs9>
               <div class="list">
@@ -38,17 +42,26 @@
                   >
                     <template slot="items" slot-scope="props">
                       <tr>
-                        <td style="width:20px;">
-                          <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+                        <td style="width: 20px">
+                          <v-checkbox
+                            v-model="props.selected"
+                            primary
+                            hide-details
+                          ></v-checkbox>
                         </td>
                         <td>
                           <div>{{ props.item.name }}</div>
-                          <v-container v-if="props.item.enabled" fluid class="ma-0 pa-0 ml-4">
+                          <v-container
+                            v-if="props.item.enabled"
+                            fluid
+                            class="ma-0 pa-0 ml-4"
+                          >
                             <v-layout row wrap class="ma-0 pa-0">
                               <v-flex
                                 class="ma-0 pa-0"
                                 xs3
-                                v-for="(item, key, index) in props.item.searchEntry"
+                                v-for="(item, key, index) in props.item
+                                  .searchEntry"
                                 :key="index"
                               >
                                 <v-checkbox
@@ -80,19 +93,29 @@
               small
               class="mr-2 pl-0"
               disabled
-            >{{ item.siteName }}{{ getSiteEntry(item.host, item.entry) }}</v-chip>
+              >{{ item.siteName
+              }}{{ getSiteEntry(item.host, item.entry) }}</v-chip
+            >
           </template>
         </div>
       </v-card-text>
     </v-card>
-    <v-snackbar v-model="haveError" absolute top :timeout="3000" color="error">{{ errorMsg }}</v-snackbar>
+    <v-snackbar
+      v-model="haveError"
+      absolute
+      top
+      :timeout="3000"
+      color="error"
+      >{{ errorMsg }}</v-snackbar
+    >
     <v-snackbar
       v-model="haveSuccess"
       absolute
       bottom
       :timeout="3000"
       color="success"
-    >{{ successMsg }}</v-snackbar>
+      >{{ successMsg }}</v-snackbar
+    >
   </div>
 </template>
 
@@ -104,17 +127,17 @@ import {
   DataResult,
   Site,
   SearchSolutionRange,
-  SearchEntry
+  SearchEntry,
 } from "@/interface/common";
 const extension = new Extension();
 export default Vue.extend({
   data() {
     return {
       rules: {
-        require: [(v: any) => !!v || "!"]
+        require: [(v: any) => !!v || "!"],
       },
       pagination: {
-        rowsPerPage: -1
+        rowsPerPage: -1,
       },
       haveError: false,
       haveSuccess: false,
@@ -124,14 +147,14 @@ export default Vue.extend({
       checked: [] as SearchSolutionRange[],
       sites: [] as Site[],
       selected: [] as any,
-      loading: false
+      loading: false,
     };
   },
   props: {
     option: Object,
     initSites: {
-      type: Array as () => Array<any>
-    }
+      type: Array as () => Array<any>,
+    },
   },
   watch: {
     successMsg() {
@@ -162,7 +185,7 @@ export default Vue.extend({
       });
 
       this.change();
-    }
+    },
   },
   methods: {
     change(update: boolean = true) {
@@ -182,7 +205,7 @@ export default Vue.extend({
           checked.push({
             host: item.host,
             siteName: item.name,
-            entry
+            entry,
           });
         }
       });
@@ -191,7 +214,7 @@ export default Vue.extend({
         this.$emit("change", {
           id: this.option.id,
           name: this.option.name,
-          range: checked
+          range: checked,
         });
       }
 
@@ -231,7 +254,7 @@ export default Vue.extend({
         }
       }
       return "";
-    }
+    },
   },
   created() {},
   computed: {
@@ -251,15 +274,15 @@ export default Vue.extend({
         {
           text: this.$t("settings.searchSolution.editor.headers.name"),
           align: "left",
-          value: "name"
-        }
+          value: "name",
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .search-solution-editor {
   height: 100%;
   .body {

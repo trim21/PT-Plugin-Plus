@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is torrent.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -25,7 +25,7 @@
       if (links.length == 0) {
         // 排除使用免费令牌的链接,id是autofeed的a连接会带，会造成干扰
         links = $(
-          "a[href*='torrents.php?action=download']:not([href*='usetoken']):not([id])"
+          "a[href*='torrents.php?action=download']:not([href*='usetoken']):not([id])",
         ).toArray();
       }
 
@@ -33,7 +33,7 @@
         return this.t("getDownloadURLsFailed"); //"获取下载链接失败，未能正确定位到链接";
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let link = $(item).attr("href");
         return this.getFullURL(link);
       });
@@ -46,9 +46,11 @@
      */
     confirmWhenExceedSize() {
       return this.confirmSize(
-        $("#torrent_table, .torrent_table tr.basic-movie-list__torrent-row").find(
-          "td:contains('MB'),td:contains('GB'),td:contains('TB'),td:contains('MiB'),td:contains('GiB'),td:contains('TiB')"
-        )
+        $(
+          "#torrent_table, .torrent_table tr.basic-movie-list__torrent-row",
+        ).find(
+          "td:contains('MB'),td:contains('GB'),td:contains('TB'),td:contains('MiB'),td:contains('GiB'),td:contains('TiB')",
+        ),
       );
     }
 
@@ -61,7 +63,7 @@
       if (typeof data === "string") {
         data = {
           url: data,
-          title: ""
+          title: "",
         };
       }
 
@@ -69,7 +71,7 @@
 
       if (!data.url) {
         PTService.showNotice({
-          msg: this.t("invalidURL") //"无效的链接"
+          msg: this.t("invalidURL"), //"无效的链接"
         });
         callback();
         return;
@@ -80,7 +82,7 @@
       // authkey=&torrent_pass
       if (!authkey && !torrent_pass) {
         PTService.showNotice({
-          msg: this.t("dropInvalidURL") //"无效的链接，请拖放下载链接"
+          msg: this.t("dropInvalidURL"), //"无效的链接，请拖放下载链接"
         });
         callback();
         return;
@@ -89,10 +91,10 @@
       data.url = this.getFullURL(data.url);
 
       this.sendTorrentToDefaultClient(data)
-        .then(result => {
+        .then((result) => {
           callback(result);
         })
-        .catch(result => {
+        .catch((result) => {
           callback(result);
         });
     }

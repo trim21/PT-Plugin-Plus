@@ -8,9 +8,7 @@
   "url": "https://azusa.wiki",
   "host": "azusa.wiki",
   "collaborator": "zhuweitung",
-  "formerHosts": [
-    "www.azusa.wiki"
-  ],
+  "formerHosts": ["www.azusa.wiki"],
   "levelRequirements": [
     {
       "level": 1,
@@ -99,7 +97,9 @@
       "fields": {
         "name": {
           "selector": ["a[href*='userdetails.php'][class*='Name']:first"],
-          "filters": ["query ? query.find('i.icon-rank:first').length > 0 ? $(query.find('i.icon-rank:first')[0].previousSibling).text() : query.text() : ''"]
+          "filters": [
+            "query ? query.find('i.icon-rank:first').length > 0 ? $(query.find('i.icon-rank:first')[0].previousSibling).text() : query.text() : ''"
+          ]
         }
       }
     },
@@ -112,7 +112,10 @@
         },
         "seedingSize": {
           "selector": ["b:first"],
-          "filters": ["$(query[0].nextSibling).text().trim().match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length==2)?(query[0]).sizeToNumber():0"]
+          "filters": [
+            "$(query[0].nextSibling).text().trim().match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length==2)?(query[0]).sizeToNumber():0"
+          ]
         }
       }
     },
@@ -131,7 +134,9 @@
     "fieldSelector": {
       "progress": {
         "selector": ["> td.rowfollow:eq(1) td.embedded:eq(0) > div:last"],
-        "filters": ["query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"]
+        "filters": [
+          "query ? parseFloat(query.attr('title').match(/[\\d.]+/)) : null"
+        ]
       },
       "status": {
         "selector": ["> td.rowfollow:eq(1) td.embedded:eq(0) > div:last"],

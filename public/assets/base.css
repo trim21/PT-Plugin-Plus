@@ -5,7 +5,7 @@
   width: 80px;
   position: fixed;
   right: 5px;
-  opacity: .3;
+  opacity: 0.3;
   z-index: 10000;
   font-size: 12px;
 }
@@ -21,7 +21,7 @@
 
 .pt-plugin-body:hover,
 .pt-plugin-body-over {
-  opacity: 0.9
+  opacity: 0.9;
 }
 
 .pt-plugin-body hr {
@@ -32,7 +32,7 @@
 }
 
 .pt-plugin-body .pt-plugin-logo {
-  background-image: url('chrome-extension://__MSG_@@extension_id__/assets/icon-64.png');
+  background-image: url("chrome-extension://__MSG_@@extension_id__/assets/icon-64.png");
   background-size: cover;
   height: 32px;
   width: 32px;
@@ -43,10 +43,9 @@
 
 @-moz-document url-prefix() {
   .pt-plugin-body .pt-plugin-logo {
-    background-image: url('moz-extension://__MSG_@@extension_id__/assets/icon-64.png');
+    background-image: url("moz-extension://__MSG_@@extension_id__/assets/icon-64.png");
   }
 }
-
 
 .pt-plugin-body .pt-plugin-droper {
   height: 45px;
@@ -76,7 +75,7 @@
 }
 
 .pt-plugin-body a.pt-plugin-button:hover {
-  background-color: rgba(77, 154, 231, 0.226)
+  background-color: rgba(77, 154, 231, 0.226);
 }
 
 .pt-plugin-body .pt-plugin-button .pt-plugin-button-inner {
@@ -134,7 +133,7 @@
   content: "";
   position: absolute;
   background: #4caf50;
-  border-radius: 2px
+  border-radius: 2px;
 }
 
 .action-success-ani:before {
@@ -142,7 +141,7 @@
   height: 100%;
   left: 0;
   animation: onActionSuccessLeft 0.2s linear 0.2s 1 both;
-  animation: onActionSuccessLeft 0.2s linear 0.2s 1 both
+  animation: onActionSuccessLeft 0.2s linear 0.2s 1 both;
 }
 
 .action-success-ani:after {
@@ -150,45 +149,45 @@
   height: 4px;
   bottom: 0;
   animation: onActionSuccessRight 0.2s linear 0.4s 1 both;
-  animation: onActionSuccessRight 0.2s linear 0.4s 1 both
+  animation: onActionSuccessRight 0.2s linear 0.4s 1 both;
 }
 
 @keyframes onActionSuccessLeft {
   0% {
-    top: -100%
+    top: -100%;
   }
 
   100% {
-    top: 0%
+    top: 0%;
   }
 }
 
 @keyframes onActionSuccessLeft {
   0% {
-    top: -100%
+    top: -100%;
   }
 
   100% {
-    top: 0%
+    top: 0%;
   }
 }
 
 @keyframes onActionSuccessRight {
   0% {
-    left: -100%
+    left: -100%;
   }
 
   100% {
-    left: 0%
+    left: 0%;
   }
 }
 
 @keyframes onActionSuccessRight {
   0% {
-    left: -100%
+    left: -100%;
   }
 
   100% {
-    left: 0%
+    left: 0%;
   }
 }

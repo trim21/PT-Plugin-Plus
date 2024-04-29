@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is browse.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -20,7 +20,7 @@
      */
     getDownloadURLs() {
       let links = $("a.bookmark").toArray();
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let id = $(item).attr("tid");
         return this.getDownloadURL(id);
       });
@@ -35,7 +35,7 @@
     getDownloadURL(id) {
       // 格式：vvvid|||passkeyzz
       let key = new Base64().encode(
-        "vvv" + id + "|||" + PTService.site.passkey + "zz"
+        "vvv" + id + "|||" + PTService.site.passkey + "zz",
       );
       return `https://${PTService.site.host}/rssdd.php?par=${key}&ssl=yes`;
     }
@@ -67,7 +67,7 @@
     downloadFromDroper(data, callback) {
       if (!PTService.site.passkey) {
         PTService.showNotice({
-          msg: "请先设置站点密钥（Passkey）。"
+          msg: "请先设置站点密钥（Passkey）。",
         });
         callback();
         return;
@@ -76,7 +76,7 @@
       if (typeof data === "string") {
         data = {
           url: data,
-          title: ""
+          title: "",
         };
       }
 
@@ -88,10 +88,10 @@
       }
 
       this.sendTorrentToDefaultClient(result)
-        .then(result => {
+        .then((result) => {
           callback(result);
         })
-        .catch(result => {
+        .catch((result) => {
           callback(result);
         });
     }
@@ -114,8 +114,8 @@
     confirmWhenExceedSize() {
       return this.confirmSize(
         $("#torrent_table").find(
-          "td[align='center']:contains('MB'),td[align='center']:contains('GB'),td[align='center']:contains('TB')"
-        )
+          "td[align='center']:contains('MB'),td[align='center']:contains('GB'),td[align='center']:contains('TB')",
+        ),
       );
     }
   }

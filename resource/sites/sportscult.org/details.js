@@ -1,5 +1,5 @@
 (function ($, window) {
-   if(/\?page\=torrent-details/.test(window.location.search)){
+  if (/\?page\=torrent-details/.test(window.location.search)) {
     class App extends window.NexusPHPCommon {
       init() {
         this.initButtons();
@@ -31,11 +31,13 @@
       }
 
       showTorrentSize() {
-        let size = PTService.filters.formatSize(PTService.getFieldValue("size"));
+        let size = PTService.filters.formatSize(
+          PTService.getFieldValue("size"),
+        );
         PTService.addButton({
-         title: "当前种子大小",
+          title: "当前种子大小",
           icon: "attachment",
-          label: size
+          label: size,
         });
       }
       /**
@@ -44,9 +46,9 @@
       getTitle() {
         return $("a[href*='download.php']:first").text().trim();
       }
-    };
-    (new App()).init();
-  }else if(/\?page\=torrents|seedwanted/.test(window.location.search)){
+    }
+    new App().init();
+  } else if (/\?page\=torrents|seedwanted/.test(window.location.search)) {
     console.log("this is torrents.js");
     class App extends window.NexusPHPCommon {
       init() {
@@ -68,7 +70,9 @@
        * 获取下载链接
        */
       getDownloadURLs() {
-        let links = $("#bodyarea > table > tbody > tr > td:nth-child(2) > div > .block-content > div > div > div table:nth-child(4) > tbody > tr:nth-child(2) > td > table")
+        let links = $(
+          "#bodyarea > table > tbody > tr > td:nth-child(2) > div > .block-content > div > div > div table:nth-child(4) > tbody > tr:nth-child(2) > td > table",
+        )
           .find("a[href*='download.php']")
           .toArray();
         let siteURL = PTService.site.url;
@@ -80,7 +84,7 @@
           return this.t("getDownloadURLsFailed"); //"获取下载链接失败，未能正确定位到链接";
         }
 
-        let urls = $.map(links, item => {
+        let urls = $.map(links, (item) => {
           let link = $(item).attr("href");
           if (link && link.substr(0, 4) != "http") {
             link = siteURL + link;
@@ -96,50 +100,51 @@
        */
       confirmWhenExceedSize() {
         return this.confirmSize(
-          $("#bodyarea > table > tbody > tr > td:nth-child(2) > div > .block-content > div > div > div table:nth-child(4) > tbody > tr:nth-child(2) > td > table").find(
-            "td:contains('MB'),td:contains('GB'),td:contains('TB'),td:contains('MiB'),td:contains('GiB'),td:contains('TiB')"
-          )
+          $(
+            "#bodyarea > table > tbody > tr > td:nth-child(2) > div > .block-content > div > div > div table:nth-child(4) > tbody > tr:nth-child(2) > td > table",
+          ).find(
+            "td:contains('MB'),td:contains('GB'),td:contains('TB'),td:contains('MiB'),td:contains('GiB'),td:contains('TiB')",
+          ),
         );
       }
 
-  
-    /**
-     * 下载拖放的种子
-     * @param {*} data
-     * @param {*} callback
-     */
-     downloadFromDroper(data, callback) {
-      if (typeof data === "string") {
-        data = {
-          url: data,
-          title: ""
-        };
+      /**
+       * 下载拖放的种子
+       * @param {*} data
+       * @param {*} callback
+       */
+      downloadFromDroper(data, callback) {
+        if (typeof data === "string") {
+          data = {
+            url: data,
+            title: "",
+          };
+        }
+
+        console.log(data);
+
+        if (!data.url) {
+          PTService.showNotice({
+            msg: this.t("invalidURL"), //"无效的链接"
+          });
+          callback();
+          return;
+        }
+
+        if (data.url.substr(0, 1) === "/") {
+          data.url = `${location.origin}${data.url}`;
+        } else if (data.url.substr(0, 4) !== "http") {
+          data.url = `${location.origin}/${data.url}`;
+        }
+
+        this.sendTorrentToDefaultClient(result)
+          .then((result) => {
+            callback(result);
+          })
+          .catch((result) => {
+            callback(result);
+          });
       }
-
-      console.log(data);
-
-      if (!data.url) {
-        PTService.showNotice({
-          msg: this.t("invalidURL") //"无效的链接"
-        });
-        callback();
-        return;
-      }
-
-      if (data.url.substr(0, 1) === "/") {
-        data.url = `${location.origin}${data.url}`;
-      } else if (data.url.substr(0, 4) !== "http") {
-        data.url = `${location.origin}/${data.url}`;
-      }
-
-      this.sendTorrentToDefaultClient(result)
-        .then(result => {
-          callback(result);
-        })
-        .catch(result => {
-          callback(result);
-        });
-    }
     }
     new App().init();
   }

@@ -15,7 +15,7 @@ import {
   EUserDataRange,
   i18nResource,
   IBackupServer,
-  EWikiLink
+  EWikiLink,
 } from "@/interface/common";
 import { filters as Filters } from "@/service/filters";
 import { ClientController } from "@/service/clientController";
@@ -33,7 +33,7 @@ type Service = PTPlugin;
 export default class Controller {
   public options: Options = {
     sites: [],
-    clients: []
+    clients: [],
   };
 
   public defaultClient: any;
@@ -60,7 +60,7 @@ export default class Controller {
   // 种子链接对应的名称缓存
   private torrentInfosCache: Dictionary<any> = {};
 
-  constructor(public service: Service) { }
+  constructor(public service: Service) {}
 
   public init(options: Options) {
     this.reset(options);
@@ -90,7 +90,7 @@ export default class Controller {
       if (this.options.apiKey.douban && this.options.apiKey.douban.length > 0) {
         this.movieInfoService.appendApiKey(
           "douban",
-          this.options.apiKey.douban
+          this.options.apiKey.douban,
         );
       }
     }
@@ -104,7 +104,7 @@ export default class Controller {
     return this.searcher.searchTorrent(
       options.site,
       options.key,
-      options.payload
+      options.payload,
     );
   }
 
@@ -133,7 +133,7 @@ export default class Controller {
     data: any,
     host: string = "",
     clientId: string = "",
-    success: boolean = true
+    success: boolean = true,
   ) {
     // 是否保存历史记录
     if (this.options.saveDownloadHistory) {
@@ -171,7 +171,7 @@ export default class Controller {
     return new Promise<any>((resolve?: any, reject?: any) => {
       if (!data.url) {
         reject({
-          msg: this.service.i18n.t("service.controller.invalidAddress") //"无效的地址"
+          msg: this.service.i18n.t("service.controller.invalidAddress"), //"无效的地址"
         });
         return;
       }
@@ -182,7 +182,7 @@ export default class Controller {
       });
       if (!clientConfig) {
         reject({
-          msg: this.service.i18n.t("service.controller.invalidDownloadServer") //"无效的下载服务器"
+          msg: this.service.i18n.t("service.controller.invalidDownloadServer"), //"无效的下载服务器"
         });
         return;
       }
@@ -204,7 +204,7 @@ export default class Controller {
    * @param downloadOptions 下载选项
    */
   public sendTorrentToDefaultClient(
-    downloadOptions: DownloadOptions
+    downloadOptions: DownloadOptions,
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let URL = Filters.parseURL(downloadOptions.url);
@@ -253,7 +253,7 @@ export default class Controller {
   private doDownload(
     clientConfig: any,
     downloadOptions: DownloadOptions,
-    host: string = ""
+    host: string = "",
   ): Promise<any> {
     // copy from sendTorrentToDefaultClient
     let URL = Filters.parseURL(downloadOptions.url);
@@ -277,9 +277,9 @@ export default class Controller {
             event: "service.controller.doDownload.finished",
             msg: this.service.i18n.t("service.controller.downloadFinished", {
               name: clientConfig.options.name,
-              action: EAction.addTorrentFromURL
+              action: EAction.addTorrentFromURL,
             }), // `下载服务器${clientConfig.options.name}处理[${ EAction.addTorrentFromURL}]命令完成`,
-            data: result
+            data: result,
           });
 
           // 如果未指定标题，则尝试从种子信息缓存中获取名称
@@ -298,7 +298,7 @@ export default class Controller {
                 host,
                 result,
                 resolve,
-                reject
+                reject,
               )
             ) {
               return;
@@ -310,9 +310,9 @@ export default class Controller {
                 reject({
                   success: false,
                   msg: this.service.i18n.t(
-                    "service.controller.downloadTimeout"
+                    "service.controller.downloadTimeout",
                   ), //"连接下载服务器超时，请检查网络设置或调整服务器超时时间！",
-                  status: "error"
+                  status: "error",
                 });
                 break;
 
@@ -320,7 +320,7 @@ export default class Controller {
                 reject({
                   success: false,
                   msg: result.msg,
-                  status: "error"
+                  status: "error",
                 });
                 break;
             }
@@ -329,7 +329,7 @@ export default class Controller {
               downloadOptions,
               host,
               clientConfig.options.id,
-              false
+              false,
             );
             return;
           }
@@ -338,7 +338,7 @@ export default class Controller {
             downloadOptions,
             host,
             clientConfig.options.id,
-            true
+            true,
           );
 
           this.formatSendResult(result, clientConfig.options, downloadOptions)
@@ -361,7 +361,7 @@ export default class Controller {
               host,
               result,
               resolve,
-              reject
+              reject,
             )
           ) {
             return;
@@ -372,15 +372,15 @@ export default class Controller {
             event: "service.controller.doDownload.error",
             msg: this.service.i18n.t("service.controller.downloadError", {
               name: clientConfig.options.name,
-              action: EAction.addTorrentFromURL
+              action: EAction.addTorrentFromURL,
             }), // `下载服务器${clientConfig.options.name}处理[${EAction.addTorrentFromURL}]命令失败`,
-            data: result
+            data: result,
           });
           this.saveDownloadHistory(
             downloadOptions,
             host,
             clientConfig.options.id,
-            false
+            false,
           );
           reject(result);
         });
@@ -402,7 +402,7 @@ export default class Controller {
     host: string = "",
     failedMsg: any,
     resolve?: any,
-    reject?: any
+    reject?: any,
   ): boolean {
     // 是否失败重试
     if (this.options.downloadFailedRetry) {
@@ -423,12 +423,12 @@ export default class Controller {
           msg:
             this.service.i18n.t("service.controller.downloadError", {
               name: clientConfig.options.name,
-              action: EAction.addTorrentFromURL
+              action: EAction.addTorrentFromURL,
             }) +
             " (" +
             retries +
             ")", // `下载服务器${clientConfig.options.name}处理[${EAction.addTorrentFromURL}]命令失败`,
-          data: failedMsg
+          data: failedMsg,
         });
 
         this.downloadFailedRetriesCache[downloadOptions.url] = retries;
@@ -511,26 +511,26 @@ export default class Controller {
   private formatSendResult(
     data: any,
     clientOptions: any,
-    downloadOptions: DownloadOptions
+    downloadOptions: DownloadOptions,
   ): Promise<any> {
     return new Promise((resolve?: any, reject?: any) => {
       let result: DataResult = {
         type: EDataResultType.success,
         msg:
           this.service.i18n.t("service.controller.torrentAdded", {
-            title: downloadOptions.title
+            title: downloadOptions.title,
           }) +
           (downloadOptions.savePath
             ? this.service.i18n.t("service.controller.torrentSavePath", {
-              path: downloadOptions.savePath,
-              interpolation: { escapeValue: false }
-            })
+                path: downloadOptions.savePath,
+                interpolation: { escapeValue: false },
+              })
             : ""), //`${downloadOptions.title || ""} 种子已添加完成。` +
         // (downloadOptions.savePath
         //   ? `<br/>保存至 ${downloadOptions.savePath}`
         //   : ""),
         success: true,
-        data: data
+        data: data,
       };
 
       switch (clientOptions.type) {
@@ -540,16 +540,16 @@ export default class Controller {
             result.msg = this.service.i18n.t(
               "service.controller.transmissionSuccess",
               {
-                data
-              }
+                data,
+              },
             ); //data.name + " 已发送至 Transmission，编号：" + data.id;
             if (downloadOptions.savePath) {
               result.msg += this.service.i18n.t(
                 "service.controller.torrentSavePath",
                 {
                   path: downloadOptions.savePath,
-                  interpolation: { escapeValue: false }
-                }
+                  interpolation: { escapeValue: false },
+                },
               ); //`<br/>保存至 ${downloadOptions.savePath} `;
             }
           } else if (data.status) {
@@ -562,8 +562,8 @@ export default class Controller {
                   "service.controller.transmissionDuplicate",
                   {
                     name: data.torrent.name,
-                    id: data.torrent.id
-                  }
+                    id: data.torrent.id,
+                  },
                 );
                 //data.torrent.name + " 种子已存在！编号：" + data.torrent.id;
                 break;
@@ -572,7 +572,7 @@ export default class Controller {
                 result.type = EDataResultType.error;
                 result.success = false;
                 result.msg = this.service.i18n.t(
-                  "service.controller.transmissionError"
+                  "service.controller.transmissionError",
                 ); //"链接发送失败，请检查下载服务器是否可用。";
                 break;
               default:
@@ -640,7 +640,7 @@ export default class Controller {
     return new Promise<any>((resolve?: any, reject?: any) => {
       resolve({
         client: this.defaultClient,
-        options: this.defaultClientOptions
+        options: this.defaultClientOptions,
       });
     });
   }
@@ -735,11 +735,11 @@ export default class Controller {
     if (this.optionsTabId == 0) {
       this.openURL(url);
     } else {
-      chrome.tabs.get(this.optionsTabId as number, tab => {
+      chrome.tabs.get(this.optionsTabId as number, (tab) => {
         if (!chrome.runtime.lastError && tab) {
           chrome.tabs.update(tab.id as number, {
             active: true,
-            url: "index.html#" + url
+            url: "index.html#" + url,
           });
         } else {
           this.openURL(url);
@@ -761,11 +761,11 @@ export default class Controller {
     }
     chrome.tabs.create(
       {
-        url: url
+        url: url,
       },
-      tab => {
+      (tab) => {
         this.optionsTabId = tab.id;
-      }
+      },
     );
   }
 
@@ -817,7 +817,7 @@ export default class Controller {
    */
   public call(
     request: Request,
-    sender?: chrome.runtime.MessageSender
+    sender?: chrome.runtime.MessageSender,
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let service: any = this;
@@ -834,7 +834,7 @@ export default class Controller {
 
   public addContentPage(
     data: any,
-    sender: chrome.runtime.MessageSender
+    sender: chrome.runtime.MessageSender,
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       try {
@@ -890,7 +890,7 @@ export default class Controller {
         url = options;
         options = {
           url,
-          parseTorrent: false
+          parseTorrent: false,
         };
       } else {
         url = options.url;
@@ -903,7 +903,7 @@ export default class Controller {
       let file = new FileDownloader({
         url,
         getDataOnly: true,
-        timeout: this.service.options.connectClientTimeout
+        timeout: this.service.options.connectClientTimeout,
       });
 
       file.requestMethod = requestMethod;
@@ -933,7 +933,7 @@ export default class Controller {
                 resolve({
                   url,
                   torrent,
-                  content: file.content
+                  content: file.content,
                 });
               } else {
                 resolve(file.content);
@@ -945,9 +945,9 @@ export default class Controller {
           reject(
             APP.createErrorMessage(
               this.service.i18n.t("service.controller.invalidTorrent", {
-                link: EWikiLink.faq
-              })
-            )
+                link: EWikiLink.faq,
+              }),
+            ),
           );
         }
       };
@@ -990,7 +990,7 @@ export default class Controller {
               if (result) {
                 results.push({
                   site,
-                  user: result
+                  user: result,
                 });
               }
 
@@ -1011,7 +1011,7 @@ export default class Controller {
       if (completed == count && completed == 0) {
         // "没有站点需要获取用户信息"
         reject(
-          this.service.i18n.t("service.controller.getUserInfoSiteIsEmpty")
+          this.service.i18n.t("service.controller.getUserInfoSiteIsEmpty"),
         );
       }
     });
@@ -1044,7 +1044,7 @@ export default class Controller {
       let file = new FileDownloader({
         url,
         getDataOnly: true,
-        timeout: this.service.options.connectClientTimeout
+        timeout: this.service.options.connectClientTimeout,
       });
 
       file.onCompleted = () => {
@@ -1060,8 +1060,8 @@ export default class Controller {
           // "无效的图片文件"
           reject(
             APP.createErrorMessage(
-              this.service.i18n.t("service.controller.invalidImage")
-            )
+              this.service.i18n.t("service.controller.invalidImage"),
+            ),
           );
         }
       };
@@ -1120,7 +1120,7 @@ export default class Controller {
   public queryMovieInfoFromDouban(options: any): Promise<any> {
     return this.movieInfoService.queryMovieInfoFromDouban(
       options.key,
-      options.count
+      options.count,
     );
   }
 
@@ -1140,7 +1140,7 @@ export default class Controller {
             items.push(options);
           }
 
-          items.forEach(item => {
+          items.forEach((item) => {
             chrome.downloads.download(item, function (downloadId) {
               console.log(downloadId);
             });
@@ -1151,7 +1151,7 @@ export default class Controller {
         .catch(() => {
           reject({
             success: false,
-            msg: this.service.i18n.t("service.controller.noPermission") //"无权限，请前往用户授权"
+            msg: this.service.i18n.t("service.controller.noPermission"), //"无权限，请前往用户授权"
           });
         });
     });
@@ -1166,7 +1166,7 @@ export default class Controller {
       let locale = this.service.options.locale || "en";
       let resource = this.service.i18n.i18next.getResourceBundle(
         locale,
-        "translation"
+        "translation",
       );
 
       if (resource) {
@@ -1206,7 +1206,7 @@ export default class Controller {
   public deleteFileFromBackupServer(options: any = {}): Promise<any> {
     return this.service.config.deleteFileFromBackupServer(
       options.server,
-      options.path
+      options.path,
     );
   }
 
@@ -1215,8 +1215,8 @@ export default class Controller {
       this.service.downloadQuene.add(items).run();
       resolve(
         this.service.i18n.t("service.controller.downloadTaskIsCreated", {
-          count: items.length
-        })
+          count: items.length,
+        }),
       );
     });
   }
@@ -1285,7 +1285,7 @@ export default class Controller {
   public removeTorrentCollectionFromGroup(options: any): Promise<any> {
     return this.service.collection.removeFromGroup(
       options.item,
-      options.groupId
+      options.groupId,
     );
   }
 
@@ -1385,7 +1385,7 @@ export default class Controller {
     return new Promise<any>((resolve?: any, reject?: any) => {
       this.debuggerTabId = id;
       this.debuggerPort = chrome.tabs.connect(id, {
-        name: EModule.debugger
+        name: EModule.debugger,
       });
       resolve();
     });
@@ -1399,7 +1399,7 @@ export default class Controller {
           if (tab && this.debuggerPort) {
             this.debuggerPort.postMessage({
               action: EAction.pushDebugMsg,
-              data: msg
+              data: msg,
             });
           }
           if (chrome.runtime.lastError) {

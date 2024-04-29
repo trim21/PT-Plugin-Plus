@@ -1,5 +1,5 @@
 import { Dictionary } from "@/interface/common";
-import { PPF } from './public';
+import { PPF } from "./public";
 
 export type MovieInfoCache = {
   base: Dictionary<any>;
@@ -19,12 +19,8 @@ export class MovieInfoService {
 
   public douban = {
     frodo: {
-      apiKeys: [
-        "054022eaeae0b00e0fc068c0c0a2102a"
-      ],
-      entApiKeys: [
-        "054022eaeae0b00e0fc068c0c0a2102a"
-      ],
+      apiKeys: ["054022eaeae0b00e0fc068c0c0a2102a"],
+      entApiKeys: ["054022eaeae0b00e0fc068c0c0a2102a"],
       // 豆瓣 frodo 接口相关方法
       methods: {
         movie: {
@@ -45,32 +41,32 @@ export class MovieInfoService {
             }]
           */
           imdb: `https://omit.mkrobot.org/movie/infos/$imdbid$`,
-          subject: `https://omit.mkrobot.org/movie/infos/douban$id$`
+          subject: `https://omit.mkrobot.org/movie/infos/douban$id$`,
           // imdb: `https://movie.douban.com/j/subject_suggest?q=$imdbid$`,
           // subject: `${this.doubanFrodoApi}/movie/$id$?apiKey=$apikey$`
         },
-      }
+      },
     },
     common: {
       apiKeys: [
         "02646d3fb69a52ff072d47bf23cef8fd",
         "0b2bdeda43b5688921839c8ecb20399b",
         "0dad551ec0f84ed02907ff5c42e8ec70",
-        "0df993c66c0c636e29ecbb5344252a4a"
+        "0df993c66c0c636e29ecbb5344252a4a",
       ],
       entApiKeys: [
         "0dad551ec0f84ed02907ff5c42e8ec70",
-        "02646d3fb69a52ff072d47bf23cef8fd"
+        "02646d3fb69a52ff072d47bf23cef8fd",
       ],
       methods: {
         movie: {
           search: `${this.doubanApiURL}/movie/search?q=$key$&count=$count$&apikey=$apikey$`,
           imdb: `${this.doubanApiURL}/movie/imdb/$imdbid$?apikey=$apikey$`,
-          subject: `${this.doubanApiURL}/movie/subject/$id$?apikey=$apikey$`
-        }
+          subject: `${this.doubanApiURL}/movie/subject/$id$?apikey=$apikey$`,
+        },
       },
-    }
-  }
+    },
+  };
 
   // 用于加载评分信息
   public omdbApiURL = "https://www.omdbapi.com";
@@ -104,14 +100,14 @@ export class MovieInfoService {
     "e192b5a",
     "d62b4cf5",
     "5e6442a3",
-    "9b1468c6"
+    "9b1468c6",
   ];
   // 豆瓣 apikey
   public doubanApiKeys = [
     "02646d3fb69a52ff072d47bf23cef8fd",
     "0b2bdeda43b5688921839c8ecb20399b",
     "0dad551ec0f84ed02907ff5c42e8ec70",
-    "0df993c66c0c636e29ecbb5344252a4a"
+    "0df993c66c0c636e29ecbb5344252a4a",
     // "07c78782db00a121175696889101e363"
   ];
 
@@ -121,7 +117,7 @@ export class MovieInfoService {
   // 部分key无法用于 search 接口，故将key分开
   public doubanEntApiKeys = [
     "0dad551ec0f84ed02907ff5c42e8ec70",
-    "02646d3fb69a52ff072d47bf23cef8fd"
+    "02646d3fb69a52ff072d47bf23cef8fd",
     // "07c78782db00a121175696889101e363"
   ];
 
@@ -133,7 +129,7 @@ export class MovieInfoService {
     base: {},
     ratings: {},
     doubanToIMDb: {},
-    search: {}
+    search: {},
   };
 
   // 链接超时时间
@@ -180,14 +176,14 @@ export class MovieInfoService {
         }
         let url = PPF.replaceKeys(this.doubanApi.methods.movie.imdb, {
           imdbid: IMDbId,
-          apikey: this.getDoubanApiKey()
+          apikey: this.getDoubanApiKey(),
         });
 
         $.ajax({
           url: url,
-          timeout: this.timeout
+          timeout: this.timeout,
         })
-          .done(json => {
+          .done((json) => {
             let result;
             if (json) {
               result = json.data || json;
@@ -196,7 +192,7 @@ export class MovieInfoService {
             this.cache.base[IMDbId] = result;
             resolve(result);
           })
-          .fail(error => {
+          .fail((error) => {
             reject(error);
           });
       } else {
@@ -223,14 +219,14 @@ export class MovieInfoService {
 
         let url = PPF.replaceKeys(this.doubanApi.methods.movie.subject, {
           id,
-          apikey: this.getDoubanApiKey()
+          apikey: this.getDoubanApiKey(),
         });
 
         $.ajax({
           url: url,
-          timeout: this.timeout
+          timeout: this.timeout,
         })
-          .done(json => {
+          .done((json) => {
             let result;
             if (json) {
               result = json.data || json;
@@ -239,7 +235,7 @@ export class MovieInfoService {
             this.cache.base[id] = result;
             resolve(result);
           })
-          .fail(error => {
+          .fail((error) => {
             reject(error);
           });
       } else {
@@ -268,9 +264,9 @@ export class MovieInfoService {
           let url = `${this.omdbApiURL}/?i=${IMDbId}&apikey=${apikey}&tomatoes=true`;
           $.ajax({
             url: url,
-            timeout: this.timeout
+            timeout: this.timeout,
           })
-            .done(json => {
+            .done((json) => {
               // 当发生错误时，更换Key进行重试
               if (json && json.Error) {
                 requestCount++;
@@ -285,7 +281,7 @@ export class MovieInfoService {
               this.cache.ratings[IMDbId] = json;
               resolve(json);
             })
-            .fail(error => {
+            .fail((error) => {
               reject(error);
             });
         };
@@ -348,9 +344,9 @@ export class MovieInfoService {
 
       $.ajax({
         url: url,
-        timeout: this.timeout
+        timeout: this.timeout,
       })
-        .done(json => {
+        .done((json) => {
           console.log("getIMDbIdFromDouban", json);
           if (json.data) {
             this.cache.doubanToIMDb[doubanId] = json.data;
@@ -359,7 +355,7 @@ export class MovieInfoService {
             reject(json);
           }
         })
-        .fail(error => {
+        .fail((error) => {
           reject(error);
         })
         .always(() => {
@@ -375,13 +371,12 @@ export class MovieInfoService {
    */
   public queryMovieInfoFromDouban(
     key: string,
-    count: number = 5
+    count: number = 5,
   ): Promise<any> {
     if (this.isIMDbId(key)) {
       return this.getInfoFromIMDb(key);
     }
     return new Promise<any>((resolve?: any, reject?: any) => {
-
       let cache = this.cache.search[key];
       if (cache) {
         resolve(cache);
@@ -398,9 +393,9 @@ export class MovieInfoService {
 
       $.ajax({
         url: url,
-        timeout: this.timeout
+        timeout: this.timeout,
       })
-        .done(json => {
+        .done((json) => {
           console.log("queryMovieInfoFromDouban", json);
           if (json.data) {
             this.cache.search[key] = json.data;
@@ -409,14 +404,12 @@ export class MovieInfoService {
             reject(json);
           }
         })
-        .fail(error => {
+        .fail((error) => {
           reject(error);
         })
         .always(() => {
           delete this.requsetQueue[url];
         });
-
-
 
       // let url = `${this.doubanApiURL}/movie/search?q=${encodeURIComponent(
       //   key
@@ -463,7 +456,7 @@ export class MovieInfoService {
         break;
     }
 
-    keys.forEach(key => {
+    keys.forEach((key) => {
       if (key && !apiKeys.includes(key)) {
         apiKeys.push(key);
       }
@@ -487,7 +480,7 @@ export class MovieInfoService {
         break;
     }
 
-    let index = apiKeys.findIndex(item => {
+    let index = apiKeys.findIndex((item) => {
       if (item === key) {
         return true;
       }
@@ -508,16 +501,16 @@ export class MovieInfoService {
 
       $.ajax({
         url: url,
-        timeout: this.timeout
+        timeout: this.timeout,
       })
-        .done(json => {
+        .done((json) => {
           if (json && json.Error) {
             reject(json.Error);
             return;
           }
           resolve();
         })
-        .fail(error => {
+        .fail((error) => {
           reject(error);
         });
     });
@@ -533,16 +526,16 @@ export class MovieInfoService {
 
       $.ajax({
         url: url,
-        timeout: this.timeout
+        timeout: this.timeout,
       })
-        .done(json => {
+        .done((json) => {
           if (json && json.title) {
             resolve();
           } else {
             reject(json.Error);
           }
         })
-        .fail(error => {
+        .fail((error) => {
           reject(error);
         });
     });
@@ -556,16 +549,16 @@ export class MovieInfoService {
     return new Promise<any>((resolve?: any, reject?: any) => {
       $.ajax({
         url: `${this.omitApiURL}/movie/top/${count}?apikey=${this.omitApiKeys[0]}`,
-        timeout: this.timeout
+        timeout: this.timeout,
       })
-        .then(result => {
+        .then((result) => {
           if (result && result.data) {
             resolve(result.data);
           } else {
             reject();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });

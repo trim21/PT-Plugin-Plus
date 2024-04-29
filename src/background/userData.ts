@@ -3,7 +3,7 @@ import {
   UserInfo,
   Site,
   Dictionary,
-  EUserDataRange
+  EUserDataRange,
 } from "@/interface/common";
 import localStorage from "@/service/localStorage";
 import PTPlugin from "./service";
@@ -117,7 +117,7 @@ export class UserData {
       ) {
         let sites = this.service.options.system.sites;
 
-        this.load().then(datas => {
+        this.load().then((datas) => {
           if (datas) {
             sites.forEach((systemSite: Site) => {
               if (!systemSite.host) {

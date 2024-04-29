@@ -1,8 +1,16 @@
 if ("".getQueryString === undefined) {
-  String.prototype.getQueryString = function(name, split) {
+  String.prototype.getQueryString = function (name, split) {
     if (split == undefined) split = "&";
     var reg = new RegExp(
-        "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
+        "(^|" +
+          split +
+          "|\\?)" +
+          name +
+          "=([^" +
+          split +
+          "]*)(" +
+          split +
+          "|$)",
       ),
       r;
     if ((r = this.match(reg))) return decodeURI(r[2]);
@@ -10,7 +18,7 @@ if ("".getQueryString === undefined) {
   };
 }
 
-(function(options, User) {
+(function (options, User) {
   class Parser {
     constructor(options, dataURL) {
       this.options = options;
@@ -19,12 +27,12 @@ if ("".getQueryString === undefined) {
       this.rawData = "";
       this.pageInfo = {
         count: 0,
-        current: 1
+        current: 1,
       };
       this.result = {
         seedingSize: 0,
         bonus: 0,
-        seedingList: []
+        seedingList: [],
       };
       this.load();
     }
@@ -48,12 +56,14 @@ if ("".getQueryString === undefined) {
 
       let results = new User.InfoParser(User.service).getResult(
         this.body,
-        this.options.rule
+        this.options.rule,
       );
 
       if (results) {
         this.result.seedingSize += results.seedingSize;
-        this.result.seedingList = this.result.seedingList.concat(results.seedingList)
+        this.result.seedingList = this.result.seedingList.concat(
+          results.seedingList,
+        );
       }
 
       // 是否已到最后一页
@@ -62,9 +72,7 @@ if ("".getQueryString === undefined) {
         this.load();
       } else {
         if (results) {
-          this.result.bonus = this.body
-          .find("[href='bonus.php']+span")
-          .text();
+          this.result.bonus = this.body.find("[href='bonus.php']+span").text();
         }
         this.done();
       }
@@ -98,7 +106,7 @@ if ("".getQueryString === undefined) {
         url += "&page=" + this.pageInfo.current;
       }
       $.get(url)
-        .done(result => {
+        .done((result) => {
           this.rawData = result;
           this.parse();
         })

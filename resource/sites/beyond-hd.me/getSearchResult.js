@@ -1,4 +1,4 @@
-(function(options, Searcher) {
+(function (options, Searcher) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -57,7 +57,7 @@
         // 分类
         category: 1,
         progress: 11,
-        status: 11
+        status: 11,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -171,18 +171,11 @@
             subTitle: this.getSubTitle(title, row).trim(),
             link,
             url: url,
-            size:
-              cells
-                .eq(fieldIndex.size)
-                .text()
-                .trim() || 0,
+            size: cells.eq(fieldIndex.size).text().trim() || 0,
             time:
               fieldIndex.time == -1
                 ? ""
-                : cells
-                    .eq(fieldIndex.time)
-                    .find("span[title]")
-                    .attr("title") ||
+                : cells.eq(fieldIndex.time).find("span[title]").attr("title") ||
                   cells.eq(fieldIndex.time).text().trim() ||
                   "",
             author:
@@ -213,7 +206,7 @@
                 ? null
                 : this.getCategory(cells.eq(fieldIndex.category)),
             progress: this.getFieldValue(row, cells, fieldIndex, "progress"),
-            status: this.getFieldValue(row, cells, fieldIndex, "status")
+            status: this.getFieldValue(row, cells, fieldIndex, "status"),
           };
           results.push(data);
         }
@@ -237,7 +230,7 @@
     getSubTitle(title, row) {
       return "";
     }
-    
+
     /**
      * 获取分类
      * @param {*} cell 当前列
@@ -245,14 +238,14 @@
     getCategory(cell) {
       let result = {
         name: cell.find("i:first").attr("data-original-title"),
-        link: cell.find("a:first").attr("href")
+        link: cell.find("a:first").attr("href"),
       };
       if (result.name) {
         result.name = result.name.replace(" torrent", "");
       }
       return result;
     }
-    
+
     getFieldValue(row, cells, fieldIndex, fieldName, returnCell) {
       let parent = row;
       let cell = null;
@@ -274,7 +267,7 @@
         }
         result = cell.text().trim();
       }
-      if(result == "")return null;
+      if (result == "") return null;
       return result;
     }
   }

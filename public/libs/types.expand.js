@@ -1,4 +1,4 @@
-String.prototype.getQueryString = function(name, split) {
+String.prototype.getQueryString = function (name, split) {
   if (split == undefined) split = "&";
   var rule =
     "(^|" + split + "|\\?)" + name + "=([^" + split + "#]*)(" + split + "|#|$)";
@@ -11,9 +11,9 @@ String.prototype.getQueryString = function(name, split) {
 /**
  * @return {number}
  */
-String.prototype.sizeToNumber = function() {
+String.prototype.sizeToNumber = function () {
   let _size_raw_match = this.match(
-    /^(\d*\.?\d+)(.*[^ZEPTGMK])?([ZEPTGMK](B|iB))$/i
+    /^(\d*\.?\d+)(.*[^ZEPTGMK])?([ZEPTGMK](B|iB))$/i,
   );
   if (_size_raw_match) {
     let _size_num = parseFloat(_size_raw_match[1]);

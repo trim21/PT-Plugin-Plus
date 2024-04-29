@@ -1,6 +1,5 @@
 .search-torrent {
   .torrent {
-
     table.v-table thead tr:not(.v-datatable__progress) th,
     table.v-table tbody tr td {
       padding: 10px 8px !important;
@@ -15,15 +14,15 @@
       background-color: #f1f1f1;
     }
 
-    table.v-table tbody tr[active='true'] {
-      background-color: #B3E5FC !important;
+    table.v-table tbody tr[active="true"] {
+      background-color: #b3e5fc !important;
     }
 
     table.v-table.theme--dark tbody tr:nth-child(even) {
       background-color: #1f1f1f;
     }
 
-    table.v-table.theme--dark tbody tr[active='true'] {
+    table.v-table.theme--dark tbody tr[active="true"] {
       background-color: #4c1a03 !important;
     }
   }
@@ -49,7 +48,7 @@
 
   .theme--dark a {
     color: #fff;
-    text-decoration: none;    
+    text-decoration: none;
   }
 
   a:hover {
@@ -77,7 +76,7 @@
     bottom: 0;
     right: 8px;
     width: 80%;
-    opacity: .8;
+    opacity: 0.8;
   }
 
   .center {
@@ -122,7 +121,6 @@
     white-space: nowrap;
   }
 
-
   .theme--dark.v-table thead th {
     background-color: #424242;
   }
@@ -151,7 +149,7 @@
       z-index: 5;
 
       &:after {
-        content: '';
+        content: "";
         position: absolute;
         left: 0;
         bottom: 0;

@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is torrent.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -36,7 +36,7 @@
         return this.t("getDownloadURLsFailed");
       }
 
-      let urls = $.map(links, item => {
+      let urls = $.map(links, (item) => {
         let link = $(item).attr("href");
         if (link && link.substr(0, 4) != "http") {
           link = siteURL + link;
@@ -53,8 +53,8 @@
     confirmWhenExceedSize() {
       return this.confirmSize(
         $("div.table-responsive > table:first").find(
-          "td:contains('MiB'),td:contains('GiB'),td:contains('TiB')"
-        )
+          "td:contains('MiB'),td:contains('GiB'),td:contains('TiB')",
+        ),
       );
     }
   }

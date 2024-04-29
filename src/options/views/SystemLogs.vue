@@ -1,21 +1,21 @@
 <template>
   <div class="system-logs">
-    <v-alert :value="true" type="info">{{ $t('systemLog.title') }}</v-alert>
+    <v-alert :value="true" type="info">{{ $t("systemLog.title") }}</v-alert>
     <v-card>
       <v-card-title>
-        <v-btn color="error" :disabled="selected.length==0">
+        <v-btn color="error" :disabled="selected.length == 0">
           <v-icon class="mr-2">remove</v-icon>
-          {{ $t('common.remove') }}
+          {{ $t("common.remove") }}
         </v-btn>
 
-        <v-btn color="error" @click="clear" :disabled="items.length==0">
+        <v-btn color="error" @click="clear" :disabled="items.length == 0">
           <v-icon class="mr-2">clear</v-icon>
-          {{ $t('common.clear') }}
+          {{ $t("common.clear") }}
         </v-btn>
 
         <v-btn color="success" @click="save">
           <v-icon>save</v-icon>
-          <span class="ml-1">{{ $t('systemLog.save') }}</span>
+          <span class="ml-1">{{ $t("systemLog.save") }}</span>
         </v-btn>
         <v-spacer></v-spacer>
 
@@ -43,21 +43,27 @@
       >
         <template slot="items" slot-scope="props">
           <tr @click="props.expanded = !props.expanded">
-            <td style="width:20px;">
-              <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+            <td style="width: 20px">
+              <v-checkbox
+                v-model="props.selected"
+                primary
+                hide-details
+              ></v-checkbox>
             </td>
             <td>{{ props.item.module }}</td>
             <td>{{ props.item.event }}</td>
             <td>{{ props.item.time | formatDate("YYYY-MM-DD HH:mm:ss") }}</td>
             <td>{{ props.item.msg }}</td>
             <td>
-              <v-icon small color="error" @click="removeConfirm(props.item)">delete</v-icon>
+              <v-icon small color="error" @click="removeConfirm(props.item)"
+                >delete</v-icon
+              >
             </td>
           </tr>
         </template>
         <template slot="expand" slot-scope="props">
           <v-card flat>
-            <v-card-text>{{getErrorDetail(props.item.data)}}</v-card-text>
+            <v-card-text>{{ getErrorDetail(props.item.data) }}</v-card-text>
           </v-card>
         </template>
       </v-data-table>
@@ -66,28 +72,34 @@
     <!-- 删除确认 -->
     <v-dialog v-model="dialogRemoveConfirm" width="300">
       <v-card>
-        <v-card-title class="headline red lighten-2">{{ $t('common.removeConfirmTitle') }}</v-card-title>
+        <v-card-title class="headline red lighten-2">{{
+          $t("common.removeConfirmTitle")
+        }}</v-card-title>
 
-        <v-card-text>{{ $t('common.removeConfirm') }}</v-card-text>
+        <v-card-text>{{ $t("common.removeConfirm") }}</v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat color="info" @click="dialogRemoveConfirm=false">
+          <v-btn flat color="info" @click="dialogRemoveConfirm = false">
             <v-icon>cancel</v-icon>
-            <span class="ml-1">{{ $t('common.cancel') }}</span>
+            <span class="ml-1">{{ $t("common.cancel") }}</span>
           </v-btn>
           <v-btn color="error" flat @click="remove">
             <v-icon>check_circle_outline</v-icon>
-            <span class="ml-1">{{ $t('common.ok') }}</span>
+            <span class="ml-1">{{ $t("common.ok") }}</span>
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-snackbar v-model="haveError" top :timeout="3000" color="error">{{ errorMsg }}</v-snackbar>
-    <v-snackbar v-model="haveSuccess" bottom :timeout="3000" color="success">{{ successMsg }}</v-snackbar>
+    <v-snackbar v-model="haveError" top :timeout="3000" color="error">{{
+      errorMsg
+    }}</v-snackbar>
+    <v-snackbar v-model="haveSuccess" bottom :timeout="3000" color="success">{{
+      successMsg
+    }}</v-snackbar>
   </div>
 </template>
 <script lang="ts">
@@ -105,7 +117,7 @@ export default Vue.extend({
       pagination: {
         rowsPerPage: 10,
         sortBy: "time",
-        descending: true
+        descending: true,
       },
       items: [],
       dialogRemoveConfirm: false,
@@ -114,7 +126,7 @@ export default Vue.extend({
       haveError: false,
       haveSuccess: false,
       successMsg: "",
-      filterKey: ""
+      filterKey: "",
     };
   },
 
@@ -148,7 +160,7 @@ export default Vue.extend({
     save() {
       const Blob = window.Blob;
       const data = new Blob([JSON.stringify(this.items)], {
-        type: "text/plain"
+        type: "text/plain",
       });
       FileSaver.saveAs(data, "PT-Plugin-Plus-System-Logs.json");
     },
@@ -156,7 +168,7 @@ export default Vue.extend({
       console.log(value);
       this.$store.dispatch("updatePagination", {
         key: EPaginationKey.systemLogs,
-        options: value
+        options: value,
       });
     },
     getErrorDetail(data: any): string {
@@ -169,7 +181,7 @@ export default Vue.extend({
         }
       }
       return result;
-    }
+    },
   },
 
   created() {
@@ -179,8 +191,8 @@ export default Vue.extend({
       {
         rowsPerPage: 10,
         sortBy: "time",
-        descending: true
-      }
+        descending: true,
+      },
     );
   },
 
@@ -190,27 +202,27 @@ export default Vue.extend({
         {
           text: this.$t("systemLog.headers.module"),
           align: "left",
-          value: "module"
+          value: "module",
         },
         {
           text: this.$t("systemLog.headers.event"),
           align: "left",
-          value: "event"
+          value: "event",
         },
         {
           text: this.$t("systemLog.headers.time"),
           align: "left",
-          value: "time"
+          value: "time",
         },
         { text: this.$t("systemLog.headers.msg"), align: "left", value: "msg" },
         {
           text: this.$t("systemLog.headers.action"),
           value: "name",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

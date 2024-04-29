@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is torrent.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -25,14 +25,14 @@
         //  "获取下载链接失败，未能正确定位到链接";
         return this.t("getDownloadURLsFailed");
       }
-      if (typeof(links[0])!="string"){
-        let urls = $.map(links, item => {
+      if (typeof links[0] != "string") {
+        let urls = $.map(links, (item) => {
           let url = $(item).attr("href");
           return this.getFullURL(url);
         });
         return urls;
       }
-      return links
+      return links;
     }
 
     /**

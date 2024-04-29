@@ -7,35 +7,39 @@
   "tags": ["影视", "音乐", "文学"],
   "schema": "iTS",
   "host": "shadowthein.net",
-  "collaborator": [
-    "luckiestone",
-    "MewX"
+  "collaborator": ["luckiestone", "MewX"],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["/details.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["/browse.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
+    }
   ],
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["/details.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["/browse.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
-  }],
   "searchEntryConfig": {
     "page": "/browse.php",
     "queryString": "search=$key$&incldead=1",
     "resultType": "html",
     "parseScriptFile": "getSearchResult.js",
     "resultSelector": "table[id='torrenttable']:last > tbody > tr",
-    "area": [{
-      "name": "IMDB",
-      "keyAutoMatch": "^(tt\\d+)$",
-      "queryString": "incldead=1&search=$key$&search_in=all"
-    }]
+    "area": [
+      {
+        "name": "IMDB",
+        "keyAutoMatch": "^(tt\\d+)$",
+        "queryString": "incldead=1&search=$key$&search_in=all"
+      }
+    ]
   },
-  "searchEntry": [{
-    "name": "All",
-    "enabled": true
-  }],
+  "searchEntry": [
+    {
+      "name": "All",
+      "enabled": true
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/",
@@ -54,7 +58,10 @@
         },
         "messageCount": {
           "selector": ["td[bgcolor*='red'] a[href*='message.php']"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         }
       }
     },
@@ -63,14 +70,20 @@
       "fields": {
         "seeding": {
           "selector": ["div#seeds_div"],
-          "filters": ["query.text().match(/([\\d.]+).*?-/)", "(query && query.length>=2)?query[1]:0"]
+          "filters": [
+            "query.text().match(/([\\d.]+).*?-/)",
+            "(query && query.length>=2)?query[1]:0"
+          ]
         },
         "levelName": {
           "selector": ["td.row2:contains('Tracker'):contains('Class') + td"]
         },
         "joinTime": {
           "selector": ["td.row2:contains('Join'):contains('Date') + td"],
-          "filters": ["query.text().split(' (')[0]", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "query.text().split(' (')[0]",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         },
         "bonus": {
           "selector": "td.row2:contains('Karma') + td",
@@ -99,6 +112,5 @@
         }
       }
     }
-
   }
 }

@@ -14,7 +14,7 @@
           :target="item.url ? '_blank' : ''"
           rel="noopener noreferrer nofollow"
         >
-          <v-list-tile-action style="min-width: 42px;margin-left: 13px;">
+          <v-list-tile-action style="min-width: 42px; margin-left: 13px">
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
@@ -29,16 +29,16 @@
 import Vue from "vue";
 export default Vue.extend({
   props: {
-    value: Boolean
+    value: Boolean,
   },
   data() {
     return {
-      drawer: this.$store.state.options.navBarIsOpen
+      drawer: this.$store.state.options.navBarIsOpen,
     };
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     drawer() {
@@ -46,7 +46,7 @@ export default Vue.extend({
     },
     value() {
       this.drawer = this.value;
-    }
+    },
   },
   computed: {
     navs() {
@@ -58,36 +58,36 @@ export default Vue.extend({
             {
               title: "navigation.dashboard.userData",
               icon: "dashboard",
-              key: "/home"
+              key: "/home",
             },
             {
               title: "navigation.dashboard.searchResults",
               icon: "search",
-              key: "/search-torrent"
+              key: "/search-torrent",
             },
             {
               title: "navigation.dashboard.searchResultSnapshot",
               icon: "add_a_photo",
               key: "/search-result-snapshot",
-              visible: (this.$store as any).state.options.allowSaveSnapshot
+              visible: (this.$store as any).state.options.allowSaveSnapshot,
             },
             {
               title: "navigation.dashboard.history",
               icon: "history",
               key: "/history",
-              visible: (this.$store as any).state.options.saveDownloadHistory
+              visible: (this.$store as any).state.options.saveDownloadHistory,
             },
             {
               title: "navigation.dashboard.collection",
               icon: "favorite",
-              key: "/collection"
+              key: "/collection",
             },
             {
               title: "navigation.dashboard.keepUploadTask",
               icon: "merge_type",
-              key: "/keep-upload-task"
-            }
-          ]
+              key: "/keep-upload-task",
+            },
+          ],
         },
         {
           title: "navigation.settings.title",
@@ -95,39 +95,39 @@ export default Vue.extend({
             {
               title: "navigation.settings.downloadClients",
               icon: "cloud_download",
-              key: "/set-download-clients"
+              key: "/set-download-clients",
             },
             {
               title: "navigation.settings.base",
               icon: "settings",
-              key: "/set-base"
+              key: "/set-base",
             },
             {
               title: "navigation.settings.sites",
               icon: "public",
-              key: "/set-sites"
+              key: "/set-sites",
             },
             {
               title: "navigation.settings.downloadPaths",
               icon: "folder_open",
-              key: "/set-download-paths"
+              key: "/set-download-paths",
             },
             {
               title: "navigation.settings.searchSolution",
               icon: "widgets",
-              key: "/set-search-solution"
+              key: "/set-search-solution",
             },
             {
               title: "navigation.settings.backup",
               icon: "restore",
-              key: "/set-backup"
+              key: "/set-backup",
             },
             {
               title: "navigation.settings.permissions",
               icon: "verified_user",
-              key: "/set-permissions"
-            }
-          ]
+              key: "/set-permissions",
+            },
+          ],
         },
         {
           title: "navigation.thanks.title",
@@ -135,17 +135,17 @@ export default Vue.extend({
             {
               title: "navigation.thanks.reference",
               icon: "developer_board",
-              key: "/technology-stack"
+              key: "/technology-stack",
             },
             {
               title: "navigation.thanks.specialThanksTo",
               icon: "people",
-              key: "/dev-team"
-            }
-          ]
-        }
+              key: "/dev-team",
+            },
+          ],
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>

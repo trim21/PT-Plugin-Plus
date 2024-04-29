@@ -40,7 +40,7 @@ export default Vue.extend({
   data() {
     return {
       items: [] as any[],
-      baseColor: "amber"
+      baseColor: "amber",
     };
   },
 
@@ -48,10 +48,10 @@ export default Vue.extend({
     add(msg: any) {
       this.items.push({
         time: new Date().toLocaleString(),
-        msg: typeof msg === "string" ? msg : JSON.stringify(msg)
+        msg: typeof msg === "string" ? msg : JSON.stringify(msg),
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

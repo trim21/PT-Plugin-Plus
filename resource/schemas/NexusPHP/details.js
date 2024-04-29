@@ -1,4 +1,4 @@
-(function($, window) {
+(function ($, window) {
   console.log("this is details.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -25,7 +25,7 @@
         "a[href*='hash'][href*='https'][class!='forward_a']",
         // misc
         "a[href*='passkey'][href*='https'][class!='forward_a']",
-        "a[href*='passkey'][class!='forward_a']"
+        "a[href*='passkey'][class!='forward_a']",
       ];
 
       for (const href of possibleHrefs) {
@@ -37,14 +37,12 @@
       return null;
     }
 
-
     /**
      * 获取下载链接
      */
     getDownloadURL() {
       let url = PTService.getFieldValue("downloadURL");
       if (!url) {
-
         url = this._getDownloadUrlByPossibleHrefs();
 
         if (!url) {
@@ -90,29 +88,24 @@
       }
       return title;
     }
-    
+
     /**
      * 获取当前种子IMDb Id
      */
     getIMDbId() {
-      try
-      {
+      try {
         let imdbId = PTService.getFieldValue("imdbId");
         console.log(imdbId);
-        if (imdbId)
-          return imdbId;
+        if (imdbId) return imdbId;
         else {
           const link = $("a[href*='www.imdb.com/title/']:first");
           if (link.length > 0) {
             let match = link.attr("href").match(/(tt\d+)/);
 
-            if (match && match.length >= 2)
-              return imdbId = match[1];
-
+            if (match && match.length >= 2) return (imdbId = match[1]);
           }
         }
-      } catch {
-      }
+      } catch {}
       return null;
     }
   }

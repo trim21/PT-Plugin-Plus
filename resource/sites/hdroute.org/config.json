@@ -4,57 +4,65 @@
   "description": "HDRoute",
   "url": "http://hdroute.org/",
   "icon": "http://hdroute.org/favicon.ico",
-  "tags": [
-    "影视",
-    "综合"
-  ],
+  "tags": ["影视", "综合"],
   "host": "hdroute.org",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["/details.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["/browse.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "torrents.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["/details.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["/browse.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "torrents.js"]
+    }
+  ],
   "searchEntryConfig": {
     "page": "/browse.php",
     "queryString": "s=$key$&dp=0&add=0&action=s&or=1",
-    "area": [{
-      "name": "IMDB",
-      "keyAutoMatch": "^(tt\\d+)$",
-      "queryString": "s=&dp=0&add=0&action=s&or=1&imdb=$key$",
-      "replaceKey": [
-        "tt", ""
-      ]
-    }],
+    "area": [
+      {
+        "name": "IMDB",
+        "keyAutoMatch": "^(tt\\d+)$",
+        "queryString": "s=&dp=0&add=0&action=s&or=1&imdb=$key$",
+        "replaceKey": ["tt", ""]
+      }
+    ],
     "resultType": "html",
     "parseScriptFile": "getSearchResult.js",
     "resultSelector": "#unsticky-torrent-table dl"
   },
-  "searchEntry": [{
-    "name": "全部",
-    "enabled": true
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "figure.sprite_dlp000"
-  }, {
-    "name": "~Free",
-    "selector": "figure.sprite_tempo_free",
-    "title": "title",
-    "color": "teal"
-  }, {
-    "name": "30%",
-    "selector": "figure.sprite_dlp030"
-  }, {
-    "name": "50%",
-    "selector": "figure.sprite_dlp050"
-  }, {
-    "name": "70%",
-    "selector": "figure.sprite_dlp070"
-  }],
+  "searchEntry": [
+    {
+      "name": "全部",
+      "enabled": true
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "figure.sprite_dlp000"
+    },
+    {
+      "name": "~Free",
+      "selector": "figure.sprite_tempo_free",
+      "title": "title",
+      "color": "teal"
+    },
+    {
+      "name": "30%",
+      "selector": "figure.sprite_dlp030"
+    },
+    {
+      "name": "50%",
+      "selector": "figure.sprite_dlp050"
+    },
+    {
+      "name": "70%",
+      "selector": "figure.sprite_dlp070"
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/",
@@ -77,11 +85,17 @@
       "fields": {
         "uploaded": {
           "selector": [".headerRightInfo span:contains('上传量: ')"],
-          "filters": ["query.text().replace(/,/g,'').match(/上传量:.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length==2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/上传量:.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length==2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "downloaded": {
           "selector": [".headerRightInfo span:contains('下载量: ')"],
-          "filters": ["query.text().replace(/,/g,'').match(/下载量:.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length==2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/下载量:.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length==2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "levelName": {
           "selector": [".userdetail-list-title:contains('用户等级') + div"],
@@ -89,7 +103,10 @@
         },
         "joinTime": {
           "selector": [".userdetail-list-title:contains('注册日期') + div"],
-          "filters": ["query.text().trim()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "query.text().trim()",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         },
         "seeding": {
           "selector": [".header-user-data a[href*='list_seeding.php']"],
@@ -97,7 +114,10 @@
         },
         "seedingSize": {
           "selector": [".header-user-data a[href*='list_seeding.php']"],
-          "filters": ["query.next().text().match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length==2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.next().text().match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length==2)?(query[1]).sizeToNumber():0"
+          ]
         }
       }
     },

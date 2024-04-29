@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is best-movies.js");
   class App extends window.DoubanCommon {
     /**
@@ -22,7 +22,7 @@
         return;
       }
       let div = $("<div style='padding: 5px;text-align:center;'/>").appendTo(
-        parent
+        parent,
       );
       const className = "gsc-search-button gsc-search-button-v2";
       const styles =
@@ -30,7 +30,7 @@
       $(`<button class='${className}' style='${styles}'/>`)
         .html("助手搜索")
         .attr("title", `按当前默认方案直接搜索 ${key}`)
-        .on("click", event => {
+        .on("click", (event) => {
           let button = $(event.target);
           this.search(key, button);
         })
@@ -39,7 +39,7 @@
       $(`<button class='${className}' style='${styles}'/>`)
         .html("按方案搜索")
         .attr("title", `按指定方案搜索 ${key}`)
-        .on("click", event => {
+        .on("click", (event) => {
           this.showPopupMenusForSolutions(event, key);
         })
         .appendTo(div);
@@ -47,7 +47,7 @@
       $(`<button class='${className}' style='${styles}'/>`)
         .html("按站点搜索")
         .attr("title", `按指定站点搜索 ${key}`)
-        .on("click", event => {
+        .on("click", (event) => {
           this.showPopupMenus(event, key);
         })
         .appendTo(div);
@@ -62,7 +62,7 @@
           title: item.title,
           fn: () => {
             _this.search(item.key);
-          }
+          },
         });
       }
 
@@ -70,13 +70,13 @@
 
       if (options.sites && options.sites.length > 0) {
         // 添加站点
-        options.sites.forEach(site => {
+        options.sites.forEach((site) => {
           if (site.offline) {
             return;
           }
           addMenu({
             title: `在 ${site.name} - ${site.host} 中搜索`,
-            key: `${key}/${site.host}`
+            key: `${key}/${site.host}`,
           });
         });
       }
@@ -86,7 +86,7 @@
         $(".basicContext").css({
           "font-size": "12px",
           left: "-=20px",
-          top: "+=10px"
+          top: "+=10px",
         });
       }
     }
@@ -100,7 +100,7 @@
           title: item.title,
           fn: () => {
             _this.search(item.key);
-          }
+          },
         });
       }
 
@@ -108,10 +108,10 @@
 
       if (solutions && solutions.length > 0) {
         // 添加站点
-        solutions.forEach(item => {
+        solutions.forEach((item) => {
           addMenu({
             title: `使用 ${item.name} 搜索`,
-            key: `${key}/${item.id}`
+            key: `${key}/${item.id}`,
           });
         });
       }
@@ -120,14 +120,14 @@
         menus.push({});
         addMenu({
           title: `在 <所有站点> 中搜索`,
-          key: `${key}/all`
+          key: `${key}/all`,
         });
 
         basicContext.show(menus, event);
         $(".basicContext").css({
           "font-size": "12px",
           left: "-=20px",
-          top: "+=10px"
+          top: "+=10px",
         });
       }
     }

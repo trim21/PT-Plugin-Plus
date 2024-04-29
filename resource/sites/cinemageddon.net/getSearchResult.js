@@ -1,8 +1,16 @@
 if (!"".getQueryString) {
-  String.prototype.getQueryString = function(name, split) {
+  String.prototype.getQueryString = function (name, split) {
     if (split == undefined) split = "&";
     var reg = new RegExp(
-        "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
+        "(^|" +
+          split +
+          "|\\?)" +
+          name +
+          "=([^" +
+          split +
+          "]*)(" +
+          split +
+          "|$)",
       ),
       r;
     if ((r = this.match(reg))) return decodeURI(r[2]);
@@ -10,7 +18,7 @@ if (!"".getQueryString) {
   };
 }
 
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -58,7 +66,7 @@ if (!"".getQueryString) {
         comments: 2,
         author: 8,
         category: 0,
-        title: 1
+        title: 1,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -87,10 +95,7 @@ if (!"".getQueryString) {
             url = `${site.url}${url}`;
           }
 
-          cells
-            .eq(fieldIndex.size)
-            .find("span")
-            .remove();
+          cells.eq(fieldIndex.size).find("span").remove();
 
           let data = {
             title: title.text(),
@@ -122,7 +127,7 @@ if (!"".getQueryString) {
             site: site,
             entryName: options.entry.name,
             category: this.getCategory(cells.eq(fieldIndex.category)),
-            tags: this.getTags(row, options.torrentTagSelectors)
+            tags: this.getTags(row, options.torrentTagSelectors),
           };
           results.push(data);
         }
@@ -143,9 +148,7 @@ if (!"".getQueryString) {
      * @param {*} cell
      */
     getTime(cell) {
-      let time = $("<span>")
-        .html(cell.html().replace("<br>", " "))
-        .text();
+      let time = $("<span>").html(cell.html().replace("<br>", " ")).text();
       return time || "";
     }
 
@@ -156,7 +159,7 @@ if (!"".getQueryString) {
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       let img = link.find("img:first");
@@ -180,13 +183,13 @@ if (!"".getQueryString) {
       let tags = [];
       if (selectors && selectors.length > 0) {
         // 使用 some 避免错误的背景类名返回多个标签
-        selectors.some(item => {
+        selectors.some((item) => {
           if (item.selector) {
             let result = row.find(item.selector);
             if (result.length) {
               tags.push({
                 name: item.name,
-                color: item.color
+                color: item.color,
               });
               return true;
             }

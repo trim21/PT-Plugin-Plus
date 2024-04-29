@@ -10,7 +10,6 @@
      * 初始化按钮列表
      */
     initButtons() {
-
       let IMDbId = this.getIMDbId();
       if (IMDbId) {
         // 搜索
@@ -19,9 +18,12 @@
           icon: "search",
           label: "搜索",
           click: (success, error) => {
-            PTService.call(PTService.action.openOptions, `search-torrent/${IMDbId}`);
+            PTService.call(
+              PTService.action.openOptions,
+              `search-torrent/${IMDbId}`,
+            );
             success();
-          }
+          },
         });
       }
     }
@@ -37,8 +39,6 @@
 
       return "";
     }
-
-
-  };
-  (new App()).init();
+  }
+  new App().init();
 })(jQuery, window);

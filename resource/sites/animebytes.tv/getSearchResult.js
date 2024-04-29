@@ -2,8 +2,16 @@ if (!"".getQueryString) {
   String.prototype.getQueryString = function (name, split) {
     if (split == undefined) split = "&";
     var reg = new RegExp(
-      "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
-    ),
+        "(^|" +
+          split +
+          "|\\?)" +
+          name +
+          "=([^" +
+          split +
+          "]*)(" +
+          split +
+          "|$)",
+      ),
       r;
     if ((r = this.match(reg))) return decodeURI(r[2]);
     return null;
@@ -46,7 +54,10 @@ if (!"".getQueryString) {
         for (let ig = 0; ig < groups.length; ig++) {
           // Get group info.
           let group = groups.eq(ig);
-          let groupTitle = group.find(".group_title").find("strong:first").text();
+          let groupTitle = group
+            .find(".group_title")
+            .find("strong:first")
+            .text();
           if (groupTitle.length == 0) {
             continue;
           }
@@ -56,9 +67,16 @@ if (!"".getQueryString) {
           let torrents = group.find(".torrent_group:first").find("tr.torrent");
           for (let i = 0; i < torrents.length; i++) {
             let t = torrents.eq(i);
-            let subTitle = t.find(".torrent_properties:first").find("a:last").text();
-            let dlLink = site.url + t.find(".download_link:first").find("a:first").attr("href");
-            let torrentURL = site.url + t.find(".torrent_properties:first").find("a:last").attr("href");
+            let subTitle = t
+              .find(".torrent_properties:first")
+              .find("a:last")
+              .text();
+            let dlLink =
+              site.url +
+              t.find(".download_link:first").find("a:first").attr("href");
+            let torrentURL =
+              site.url +
+              t.find(".torrent_properties:first").find("a:last").attr("href");
             let size = t.find(".torrent_size:first").text();
             let snatched = t.find(".torrent_snatched:first").text();
             let seeders = t.find(".torrent_seeders:first").text();
@@ -66,7 +84,12 @@ if (!"".getQueryString) {
 
             // Basic validations.
             if (dlLink.length == 0) {
-              console.log("[%s] Invalid torrent link for \"%s\": %s", site.name, groupTitle, dlLink);
+              console.log(
+                '[%s] Invalid torrent link for "%s": %s',
+                site.name,
+                groupTitle,
+                dlLink,
+              );
               continue;
             }
 
@@ -99,7 +122,6 @@ if (!"".getQueryString) {
       }
       return results;
     }
-
   }
 
   let parser = new Parser(options);

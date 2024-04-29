@@ -4,9 +4,7 @@
   "url": "https://pt.newworld.plus/",
   "description": "The Ultimate File Sharing Experience",
   "icon": "https://pt.newworld.plus/favicon.ico",
-  "tags": [
-    "影视"
-  ],
+  "tags": ["影视"],
   "host": "pt.newworld.plus",
   "collaborator": "koal",
   "selectors": {

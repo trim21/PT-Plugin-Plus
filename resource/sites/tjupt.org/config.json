@@ -4,11 +4,7 @@
   "description": "北洋园PT",
   "url": "https://tjupt.org/",
   "icon": "https://tjupt.org/favicon.ico",
-  "tags": [
-    "教育网",
-    "影视",
-    "综合"
-  ],
+  "tags": ["教育网", "影视", "综合"],
   "schema": "NexusPHP",
   "host": "tjupt.org",
   "collaborator": ["tongyifan", "echo094"],
@@ -100,7 +96,8 @@
       "privilege": "首次升级至此等级时将获得3个永久邀请。"
     }
   ],
-  "searchEntry": [{
+  "searchEntry": [
+    {
       "name": "全站",
       "enabled": true
     },
@@ -160,77 +157,80 @@
       "enabled": false
     }
   ],
-  "categories": [{
-    "entry": "*",
-    "result": "&cat$id$=1",
-    "category": [{
-        "id": 401,
-        "name": "电影"
-      },
-      {
-        "id": 402,
-        "name": "剧集"
-      },
-      {
-        "id": 403,
-        "name": "综艺"
-      },
-      {
-        "id": 404,
-        "name": "资料"
-      },
-      {
-        "id": 405,
-        "name": "动漫"
-      },
-      {
-        "id": 406,
-        "name": "音乐"
-      },
-      {
-        "id": 407,
-        "name": "体育"
-      },
-      {
-        "id": 408,
-        "name": "软件"
-      },
-      {
-        "id": 409,
-        "name": "游戏"
-      },
-      {
-        "id": 411,
-        "name": "纪录片"
-      },
-      {
-        "id": 412,
-        "name": "移动视频"
-      },
-      {
-        "id": 410,
-        "name": "其他"
-      }
-    ]
-  }],
+  "categories": [
+    {
+      "entry": "*",
+      "result": "&cat$id$=1",
+      "category": [
+        {
+          "id": 401,
+          "name": "电影"
+        },
+        {
+          "id": 402,
+          "name": "剧集"
+        },
+        {
+          "id": 403,
+          "name": "综艺"
+        },
+        {
+          "id": 404,
+          "name": "资料"
+        },
+        {
+          "id": 405,
+          "name": "动漫"
+        },
+        {
+          "id": 406,
+          "name": "音乐"
+        },
+        {
+          "id": 407,
+          "name": "体育"
+        },
+        {
+          "id": 408,
+          "name": "软件"
+        },
+        {
+          "id": 409,
+          "name": "游戏"
+        },
+        {
+          "id": 411,
+          "name": "纪录片"
+        },
+        {
+          "id": 412,
+          "name": "移动视频"
+        },
+        {
+          "id": 410,
+          "name": "其他"
+        }
+      ]
+    }
+  ],
   "searchEntryConfig": {
     "fieldSelector": {
       "progress": {
         "selector": ["div.probar_b1, div.probar_b2, div.probar_b3"],
-        "filters": ["query.attr('style')||''", "query.match(/width:([ \\d.]+)%/)", "(query && query.length>=2)?query[1]:null"]
+        "filters": [
+          "query.attr('style')||''",
+          "query.match(/width:([ \\d.]+)%/)",
+          "(query && query.length>=2)?query[1]:null"
+        ]
       },
       "status": {
         "selector": ["div.probar_b1", "div.probar_b2", "div.probar_b3"],
-        "switchFilters": [
-          ["1"],
-          ["2"],
-          ["255"]
-        ]
+        "switchFilters": [["1"], ["2"], ["255"]]
       }
     }
   },
   "selectors": {
-	"userExtendInfo": {
+    "userExtendInfo": {
       "merge": true,
       "fields": {
         "uploaded": {
@@ -238,8 +238,8 @@
           "filters": ["$(query[0].nextSibling).text().trim().sizeToNumber()"]
         }
       }
-	},
-	"userSeedingTorrents": {
+    },
+    "userSeedingTorrents": {
       "merge": true,
       "fields": {
         "seeding": {
@@ -248,7 +248,10 @@
         },
         "seedingSize": {
           "selector": ["b:first"],
-          "filters": ["$(query[0].nextSibling).text().trim().match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length==2)?(query[0]).sizeToNumber():0"]
+          "filters": [
+            "$(query[0].nextSibling).text().trim().match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length==2)?(query[0]).sizeToNumber():0"
+          ]
         }
       }
     },
@@ -257,15 +260,21 @@
       "fields": {
         "downloads": {
           "selector": ["#9 td:eq(1) li:eq(1)"],
-          "filters": ["parseInt(query.text().trim().split('：')[1].split('/')[0])"]
+          "filters": [
+            "parseInt(query.text().trim().split('：')[1].split('/')[0])"
+          ]
         },
         "seedingTime": {
           "selector": ["#9 td:eq(1) li:eq(2)"],
-          "filters": ["parseFloat(query.text().trim().split('：')[1].split('/')[0])"]
+          "filters": [
+            "parseFloat(query.text().trim().split('：')[1].split('/')[0])"
+          ]
         },
         "uploads": {
           "selector": ["#9 td:eq(1) li:eq(4)"],
-          "filters": ["parseInt(query.text().trim().split('：')[1].split('/')[0])"]
+          "filters": [
+            "parseInt(query.text().trim().split('：')[1].split('/')[0])"
+          ]
         }
       }
     },
@@ -279,5 +288,5 @@
       }
     }
   },
-  "cdn": ["https://tjupt.org/","https://www.tjupt.org/"]
+  "cdn": ["https://tjupt.org/", "https://www.tjupt.org/"]
 }

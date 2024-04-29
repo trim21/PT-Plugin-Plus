@@ -52,14 +52,14 @@ import Vue from "vue";
 import SearchBox from "./SearchBox.vue";
 export default Vue.extend({
   props: {
-    value: Boolean
+    value: Boolean,
   },
   components: {
-    SearchBox
+    SearchBox,
   },
   model: {
     prop: "value",
-    event: "change"
+    event: "change",
   },
   watch: {
     drawer() {
@@ -67,7 +67,7 @@ export default Vue.extend({
     },
     value() {
       this.drawer = this.value;
-    }
+    },
   },
   data() {
     return {
@@ -77,11 +77,11 @@ export default Vue.extend({
         help: "使用帮助",
         github: "访问 Github",
         showNewTorrents: "浏览各站首页种子",
-        showNewTorrentsTip: "根据当前方案，搜索各站的首页种子"
+        showNewTorrentsTip: "根据当前方案，搜索各站的首页种子",
       },
       drawer: this.$store.state.options.navBarIsOpen,
-      baseColor: "amber"
+      baseColor: "amber",
     };
-  }
+  },
 });
 </script>

@@ -1,13 +1,12 @@
 ---
 name: 新站点请求
 about: 发起一个新站点支持请求
-title: ''
-labels: 'New Tracker'
-assignees: ''
-
+title: ""
+labels: "New Tracker"
+assignees: ""
 ---
 
-<!-- 
+<!--
 1、在发起请求前，请先确认是否在已支持的架构内；
 2、如果在已支持的架构内，本主题将会被视为无效并关闭；
 3、如果您是开发者，请按 https://github.com/pt-plugins/PT-Plugin-Plus/wiki/developer 文档适配并提交PR；
@@ -20,9 +19,7 @@ assignees: ''
 - 站点地址：
 - 站点描述：
 
-
 - 资源类型：
 - 开放注册：是/否
 - 是否连坐：是/否
 - 站点规则：
-

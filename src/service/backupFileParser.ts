@@ -9,7 +9,7 @@ import {
   EEncryptMode,
   Options,
   ERestoreError,
-  IBackupRawData
+  IBackupRawData,
 } from "@/interface/common";
 import { PPF } from "./public";
 
@@ -25,7 +25,7 @@ export class BackupFileParser {
     let result: IHashData = {
       hash: "",
       keyMap: [],
-      length
+      length,
     };
 
     for (let n = 0; n < 32; n++) {
@@ -71,7 +71,7 @@ export class BackupFileParser {
           checkInfo: this.createHash(options + userData),
           version: PPF.getVersion(),
           time: new Date().getTime(),
-          encryptMode: secretKey ? EEncryptMode.AES : ""
+          encryptMode: secretKey ? EEncryptMode.AES : "",
         };
         zip.file("manifest.json", JSON.stringify(manifest));
 
@@ -79,7 +79,7 @@ export class BackupFileParser {
         if (rawData.collection) {
           zip.file(
             "collection.json",
-            this.encryptData(rawData.collection, secretKey)
+            this.encryptData(rawData.collection, secretKey),
           );
         }
 
@@ -87,7 +87,7 @@ export class BackupFileParser {
         if (rawData.cookies) {
           zip.file(
             "cookies.json",
-            this.encryptData(rawData.cookies, secretKey)
+            this.encryptData(rawData.cookies, secretKey),
           );
         }
 
@@ -95,7 +95,7 @@ export class BackupFileParser {
         if (rawData.searchResultSnapshot) {
           zip.file(
             "searchResultSnapshot.json",
-            this.encryptData(rawData.searchResultSnapshot, secretKey)
+            this.encryptData(rawData.searchResultSnapshot, secretKey),
           );
         }
 
@@ -103,7 +103,7 @@ export class BackupFileParser {
         if (rawData.keepUploadTask) {
           zip.file(
             "keepUploadTask.json",
-            this.encryptData(rawData.keepUploadTask, secretKey)
+            this.encryptData(rawData.keepUploadTask, secretKey),
           );
         }
 
@@ -111,7 +111,7 @@ export class BackupFileParser {
         if (rawData.downloadHistory) {
           zip.file(
             "downloadHistory.json",
-            this.encryptData(rawData.downloadHistory, secretKey)
+            this.encryptData(rawData.downloadHistory, secretKey),
           );
         }
 
@@ -122,8 +122,8 @@ export class BackupFileParser {
             compression: "DEFLATE",
             // level 范围： 1-9 ，9为最高压缩比
             compressionOptions: {
-              level: 9
-            }
+              level: 9,
+            },
           })
           .then((blob: any) => {
             resolve(blob);
@@ -143,11 +143,11 @@ export class BackupFileParser {
   public loadZipData(
     data: any,
     secretKeyTitle: string = "请输入密钥：",
-    secretKey: string = ""
+    secretKey: string = "",
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       JSZip.loadAsync(data)
-        .then(zip => {
+        .then((zip) => {
           let requests: any[] = [];
           requests.push(zip.file("manifest.json")!.async("text"));
           requests.push(zip.file("options.json")!.async("text"));
@@ -175,7 +175,7 @@ export class BackupFileParser {
 
           return Promise.all(requests);
         })
-        .then(results => {
+        .then((results) => {
           const manifest: IManifest = JSON.parse(results[0]);
 
           console.log(manifest);
@@ -210,7 +210,7 @@ export class BackupFileParser {
           const result: Dictionary<any> = {
             manifest,
             options: this.decryptData(results[1], secretKey),
-            datas: this.decryptData(results[2], secretKey)
+            datas: this.decryptData(results[2], secretKey),
           };
 
           if (results.length > 3) {
@@ -224,7 +224,7 @@ export class BackupFileParser {
           if (results.length > 5) {
             result["searchResultSnapshot"] = this.decryptData(
               results[5],
-              secretKey
+              secretKey,
             );
           }
 
@@ -242,7 +242,7 @@ export class BackupFileParser {
             reject("error");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           reject(error);
         });

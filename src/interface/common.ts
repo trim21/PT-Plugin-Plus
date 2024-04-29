@@ -13,7 +13,7 @@ import {
   EWorkingStatus,
   EEncryptMode,
   ETorrentStatus,
-  ERequestType
+  ERequestType,
 } from "./enum";
 
 /**
@@ -483,7 +483,7 @@ export interface SearchEntryConfig {
   entry?: string;
   resultType?: ERequestResultType;
   // don't encode the key, for some json post API. e.g. TNode
-  keepOriginKey?: boolean
+  keepOriginKey?: boolean;
   requestDataType?: ERequestType;
   queryString?: string;
   parseScriptFile?: string;
@@ -721,7 +721,7 @@ export const BASE_COLORS = [
   "brown",
   "blue-grey",
   "grey",
-  "black"
+  "black",
 ];
 
 /**
@@ -751,7 +751,7 @@ export const BASE_TAG_COLORS: Dictionary<any> = {
   // 仅 VIP 可下载
   VIP: "orange darken-2",
   // 禁止转载
-  "⛔️": "deep-orange darken-1"
+  "⛔️": "deep-orange darken-1",
 };
 
 export interface ICookies {

@@ -26,7 +26,7 @@ export default class Collection {
       this.storage.get(this.configKey, (result: any) => {
         let data = {
           groups: [] as ICollectionGroup[],
-          items: [] as ICollection[]
+          items: [] as ICollection[],
         };
 
         if (Array.isArray(result)) {
@@ -80,9 +80,9 @@ export default class Collection {
       let saveData = Object.assign(
         {
           time: new Date().getTime(),
-          site: null
+          site: null,
         },
-        newItem
+        newItem,
       );
 
       let movieInfo = Object.assign({}, saveData.movieInfo);
@@ -97,12 +97,12 @@ export default class Collection {
       if (movieInfo.imdbId || movieInfo.doubanId) {
         // 获取影片信息
         this.getMoviceInfo(movieInfo.imdbId, movieInfo.doubanId)
-          .then(result => {
+          .then((result) => {
             saveData.movieInfo = result;
             this.push(saveData);
             resolve(this.items);
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
             this.push(saveData);
             resolve(this.items);
@@ -116,7 +116,7 @@ export default class Collection {
 
   private getMoviceInfo(
     imdbId: string = "",
-    doubanId: string = ""
+    doubanId: string = "",
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let movieId = imdbId;
@@ -128,7 +128,7 @@ export default class Collection {
 
       // 获取影片信息
       fn.call(this.movieInfoService, movieId)
-        .then(result => {
+        .then((result) => {
           // 保留数字ID
           let movieInfo = {
             imdbId,
@@ -138,7 +138,7 @@ export default class Collection {
             title: result.title,
             link: result.mobile_link || result.share_url,
             alt_title: result.alt_title || result.original_title,
-            year: result.year
+            year: result.year,
           };
           if (!result.year && result.attrs) {
             movieInfo.year = result.attrs.year[0];
@@ -146,7 +146,7 @@ export default class Collection {
 
           resolve(movieInfo);
         })
-        .catch(error => {
+        .catch((error) => {
           reject();
         });
     });
@@ -161,7 +161,7 @@ export default class Collection {
       this.updateGroupCount();
       this.storage.set(this.configKey, {
         groups: this.groups,
-        items: this.items
+        items: this.items,
       });
     }
   }
@@ -189,13 +189,13 @@ export default class Collection {
           if (movieInfo.imdbId || movieInfo.doubanId) {
             // 获取影片信息
             this.getMoviceInfo(movieInfo.imdbId, movieInfo.doubanId)
-              .then(result => {
+              .then((result) => {
                 item.movieInfo = result;
                 this.items[index] = item;
                 this.updateData();
                 resolve(this.items);
               })
-              .catch(error => {
+              .catch((error) => {
                 console.log(error);
                 this.updateData();
                 resolve(this.items);
@@ -214,7 +214,7 @@ export default class Collection {
     this.updateGroupCount();
     this.storage.set(this.configKey, {
       groups: this.groups,
-      items: this.items
+      items: this.items,
     });
   }
 
@@ -245,7 +245,7 @@ export default class Collection {
         this.updateGroupCount();
         this.storage.set(this.configKey, {
           groups: this.groups,
-          items: this.items
+          items: this.items,
         });
         resolve(this.items);
       });
@@ -303,11 +303,11 @@ export default class Collection {
 
       this.storage.set(this.configKey, {
         groups: this.groups,
-        items: this.items
+        items: this.items,
       });
       resolve({
         groups: this.groups,
-        items: this.items
+        items: this.items,
       });
     });
   }
@@ -321,15 +321,15 @@ export default class Collection {
       let saveData = Object.assign(
         {
           id: PPF.getNewId().substr(0, 8),
-          update: new Date().getTime()
+          update: new Date().getTime(),
         },
-        newItem
+        newItem,
       );
 
       this.groups.push(saveData);
       this.storage.set(this.configKey, {
         groups: this.groups,
-        items: this.items
+        items: this.items,
       });
       resolve(this.groups);
     });
@@ -340,7 +340,7 @@ export default class Collection {
    * @param items 需要删除的列表
    */
   public removeGroup(
-    datas: ICollectionGroup | ICollectionGroup[]
+    datas: ICollectionGroup | ICollectionGroup[],
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       let items: ICollectionGroup[] = [];
@@ -377,7 +377,7 @@ export default class Collection {
         this.updateGroupCount();
         this.storage.set(this.configKey, {
           groups: this.groups,
-          items: this.items
+          items: this.items,
         });
         resolve(this.groups);
       });
@@ -399,7 +399,7 @@ export default class Collection {
         }
         this.storage.set(this.configKey, {
           groups: this.groups,
-          items: this.items
+          items: this.items,
         });
         resolve(this.groups);
       });

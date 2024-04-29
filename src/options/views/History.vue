@@ -39,7 +39,7 @@
         class="elevation-1"
       >
         <template slot="items" slot-scope="props">
-          <td style="width:20px;">
+          <td style="width: 20px">
             <v-checkbox
               v-model="props.selected"
               primary
@@ -47,7 +47,7 @@
             ></v-checkbox>
           </td>
           <!-- 站点 -->
-          <td style="text-align: center;">
+          <td style="text-align: center">
             <div v-if="!!props.item.site">
               <v-avatar size="18">
                 <img :src="props.item.site.icon" />
@@ -106,7 +106,7 @@
             <DownloadTo
               :downloadOptions="{
                 host: props.item.host,
-                url: props.item.data.url
+                url: props.item.data.url,
               }"
               flat
               icon
@@ -173,7 +173,7 @@ import DownloadTo from "@/options/components/DownloadTo.vue";
 const extension = new Extension();
 export default Vue.extend({
   components: {
-    DownloadTo
+    DownloadTo,
   },
   data() {
     return {
@@ -182,7 +182,7 @@ export default Vue.extend({
       pagination: {
         rowsPerPage: 10,
         sortBy: "time",
-        descending: true
+        descending: true,
       },
       items: [] as any[],
       dialogRemoveConfirm: false,
@@ -192,7 +192,7 @@ export default Vue.extend({
       haveSuccess: false,
       successMsg: "",
       siteCache: {} as Dictionary<any>,
-      filterKey: ""
+      filterKey: "",
     };
   },
 
@@ -212,8 +212,8 @@ export default Vue.extend({
         if (
           confirm(
             this.$t("common.removeSelectedConfirm", {
-              count: this.selected.length
-            }).toString()
+              count: this.selected.length,
+            }).toString(),
           )
         ) {
           this.remove(this.selected);
@@ -299,7 +299,7 @@ export default Vue.extend({
 
     onSuccess(msg: string) {
       this.successMsg = msg;
-    }
+    },
   },
 
   created() {
@@ -313,27 +313,27 @@ export default Vue.extend({
           text: this.$t("history.headers.site"),
           align: "center",
           value: "data.host",
-          width: "140px"
+          width: "140px",
         },
         {
           text: this.$t("history.headers.title"),
           align: "left",
-          value: "data.title"
+          value: "data.title",
         },
         {
           text: this.$t("history.headers.status"),
           align: "left",
-          value: "data.success"
+          value: "data.success",
         },
         { text: this.$t("history.headers.time"), align: "left", value: "time" },
         {
           text: this.$t("history.headers.action"),
           value: "name",
-          sortable: false
-        }
+          sortable: false,
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

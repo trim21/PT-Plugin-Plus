@@ -1,8 +1,16 @@
 if (!"".getQueryString) {
-  String.prototype.getQueryString = function(name, split) {
+  String.prototype.getQueryString = function (name, split) {
     if (split == undefined) split = "&";
     var reg = new RegExp(
-        "(^|" + split + "|\\?)" + name + "=([^" + split + "]*)(" + split + "|$)"
+        "(^|" +
+          split +
+          "|\\?)" +
+          name +
+          "=([^" +
+          split +
+          "]*)(" +
+          split +
+          "|$)",
       ),
       r;
     if ((r = this.match(reg))) return decodeURI(r[2]);
@@ -10,7 +18,7 @@ if (!"".getQueryString) {
   };
 }
 
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -65,12 +73,8 @@ if (!"".getQueryString) {
               "/" +
               torrent.Resolution,
             subTitle: torrent.ReleaseName,
-            link: `${site.url}torrents.php?id=${row.GroupId}&torrentid=${
-              torrent.Id
-            }`,
-            url: `${site.url}torrents.php?action=download&id=${
-              torrent.Id
-            }&authkey=${authkey}&torrent_pass=${passkey}`,
+            link: `${site.url}torrents.php?id=${row.GroupId}&torrentid=${torrent.Id}`,
+            url: `${site.url}torrents.php?action=download&id=${torrent.Id}&authkey=${authkey}&torrent_pass=${passkey}`,
             size: parseFloat(torrent.Size),
             time: torrent.UploadTime,
             author: "",
@@ -81,7 +85,7 @@ if (!"".getQueryString) {
             site: site,
             tags: null,
             entryName: options.entry.name,
-            category: "Movie"
+            category: "Movie",
           };
           results.push(data);
         }

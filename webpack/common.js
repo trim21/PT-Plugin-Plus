@@ -26,7 +26,7 @@ module.exports = {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
-          name: "libs"
+          name: "libs",
         },
         // 公用模块
         default: {
@@ -34,9 +34,9 @@ module.exports = {
           minChunks: 2,
           priority: -20,
           reuseExistingChunk: true,
-          name: "utils"
-        }
-      }
+          name: "utils",
+        },
+      },
     },
     // 打包为 Chrome 商店版时不对代码进行压缩混淆
     minimize: !process.env.CHROME_WEB_STORE,
@@ -44,17 +44,17 @@ module.exports = {
       new TerserPlugin({
         // 防止因编码问题导致Chrome无法加载插件
         terserOptions: {
-          output: { ascii_only: true }
-        }
-      })
-    ]
+          output: { ascii_only: true },
+        },
+      }),
+    ],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: "ts-loader",
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.scss$/,
@@ -64,26 +64,26 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
-              implementation: require("sass")
-            }
+              implementation: require("sass"),
+            },
           },
-          "postcss-loader"
-        ]
+          "postcss-loader",
+        ],
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader", "postcss-loader"]
-      }
-    ]
+        use: ["style-loader", "css-loader", "postcss-loader"],
+      },
+    ],
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
     alias: {
-      "@": resolve("src")
-    }
+      "@": resolve("src"),
+    },
   },
   // 防止一些模块中使用了fs时无法编译的错误
   node: {
-    fs: "empty"
-  }
+    fs: "empty",
+  },
 };

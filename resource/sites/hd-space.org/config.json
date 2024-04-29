@@ -6,11 +6,13 @@
   "icon": "https://hd-space.org/favicon.ico",
   "tags": ["影视"],
   "schema": "Common",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["/index.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["/index.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+    }
+  ],
   "host": "hd-space.org",
   "searchEntryConfig": {
     "page": "/index.php?page=torrents",
@@ -18,52 +20,66 @@
     "resultType": "html",
     "resultSelector": "#bodyarea > table > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(3) > td > table > tbody > tr:not(:first-child)",
     "dataRowSelector": " > tbody > tr:not(:first-child)",
-    "area": [{
-      "name": "IMDB",
-      "keyAutoMatch": "^(tt\\d+)$",
-      "replaceKey": [
-        "tt", "IMDB"
-      ]
-    }],
+    "area": [
+      {
+        "name": "IMDB",
+        "keyAutoMatch": "^(tt\\d+)$",
+        "replaceKey": ["tt", "IMDB"]
+      }
+    ],
     "fieldIndex": {
-	    "category": 0,
-	    "title": 1,
-	    "link": 1,
-	    "url": 3,
-        "comments": 2,
-        "time": 4,
-        "size": 5,
-        "author": 6,
-        "seeders": 7,
-        "leechers": 8,
-        "completed”=": 9
-	},
-	"fieldSelector": {
-	  "title": {
-		"selector": [""],
-        "filters": ["query.get(0).firstChild", "query.nodeValue||query.innerText||0"]
-	  },
-	  "link": {
-		"selector": [""],
-        "filters": ["query.children().attr('href')", "'https://hd-space.org/'+query"]
-	  },
-	  "url": {
-		"selector": [""],
-        "filters": ["query.children().attr('href')", "'https://hd-space.org/'+query"]
-	  }
-	}
+      "category": 0,
+      "title": 1,
+      "link": 1,
+      "url": 3,
+      "comments": 2,
+      "time": 4,
+      "size": 5,
+      "author": 6,
+      "seeders": 7,
+      "leechers": 8,
+      "completed”=": 9
+    },
+    "fieldSelector": {
+      "title": {
+        "selector": [""],
+        "filters": [
+          "query.get(0).firstChild",
+          "query.nodeValue||query.innerText||0"
+        ]
+      },
+      "link": {
+        "selector": [""],
+        "filters": [
+          "query.children().attr('href')",
+          "'https://hd-space.org/'+query"
+        ]
+      },
+      "url": {
+        "selector": [""],
+        "filters": [
+          "query.children().attr('href')",
+          "'https://hd-space.org/'+query"
+        ]
+      }
+    }
   },
-  "searchEntry": [{
-    "name": "全部",
-    "enabled": true
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "img[src='gold/gold.png'], img[src='images/sf.png']"
-  }, {
-    "name": "50%",
-    "selector": "img[src='gold/silver.png']"
-  }],
+  "searchEntry": [
+    {
+      "name": "全部",
+      "enabled": true
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "img[src='gold/gold.png'], img[src='images/sf.png']"
+    },
+    {
+      "name": "50%",
+      "selector": "img[src='gold/silver.png']"
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/index.php",
@@ -82,33 +98,46 @@
         },
         "messageCount": {
           "selector": ["a[href*='do=pm']"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         },
         "uploaded": {
           "selector": ["td.green:contains('UP')"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "downloaded": {
           "selector": ["td.red:contains('DL')"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "ratio": {
           "selector": "td.yellow:contains('Ratio')",
           "filters": ["parseFloat(query.text().replace(' Ratio: ',''))"]
-        }, 
+        },
         "levelName": {
-          "selector": ["td[align='center'][style='text-align:center;']:contains('Rank')"],
-          "filters":  ["query.text().replace('Rank: ','')"]
+          "selector": [
+            "td[align='center'][style='text-align:center;']:contains('Rank')"
+          ],
+          "filters": ["query.text().replace('Rank: ','')"]
         },
         "bonus": {
           "selector": ["td.green:contains('Bonus')"],
           "filters": ["query.text().replace('Bonus: ','')"]
         },
         "seeding": {
-	      "selector": ["#menu + table > tbody > tr > td:nth-child(4) b > font:nth-child(2)"]
+          "selector": [
+            "#menu + table > tbody > tr > td:nth-child(4) b > font:nth-child(2)"
+          ]
         },
         "seedingSize": {
-	      "value": -1
+          "value": -1
         }
       }
     },
@@ -117,12 +146,15 @@
       "fields": {
         "joinTime": {
           "selector": ["td.header:contains('Joined on') + td"],
-          "filters": ["query[0].innerHTML.replace('&nbsp;', '').replace('&nbsp;', '')", "dateTime(query).valueOf()"]
+          "filters": [
+            "query[0].innerHTML.replace('&nbsp;', '').replace('&nbsp;', '')",
+            "dateTime(query).valueOf()"
+          ]
         }
       }
     },
     "common": {
-	  "page": "/index.php?page=torrent-details",
+      "page": "/index.php?page=torrent-details",
       "merge": true,
       "fields": {
         "downloadURL": {
@@ -131,7 +163,10 @@
         },
         "size": {
           "selector": ["td.header:contains('Size') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "sayThanksButton": {
           "selector": ["#ty"],

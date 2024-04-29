@@ -13,7 +13,9 @@
             <v-avatar>
               <v-icon>account_circle</v-icon>
             </v-avatar>
-            <div class="title">{{ displayUserName || infos.nameInfo.name }}</div>
+            <div class="title">
+              {{ displayUserName || infos.nameInfo.name }}
+            </div>
           </v-chip>
           <v-spacer></v-spacer>
           <v-btn
@@ -36,54 +38,132 @@
           >
             <v-icon>close</v-icon>
           </v-btn>
-          <v-progress-circular indeterminate :width="3" size="30" color="green" v-if="shareing" class="by_pass_canvas"></v-progress-circular>
+          <v-progress-circular
+            indeterminate
+            :width="3"
+            size="30"
+            color="green"
+            v-if="shareing"
+            class="by_pass_canvas"
+          ></v-progress-circular>
         </v-card-actions>
 
         <v-card-title primary-title>
           <div class="headline font-weight-bold">
-            <div>{{ $t('timeline.total.uploaded') }}{{ infos.total.uploaded | formatSize }}</div>
-            <div>{{ $t('timeline.total.downloaded') }}{{ infos.total.downloaded | formatSize }}</div>
-            <div>{{ $t('timeline.total.seedingSize') }}{{ infos.total.seedingSize | formatSize }} ({{ infos.total.seeding }})</div>
-            <div>{{ $t('timeline.total.ratio') }}{{ infos.total.ratio | formatRatio }}</div>
-            <div>{{ $t('timeline.total.years', {year: infos.joinTimeInfo.years}) }}</div>
+            <div>
+              {{ $t("timeline.total.uploaded")
+              }}{{ infos.total.uploaded | formatSize }}
+            </div>
+            <div>
+              {{ $t("timeline.total.downloaded")
+              }}{{ infos.total.downloaded | formatSize }}
+            </div>
+            <div>
+              {{ $t("timeline.total.seedingSize")
+              }}{{ infos.total.seedingSize | formatSize }} ({{
+                infos.total.seeding
+              }})
+            </div>
+            <div>
+              {{ $t("timeline.total.ratio")
+              }}{{ infos.total.ratio | formatRatio }}
+            </div>
+            <div>
+              {{
+                $t("timeline.total.years", { year: infos.joinTimeInfo.years })
+              }}
+            </div>
           </div>
         </v-card-title>
         <v-card-text>
           <v-divider></v-divider>
-          <div style="text-align:center;">
+          <div style="text-align: center">
             <div
               class="headline font-weight-bold mt-2"
               @click.stop="changeShareMessage"
-            >... {{ shareMessage }} ...</div>
-            <div
-              style="color:#b5b5b5;"
-            >({{ $t('timeline.updateat') }}{{ options.autoRefreshUserDataLastTime | formatDate('YYYY-MM-DD HH:mm:ss') }})</div>
+            >
+              ... {{ shareMessage }} ...
+            </div>
+            <div style="color: #b5b5b5">
+              ({{ $t("timeline.updateat")
+              }}{{
+                options.autoRefreshUserDataLastTime
+                  | formatDate("YYYY-MM-DD HH:mm:ss")
+              }})
+            </div>
           </div>
 
           <v-timeline class="my-2">
-            <v-timeline-item v-for="(site, i) in datas" :key="i" color="transparent" large>
+            <v-timeline-item
+              v-for="(site, i) in datas"
+              :key="i"
+              color="transparent"
+              large
+            >
               <template v-slot:icon>
                 <v-avatar size="38">
-                  <img v-if="site.icon" :src="site.icon" :class="{'icon-blur': blurSiteIcon}"/>
+                  <img
+                    v-if="site.icon"
+                    :src="site.icon"
+                    :class="{ 'icon-blur': blurSiteIcon }"
+                  />
                 </v-avatar>
               </template>
               <template v-slot:opposite>
-                <div class="headline font-weight-bold">{{ site.user.joinTime | timeAgo }}</div>
+                <div class="headline font-weight-bold">
+                  {{ site.user.joinTime | timeAgo }}
+                </div>
                 <div class="caption">
-                  <span v-if="showUserName" class="mr-2">{{ site.user.name }}</span>
-                  <span v-if="showUserLevel">&lt;{{ site.user.levelName }}&gt;</span>
-                  <span v-if="site.user.id && site.user.id.length > 0 && showUid">&lt;{{ site.user.id }}&gt;</span>
+                  <span v-if="showUserName" class="mr-2">{{
+                    site.user.name
+                  }}</span>
+                  <span v-if="showUserLevel"
+                    >&lt;{{ site.user.levelName }}&gt;</span
+                  >
+                  <span
+                    v-if="site.user.id && site.user.id.length > 0 && showUid"
+                    >&lt;{{ site.user.id }}&gt;</span
+                  >
                 </div>
               </template>
               <div>
-                <v-divider v-if="i>0" class="mb-2"></v-divider>
-                <div class="headline font-weight-light mb-2" v-if="showSiteName">{{ site.name }}</div>
-                <div>{{ $t('timeline.user.uploaded') }}{{ site.user.uploaded | formatSize}}</div>
-                <div>{{ $t('timeline.user.downloaded') }}{{ site.user.downloaded | formatSize }}</div>
-                <div>{{ $t('timeline.user.ratio') }}{{ site.user.ratio | formatRatio }}</div>
-                <div>{{ $t('timeline.user.seedingSize') }}{{ site.user.seedingSize | formatSize }} ({{ site.user.seeding }})</div>
-                <div>{{ $t('timeline.user.bonus') }}{{ site.user.bonus | formatNumber }}</div>
-                <div v-if="site.user.bonusPerHour && site.user.bonusPerHour != 'N/A'">{{ $t('timeline.user.bonusPerHour') }}{{ site.user.bonusPerHour | formatNumber }}</div>
+                <v-divider v-if="i > 0" class="mb-2"></v-divider>
+                <div
+                  class="headline font-weight-light mb-2"
+                  v-if="showSiteName"
+                >
+                  {{ site.name }}
+                </div>
+                <div>
+                  {{ $t("timeline.user.uploaded")
+                  }}{{ site.user.uploaded | formatSize }}
+                </div>
+                <div>
+                  {{ $t("timeline.user.downloaded")
+                  }}{{ site.user.downloaded | formatSize }}
+                </div>
+                <div>
+                  {{ $t("timeline.user.ratio")
+                  }}{{ site.user.ratio | formatRatio }}
+                </div>
+                <div>
+                  {{ $t("timeline.user.seedingSize")
+                  }}{{ site.user.seedingSize | formatSize }} ({{
+                    site.user.seeding
+                  }})
+                </div>
+                <div>
+                  {{ $t("timeline.user.bonus")
+                  }}{{ site.user.bonus | formatNumber }}
+                </div>
+                <div
+                  v-if="
+                    site.user.bonusPerHour && site.user.bonusPerHour != 'N/A'
+                  "
+                >
+                  {{ $t("timeline.user.bonusPerHour")
+                  }}{{ site.user.bonusPerHour | formatNumber }}
+                </div>
               </div>
             </v-timeline-item>
           </v-timeline>
@@ -91,8 +171,10 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <span>{{ shareTime | formatDate('YYYY-MM-DD HH:mm:ss') }}</span>
-          <span class="ml-1">Created By {{ $t('app.name') }} {{ version }}</span>
+          <span>{{ shareTime | formatDate("YYYY-MM-DD HH:mm:ss") }}</span>
+          <span class="ml-1"
+            >Created By {{ $t("app.name") }} {{ version }}</span
+          >
         </v-card-actions>
       </v-card>
     </div>
@@ -105,10 +187,10 @@
         class="my-0"
       ></v-switch>
       <v-switch
-          color="success"
-          v-model="blurSiteIcon"
-          :label="$t('timeline.blurSiteIcon')"
-          class="my-0"
+        color="success"
+        v-model="blurSiteIcon"
+        :label="$t('timeline.blurSiteIcon')"
+        class="my-0"
       ></v-switch>
       <v-switch
         color="success"
@@ -129,17 +211,17 @@
         class="my-0"
       ></v-switch>
       <v-divider />
-      <h1 style="padding: 5px;">{{ $t('timeline.showSites') }}</h1>
+      <h1 style="padding: 5px">{{ $t("timeline.showSites") }}</h1>
       <v-layout justify-start row wrap>
         <v-flex v-for="(site, i) in sites" :key="i" xs3>
           <v-switch
-                  color="success"
-                  v-model="showSites"
-                  :label="site.name"
-                  :value="site.name"
-                  class="my-0"
-                  :disabled="!site.allowGetUserInfo"
-                  @change="formatData"
+            color="success"
+            v-model="showSites"
+            :label="site.name"
+            :value="site.name"
+            class="my-0"
+            :disabled="!site.allowGetUserInfo"
+            @change="formatData"
           ></v-switch>
         </v-flex>
       </v-layout>
@@ -150,7 +232,7 @@
 import Vue from "vue";
 import { Site, Dictionary, EAction, Options } from "@/interface/common";
 import FileSaver from "file-saver";
-import domtoimage from 'dom-to-image';
+import domtoimage from "dom-to-image";
 import Extension from "@/service/extension";
 import dayjs from "dayjs";
 import { PPF } from "@/service/public";
@@ -169,23 +251,23 @@ export default Vue.extend({
         joinTimeInfo: {
           site: {} as Site,
           time: new Date().getTime(),
-          years: 0 as number | string
+          years: 0 as number | string,
         },
         maxUploadedInfo: {
           site: {} as Site,
-          maxValue: 0
+          maxValue: 0,
         },
         maxSeedingInfo: {
           site: {} as Site,
-          maxValue: 0
+          maxValue: 0,
         },
         total: {
           uploaded: 0,
           downloaded: 0,
           seedingSize: 0,
           ratio: -1,
-          seeding: 0
-        }
+          seeding: 0,
+        },
       },
       options: this.$store.state.options as Options,
       version: "",
@@ -197,7 +279,7 @@ export default Vue.extend({
       showUserLevel: true,
       showUid: true,
       blurSiteIcon: true,
-      iconCache: {} as Dictionary<any>
+      iconCache: {} as Dictionary<any>,
     };
   },
   created() {
@@ -224,8 +306,12 @@ export default Vue.extend({
             this.displayUserName = this.options.displayUserName;
           }
           this.showSites = this.sites
-                  .filter((site: Site) => {return site.allowGetUserInfo})
-                  .map((site: Site) => {return site.name});  //  只提取站点名称
+            .filter((site: Site) => {
+              return site.allowGetUserInfo;
+            })
+            .map((site: Site) => {
+              return site.name;
+            }); //  只提取站点名称
           this.formatData();
         })
         .catch();
@@ -238,7 +324,7 @@ export default Vue.extend({
         downloaded: 0,
         seedingSize: 0,
         ratio: -1,
-        seeding: 0
+        seeding: 0,
       };
 
       let sites: Site[] = [];
@@ -252,11 +338,11 @@ export default Vue.extend({
         if (!this.showSites.includes(site.name)) {
           return;
         }
- 
+
         let user = site.user;
         if (user && user.name && user.joinTime) {
-          user.joinTime = PPF.transformTime(user.joinTime, site.timezoneOffset);  //add by pxwang for gpw jointime error
-          
+          user.joinTime = PPF.transformTime(user.joinTime, site.timezoneOffset); //add by pxwang for gpw jointime error
+
           sites.push(site);
           if (!userNames[user.name]) {
             userNames[user.name] = 0;
@@ -315,7 +401,6 @@ export default Vue.extend({
 
       // 按加入时间排序
       this.datas = sites.sort((a, b) => {
-        
         if (!a.user || !b.user) {
           return 0;
         }
@@ -357,20 +442,22 @@ export default Vue.extend({
       this.formatData();
       setTimeout(() => {
         let div = this.$refs.userDataCard as HTMLDivElement;
-        domtoimage.toBlob(div, {
-          filter: (node) => {
-            if (node.nodeType === 1) {
-              return !(node as Element).classList.contains('by_pass_canvas')
-            }
+        domtoimage
+          .toBlob(div, {
+            filter: (node) => {
+              if (node.nodeType === 1) {
+                return !(node as Element).classList.contains("by_pass_canvas");
+              }
 
-            return true
-          }
-        }).then((blob: any) => {
-          if (blob) {
-            FileSaver.saveAs(blob, "PT-Plugin-Plus-UserData.png");
-          }
-          this.shareing = false;
-        });
+              return true;
+            },
+          })
+          .then((blob: any) => {
+            if (blob) {
+              FileSaver.saveAs(blob, "PT-Plugin-Plus-UserData.png");
+            }
+            this.shareing = false;
+          });
       }, 500);
     },
 
@@ -390,11 +477,11 @@ export default Vue.extend({
           }
           extension
             .sendRequest(EAction.getBase64FromImageUrl, null, src)
-            .then(result => {
+            .then((result) => {
               this.iconCache[src] = result;
               $(el).attr("src", result);
             })
-            .catch(e => {
+            .catch((e) => {
               console.log(e);
             });
         }
@@ -407,12 +494,12 @@ export default Vue.extend({
     changeDisplayUserName() {
       let result = prompt(
         this.$t("timeline.inputDisplayName").toString(),
-        this.displayUserName
+        this.displayUserName,
       );
       if (result != null) {
         this.displayUserName = result;
         this.$store.dispatch("saveConfig", {
-          displayUserName: result
+          displayUserName: result,
         });
       }
     },
@@ -423,15 +510,15 @@ export default Vue.extend({
     changeShareMessage() {
       let result = prompt(
         this.$t("timeline.inputShareMessage").toString(),
-        this.shareMessage
+        this.shareMessage,
       );
       if (result != null) {
         this.shareMessage = result;
         this.$store.dispatch("saveConfig", {
-          shareMessage: result
+          shareMessage: result,
         });
       }
-    }
+    },
   },
   filters: {
     formatRatio(v: any) {
@@ -443,8 +530,8 @@ export default Vue.extend({
         return "-";
       }
       return number.toFixed(2);
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

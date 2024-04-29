@@ -14,16 +14,18 @@
     "parseScriptFile": "getSearchResult.js",
     "queryString": "searchstr=$key$&grouping=0&inallakas=1&json=noredirect"
   },
-  "searchEntry": [{
-    "name": "Normal",
-    "enabled": true
-  },
-  {
-    "name": "filelist",
-    "skipIMDbId": true,
-    "queryString":"filelist=$key$&grouping=0&json=noredirect",
-    "enabled": false
-  }],
+  "searchEntry": [
+    {
+      "name": "Normal",
+      "enabled": true
+    },
+    {
+      "name": "filelist",
+      "skipIMDbId": true,
+      "queryString": "filelist=$key$&grouping=0&json=noredirect",
+      "enabled": false
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/index.php",
@@ -42,7 +44,10 @@
         },
         "messageCount": {
           "selector": ["div.alert-bar a[href*='inbox.php']"],
-          "filters": ["query.text().replace(/\\s+/g,'').match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().replace(/\\s+/g,'').match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         }
       }
     },
@@ -59,27 +64,49 @@
         },
         "ratio": {
           "selector": "ul.list > li:contains('Ratio:')",
-          "filters": ["query.text().replace(/,|\\n|\\s+/g,'').match(/Ratio.+?([\\d.]+)/)", "(query && query.length>=2)?query[1]:null"]
+          "filters": [
+            "query.text().replace(/,|\\n|\\s+/g,'').match(/Ratio.+?([\\d.]+)/)",
+            "(query && query.length>=2)?query[1]:null"
+          ]
         },
         "seeding": {
           "selector": "ul.list > li:contains('Seeding:')",
-          "filters": ["query.text().trim().replace(/,|\\n/g,'').match(/:.+?([\\d.]+)/)", "(query && query.length>=2)?parseFloat(query[1]):null"]
+          "filters": [
+            "query.text().trim().replace(/,|\\n/g,'').match(/:.+?([\\d.]+)/)",
+            "(query && query.length>=2)?parseFloat(query[1]):null"
+          ]
         },
         "seedingSize": {
           "selector": "ul.list > li:contains('Seeding size:')",
-          "filters": ["query.text().trim().replace(/,/g,'').match(/:.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().trim().replace(/,/g,'').match(/:.+?([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         },
         "levelName": {
           "selector": "ul.list > li:contains('Class:')",
-          "filters": ["query.text().replace(/,|\\n|\\s+/g,'').match(/Class:(.+)/)", "(query && query.length>=2)?query[1]:''"]
+          "filters": [
+            "query.text().replace(/,|\\n|\\s+/g,'').match(/Class:(.+)/)",
+            "(query && query.length>=2)?query[1]:''"
+          ]
         },
         "bonus": {
-          "selector": ["ul.list > li:contains('Points:')", "div:contains('Stats') + ul.stats > li:contains('SeedBonus:')"],
-          "filters": ["query.text().replace(/,|\\n|\\s+/g,'')", "query.match(/Points.+?([\\d.]+)/)||query.match(/SeedBonus.+?([\\d.]+)/)", "(query && query.length>=2)?query[1]:0"]
+          "selector": [
+            "ul.list > li:contains('Points:')",
+            "div:contains('Stats') + ul.stats > li:contains('SeedBonus:')"
+          ],
+          "filters": [
+            "query.text().replace(/,|\\n|\\s+/g,'')",
+            "query.match(/Points.+?([\\d.]+)/)||query.match(/SeedBonus.+?([\\d.]+)/)",
+            "(query && query.length>=2)?query[1]:0"
+          ]
         },
         "joinTime": {
           "selector": ["ul.list > li:contains('Joined:') > span"],
-          "filters": ["query.attr('title')||query.text()", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "query.attr('title')||query.text()",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         }
       }
     },
@@ -89,12 +116,16 @@
       "fields": {
         "seedingList": {
           "selector": ["script:last"],
-          "filters": ["query.text()", "[...query.matchAll(/\"TorrentId\":(\\d+)/g)]", "jQuery.map(query, i=>i[1])"]
+          "filters": [
+            "query.text()",
+            "[...query.matchAll(/\"TorrentId\":(\\d+)/g)]",
+            "jQuery.map(query, i=>i[1])"
+          ]
         }
       }
     },
     "common": {
-	    "page": "/torrents.php",
+      "page": "/torrents.php",
       "fields": {
         "confirmSize": {
           "selector": ["tr.basic-movie-list__torrent-row > td:contains('iB')"],

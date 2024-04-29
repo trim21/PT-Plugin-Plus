@@ -5,10 +5,7 @@
   "url": "https://www.hddolby.com/",
   "description": "高清杜比",
   "icon": "https://www.hddolby.com/favicon.ico",
-  "tags": [
-    "影视",
-    "综合"
-  ],
+  "tags": ["影视", "综合"],
   "host": "hddolby.com",
   "levelRequirements": [
     {
@@ -88,17 +85,13 @@
   "searchEntryConfig": {
     "fieldSelector": {
       "progress": {
-        "selector": [
-          "> td:eq(8)"
-        ],
+        "selector": ["> td:eq(8)"],
         "filters": [
           "query.text()==='-'?null:parseFloat(query.text().split('%')[0])"
         ]
       },
       "status": {
-        "selector": [
-          "> td:eq(8)"
-        ],
+        "selector": ["> td:eq(8)"],
         "filters": [
           "query.text()==='-'?null:(query.is(\"[bgcolor='#CC0066']\")?1:(parseFloat(query.text().split('%')[0])==100?(query.is(\"[bgcolor='#d0d0d0']\")?255:2):3))"
         ]
@@ -223,12 +216,8 @@
       "merge": true,
       "fields": {
         "downloadURL": {
-          "selector": [
-            "a[href*='downhash']"
-          ],
-          "filters": [
-            "query.attr('href')"
-          ]
+          "selector": ["a[href*='downhash']"],
+          "filters": ["query.attr('href')"]
         }
       }
     }

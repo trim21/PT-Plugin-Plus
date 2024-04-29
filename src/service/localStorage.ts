@@ -16,7 +16,7 @@ export default class localStorage {
   public set(
     key: any,
     value?: any,
-    type: EStorageType = EStorageType.json
+    type: EStorageType = EStorageType.json,
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       if (this.isExtensionMode) {
@@ -40,7 +40,7 @@ export default class localStorage {
   public get(
     key: string,
     callback?: any,
-    type: EStorageType = EStorageType.json
+    type: EStorageType = EStorageType.json,
   ) {
     if (this.isExtensionMode) {
       chrome.storage.local.get(key, (result: any) => {

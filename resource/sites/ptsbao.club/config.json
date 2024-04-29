@@ -67,7 +67,7 @@
   ],
   "collaborator": ["laizony", "ted423"],
   "searchEntryConfig": {
-	"merge": true,
+    "merge": true,
     "fieldSelector": {
       "progress": {
         "selector": ["tr.finished,tr.seeders"],
@@ -75,10 +75,7 @@
       },
       "status": {
         "selector": ["tr.finished", "tr.seeders"],
-        "switchFilters": [
-        	["255"],
-        	["2"]
-        ]
+        "switchFilters": [["255"], ["2"]]
       }
     }
   },
@@ -87,8 +84,13 @@
       "merge": true,
       "fields": {
         "messageCount": {
-          "selector": ["td[style*='background: indigo'] a[href*='messages.php']"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "selector": [
+            "td[style*='background: indigo'] a[href*='messages.php']"
+          ],
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         }
       }
     },
@@ -97,7 +99,9 @@
       "fields": {
         "levelName": {
           "selector": ["td.rowhead:contains('等级') + td b b[class]"],
-          "filters": ["query.text().trim() + '(' + query.attr('class').replace('User_Name',' User') + ')'"]
+          "filters": [
+            "query.text().trim() + '(' + query.attr('class').replace('User_Name',' User') + ')'"
+          ]
         }
       }
     }

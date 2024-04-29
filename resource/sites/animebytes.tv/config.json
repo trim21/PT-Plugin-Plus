@@ -7,10 +7,7 @@
   "tags": ["动漫"],
   "schema": "",
   "host": "animebytes.tv",
-  "collaborator": [
-    "MewX",
-    "sabersalv"
-  ],
+  "collaborator": ["MewX", "sabersalv"],
   "supportedFeatures": {
     "userData": true,
     "search": true,
@@ -20,21 +17,11 @@
   "plugins": [
     {
       "name": "Custom Torrent List",
-      "pages": [
-        "/series.php",
-        "/torrents.php",
-        "/torrents2.php"
-      ],
-      "scripts": [
-        "/schemas/NexusPHP/common.js",
-        "userTorrents.js"
-      ]
+      "pages": ["/series.php", "/torrents.php", "/torrents2.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "userTorrents.js"]
     }
   ],
-  "securityKeyFields": [
-    "authkey",
-    "torrent_pass"
-  ],
+  "securityKeyFields": ["authkey", "torrent_pass"],
   "searchEntry": [
     {
       "entry": "/torrents.php?searchstr=$key$&force_default=1",
@@ -63,29 +50,44 @@
         },
         "messageCount": {
           "selector": [".alertbar.message a[href*='inbox.php']"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         }
       }
     },
     "userExtendInfo": {
       "page": "/user.php?id=$user.id$",
       "fields": {
-        "uploads":{
+        "uploads": {
           "selector": ["dt:contains('Torrents Uploaded:') + dd"],
-          "filters": ["query.text().replace(/,/g,'').match(/[\\d]+/)[0]", "parseInt(query)"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/[\\d]+/)[0]",
+            "parseInt(query)"
+          ]
         },
         "uploaded": {
           "selector": ["dt:contains('Uploaded:') + dd > span"],
-          "filters": ["query.attr('title').replace(/,/g,'')", "parseFloat(query)"]
+          "filters": [
+            "query.attr('title').replace(/,/g,'')",
+            "parseFloat(query)"
+          ]
         },
         "downloaded": {
           "selector": ["dt:contains('Downloaded:') + dd > span"],
-          "filters": ["query.attr('title').replace(/,/g,'')", "parseFloat(query)"]
+          "filters": [
+            "query.attr('title').replace(/,/g,'')",
+            "parseFloat(query)"
+          ]
         },
         "unsatisfieds": {
           "selector": ["ul.stats li:contains('H&Rs:')"],
           "attribute": "title",
-          "filters": ["query.replace(/,/g,'').match(/[\\d]+/g)", "query && query.length >= 2 ? parseInt(query[1]) : 0"]
+          "filters": [
+            "query.replace(/,/g,'').match(/[\\d]+/g)",
+            "query && query.length >= 2 ? parseInt(query[1]) : 0"
+          ]
         },
         "ratio": {
           "selector": ["dt:contains('Ratio:') + dd > span"],
@@ -113,7 +115,10 @@
         },
         "bonusPerHour": {
           "selector": ["dt:contains('Yen per day:') + dd"],
-          "filters": ["query.text().replace(/,/g,'').match(/[\\d.]+/)", "query ? parseFloat(query[0]) / 24 : 0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/[\\d.]+/)",
+            "query ? parseFloat(query[0]) / 24 : 0"
+          ]
         },
         "joinTime": {
           "selector": ["dt:contains('Joined:') + dd > span"],

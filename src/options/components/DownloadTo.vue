@@ -5,8 +5,8 @@
     :small="small"
     :loading="loading"
     @click.stop="showSiteContentMenus"
-    :class="[mini?'btn-mini':'']"
-    :title="title||$t('searchTorrent.sendToClientTip')"
+    :class="[mini ? 'btn-mini' : '']"
+    :title="title || $t('searchTorrent.sendToClientTip')"
     :color="color"
   >
     <v-icon v-if="haveSuccess" color="success" small>done</v-icon>
@@ -24,7 +24,7 @@ import {
   DownloadOptions,
   Site,
   EAction,
-  ICollection
+  ICollection,
 } from "@/interface/common";
 import { PathHandler } from "@/service/pathHandler";
 import Extension from "@/service/extension";
@@ -41,21 +41,21 @@ export default Vue.extend({
     color: String,
     iconText: {
       type: String,
-      default: "cloud_download"
+      default: "cloud_download",
     },
     downloadOptions: {
       type: [Object, Array],
       default: () => {
         return {
           host: String,
-          url: String
+          url: String,
         };
-      }
+      },
     },
     getOptionsOnly: Boolean,
     label: String,
     title: String,
-    payload: [Object, Array, String, Number]
+    payload: [Object, Array, String, Number],
   },
 
   data() {
@@ -67,7 +67,7 @@ export default Vue.extend({
       site: {} as Site,
       haveSuccess: false,
       haveError: false,
-      allContentMenus: [] as any[]
+      allContentMenus: [] as any[],
     };
   },
 
@@ -94,7 +94,7 @@ export default Vue.extend({
           results.push({
             client,
             path,
-            host
+            host,
           });
         });
       }
@@ -103,7 +103,7 @@ export default Vue.extend({
         clients.push({
           client: client,
           path: "",
-          host
+          host,
         });
 
         if (client.paths) {
@@ -182,13 +182,13 @@ export default Vue.extend({
           let title = this.$vuetify.breakpoint.xs
             ? item.client.name
             : this.$t("searchTorrent.downloadTo", {
-                path: `${item.client.name} -> ${item.client.address}`
+                path: `${item.client.name} -> ${item.client.address}`,
               });
 
           if (item.path) {
             title += ` ->${this.pathHandler.replacePathKey(
               item.path,
-              this.site
+              this.site,
             )}`;
           }
           menus.push({
@@ -204,28 +204,28 @@ export default Vue.extend({
                   tagIMDb: item.client.tagIMDb,
                   link: options.link,
                   clientId: item.client.id,
-                  imdbId: options.imdbId
+                  imdbId: options.imdbId,
                 };
 
                 if (this.getOptionsOnly) {
                   downloadOptions.savePath = this.pathHandler.getSavePath(
                     downloadOptions.savePath,
-                    this.site
+                    this.site,
                   );
                   this.$emit("itemClick", {
                     payload: this.payload,
                     downloadOptions: Object.assign(
                       {
-                        clientName: item.client.name
+                        clientName: item.client.name,
                       },
-                      downloadOptions
-                    )
+                      downloadOptions,
+                    ),
                   });
                   return;
                 }
                 this.sendToClient(downloadOptions);
               }
-            }
+            },
           });
         } else {
           menus.push({});
@@ -247,7 +247,7 @@ export default Vue.extend({
       function addMenu(item: any) {
         let title = _this
           .$t("searchTorrent.downloadTo", {
-            path: `${item.client.name} -> ${item.client.address}`
+            path: `${item.client.name} -> ${item.client.address}`,
           })
           .toString();
         if (item.path) {
@@ -257,7 +257,7 @@ export default Vue.extend({
           title: title,
           fn: () => {
             _this.sendTorrentsInBackground(item);
-          }
+          },
         });
       }
 
@@ -265,7 +265,7 @@ export default Vue.extend({
         this.options.clients.forEach((client: DownloadClient) => {
           clients.push({
             client: client,
-            path: ""
+            path: "",
           });
         });
         clients.forEach((item: any) => {
@@ -316,7 +316,7 @@ export default Vue.extend({
           autoStart: options.client.autoStart,
           tagIMDb: options.client.tagIMDb,
           link: item.link,
-          imdbId: item.imdbId
+          imdbId: item.imdbId,
         });
       });
 
@@ -345,7 +345,7 @@ export default Vue.extend({
       this.clearStatus();
       let savePath = this.pathHandler.getSavePath(
         downloadOptions.savePath,
-        this.site
+        this.site,
       );
       // 取消
       if (savePath === false) {
@@ -382,7 +382,7 @@ export default Vue.extend({
     clearStatus() {
       this.haveSuccess = false;
       this.haveError = false;
-    }
-  }
+    },
+  },
 });
 </script>

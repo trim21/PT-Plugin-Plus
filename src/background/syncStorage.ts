@@ -38,7 +38,7 @@ export class SyncStorage {
     value: any,
     count: number = 0,
     onSuccess?: any,
-    onError?: any
+    onError?: any,
   ) {
     let _data = value;
     let _key = key;
@@ -58,7 +58,7 @@ export class SyncStorage {
           () => {
             this._set(key, value, count, onSuccess, onError);
           },
-          onError
+          onError,
         );
         return;
       }
@@ -69,7 +69,7 @@ export class SyncStorage {
 
     chrome.storage.sync.set(
       {
-        [_key]: _data
+        [_key]: _data,
       },
       () => {
         if (chrome.runtime.lastError) {
@@ -82,7 +82,7 @@ export class SyncStorage {
             onSuccess(value);
           }
         }
-      }
+      },
     );
   }
 
@@ -99,7 +99,7 @@ export class SyncStorage {
     checkArray: boolean = false,
     index: number = 0,
     onSuccess?: any,
-    onError?: any
+    onError?: any,
   ) {
     if (checkArray) {
       this._get(
@@ -120,7 +120,7 @@ export class SyncStorage {
           } else {
             onError && onError(error);
           }
-        }
+        },
       );
       return;
     }
@@ -131,7 +131,7 @@ export class SyncStorage {
     }
 
     try {
-      chrome.storage.sync.get(_key, result => {
+      chrome.storage.sync.get(_key, (result) => {
         let value: any = null;
         // console.log(_key, "GETED", result);
         try {
@@ -183,7 +183,7 @@ export class SyncStorage {
             },
             (error: any) => {
               reject(error);
-            }
+            },
           );
         } catch (error) {
           reject(error);
@@ -211,7 +211,7 @@ export class SyncStorage {
             },
             (error: any) => {
               reject(error);
-            }
+            },
           );
         } catch (error) {
           reject(error);

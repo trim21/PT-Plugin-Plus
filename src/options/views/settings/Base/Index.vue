@@ -9,22 +9,22 @@
             <v-tabs-slider color="yellow"></v-tabs-slider>
 
             <v-tab key="base">
-              {{ $t('settings.base.tabs.base') }}
+              {{ $t("settings.base.tabs.base") }}
               <v-icon>settings</v-icon>
             </v-tab>
 
             <v-tab key="search">
-              {{ $t('settings.base.tabs.search') }}
+              {{ $t("settings.base.tabs.search") }}
               <v-icon>search</v-icon>
             </v-tab>
 
             <v-tab key="download">
-              {{ $t('settings.base.tabs.download') }}
+              {{ $t("settings.base.tabs.download") }}
               <v-icon>cloud_download</v-icon>
             </v-tab>
 
             <v-tab key="advanced">
-              {{ $t('settings.base.tabs.advanced') }}
+              {{ $t("settings.base.tabs.advanced") }}
               <v-icon>memory</v-icon>
             </v-tab>
 
@@ -38,7 +38,7 @@
                       v-model="options.defaultClientId"
                       :items="this.$store.state.options.clients"
                       :label="$t('settings.base.defaultClient')"
-                      :menu-props="{maxHeight:'auto'}"
+                      :menu-props="{ maxHeight: 'auto' }"
                       :hint="getClientAddress"
                       persistent-hint
                       item-text="name"
@@ -53,15 +53,23 @@
                       </template>
                       <template slot="item" slot-scope="data" style>
                         <v-list-tile-content>
-                          <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                          <v-list-tile-sub-title v-html="data.item.address"></v-list-tile-sub-title>
+                          <v-list-tile-title
+                            v-html="data.item.name"
+                          ></v-list-tile-title>
+                          <v-list-tile-sub-title
+                            v-html="data.item.address"
+                          ></v-list-tile-sub-title>
                         </v-list-tile-content>
                         <v-list-tile-action>
-                          <v-list-tile-action-text>{{ data.item.type }}</v-list-tile-action-text>
+                          <v-list-tile-action-text>{{
+                            data.item.type
+                          }}</v-list-tile-action-text>
                         </v-list-tile-action>
                       </template>
                       <template slot="no-data">
-                        <span class="ma-2">{{ $t('settings.base.noClient') }}</span>
+                        <span class="ma-2">{{
+                          $t("settings.base.noClient")
+                        }}</span>
                       </template>
                     </v-autocomplete>
                   </v-flex>
@@ -78,7 +86,7 @@
                   </v-flex>
                   <v-flex xs2>
                     <v-slider
-                      style="display:none;"
+                      style="display: none"
                       v-model="options.connectClientTimeout"
                       :max="60000"
                       :min="500"
@@ -91,48 +99,63 @@
                     <v-switch
                       color="success"
                       v-model="options.autoRefreshUserData"
-                      :label="$t('settings.base.autoRefreshUserData')+autoRefreshUserDataLastUpdate"
+                      :label="
+                        $t('settings.base.autoRefreshUserData') +
+                        autoRefreshUserDataLastUpdate
+                      "
                     ></v-switch>
 
                     <!-- 自动刷新用户数据时间 -->
                     <v-flex xs12 v-if="options.autoRefreshUserData">
-                      <div style="margin: -40px 0 10px 45px;">
-                        <span>{{ $t('settings.base.autoRefreshUserDataTip1') }}</span>
+                      <div style="margin: -40px 0 10px 45px">
+                        <span>{{
+                          $t("settings.base.autoRefreshUserDataTip1")
+                        }}</span>
                         <v-select
                           v-model="options.autoRefreshUserDataHours"
                           :items="hours"
                           class="mx-2 d-inline-flex"
-                          style="max-width: 50px;max-height: 30px;"
+                          style="max-width: 50px; max-height: 30px"
                         ></v-select>
                         <span>:</span>
                         <v-select
                           v-model="options.autoRefreshUserDataMinutes"
                           :items="minutes"
                           class="mx-2 d-inline-flex"
-                          style="max-width: 50px;max-height: 30px;"
+                          style="max-width: 50px; max-height: 30px"
                         ></v-select>
-                        <span>{{ $t('settings.base.autoRefreshUserDataTip2') }}</span>
+                        <span>{{
+                          $t("settings.base.autoRefreshUserDataTip2")
+                        }}</span>
                       </div>
                     </v-flex>
 
                     <!-- 失败重试 -->
                     <v-flex xs12 v-if="options.autoRefreshUserData">
-                      <div style="margin: -20px 0 10px 45px;">
-                        <span>{{ $t('settings.base.autoRefreshUserDataTip3') }}</span>
+                      <div style="margin: -20px 0 10px 45px">
+                        <span>{{
+                          $t("settings.base.autoRefreshUserDataTip3")
+                        }}</span>
                         <v-select
                           v-model="options.autoRefreshUserDataFailedRetryCount"
-                          :items="[1,2,3,4,5]"
+                          :items="[1, 2, 3, 4, 5]"
                           class="mx-2 d-inline-flex"
-                          style="max-width: 50px;max-height: 30px;"
+                          style="max-width: 50px; max-height: 30px"
                         ></v-select>
-                        <span>{{ $t('settings.base.autoRefreshUserDataTip4') }}</span>
+                        <span>{{
+                          $t("settings.base.autoRefreshUserDataTip4")
+                        }}</span>
                         <v-select
-                          v-model="options.autoRefreshUserDataFailedRetryInterval"
-                          :items="[1,2,3,4,5]"
+                          v-model="
+                            options.autoRefreshUserDataFailedRetryInterval
+                          "
+                          :items="[1, 2, 3, 4, 5]"
                           class="mx-2 d-inline-flex"
-                          style="max-width: 50px;max-height: 30px;"
+                          style="max-width: 50px; max-height: 30px"
                         ></v-select>
-                        <span>{{ $t('settings.base.autoRefreshUserDataTip5') }}</span>
+                        <span>{{
+                          $t("settings.base.autoRefreshUserDataTip5")
+                        }}</span>
                       </div>
                     </v-flex>
 
@@ -150,7 +173,9 @@
                       v-if="options.showToolbarOnContentPage"
                       class="ml-5"
                     >
-                      <span class="mr-1">{{ $t('settings.base.position.label') }}</span>
+                      <span class="mr-1">{{
+                        $t("settings.base.position.label")
+                      }}</span>
                       <v-radio
                         :label="$t('settings.base.position.left')"
                         color="success"
@@ -175,7 +200,9 @@
                     <v-switch
                       color="success"
                       v-model="options.searchResultOrderBySitePriority"
-                      :label="$t('settings.base.searchResultOrderBySitePriority')"
+                      :label="
+                        $t('settings.base.searchResultOrderBySitePriority')
+                      "
                     ></v-switch>
 
                     <!-- 允许备份Cookies -->
@@ -195,38 +222,49 @@
 
                     <!-- 加密备份数据 -->
                     <v-flex xs12 v-if="options.encryptBackupData">
-                      <div style="margin: -20px 0 10px 45px;">
+                      <div style="margin: -20px 0 10px 45px">
                         <v-text-field
                           v-model="options.encryptSecretKey"
                           :label="$t('settings.base.encryptSecretKey')"
                           :placeholder="$t('settings.base.encryptTip')"
                           :type="showEncryptSecretKey ? 'text' : 'password'"
                           class="d-inline-flex"
-                          style="min-width: 800px;"
+                          style="min-width: 800px"
                         >
                           <template v-slot:append>
                             <v-icon
-                              @click="showEncryptSecretKey = !showEncryptSecretKey"
-                            >{{showEncryptSecretKey ? 'visibility_off' : 'visibility'}}</v-icon>
+                              @click="
+                                showEncryptSecretKey = !showEncryptSecretKey
+                              "
+                              >{{
+                                showEncryptSecretKey
+                                  ? "visibility_off"
+                                  : "visibility"
+                              }}</v-icon
+                            >
                             <v-btn
                               flat
                               small
                               color="primary"
                               @click="createSecretKey"
-                              style="min-width:unset;"
-                            >{{ $t('settings.base.createSecretKey') }}</v-btn>
+                              style="min-width: unset"
+                              >{{ $t("settings.base.createSecretKey") }}</v-btn
+                            >
 
                             <v-btn
                               flat
                               small
                               color="success"
                               @click="copySecretKeyToClipboard"
-                              style="min-width:unset;"
-                            >{{ $t('common.copy') }}</v-btn>
+                              style="min-width: unset"
+                              >{{ $t("common.copy") }}</v-btn
+                            >
                           </template>
                         </v-text-field>
 
-                        <v-alert :value="true" type="info">{{ $t('settings.base.encryptTip') }}</v-alert>
+                        <v-alert :value="true" type="info">{{
+                          $t("settings.base.encryptTip")
+                        }}</v-alert>
                       </div>
                     </v-flex>
                   </v-flex>
@@ -249,7 +287,7 @@
                   </v-flex>
                   <v-flex xs6>
                     <v-slider
-                      style="display:none;"
+                      style="display: none"
                       v-model="options.search.rows"
                       :max="200"
                       :min="1"
@@ -285,21 +323,36 @@
                     <!-- 在搜索之前一些选项配置 -->
                     <v-switch
                       color="success"
-                      v-model="options.beforeSearchingOptions.getMovieInformation"
-                      :label="$t('settings.base.getMovieInformationBeforeSearching')"
+                      v-model="
+                        options.beforeSearchingOptions.getMovieInformation
+                      "
+                      :label="
+                        $t('settings.base.getMovieInformationBeforeSearching')
+                      "
                     ></v-switch>
-                    <v-flex xs12 v-if="options.beforeSearchingOptions.getMovieInformation">
-                      <div style="margin: -40px 0 10px 45px;">
-                        <span>{{ $t('settings.base.maxMovieInformationCount') }}</span>
+                    <v-flex
+                      xs12
+                      v-if="options.beforeSearchingOptions.getMovieInformation"
+                    >
+                      <div style="margin: -40px 0 10px 45px">
+                        <span>{{
+                          $t("settings.base.maxMovieInformationCount")
+                        }}</span>
                         <v-text-field
-                          v-model="options.beforeSearchingOptions.maxMovieInformationCount"
+                          v-model="
+                            options.beforeSearchingOptions
+                              .maxMovieInformationCount
+                          "
                           class="ml-2 d-inline-flex"
-                          style="max-width: 100px;max-height: 30px;"
+                          style="max-width: 100px; max-height: 30px"
                           type="number"
                         ></v-text-field>
                         <v-slider
-                          style="display:none;"
-                          v-model="options.beforeSearchingOptions.maxMovieInformationCount"
+                          style="display: none"
+                          v-model="
+                            options.beforeSearchingOptions
+                              .maxMovieInformationCount
+                          "
                           :max="20"
                           :min="1"
                         ></v-slider>
@@ -307,14 +360,19 @@
                     </v-flex>
 
                     <!-- 当点击预选条目时，搜索模式 -->
-                    <v-flex xs12 v-if="options.beforeSearchingOptions.getMovieInformation">
-                      <div style="margin: -20px 0 10px 45px;">
-                        <span>{{ $t('settings.base.searchModeForItem') }}</span>
+                    <v-flex
+                      xs12
+                      v-if="options.beforeSearchingOptions.getMovieInformation"
+                    >
+                      <div style="margin: -20px 0 10px 45px">
+                        <span>{{ $t("settings.base.searchModeForItem") }}</span>
                         <v-select
-                          v-model="options.beforeSearchingOptions.searchModeForItem"
+                          v-model="
+                            options.beforeSearchingOptions.searchModeForItem
+                          "
                           :items="searchModes"
                           class="mx-2 d-inline-flex"
-                          style="max-height: 30px;"
+                          style="max-height: 30px"
                         ></v-select>
                       </div>
                     </v-flex>
@@ -354,22 +412,28 @@
 
                     <!-- 下载失败重试选项 -->
                     <v-flex xs12 v-if="options.downloadFailedRetry">
-                      <div style="margin: -35px 0 10px 45px;">
-                        <span>{{ $t('settings.base.downloadFailedRetryTip1') }}</span>
+                      <div style="margin: -35px 0 10px 45px">
+                        <span>{{
+                          $t("settings.base.downloadFailedRetryTip1")
+                        }}</span>
                         <v-select
                           v-model="options.downloadFailedFailedRetryCount"
-                          :items="[1,2,3,4,5]"
+                          :items="[1, 2, 3, 4, 5]"
                           class="mx-2 d-inline-flex"
-                          style="max-width: 50px;max-height: 20px;"
+                          style="max-width: 50px; max-height: 20px"
                         ></v-select>
-                        <span>{{ $t('settings.base.downloadFailedRetryTip2') }}</span>
+                        <span>{{
+                          $t("settings.base.downloadFailedRetryTip2")
+                        }}</span>
                         <v-text-field
                           v-model="options.downloadFailedFailedRetryInterval"
                           class="ml-2 d-inline-flex"
-                          style="max-width: 50px;max-height: 20px;"
+                          style="max-width: 50px; max-height: 20px"
                           type="number"
                         ></v-text-field>
-                        <span>{{ $t('settings.base.downloadFailedRetryTip3') }}</span>
+                        <span>{{
+                          $t("settings.base.downloadFailedRetryTip3")
+                        }}</span>
                       </div>
                     </v-flex>
 
@@ -388,18 +452,18 @@
                     ></v-switch>
 
                     <v-flex xs12 v-if="options.needConfirmWhenExceedSize">
-                      <div style="margin: -40px 0 10px 40px;">
+                      <div style="margin: -40px 0 10px 40px">
                         <v-text-field
                           v-model="options.exceedSize"
                           :placeholder="$t('settings.base.exceedSize')"
                           class="ml-2 d-inline-flex"
-                          style="max-width: 100px;max-height: 30px;"
+                          style="max-width: 100px; max-height: 30px"
                         ></v-text-field>
                         <v-select
                           v-model="options.exceedSizeUnit"
                           :items="units"
                           class="mx-2 d-inline-flex"
-                          style="max-width: 50px;max-height: 30px;"
+                          style="max-width: 50px; max-height: 30px"
                         ></v-select>
                       </div>
                     </v-flex>
@@ -430,22 +494,34 @@
                     ></v-textarea>
 
                     <div class="mb-4 text-xs-right">
-                      <v-btn
-                        @click="verifyApiKey"
-                        :loading="apiKeyVerifying"
-                      >{{ $t('settings.base.verifyApiKey') }}</v-btn>
+                      <v-btn @click="verifyApiKey" :loading="apiKeyVerifying">{{
+                        $t("settings.base.verifyApiKey")
+                      }}</v-btn>
                     </div>
 
-                    <v-alert :value="showVerifyingStatus" color="info" icon="info" outline>
+                    <v-alert
+                      :value="showVerifyingStatus"
+                      color="info"
+                      icon="info"
+                      outline
+                    >
                       <div>OMDb:</div>
                       <div v-html="apiKeyVerifyResults.omdb.join('<br>')"></div>
                       <v-divider></v-divider>
                       <div>Douban:</div>
-                      <div v-html="apiKeyVerifyResults.douban.join('<br>')"></div>
+                      <div
+                        v-html="apiKeyVerifyResults.douban.join('<br>')"
+                      ></div>
                     </v-alert>
 
                     <v-alert :value="true" color="info" icon="info" outline>
-                      <div v-html="$t('settings.base.apiKeyTip').toString().replace(/\n/g, '<br>')"></div>
+                      <div
+                        v-html="
+                          $t('settings.base.apiKeyTip')
+                            .toString()
+                            .replace(/\n/g, '<br>')
+                        "
+                      ></div>
                     </v-alert>
                   </v-flex>
                 </v-layout>
@@ -460,19 +536,27 @@
       <v-card-actions class="pa-3">
         <v-btn color="success" @click="save">
           <v-icon>check_circle_outline</v-icon>
-          <span class="ml-1">{{ $t('settings.base.save') }}</span>
+          <span class="ml-1">{{ $t("settings.base.save") }}</span>
         </v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
-    <v-snackbar v-model="haveError" absolute top :timeout="3000" color="error">{{ errorMsg }}</v-snackbar>
+    <v-snackbar
+      v-model="haveError"
+      absolute
+      top
+      :timeout="3000"
+      color="error"
+      >{{ errorMsg }}</v-snackbar
+    >
     <v-snackbar
       v-model="haveSuccess"
       absolute
       bottom
       :timeout="3000"
       color="success"
-    >{{ successMsg }}</v-snackbar>
+      >{{ successMsg }}</v-snackbar
+    >
   </div>
 </template>
 
@@ -484,7 +568,7 @@ import {
   EAction,
   Options,
   EBeforeSearchingItemSearchMode,
-  EEncryptMode
+  EEncryptMode,
 } from "@/interface/common";
 import Extension from "@/service/extension";
 import { MovieInfoService } from "@/service/movieInfoService";
@@ -497,12 +581,12 @@ export default Vue.extend({
     return {
       valid: false,
       rules: {
-        require: [(v: any) => !!v || "!"]
+        require: [(v: any) => !!v || "!"],
       },
       options: {
         defaultClientId: "",
         search: {
-          saveKey: true
+          saveKey: true,
         },
         needConfirmWhenExceedSize: false,
         autoRefreshUserData: false,
@@ -514,7 +598,7 @@ export default Vue.extend({
         beforeSearchingOptions: {
           getMovieInformation: true,
           maxMovieInformationCount: 5,
-          searchModeForItem: EBeforeSearchingItemSearchMode.id
+          searchModeForItem: EBeforeSearchingItemSearchMode.id,
         },
         showToolbarOnContentPage: true,
         downloadFailedRetry: false,
@@ -528,7 +612,7 @@ export default Vue.extend({
         encryptBackupData: false,
         encryptMode: EEncryptMode.AES,
         encryptSecretKey: "",
-        allowSaveSnapshot: true
+        allowSaveSnapshot: true,
       } as Options,
       units: [] as any,
       hours: [] as any,
@@ -542,15 +626,15 @@ export default Vue.extend({
       activeTab: "base",
       apiKey: {
         omdb: "",
-        douban: ""
+        douban: "",
       },
       apiKeyVerifyResults: {
         omdb: [] as any,
-        douban: [] as any
+        douban: [] as any,
       },
       apiKeyVerifying: false,
       showVerifyingStatus: false,
-      showEncryptSecretKey: false
+      showEncryptSecretKey: false,
     };
   },
   methods: {
@@ -597,7 +681,7 @@ export default Vue.extend({
         PPF.usePermissions(
           ["cookies"],
           true,
-          this.$t("permissions.request.cookies").toString()
+          this.$t("permissions.request.cookies").toString(),
         )
           .then(() => {
             this.$store.dispatch("saveConfig", this.options);
@@ -623,7 +707,7 @@ export default Vue.extend({
             .sendRequest(EAction.reloadConfig)
             .then(() => {
               this.successMsg = this.$t(
-                "settings.base.cacheIsCleared"
+                "settings.base.cacheIsCleared",
               ).toString();
             })
             .catch();
@@ -644,7 +728,7 @@ export default Vue.extend({
 
       this.apiKeyVerifyResults = {
         omdb: [],
-        douban: []
+        douban: [],
       };
       this.apiKeyVerifying = true;
       this.showVerifyingStatus = true;
@@ -657,9 +741,9 @@ export default Vue.extend({
             .then(() => {
               this.apiKeyVerifyResults.omdb.push(`「${item}」 ok.`);
             })
-            .catch(error => {
+            .catch((error) => {
               this.apiKeyVerifyResults.omdb.push(
-                `<span style='color:red'>「${item}」 error. (${error})</span>`
+                `<span style='color:red'>「${item}」 error. (${error})</span>`,
               );
             })
             .finally(() => {
@@ -683,9 +767,9 @@ export default Vue.extend({
             .then(() => {
               this.apiKeyVerifyResults.douban.push(`「${item}」 ok.`);
             })
-            .catch(error => {
+            .catch((error) => {
               this.apiKeyVerifyResults.douban.push(
-                `<span style='color:red'>「${item}」 error.</span>`
+                `<span style='color:red'>「${item}」 error.</span>`,
               );
             })
             .finally(() => {
@@ -724,9 +808,9 @@ export default Vue.extend({
         .sendRequest(
           EAction.copyTextToClipboard,
           null,
-          this.options.encryptSecretKey
+          this.options.encryptSecretKey,
         )
-        .then(result => {
+        .then((result) => {
           this.successMsg = this.$t("common.copyed").toString();
         })
         .catch(() => {});
@@ -734,7 +818,7 @@ export default Vue.extend({
 
     checkOptionalPermission(key: string): boolean {
       return PPF.checkOptionalPermission(key);
-    }
+    },
   },
   created() {
     this.options = Object.assign(this.options, this.$store.state.options);
@@ -766,11 +850,11 @@ export default Vue.extend({
       .then((time: number) => {
         if (time > 0) {
           this.lastUpdate = this.$t("settings.base.lastUpdate", {
-            time: new Date(time).toLocaleString()
+            time: new Date(time).toLocaleString(),
           }).toString();
         } else {
           this.lastUpdate = this.$t(
-            "settings.base.lastUpdateUnknown"
+            "settings.base.lastUpdateUnknown",
           ).toString();
         }
       })
@@ -783,13 +867,13 @@ export default Vue.extend({
         "settings.base.autoRefreshUserDataLastUpdate",
         {
           time: new Date(
-            this.options.autoRefreshUserDataLastTime
-          ).toLocaleString()
-        }
+            this.options.autoRefreshUserDataLastTime,
+          ).toLocaleString(),
+        },
       ).toString();
     }
   },
-  watch: { 
+  watch: {
     successMsg: {
       handler() {
         this.haveSuccess = this.successMsg != "";
@@ -798,7 +882,7 @@ export default Vue.extend({
     },
     errorMsg() {
       this.haveError = this.errorMsg != "";
-    }
+    },
   },
   computed: {
     getClientAddress(): any {
@@ -819,18 +903,18 @@ export default Vue.extend({
         {
           value: EBeforeSearchingItemSearchMode.id,
           text: this.$t(
-            "settings.base.beforeSearchingItemSearchMode.id"
-          ).toString()
+            "settings.base.beforeSearchingItemSearchMode.id",
+          ).toString(),
         },
         {
           value: EBeforeSearchingItemSearchMode.name,
           text: this.$t(
-            "settings.base.beforeSearchingItemSearchMode.name"
-          ).toString()
-        }
+            "settings.base.beforeSearchingItemSearchMode.name",
+          ).toString(),
+        },
       ];
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

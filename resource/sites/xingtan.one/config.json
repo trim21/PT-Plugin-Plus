@@ -4,9 +4,7 @@
   "url": "https://xingtan.one/",
   "description": "杏坛 - 积少成多，聚沙成塔。",
   "icon": "https://xingtan.one/favicon.ico",
-  "tags": [
-    "医学"
-  ],
+  "tags": ["医学"],
   "host": "xingtan.one",
   "levelRequirements": [
     {
@@ -74,10 +72,8 @@
       "privilege": "得到10个邀请名额。"
     }
   ],
-  "formerHosts": [
-    "xinglin.one"
-  ],
-  "collaborator": ["koal","yum"],
+  "formerHosts": ["xinglin.one"],
+  "collaborator": ["koal", "yum"],
   "selectors": {
     "userExtendInfo": {
       "merge": true,

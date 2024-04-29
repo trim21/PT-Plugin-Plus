@@ -1,13 +1,7 @@
 {
   "name": "English (Beta)",
   "code": "en",
-  "authors": [
-    "ronggang",
-    "ylxb2016",
-    "xiongqiwei",
-    "jackson008",
-    "MewX"
-  ],
+  "authors": ["ronggang", "ylxb2016", "xiongqiwei", "jackson008", "MewX"],
   "words": {
     "app": {
       "initError": "The configuration information failed to be loaded. The system definition information was not obtained. Please try to refresh the current page.",
@@ -62,7 +56,7 @@
     },
     "topbar": {
       "title": "@:(app.name)",
-      "navBarTip": "Click to show\/hide the navigation bar",
+      "navBarTip": "Click to show/hide the navigation bar",
       "help": "Wiki",
       "github": "Github",
       "showNewTorrents": "Get the first page of each tracker",
@@ -181,7 +175,7 @@
       "getUserInfoError": "An error occurred",
       "getUserInfoAbort": "Get user profile request has been canceled. ({siteName})",
       "getUserInfoAbortError": "Cancellation failed to get user profile request. ({siteName})",
-      "offline":"Offline",
+      "offline": "Offline",
       "headers": {
         "date": "Date",
         "site": "Site",
@@ -223,7 +217,7 @@
         "status": "Status",
         "comments": "Comments",
         "uploaded": "Uploaded",
-        "downloaded":"Downloaded",
+        "downloaded": "Downloaded",
         "uploads": "Uploaded",
         "downloads": "Downloaded",
         "trueDownloaded": "True Downloaded",
@@ -326,7 +320,7 @@
       "headers": {
         "site": "Site",
         "title": "Title",
-        "category": "Category\/Entrance",
+        "category": "Category/Entrance",
         "size": "Size",
         "seeders": "S",
         "leechers": "L",
@@ -425,7 +419,7 @@
           },
           "getFileListError": "Failed to get the backup file, please confirm whether the network and backup server are available",
           "owss": {
-            "addressTip": "The server address contains the port, such as: http:\/\/192.168.1.1:8088\/storage"
+            "addressTip": "The server address contains the port, such as: http://192.168.1.1:8088/storage"
           }
         },
         "restoreAll": "Restore All",
@@ -546,7 +540,7 @@
           "name": "Name of server",
           "type": "bittorrent client type",
           "address": "Server address",
-          "addressTip": "The server address contains the port, such as: http:\/\/192.168.1.1:5000\/",
+          "addressTip": "The server address contains the port, such as: http://192.168.1.1:5000/",
           "loginName": "log-in name",
           "loginPwd": "login password",
           "id": "ID",
@@ -621,7 +615,7 @@
           "siteHost": "Will be replaced with the current site domain name;",
           "example": "Example: ",
           "dynamic": "An input box will pop up where the user enters the {key} part of the path;",
-          "dynamicExample": "Example: \/volume1\/<...> ，input: test，result: \/volume1\/test"
+          "dynamicExample": "Example: /volume1/<...> ，input: test，result: /volume1/test"
         }
       },
       "searchSolution": {
@@ -662,11 +656,11 @@
           "pages": "Applicable page",
           "pagesTip": "The page starts with '/' to indicate the root path of the website. After inputting, press Enter to add multiple, which can be a regular expression.",
           "scripts": "Script files",
-          "scriptsTip": "\/ means to load the script from the resource directory root, you can add multiple",
+          "scriptsTip": "/ means to load the script from the resource directory root, you can add multiple",
           "script": "Javascript",
           "style": "Style",
           "styles": "Style files",
-          "stylesTip": "\/ means to load the script from the resource directory root, you can add multiple"
+          "stylesTip": "/ means to load the script from the resource directory root, you can add multiple"
         },
         "index": {
           "title": "Site plugin configuration",
@@ -707,7 +701,7 @@
           "description": "Site description",
           "host": "Host",
           "url": "Full url",
-          "urlTip": "The full address of the website, such as: https:\/\/www.github.com\/",
+          "urlTip": "The full address of the website, such as: https://www.github.com/",
           "passkey": "Passkey",
           "passkeyTip": "The key is only used to copy the download address operation. If you do not need this function, please leave it blank.",
           "allowSearch": "Allow Search",
@@ -716,10 +710,10 @@
           "cdnTip": "If you use a different URL than the system definition, you can fill in the currently used website address, fill in one address per line, the first one will be used as the address used for the search.",
           "priority": "Priority",
           "priorityTip": "Can be used for search sorting",
-          "offline": "Site is offline (downtime\/shutdown)",
+          "offline": "Site is offline (downtime/shutdown)",
           "timezone": "Timezone",
           "upLoadLimit": "Upload limit",
-          "upLoadLimitTip": "Upload limit (KB\/s), 0 or empty for no limit",
+          "upLoadLimitTip": "Upload limit (KB/s), 0 or empty for no limit",
           "disableMessageCount": "Display message count"
         },
         "userinfo": {
@@ -1014,7 +1008,7 @@
       "sendConfirm": "Are you sure you want to send these {count} torrents?",
       "addToKeepUpload": "Add to task list",
       "removeFromKeepUpload": "Remove from task list",
-      "redownload" : "Re-download",
+      "redownload": "Re-download",
       "addToKeepUploadConfirm": "Are you sure want add this torrent to task list?",
       "status": {
         "label": "Status: ",

@@ -1,4 +1,4 @@
-(function($) {
+(function ($) {
   console.log("this is torrent.js");
   class App extends window.NexusPHPCommon {
     init() {
@@ -34,7 +34,7 @@
 
       let urls = [];
 
-      links.forEach(link => {
+      links.forEach((link) => {
         if (this.checkURL(link)) {
           urls.push(link);
         }
@@ -53,7 +53,7 @@
         return false;
       }
       const URL = PTService.filters.parseURL(url);
-      const index = sites.findIndex(site => {
+      const index = sites.findIndex((site) => {
         return site.host === URL.host;
       });
 

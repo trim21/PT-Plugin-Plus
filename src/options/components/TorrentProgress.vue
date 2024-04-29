@@ -1,11 +1,11 @@
 <template>
   <v-layout row wrap>
     <v-flex xs2 class="mt-1">
-      <v-icon :size="10" :color="color" :title="statusTip">{{icon}}</v-icon>
+      <v-icon :size="10" :color="color" :title="statusTip">{{ icon }}</v-icon>
     </v-flex>
     <v-flex xs10>
       <v-progress-linear
-        style="margin-left: 1px;"
+        style="margin-left: 1px"
         :color="color"
         height="4"
         :value="progress"
@@ -21,7 +21,7 @@ import { ETorrentStatus } from "@/interface/enum";
 export default Vue.extend({
   props: {
     progress: Number,
-    status: Number
+    status: Number,
   },
   mounted() {},
   computed: {
@@ -69,7 +69,7 @@ export default Vue.extend({
       switch (this.status) {
         case ETorrentStatus.downloading:
           result = this.$t(
-            "searchTorrent.torrentStatus.downloading"
+            "searchTorrent.torrentStatus.downloading",
           ).toString();
           break;
 
@@ -86,7 +86,7 @@ export default Vue.extend({
           break;
       }
       return result;
-    }
-  }
+    },
+  },
 });
 </script>

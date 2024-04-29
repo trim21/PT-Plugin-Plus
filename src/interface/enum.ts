@@ -8,7 +8,7 @@ export enum ESizeUnit {
   TiB = "TiB",
   GiB = "GiB",
   MiB = "MiB",
-  KiB = "KiB"
+  KiB = "KiB",
 }
 
 /**
@@ -16,7 +16,7 @@ export enum ESizeUnit {
  */
 export enum ERequestType {
   JSON = "json",
-  TEXT = "urlencode"
+  TEXT = "urlencode",
 }
 
 /**
@@ -26,7 +26,7 @@ export enum ERequestResultType {
   JSON = "json",
   XML = "xml",
   HTML = "html",
-  TEXT = "text"
+  TEXT = "text",
 }
 
 /**
@@ -38,7 +38,7 @@ export enum EDownloadClientType {
   deluge = "deluge",
   synologyDownloadStation = "synologyDownloadStation",
   rutorrent = "rutorrent",
-  qbittorrent = "qbittorrent"
+  qbittorrent = "qbittorrent",
 }
 
 /**
@@ -48,7 +48,7 @@ export enum EButtonType {
   normal = "normal",
   label = "label",
   spliter = "spliter",
-  popup = "popup"
+  popup = "popup",
 }
 
 /**
@@ -56,7 +56,7 @@ export enum EButtonType {
  */
 export enum ERequestMethod {
   POST = "POST",
-  GET = "GET"
+  GET = "GET",
 }
 
 /**
@@ -254,7 +254,7 @@ export enum EAction {
   pushDebugMsg = "pushDebugMsg",
   updateDebuggerTabId = "updateDebuggerTabId",
   // 获取热门搜索
-  getTopSearches = "getTopSearches"
+  getTopSearches = "getTopSearches",
 }
 
 /**
@@ -262,7 +262,7 @@ export enum EAction {
  */
 export enum EStorageType {
   text = "TEXT",
-  json = "JSON"
+  json = "JSON",
 }
 
 /**
@@ -277,7 +277,7 @@ export enum EConfigKey {
   userDatas = "PT-Plugin-Plus-User-Datas",
   collection = "PT-Plugin-Plus-Collection",
   searchResultSnapshot = "PT-Plugin-Plus-SearchResultSnapshot",
-  keepUploadTask = "PT-Plugin-Plus-KeepUploadTask"
+  keepUploadTask = "PT-Plugin-Plus-KeepUploadTask",
 }
 
 /**
@@ -288,7 +288,7 @@ export enum EDataResultType {
   error = "error",
   info = "info",
   warning = "warning",
-  unknown = "unknown"
+  unknown = "unknown",
 }
 
 /**
@@ -299,7 +299,7 @@ export enum EModule {
   content = "content",
   options = "options",
   popup = "popup",
-  debugger = "debugger"
+  debugger = "debugger",
 }
 
 /**
@@ -307,18 +307,18 @@ export enum EModule {
  */
 export enum ELogEvent {
   init = "init",
-  requestMessage = "requestMessage"
+  requestMessage = "requestMessage",
 }
 
 export enum EPaginationKey {
   systemLogs = "systemLogs",
-  searchTorrent = "searchTorrent"
+  searchTorrent = "searchTorrent",
 }
 
 export enum EViewKey {
   home = "home",
   downloadPaths = "downloadPaths",
-  searchTorrent = "searchTorrent"
+  searchTorrent = "searchTorrent",
 }
 
 /**
@@ -327,7 +327,7 @@ export enum EViewKey {
 export enum EUserDataRange {
   latest = "latest",
   today = "today",
-  all = "all"
+  all = "all",
 }
 
 /**
@@ -337,7 +337,7 @@ export enum EUserDataRequestStatus {
   needLogin = "needLogin",
   notSupported = "notSupported",
   unknown = "unknown",
-  success = "success"
+  success = "success",
 }
 
 /**
@@ -346,7 +346,7 @@ export enum EUserDataRequestStatus {
 export enum ECommonKey {
   allSite = "__allSite__",
   all = "__all__",
-  noGroup = "__noGroup__"
+  noGroup = "__noGroup__",
 }
 
 /**
@@ -357,13 +357,13 @@ export enum EInstallType {
   development = "development",
   normal = "normal",
   // crx 自定义类型，官方api中无此状态
-  crx = "crx"
+  crx = "crx",
 }
 
 // 当点击预选条目时，搜索模式
 export enum EBeforeSearchingItemSearchMode {
   id = "id",
-  name = "name"
+  name = "name",
 }
 
 // 种子当前状态
@@ -375,7 +375,7 @@ export enum ETorrentStatus {
   // 已完成，未做种
   completed = 255,
   // 未活动（曾经下载过，但未完成）
-  inactive = 3
+  inactive = 3,
 }
 
 /**
@@ -383,7 +383,7 @@ export enum ETorrentStatus {
  */
 export enum EBackupServerType {
   OWSS = "OWSS",
-  WebDAV = "WebDAV"
+  WebDAV = "WebDAV",
 }
 
 /**
@@ -391,14 +391,14 @@ export enum EBackupServerType {
  */
 export enum EPluginPosition {
   left = "left",
-  right = "right"
+  right = "right",
 }
 
 /**
  * 相关Wiki链接
  */
 export enum EWikiLink {
-  faq = "https://github.com/pt-plugins/PT-Plugin-Plus/wiki/frequently-asked-questions"
+  faq = "https://github.com/pt-plugins/PT-Plugin-Plus/wiki/frequently-asked-questions",
 }
 
 /**
@@ -412,37 +412,37 @@ export enum ERestoreContent {
   cookies = "cookies",
   searchResultSnapshot = "searchResultSnapshot",
   keepUploadTask = "keepUploadTask",
-  downloadHistory = "downloadHistory"
+  downloadHistory = "downloadHistory",
 }
 
 export enum EBrowserType {
   Chrome = "Chrome",
-  Firefox = "Firefox"
+  Firefox = "Firefox",
 }
 
 export enum EWorkingStatus {
   success = "success",
   error = "error",
-  loading = "loading"
+  loading = "loading",
 }
 
 export enum EResourceOrderBy {
   time = "time",
   name = "name",
-  size = "size"
+  size = "size",
 }
 
 export enum EResourceOrderMode {
   desc = "desc",
-  asc = "asc"
+  asc = "asc",
 }
 
 // 加密方式
 export enum EEncryptMode {
-  AES = "AES"
+  AES = "AES",
 }
 
 export enum ERestoreError {
   needSecretKey = "needSecretKey",
-  errorSecretKey = "errorSecretKey"
+  errorSecretKey = "errorSecretKey",
 }

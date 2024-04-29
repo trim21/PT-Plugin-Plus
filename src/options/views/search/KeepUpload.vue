@@ -108,7 +108,13 @@
                     <v-icon color="success" v-if="item.verified"
                       >done_all</v-icon
                     >
-                    <v-icon color="error" :title="$t('keepUploadTask.removeFromKeepUpload')" @click.stop="deleteVerifiedItem(index)" v-else>clear</v-icon>
+                    <v-icon
+                      color="error"
+                      :title="$t('keepUploadTask.removeFromKeepUpload')"
+                      @click.stop="deleteVerifiedItem(index)"
+                      v-else
+                      >clear</v-icon
+                    >
                   </v-btn>
                 </div>
               </v-list-tile-action>
@@ -140,8 +146,8 @@
               $vuetify.breakpoint.smAndDown
                 ? $t('keepUploadTask.setSavePath')
                 : downloadOptions
-                ? `${downloadOptions.clientName} -> ${downloadOptions.savePath}`
-                : $t('keepUploadTask.setSavePath')
+                  ? `${downloadOptions.clientName} -> ${downloadOptions.savePath}`
+                  : $t('keepUploadTask.setSavePath')
             "
             @itemClick="setDownloadOptions"
             :downloadOptions="items[0]"
@@ -194,7 +200,7 @@ interface IVerifiedItem {
 
 export default Vue.extend({
   components: {
-    DownloadTo
+    DownloadTo,
   },
   data() {
     return {
@@ -209,7 +215,7 @@ export default Vue.extend({
       haveError: false,
       haveSuccess: false,
       successMsg: "",
-      verifiedCount: 0
+      verifiedCount: 0,
     };
   },
   props: {
@@ -219,10 +225,10 @@ export default Vue.extend({
       type: Array as () => SearchResultItem[],
       default: () => {
         return [] as SearchResultItem[];
-      }
-    }
+      },
+    },
   },
-  mounted() { },
+  mounted() {},
   watch: {
     dialog() {
       if (this.dialog) {
@@ -234,10 +240,10 @@ export default Vue.extend({
     },
     errorMsg() {
       this.haveError = this.errorMsg != "";
-    }
+    },
   },
   methods: {
-    deleteVerifiedItem(index: number){
+    deleteVerifiedItem(index: number) {
       this.$delete(this.verifiedItems, index);
     },
     setDownloadOptions(options: any) {
@@ -256,7 +262,7 @@ export default Vue.extend({
         title: this.verifiedItems[0].data.title,
         size: this.verifiedItems[0].data.size,
         downloadOptions: this.downloadOptions,
-        items: [] as any[]
+        items: [] as any[],
       };
 
       let items: any[] = [];
@@ -281,7 +287,7 @@ export default Vue.extend({
             "titleHTML",
             "progress",
             "seeders",
-            "leechers"
+            "leechers",
           ].forEach((key: string) => {
             if (_item.data.hasOwnProperty(key)) {
               delete _item.data[key];
@@ -304,7 +310,7 @@ export default Vue.extend({
 
       extension
         .sendRequest(EAction.createKeepUploadTask, null, task)
-        .then(result => {
+        .then((result) => {
           this.successMsg = this.$t("keepUploadTask.createSuccess").toString();
           setTimeout(() => {
             this.creating = false;
@@ -312,8 +318,8 @@ export default Vue.extend({
           }, 3000);
           console.log("createKeepUploadTask", result);
 
-           // 生成辅种任务后清除选择
-           this.$root.$emit('KeepUploadTaskCreateSuccess');
+          // 生成辅种任务后清除选择
+          this.$root.$emit("KeepUploadTaskCreateSuccess");
         })
         .catch(() => {
           this.creating = false;
@@ -328,29 +334,30 @@ export default Vue.extend({
       this.clearMessage();
 
       this.items.forEach((item: SearchResultItem, index: number) => {
-      if (item.url) {
-        this.verifiedItems.push({
-          data: item,
-          torrent: null,
-          loading: true,
-          verified: false,
-          status: this.$t("keepUploadTask.status.downloading").toString()
-        });
-        // requests.push(this.getTorrent(item.url, index));
-        this.getTorrent(item.url, index)
-          .then((result: any) => {
-            this.verification(result, index);
-          })
-          .catch(() => {
-            this.verification(null, index);
+        if (item.url) {
+          this.verifiedItems.push({
+            data: item,
+            torrent: null,
+            loading: true,
+            verified: false,
+            status: this.$t("keepUploadTask.status.downloading").toString(),
           });
+          // requests.push(this.getTorrent(item.url, index));
+          this.getTorrent(item.url, index)
+            .then((result: any) => {
+              this.verification(result, index);
+            })
+            .catch(() => {
+              this.verification(null, index);
+            });
         }
       });
     },
-    reDownload(index: number)
-    {
+    reDownload(index: number) {
       this.verifiedItems[index].loading = true;
-      this.verifiedItems[index].status = this.$t("keepUploadTask.status.downloading").toString();
+      this.verifiedItems[index].status = this.$t(
+        "keepUploadTask.status.downloading",
+      ).toString();
 
       this.getTorrent(this.verifiedItems[index].data.url, index)
         .then((result: any) => {
@@ -373,7 +380,7 @@ export default Vue.extend({
             this.verifiedItems[0].torrent = this.baseTorrent.torrent;
             this.verifiedItems[0].verified = true;
             this.verifiedItems[0].status = this.$t(
-              "keepUploadTask.status.downloaded"
+              "keepUploadTask.status.downloaded",
             ).toString();
             this.verifiedCount++;
           } else {
@@ -391,7 +398,7 @@ export default Vue.extend({
         let result: any = {
           verified: false,
           torrent: null,
-          loading: false
+          loading: false,
         };
 
         if (!this.verifiedItems[0].verified) {
@@ -401,7 +408,7 @@ export default Vue.extend({
         if (!item || !this.verifiedItems[0].verified) {
           this.verifiedItems[index] = Object.assign(
             this.verifiedItems[index],
-            result
+            result,
           );
           return;
         }
@@ -421,7 +428,7 @@ export default Vue.extend({
               return (
                 file.path == sourceFile.path && file.length == sourceFile.length
               );
-            }
+            },
           );
         }
 
@@ -435,27 +442,35 @@ export default Vue.extend({
           : this.$t("keepUploadTask.status.failed").toString();
 
         // 验证是否因为文件顺序错误或缺少文件而失败
-        if (!result.verified && torrent.name == baseTorrent.name &&
+        if (
+          !result.verified &&
+          torrent.name == baseTorrent.name &&
           torrent.length <= baseTorrent.length &&
-          torrent.files.length <= baseTorrent.files.length)
-        {
-          if (torrent.files.every((file: any) =>
-          {
-            return baseTorrent.files.find((sourceFile: any) => 
-              file.path == sourceFile.path && file.length == sourceFile.length
-            );
-          }))
-          {
+          torrent.files.length <= baseTorrent.files.length
+        ) {
+          if (
+            torrent.files.every((file: any) => {
+              return baseTorrent.files.find(
+                (sourceFile: any) =>
+                  file.path == sourceFile.path &&
+                  file.length == sourceFile.length,
+              );
+            })
+          ) {
             if (torrent.files.length == baseTorrent.files.length)
-              result.status = this.$t("keepUploadTask.status.incorrectOrder").toString();
+              result.status = this.$t(
+                "keepUploadTask.status.incorrectOrder",
+              ).toString();
             else
-              result.status = this.$t("keepUploadTask.status.missingFiles").toString();
+              result.status = this.$t(
+                "keepUploadTask.status.missingFiles",
+              ).toString();
           }
         }
 
         this.verifiedItems[index] = Object.assign(
           this.verifiedItems[index],
-          result
+          result,
         );
       }
     },
@@ -467,18 +482,18 @@ export default Vue.extend({
         extension
           .sendRequest(EAction.getTorrentDataFromURL, null, {
             url,
-            parseTorrent: true
+            parseTorrent: true,
           })
-          .then(result => {
+          .then((result) => {
             console.log(result);
             this.verifiedItems[index].status = this.$t(
-              "keepUploadTask.status.waiting"
+              "keepUploadTask.status.waiting",
             ).toString();
             resolve(result);
           })
-          .catch(result => {
+          .catch((result) => {
             this.verifiedItems[index].status = this.$t(
-              "keepUploadTask.status.downloadFailed"
+              "keepUploadTask.status.downloadFailed",
             ).toString();
             this.verifiedItems[index].error = true;
             reject(result);
@@ -492,14 +507,14 @@ export default Vue.extend({
     addToVerified(item: IVerifiedItem) {
       if (
         window.confirm(
-          this.$t("keepUploadTask.addToKeepUploadConfirm").toString()
+          this.$t("keepUploadTask.addToKeepUploadConfirm").toString(),
         )
       ) {
         item.verified = true;
         this.verifiedCount++;
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

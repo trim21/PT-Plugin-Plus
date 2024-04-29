@@ -31,7 +31,7 @@
           ></v-text-field>
 
           <!-- 授权码 -->
-          <template v-if="type==='OWSS'">
+          <template v-if="type === 'OWSS'">
             <v-text-field
               v-model="option.authCode"
               :label="$t('settings.backup.server.editor.authCode')"
@@ -41,15 +41,12 @@
               :type="showAuthCode ? 'text' : 'password'"
             >
               <template v-slot:append>
-                <v-icon
-                  @click="showAuthCode = !showAuthCode"
-                >{{showAuthCode ? 'visibility_off' : 'visibility'}}</v-icon>
-                <v-btn
-                  flat
-                  small
-                  color="primary"
-                  @click="applyAuthCode"
-                >{{ $t('settings.backup.server.editor.applyAuthCode') }}</v-btn>
+                <v-icon @click="showAuthCode = !showAuthCode">{{
+                  showAuthCode ? "visibility_off" : "visibility"
+                }}</v-icon>
+                <v-btn flat small color="primary" @click="applyAuthCode">{{
+                  $t("settings.backup.server.editor.applyAuthCode")
+                }}</v-btn>
               </template>
             </v-text-field>
           </template>
@@ -74,13 +71,16 @@
               :type="showLoginPwd ? 'text' : 'password'"
             >
               <template v-slot:append>
-                <v-icon
-                  @click="showLoginPwd = !showLoginPwd"
-                >{{showLoginPwd ? 'visibility_off' : 'visibility'}}</v-icon>
+                <v-icon @click="showLoginPwd = !showLoginPwd">{{
+                  showLoginPwd ? "visibility_off" : "visibility"
+                }}</v-icon>
               </template>
             </v-text-field>
 
-            <v-switch :label="$t('settings.backup.server.editor.digest')" v-model="option.digest"></v-switch>
+            <v-switch
+              :label="$t('settings.backup.server.editor.digest')"
+              v-model="option.digest"
+            ></v-switch>
           </template>
         </v-form>
 
@@ -93,18 +93,28 @@
           @click="testServerConnectivity"
         >
           <v-icon class="mr-2">{{ testButtonIcon }}</v-icon>
-          {{ successMsg || errorMsg || $t('settings.downloadClients.editor.test') }}
+          {{
+            successMsg || errorMsg || $t("settings.downloadClients.editor.test")
+          }}
         </v-btn>
       </v-card-text>
     </v-card>
-    <v-snackbar v-model="haveError" absolute top :timeout="3000" color="error">{{ errorMsg }}</v-snackbar>
+    <v-snackbar
+      v-model="haveError"
+      absolute
+      top
+      :timeout="3000"
+      color="error"
+      >{{ errorMsg }}</v-snackbar
+    >
     <v-snackbar
       v-model="haveSuccess"
       absolute
       bottom
       :timeout="3000"
       color="success"
-    >{{ successMsg }}</v-snackbar>
+      >{{ successMsg }}</v-snackbar
+    >
   </div>
 </template>
 
@@ -116,7 +126,7 @@ import {
   EAction,
   DataResult,
   Dictionary,
-  EBackupServerType
+  EBackupServerType,
 } from "@/interface/common";
 const extension = new Extension();
 export default Vue.extend({
@@ -129,10 +139,10 @@ export default Vue.extend({
         url: (v: any) => {
           return (
             /^(https?):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;\[\]]+[-A-Za-z0-9+&@#/%=~_|]$/.test(
-              v
+              v,
             ) || this.$t("settings.backup.server.owss.addressTip")
           );
-        }
+        },
       },
       haveError: false,
       haveSuccess: false,
@@ -146,25 +156,25 @@ export default Vue.extend({
         loginName: "",
         loginPwd: "",
         type: EBackupServerType.OWSS,
-        digest: false
+        digest: false,
       } as any,
       testing: false,
       testButtonIcon: "compass_calibration",
       testButtonColor: "info",
       testButtonStatus: {
         success: "success",
-        error: "error"
+        error: "error",
       },
       buttonColor: {
         default: "info",
         success: "success",
-        error: "error"
+        error: "error",
       } as Dictionary<any>,
       buttonIcon: {
         default: "compass_calibration",
         success: "done",
-        error: "close"
-      } as Dictionary<any>
+        error: "close",
+      } as Dictionary<any>,
     };
   },
   props: {
@@ -172,9 +182,9 @@ export default Vue.extend({
     isNew: Boolean,
     type: {
       type: String,
-      default: EBackupServerType.OWSS
+      default: EBackupServerType.OWSS,
     },
-    show: Boolean
+    show: Boolean,
   },
   watch: {
     show() {
@@ -193,11 +203,11 @@ export default Vue.extend({
         setTimeout(() => {
           this.$emit("change", {
             data: this.option,
-            valid: this.valid
+            valid: this.valid,
           });
         }, 100);
       },
-      deep: true
+      deep: true,
     },
     type() {
       this.option = Object.assign({}, this.initData);
@@ -208,18 +218,21 @@ export default Vue.extend({
         if (this.initData.digest === undefined) {
           this.initData.digest = false;
         }
-        this.option = Object.assign({
-          authCode: "",
-          address: "",
-          name: "",
-          loginName: "",
-          loginPwd: "",
-          type: EBackupServerType.OWSS,
-          digest: false
-        }, this.initData);
+        this.option = Object.assign(
+          {
+            authCode: "",
+            address: "",
+            name: "",
+            loginName: "",
+            loginPwd: "",
+            type: EBackupServerType.OWSS,
+            digest: false,
+          },
+          this.initData,
+        );
         this.option.type = this.type;
       }
-    }
+    },
   },
   methods: {
     applyAuthCode() {
@@ -227,9 +240,9 @@ export default Vue.extend({
       this.errorMsg = "";
       if (this.option.address) {
         $.ajax({
-          url: `${this.option.address}/create`
+          url: `${this.option.address}/create`,
         })
-          .done(result => {
+          .done((result) => {
             console.log(result);
             if (result && result.data) {
               this.option.authCode = result.data;
@@ -262,7 +275,7 @@ export default Vue.extend({
       let options = Object.assign({}, this.option);
       if (!options.address) {
         this.errorMsg = this.$t(
-          "settings.downloadClients.editor.testAddressError"
+          "settings.downloadClients.editor.testAddressError",
         ).toString();
         return;
       }
@@ -274,12 +287,12 @@ export default Vue.extend({
           console.log(result);
           if (result) {
             this.successMsg = this.$t(
-              "settings.downloadClients.editor.testSuccess"
+              "settings.downloadClients.editor.testSuccess",
             ).toString();
             this.setTestButtonStatus(this.testButtonStatus.success);
           } else {
             this.errorMsg = this.$t(
-              "settings.downloadClients.editor.testError"
+              "settings.downloadClients.editor.testError",
             ).toString();
           }
           this.errorMsg &&
@@ -292,7 +305,7 @@ export default Vue.extend({
             this.errorMsg = result.data.msg;
           } else {
             this.errorMsg = this.$t(
-              "settings.downloadClients.editor.testError"
+              "settings.downloadClients.editor.testError",
             ).toString();
           }
 
@@ -310,7 +323,7 @@ export default Vue.extend({
         this.successMsg = "";
         this.errorMsg = "";
       }, 3000);
-    }
-  }
+    },
+  },
 });
 </script>

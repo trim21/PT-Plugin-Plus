@@ -27,13 +27,13 @@ export class OmniBox {
                 content: `${solution.name}${this.splitString}${text}`,
                 description: this.service.i18n.t("service.omnibox.search", {
                   solutionName: solution.name,
-                  text
-                })
+                  text,
+                }),
                 //  `在《${
                 //   solution.name
                 // }》方案中搜索 “${text}” 的相关种子`
               });
-            }
+            },
           );
 
           if (result.length > 0) {
@@ -43,7 +43,7 @@ export class OmniBox {
       });
 
       // 当用户接收关键字建议时触发
-      chrome.omnibox.onInputEntered.addListener(text => {
+      chrome.omnibox.onInputEntered.addListener((text) => {
         let solutionName = "";
         let solutionId = "";
         let key = "";
@@ -53,7 +53,7 @@ export class OmniBox {
             let solution = this.service.options.searchSolutions.find(
               (item: SearchSolution) => {
                 return item.name == solutionName;
-              }
+              },
             );
             if (solution) {
               solutionId = solution.id;
@@ -68,7 +68,7 @@ export class OmniBox {
           url:
             "index.html#/search-torrent/" +
             key +
-            (solutionId ? `/${solutionId}` : "")
+            (solutionId ? `/${solutionId}` : ""),
         });
       });
     }

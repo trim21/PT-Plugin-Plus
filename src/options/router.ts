@@ -13,8 +13,8 @@ export default new Router({
       alias: "/home",
       meta: {
         // 需要被缓存
-        keepAlive: true
-      }
+        keepAlive: true,
+      },
     },
     // {
     //   path: "/about",
@@ -31,59 +31,59 @@ export default new Router({
       component: () => import("./views/settings/Sites/Index.vue"),
       meta: {
         // 需要被缓存
-        keepAlive: true
-      }
+        keepAlive: true,
+      },
     },
     {
       path: "/set-support-schema",
       name: "set-support-schema",
-      component: () => import("./views/settings/SupportSchema.vue")
+      component: () => import("./views/settings/SupportSchema.vue"),
     },
     {
       path: "/set-download-clients",
       name: "set-download-clients",
-      component: () => import("./views/settings/DownloadClients/Index.vue")
+      component: () => import("./views/settings/DownloadClients/Index.vue"),
     },
     {
       path: "/set-base",
       name: "set-base",
-      component: () => import("./views/settings/Base/Index.vue")
+      component: () => import("./views/settings/Base/Index.vue"),
     },
     {
       path: "/set-download-paths",
       name: "set-download-paths",
-      component: () => import("./views/settings/DownloadPaths/Index.vue")
+      component: () => import("./views/settings/DownloadPaths/Index.vue"),
     },
     {
       path: "/set-backup",
       name: "set-backup",
-      component: () => import("./views/settings/Backup/Index.vue")
+      component: () => import("./views/settings/Backup/Index.vue"),
     },
     {
       path: "/technology-stack",
       name: "technology-stack",
-      component: () => import("./views/TechnologyStack.vue")
+      component: () => import("./views/TechnologyStack.vue"),
     },
     {
       path: "/set-language",
       name: "set-language",
-      component: () => import("./views/settings/Language/Index.vue")
+      component: () => import("./views/settings/Language/Index.vue"),
     },
     {
       path: "/set-search-solution",
       name: "set-search-solution",
-      component: () => import("./views/settings/SearchSolution/Index.vue")
+      component: () => import("./views/settings/SearchSolution/Index.vue"),
     },
     {
       path: "/donate",
       name: "donate",
-      component: () => import("./views/Donate.vue")
+      component: () => import("./views/Donate.vue"),
     },
     {
       path: "/set-site-plugins/:host",
       name: "set-site-plugins",
       component: () => import("./views/settings/SitePlugins/Index.vue"),
-      props: true
+      props: true,
     },
     {
       path: "/search-torrent/:key?/:host?",
@@ -92,44 +92,44 @@ export default new Router({
       props: true,
       meta: {
         // 需要被缓存
-        keepAlive: true
-      }
+        keepAlive: true,
+      },
     },
     {
       path: "/history",
       name: "history",
-      component: () => import("./views/History.vue")
+      component: () => import("./views/History.vue"),
     },
     {
       path: "/system-logs",
       name: "system-logs",
-      component: () => import("./views/SystemLogs.vue")
+      component: () => import("./views/SystemLogs.vue"),
     },
     {
       path: "/set-site-search-entry/:host",
       name: "set-site-search-entry",
       component: () => import("./views/settings/SiteSearchEntry/Index.vue"),
-      props: true
+      props: true,
     },
     {
       path: "/dev-team",
       name: "dev-team",
-      component: () => import("./views/Teams.vue")
+      component: () => import("./views/Teams.vue"),
     },
     {
       path: "/user-data-timeline",
       name: "user-data-timeline",
-      component: () => import("./views/UserDataTimeline.vue")
+      component: () => import("./views/UserDataTimeline.vue"),
     },
     {
       path: "/statistic/:host?",
       name: "statistic",
-      component: () => import("./views/statisticCharts/SiteBase.vue")
+      component: () => import("./views/statisticCharts/SiteBase.vue"),
     },
     {
       path: "/set-permissions",
       name: "set-permissions",
-      component: () => import("./components/Permissions.vue")
+      component: () => import("./components/Permissions.vue"),
     },
     {
       path: "/collection",
@@ -137,18 +137,18 @@ export default new Router({
       component: () => import("./views/collection/Index.vue"),
       meta: {
         // 需要被缓存
-        keepAlive: true
-      }
+        keepAlive: true,
+      },
     },
     {
       path: "/search-result-snapshot",
       name: "search-result-snapshot",
-      component: () => import("./views/search/SearchResultSnapshot.vue")
+      component: () => import("./views/search/SearchResultSnapshot.vue"),
     },
     {
       path: "/keep-upload-task",
       name: "keep-upload-task",
-      component: () => import("./views/keepUpload/KeepUploadTasks.vue")
-    }
-  ]
+      component: () => import("./views/keepUpload/KeepUploadTasks.vue"),
+    },
+  ],
 });

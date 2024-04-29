@@ -17,7 +17,7 @@ export class SearchData {
         url: `https://${host}/download.php?id=${i}`,
         size: this.getSize(),
         time: Math.floor(
-          new Date().getTime() / 1000 - Math.floor(Math.random() * 10000000)
+          new Date().getTime() / 1000 - Math.floor(Math.random() * 10000000),
         ),
         author: "匿名",
         seeders: Math.floor(Math.random() * 1000),
@@ -28,7 +28,7 @@ export class SearchData {
         tags: this.getTags(),
         entryName: "全部",
         progress: Math.floor(Math.random() * 100),
-        status: status[Math.floor(Math.random() * status.length)]
+        status: status[Math.floor(Math.random() * status.length)],
       };
 
       results.push(data);
@@ -83,28 +83,28 @@ export class SearchData {
     let datas = [
       {
         name: "Free",
-        color: "blue"
+        color: "blue",
       },
       {
         name: "2xFree",
-        color: "green"
+        color: "green",
       },
       {
         name: "2xUp",
-        color: "lime"
+        color: "lime",
       },
       {
         name: "2x50%",
-        color: "light-green"
+        color: "light-green",
       },
       {
         name: "30%",
-        color: "indigo"
+        color: "indigo",
       },
       {
         name: "50%",
-        color: "orange"
-      }
+        color: "orange",
+      },
     ];
 
     const index = Math.floor(Math.random() * datas.length) - 1;

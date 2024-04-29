@@ -13,7 +13,7 @@ export default class Extension {
   public sendRequest(
     action: EAction,
     callback?: any,
-    data?: any
+    data?: any,
   ): Promise<any> {
     return new Promise<any>((resolve?: any, reject?: any) => {
       if (this.isExtensionMode) {
@@ -21,7 +21,7 @@ export default class Extension {
           chrome.runtime.sendMessage(
             {
               action,
-              data
+              data,
             },
             (result: any) => {
               if (chrome.runtime.lastError) {
@@ -30,11 +30,11 @@ export default class Extension {
                   "Extension.sendRequest.runtime",
                   action,
                   data,
-                  chrome.runtime.lastError.message
+                  chrome.runtime.lastError.message,
                 );
                 if (/Could not establish connection/.test(message)) {
                   APP.showNotifications({
-                    message: "插件状态未知，当前操作可能失败，请刷新页面后再试"
+                    message: "插件状态未知，当前操作可能失败，请刷新页面后再试",
                   });
                   reject(chrome.runtime.lastError);
                   return;
@@ -42,7 +42,7 @@ export default class Extension {
 
                 if (
                   !/The message port closed before a response was received/.test(
-                    message
+                    message,
                   )
                 ) {
                   reject(chrome.runtime.lastError);
@@ -63,13 +63,13 @@ export default class Extension {
               } else {
                 resolve(result.resolve);
               }
-            }
+            },
           );
         } catch (error) {
           // @see https://groups.google.com/a/chromium.org/forum/#!topic/chromium-extensions/QLC4gNlYjbA
           if (
             /Invocation of form runtime\.connect|doesn't match definition runtime\.connect|Extension context invalidated/.test(
-              error.message
+              error.message,
             )
           ) {
             // console.error(
@@ -78,7 +78,7 @@ export default class Extension {
             reject({
               type: EDataResultType.error,
               msg: "插件状态未知，当前操作可能失败，请刷新页面后再试",
-              success: false
+              success: false,
             });
           } else {
             reject(error);
@@ -99,7 +99,7 @@ export default class Extension {
             const PTService = new result.default(true);
             PTService.requestMessage({
               action,
-              data
+              data,
             })
               .then((result: any) => {
                 callback && callback.call(this, result);
@@ -109,7 +109,7 @@ export default class Extension {
                 reject(error);
               });
           })
-          .catch(error => {
+          .catch((error) => {
             console.log("sendRequest.error", error);
           });
       }

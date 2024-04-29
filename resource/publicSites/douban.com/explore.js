@@ -11,9 +11,9 @@
      */
     initButtons() {
       // 检测DOM变化
-      $(".detail-pop").bind('DOMNodeInserted', (e) => {
-        this.createButton($(e.target))
-      })
+      $(".detail-pop").bind("DOMNodeInserted", (e) => {
+        this.createButton($(e.target));
+      });
     }
 
     createButton(parent) {
@@ -32,9 +32,11 @@
           if (id != this.lastId) {
             this.lastId = id;
             // 预转换
-            PTService.call(PTService.action.getIMDbIdFromDouban, id).catch((error) => {
-              console.log(error);
-            });
+            PTService.call(PTService.action.getIMDbIdFromDouban, id).catch(
+              (error) => {
+                console.log(error);
+              },
+            );
           }
           key += "|" + title;
         }
@@ -45,11 +47,18 @@
       }
       let buttonId = "pt-plugin-search-button";
       $("#" + buttonId, parent).remove();
-      $("<a href='javascript:void(0);' id='" + buttonId + "' title='用 PT 助手搜索'/>").html("助手搜索").on("click", (event) => {
-        this.search(key, $(event.target));
-      }).appendTo($(".collect-area", parent));
+      $(
+        "<a href='javascript:void(0);' id='" +
+          buttonId +
+          "' title='用 PT 助手搜索'/>",
+      )
+        .html("助手搜索")
+        .on("click", (event) => {
+          this.search(key, $(event.target));
+        })
+        .appendTo($(".collect-area", parent));
       this.status = 0;
     }
-  };
-  (new App()).init();
+  }
+  new App().init();
 })(jQuery, window);

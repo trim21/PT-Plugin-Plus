@@ -7,9 +7,20 @@
           <v-icon class="mr-2">autorenew</v-icon>更新
         </v-btn>
         <v-spacer></v-spacer>
-        <v-text-field class="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
+        <v-text-field
+          class="search"
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="items" item-key="name" class="elevation-1">
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        item-key="name"
+        class="elevation-1"
+      >
         <template slot="items" slot-scope="props">
           <td>{{ props.item.name }}</td>
           <td>{{ props.item.ver }}</td>
@@ -28,9 +39,9 @@ export default Vue.extend({
       headers: [
         { text: "名称", align: "left", value: "name" },
         { text: "版本", align: "left", value: "ver" },
-        { text: "插件", align: "left", value: "plugins" }
+        { text: "插件", align: "left", value: "plugins" },
       ],
-      items: []
+      items: [],
     };
   },
   created() {
@@ -39,15 +50,15 @@ export default Vue.extend({
   methods: {
     showPlugins(plugins: any[]) {
       let items: string[] = [];
-      plugins.forEach(item => {
+      plugins.forEach((item) => {
         items.push(item.name);
       });
 
       return items.join(", ");
     },
-    update() {}
+    update() {},
   },
-  computed: {}
+  computed: {},
 });
 </script>
 

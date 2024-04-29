@@ -4,9 +4,7 @@
   "url": "http://ihdbits.me/",
   "description": "The Ultimate File Sharing Experience",
   "icon": "http://ihdbits.me/favicon.ico",
-  "tags": [
-    "影视"
-  ],
+  "tags": ["影视"],
   "host": "ihdbits.me",
   "collaborator": "koal",
   "selectors": {

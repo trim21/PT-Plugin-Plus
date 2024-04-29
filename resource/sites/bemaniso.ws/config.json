@@ -4,14 +4,15 @@
   "description": "Game,music",
   "url": "https://bemaniso.ws/",
   "icon": "https://bemaniso.ws/favicon.ico",
-  "tags": ["Game","Music","sims"],
+  "tags": ["Game", "Music", "sims"],
   "schema": "GazelleJSONAPI",
   "host": "bemaniso.ws",
   "collaborator": "ted423",
   "searchEntryConfig": {
     "skipIMDbId": true
   },
-  "searchEntry": [{
+  "searchEntry": [
+    {
       "name": "all",
       "enabled": true
     }

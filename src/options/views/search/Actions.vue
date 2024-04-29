@@ -18,26 +18,32 @@
       flat
       icon
       small
-      :class="$vuetify.breakpoint.mdAndUp? 'mx-0': 'mx-0 btn-mini'"
+      :class="$vuetify.breakpoint.mdAndUp ? 'mx-0' : 'mx-0 btn-mini'"
       color="grey darken-1"
     >
       <v-icon
         small
         @click="copyLinkToClipboard"
         :title="$t('searchTorrent.copyToClipboardTip')"
-      >file_copy</v-icon>
+        >file_copy</v-icon
+      >
     </v-btn>
 
     <!-- 下载种子文件 -->
     <v-btn
-      v-if="downloadMethod=='POST'"
+      v-if="downloadMethod == 'POST'"
       flat
       icon
       small
-      :class="$vuetify.breakpoint.mdAndUp? 'mx-0': 'mx-0 btn-mini'"
+      :class="$vuetify.breakpoint.mdAndUp ? 'mx-0' : 'mx-0 btn-mini'"
       color="grey darken-1"
     >
-      <v-icon @click.stop="saveTorrentFile" small :title="$t('searchTorrent.saveTip')">save</v-icon>
+      <v-icon
+        @click.stop="saveTorrentFile"
+        small
+        :title="$t('searchTorrent.saveTip')"
+        >save</v-icon
+      >
     </v-btn>
 
     <v-btn
@@ -45,7 +51,7 @@
       flat
       icon
       small
-      :class="$vuetify.breakpoint.mdAndUp? 'mx-0': 'mx-0 btn-mini'"
+      :class="$vuetify.breakpoint.mdAndUp ? 'mx-0' : 'mx-0 btn-mini'"
       :href="url"
       target="_blank"
       rel="noopener noreferrer nofollow"
@@ -61,7 +67,7 @@
       flat
       icon
       small
-      :class="$vuetify.breakpoint.mdAndUp? 'mx-0': 'mx-0 btn-mini'"
+      :class="$vuetify.breakpoint.mdAndUp ? 'mx-0' : 'mx-0 btn-mini'"
       color="grey darken-1"
       @click="addToCollection"
       :title="$t('collection.add')"
@@ -74,7 +80,7 @@
       flat
       icon
       small
-      :class="$vuetify.breakpoint.mdAndUp? 'mx-0': 'mx-0 btn-mini'"
+      :class="$vuetify.breakpoint.mdAndUp ? 'mx-0' : 'mx-0 btn-mini'"
       color="pink"
       @click="deleteCollection"
       :title="$t('collection.remove')"
@@ -88,13 +94,13 @@ import Vue from "vue";
 import DownloadTo from "@/options/components/DownloadTo.vue";
 export default Vue.extend({
   components: {
-    DownloadTo
+    DownloadTo,
   },
   props: {
     url: String,
     downloadMethod: String,
     isCollectioned: Boolean,
-    item: Object
+    item: Object,
   },
   methods: {
     copyLinkToClipboard() {
@@ -117,11 +123,11 @@ export default Vue.extend({
     },
     downloadError(msg: any) {
       this.$emit("downloadError", msg);
-    }
-  }
+    },
+  },
 });
 </script>
-<style lang="scss" >
+<style lang="scss">
 .torrent-actions {
   display: inline-flex;
 }

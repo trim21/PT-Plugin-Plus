@@ -6,15 +6,18 @@
   "icon": "https://hdbits.org/favicon.ico",
   "tags": ["影视", "综合"],
   "schema": "HDB",
-  "plugins": [{
-    "name": "种子详情页面",
-    "pages": ["^/t/(\\d+)/$", "/details.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
-  }, {
-    "name": "种子列表",
-    "pages": ["/browse.php"],
-    "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
-  }],
+  "plugins": [
+    {
+      "name": "种子详情页面",
+      "pages": ["^/t/(\\d+)/$", "/details.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "details.js"]
+    },
+    {
+      "name": "种子列表",
+      "pages": ["/browse.php"],
+      "scripts": ["/schemas/NexusPHP/common.js", "browse.js"]
+    }
+  ],
   "host": "hdbits.org",
   "levelRequirements": [
     {
@@ -42,37 +45,40 @@
       "privilege": "As 1080i"
     }
   ],
-"searchEntryConfig": {
+  "searchEntryConfig": {
     "page": "/browse.php",
     "queryString": "search=$key$",
     "resultType": "html",
     "parseScriptFile": "getSearchResult.js",
     "resultSelector": "table#torrent-list:last > tbody > tr",
-    "area": [{
-      "name": "IMDB",
-      "keyAutoMatch": "^(tt\\d+)$",
-      "queryString": "imdb=$key$"
-    }],
+    "area": [
+      {
+        "name": "IMDB",
+        "keyAutoMatch": "^(tt\\d+)$",
+        "queryString": "imdb=$key$"
+      }
+    ],
     "fieldSelector": {
       "progress": {
-        "selector": ["span.tag.tag_seeding, span.tag.tag_completed", "span.tag.tag_leeching", ""],
-        "switchFilters": [
-          ["100"],
-          ["0"],
-          ["null"]
-        ]
+        "selector": [
+          "span.tag.tag_seeding, span.tag.tag_completed",
+          "span.tag.tag_leeching",
+          ""
+        ],
+        "switchFilters": [["100"], ["0"], ["null"]]
       },
       "status": {
-        "selector": ["span.tag.tag_seeding", "span.tag.tag_completed", "span.tag.tag_leeching"],
-        "switchFilters": [
-          ["2"],
-          ["255"],
-          ["1"]
-        ]
+        "selector": [
+          "span.tag.tag_seeding",
+          "span.tag.tag_completed",
+          "span.tag.tag_leeching"
+        ],
+        "switchFilters": [["2"], ["255"], ["1"]]
       }
     }
   },
-  "searchEntry": [{
+  "searchEntry": [
+    {
       "name": "全部",
       "enabled": true
     },
@@ -117,53 +123,60 @@
       "enabled": false
     }
   ],
-  "categories": [{
-    "entry": "browse.php?",
-    "result": "cat=$id$",
-    "category": [{
-        "id": 1,
-        "name": "Movie"
-      },
-      {
-        "id": 2,
-        "name": "TV"
-      },
-      {
-        "id": 3,
-        "name": "Documentary"
-      },
-      {
-        "id": 4,
-        "name": "Music"
-      },
-      {
-        "id": 5,
-        "name": "Sport"
-      },
-      {
-        "id": 6,
-        "name": "Audio Track"
-      },
-      {
-        "id": 7,
-        "name": "XXX"
-      },
-      {
-        "id": 8,
-        "name": "Misc/Demo"
-      }
-    ]
-  }],
-  "torrentTagSelectors": [{
-    "name": "Free",
-    "selector": "a[title^='100% FL:']"
-  }, {
-    "name": "50%",
-    "selector": "a[title^='50% Free Leech:']"
-  }, {
-    "name": "25%",
-    "selector": "a[title^='25% Free Leech:']"
-  }],
+  "categories": [
+    {
+      "entry": "browse.php?",
+      "result": "cat=$id$",
+      "category": [
+        {
+          "id": 1,
+          "name": "Movie"
+        },
+        {
+          "id": 2,
+          "name": "TV"
+        },
+        {
+          "id": 3,
+          "name": "Documentary"
+        },
+        {
+          "id": 4,
+          "name": "Music"
+        },
+        {
+          "id": 5,
+          "name": "Sport"
+        },
+        {
+          "id": 6,
+          "name": "Audio Track"
+        },
+        {
+          "id": 7,
+          "name": "XXX"
+        },
+        {
+          "id": 8,
+          "name": "Misc/Demo"
+        }
+      ]
+    }
+  ],
+  "torrentTagSelectors": [
+    {
+      "name": "Free",
+      "selector": "a[title^='100% FL:']"
+    },
+    {
+      "name": "50%",
+      "selector": "a[title^='50% Free Leech:']"
+    },
+    {
+      "name": "25%",
+      "selector": "a[title^='25% Free Leech:']"
+    }
+  ],
   "selectors": {
     "userBaseInfo": {
       "page": "/index.php",
@@ -182,7 +195,10 @@
         },
         "messageCount": {
           "selector": ["a.alert-box--pm, span.js-notifications-count"],
-          "filters": ["query.text().match(/(\\d+)/)", "(query && query.length>=2)?parseInt(query[1]):0"]
+          "filters": [
+            "query.text().match(/(\\d+)/)",
+            "(query && query.length>=2)?parseInt(query[1]):0"
+          ]
         }
       }
     },
@@ -191,11 +207,17 @@
       "fields": {
         "uploaded": {
           "selector": ["td.rowhead:contains('Uploaded') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "downloaded": {
           "selector": ["td.rowhead:contains('Downloaded') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():null"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():null"
+          ]
         },
         "ratio": {
           "selector": "td.rowhead:contains('Share ratio') + td",
@@ -206,19 +228,33 @@
         },
         "bonus": {
           "selector": ["td.rowhead:contains('Bonus') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+)/)", "(query && query.length>=2)?query[1]:''"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+)/)",
+            "(query && query.length>=2)?query[1]:''"
+          ]
         },
         "joinTime": {
           "selector": ["td.rowhead:contains('JOIN'):contains('date') + td"],
-          "filters": ["query.text().split(' (')[0]", "dateTime(query).isValid()?dateTime(query).valueOf():query"]
+          "filters": [
+            "query.text().split(' (')[0]",
+            "dateTime(query).isValid()?dateTime(query).valueOf():query"
+          ]
         },
         "seeding": {
-          "selector": ["td.heading:contains('Currently'):contains('seeding') + td"],
-          "filters": ["query.text().match(/([\\d.]+)/)", "(query && query.length>=1)?query[0]:''"]
+          "selector": [
+            "td.heading:contains('Currently'):contains('seeding') + td"
+          ],
+          "filters": [
+            "query.text().match(/([\\d.]+)/)",
+            "(query && query.length>=1)?query[0]:''"
+          ]
         },
         "seedingSize": {
           "selector": ["td.heading:contains('Seeding size') + td"],
-          "filters": ["query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)", "(query && query.length>=2)?(query[1]).sizeToNumber():0"]
+          "filters": [
+            "query.text().replace(/,/g,'').match(/([\\d.]+ ?[ZEPTGMK]?i?B)/)",
+            "(query && query.length>=2)?(query[1]).sizeToNumber():0"
+          ]
         }
       }
     }

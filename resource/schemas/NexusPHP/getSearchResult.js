@@ -5,7 +5,9 @@
   class Parser {
     constructor() {
       this.haveData = false;
-      if (/takelogin\.php|<form action="\?returnto=/.test(options.responseText)) {
+      if (
+        /takelogin\.php|<form action="\?returnto=/.test(options.responseText)
+      ) {
         options.status = ESearchResultParseStatus.needLogin; //`[${options.site.name}]需要登录后再搜索`;
         return;
       }
@@ -14,7 +16,7 @@
 
       if (
         /没有种子|No [Tt]orrents?|Your search did not match anything|用准确的关键字重试/.test(
-          options.responseText
+          options.responseText,
         )
       ) {
         options.status = ESearchResultParseStatus.noTorrents; // `[${options.site.name}]没有搜索到相关的种子`;
@@ -69,7 +71,7 @@
         // 发布人
         author: header.length - 1,
         // 分类
-        category: -1
+        category: -1,
       };
 
       if (site.url.lastIndexOf("/") != site.url.length - 1) {
@@ -106,7 +108,9 @@
         }
 
         // 种子数
-        if (cell.find("img.seeders,div[alt='seeders'],div.icons.seeders").length) {
+        if (
+          cell.find("img.seeders,div[alt='seeders'],div.icons.seeders").length
+        ) {
           fieldIndex.seeders = index;
           fieldIndex.author =
             index == fieldIndex.author ? -1 : fieldIndex.author;
@@ -114,7 +118,10 @@
         }
 
         // 下载数
-        if (cell.find("img.leechers,div[alt='leechers'],div.icons.leechers").length) {
+        if (
+          cell.find("img.leechers,div[alt='leechers'],div.icons.leechers")
+            .length
+        ) {
           fieldIndex.leechers = index;
           fieldIndex.author =
             index == fieldIndex.author ? -1 : fieldIndex.author;
@@ -122,7 +129,10 @@
         }
 
         // 完成数
-        if (cell.find("img.snatched,div[alt='snatched'],div.icons.snatched").length) {
+        if (
+          cell.find("img.snatched,div[alt='snatched'],div.icons.snatched")
+            .length
+        ) {
           fieldIndex.completed = index;
           fieldIndex.author =
             index == fieldIndex.author ? -1 : fieldIndex.author;
@@ -148,7 +158,7 @@
           const row = rows.eq(index);
 
           // FIX https://github.com/pt-plugins/PT-Plugin-Plus/issues/347
-          row.attr('id') === 'zhiding' && row.removeAttr('id');
+          row.attr("id") === "zhiding" && row.removeAttr("id");
 
           let cells = row.find(">td");
 
@@ -179,8 +189,7 @@
             continue;
           }
 
-          url = url +
-            (site && site.passkey ? "&passkey=" + site.passkey : "");
+          url = url + (site && site.passkey ? "&passkey=" + site.passkey : "");
 
           let data = {
             title: title.attr("title") || title.text(),
@@ -207,10 +216,10 @@
               fieldIndex.category == -1
                 ? null
                 : this.getFieldValue(row, cells, fieldIndex, "category") ||
-                this.getCategory(cells.eq(fieldIndex.category)),
+                  this.getCategory(cells.eq(fieldIndex.category)),
             progress: Searcher.getFieldValue(site, row, "progress"),
             status: Searcher.getFieldValue(site, row, "status"),
-            imdbId: this.getIMDbId(row)
+            imdbId: this.getIMDbId(row),
           };
 
           results.push(data);
@@ -263,46 +272,46 @@
     getTime(cell) {
       let time = cell.find("span[title],time[title]").attr("title");
       if (!time) {
-        time = $("<span>")
-          .html(cell.html().replace("<br>", " "))
-          .text();
+        time = $("<span>").html(cell.html().replace("<br>", " ")).text();
       }
       if (options.site.host === "pt.sjtu.edu.cn") {
         if (time.match(/\d+[分时天月年]/g)) {
-          time = Date.now() - this._parseTime(time)
-          time = new Date(time).toLocaleString("zh-CN", { hour12: false }).replace(/\//g, '-')
+          time = Date.now() - this._parseTime(time);
+          time = new Date(time)
+            .toLocaleString("zh-CN", { hour12: false })
+            .replace(/\//g, "-");
         }
       }
       return time || "";
     }
 
     _parseTime(timeString) {
-      const timeMatch = timeString.match(/\d+[分时天月年]/g)
-      let length = 0
-      timeMatch.forEach(time => {
-        const timeMatch = time.match(/(\d+)([分时天月年])/)
-        const number = parseInt(timeMatch[1])
-        const unit = timeMatch[2]
+      const timeMatch = timeString.match(/\d+[分时天月年]/g);
+      let length = 0;
+      timeMatch.forEach((time) => {
+        const timeMatch = time.match(/(\d+)([分时天月年])/);
+        const number = parseInt(timeMatch[1]);
+        const unit = timeMatch[2];
         switch (true) {
-          case unit === '分':
-            length += number
-            break
-          case unit === '时':
-            length += number * 60
-            break
-          case unit === '天':
-            length += number * 60 * 24
-            break
-          case unit === '月':
-            length += number * 60 * 24 * 30
-            break
-          case unit === '年':
-            length += number * 60 * 24 * 365
-            break
+          case unit === "分":
+            length += number;
+            break;
+          case unit === "时":
+            length += number * 60;
+            break;
+          case unit === "天":
+            length += number * 60 * 24;
+            break;
+          case unit === "月":
+            length += number * 60 * 24 * 30;
+            break;
+          case unit === "年":
+            length += number * 60 * 24 * 365;
+            break;
           default:
         }
-      })
-      return length * 60 * 1000
+      });
+      return length * 60 * 1000;
     }
 
     /**
@@ -345,23 +354,23 @@
      * 获取IMDbId
      * @param {*} row
      */
-    getIMDbId(row)
-    {
+    getIMDbId(row) {
       let imdbId = Searcher.getFieldValue(this.site, row, "imdbId");
       if (imdbId) {
         return imdbId;
       }
 
       try {
-        let link = row.find("a[href*='imdb.com/title/tt']").first().attr("href");
-        if (link)
-        {
+        let link = row
+          .find("a[href*='imdb.com/title/tt']")
+          .first()
+          .attr("href");
+        if (link) {
           imdbId = link.match(/(tt\d+)/);
-          if (imdbId)
-            return imdbId[0];
+          if (imdbId) return imdbId[0];
         }
-      } catch (error){
-        console.log(error)
+      } catch (error) {
+        console.log(error);
         return null;
       }
       return null;
@@ -379,10 +388,7 @@
       }
 
       try {
-        subTitle = title
-          .parent()
-          .html()
-          .split("<br>");
+        subTitle = title.parent().html().split("<br>");
         if (subTitle && subTitle.length > 1) {
           subTitle = $("<span>")
             .html(subTitle[subTitle.length - 1])
@@ -391,16 +397,8 @@
           // 特殊情况处理
           switch (options.site.host) {
             case "hdchina.org":
-              if (
-                title
-                  .parent()
-                  .next()
-                  .is("h4")
-              ) {
-                subTitle = title
-                  .parent()
-                  .next()
-                  .text();
+              if (title.parent().next().is("h4")) {
+                subTitle = title.parent().next().text();
               }
               break;
 
@@ -408,10 +406,7 @@
             case "pt.m-team.cc":
             case "kp.m-team.cc":
               title = row.find("a[href*='hit'][title]").last();
-              subTitle = title
-                .parent()
-                .html()
-                .split("<br>");
+              subTitle = title.parent().html().split("<br>");
               subTitle = $("<span>")
                 .html(subTitle[subTitle.length - 1])
                 .text();
@@ -444,13 +439,12 @@
     getDownloadLink(row, link) {
       let url;
       switch (options.site.host) {
-        case 'hdsky.me': {
-          let url_another = row.find('form[action*="download.php"]:eq(0)')
+        case "hdsky.me": {
+          let url_another = row.find('form[action*="download.php"]:eq(0)');
           if (url_another.length > 0) {
-            url = url_another.attr('action')
+            url = url_another.attr("action");
             break;
           }
-
         }
 
         default: {
@@ -467,7 +461,7 @@
             let id = link.getQueryString("id");
             url = `download.php?id=${id}`;
           }
-          url = url + "&https=1"
+          url = url + "&https=1";
         }
       }
 
@@ -481,7 +475,7 @@
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       let img = link.find("img:first");

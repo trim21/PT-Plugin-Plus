@@ -4,12 +4,12 @@ const path = require("path");
 
 module.exports = merge(common, {
   entry: {
-    content: path.join(__dirname, "../src/content/index.ts")
+    content: path.join(__dirname, "../src/content/index.ts"),
   },
   output: {
     path: path.join(__dirname, "../dist/js/content"),
-    filename: "[name].js"
+    filename: "[name].js",
   },
   devtool: "inline-source-map",
-  mode: "development"
+  mode: "development",
 });

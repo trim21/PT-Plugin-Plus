@@ -7,10 +7,11 @@
       PTService.pageApp = this;
     }
 
-    isNexusPHP() {//want use same code
+    isNexusPHP() {
+      //want use same code
       return PTService.site.schema == "SDB";
     }
-    
+
     /**
      * 初始化按钮列表
      */
@@ -29,7 +30,10 @@
       if (query.length > 0) {
         url = query.attr("href");
         url = url.replace("source=browse", "source=rss");
-        url = url.replace(new RegExp("/download.php/.*\.torrent"),"download.php");
+        url = url.replace(
+          new RegExp("/download.php/.*.torrent"),
+          "download.php",
+        );
         if (url && url.substr(0, 4) !== "http") {
           url = `${siteURL}${url}`;
         }
@@ -46,15 +50,15 @@
         PTService.addButton({
           title: "当前种子大小",
           icon: "attachment",
-          label: size
+          label: size,
         });
       }
     }
 
     getTitle() {
       let query = $("a[href*='download.php']");
-      return query ? query.text().replace(".torrent", ""): "";
+      return query ? query.text().replace(".torrent", "") : "";
     }
-  };
-  (new App()).init();
+  }
+  new App().init();
 })(jQuery, window);

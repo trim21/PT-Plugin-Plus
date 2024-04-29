@@ -1,4 +1,4 @@
-(function(options) {
+(function (options) {
   class Parser {
     constructor() {
       this.haveData = false;
@@ -11,7 +11,7 @@
 
       if (
         /没有种子|No [Tt]orrents?|Your search did not match anything|用准确的关键字重试/.test(
-          options.responseText
+          options.responseText,
         )
       ) {
         options.status = ESearchResultParseStatus.noTorrents;
@@ -33,7 +33,7 @@
       let site = options.site;
       // 获取种子列表行
       let rows = options.page.find(
-        options.resultSelector || "table[id='torrenttable']:last > tbody > tr"
+        options.resultSelector || "table[id='torrenttable']:last > tbody > tr",
       );
       // 用于定位每个字段所列的位置
       let fieldIndex = {
@@ -55,7 +55,7 @@
         comments: 5,
         // 发布人
         author: 11,
-        category: 0
+        category: 0,
       };
 
       if (site.url.substr(-1) == "/") {
@@ -66,7 +66,10 @@
       for (let index = 1; index < rows.length; index++) {
         const row = rows.eq(index);
         let cells = row.find(">td");
-        let title = cells.eq(fieldIndex.title).find("a[href*='details.php?id=']").first();
+        let title = cells
+          .eq(fieldIndex.title)
+          .find("a[href*='details.php?id=']")
+          .first();
         if (title.length == 0) {
           continue;
         }
@@ -76,10 +79,14 @@
           link = `${site.url}/${link}`;
         }
         let url = "";
-        url = cells.eq(fieldIndex.downloadlink).find("a[href*='/download.php']").first().attr("href");
-          if (url && url.substr(0, 4) !== "http") {
-            url = `${site.url}/${url}`;
-          }
+        url = cells
+          .eq(fieldIndex.downloadlink)
+          .find("a[href*='/download.php']")
+          .first()
+          .attr("href");
+        if (url && url.substr(0, 4) !== "http") {
+          url = `${site.url}/${url}`;
+        }
 
         if (!url) {
           continue;
@@ -92,20 +99,18 @@
           size: cells.eq(fieldIndex.size).text() || 0,
           time: time,
           author: cells.eq(fieldIndex.author).text() || "",
-          seeders:
-            cells
-              .eq(fieldIndex.seeders)
-              .text(),
-          leechers:
-            cells
-              .eq(fieldIndex.leechers)
-              .text(),
+          seeders: cells.eq(fieldIndex.seeders).text(),
+          leechers: cells.eq(fieldIndex.leechers).text(),
           completed: cells.eq(fieldIndex.completed).text(),
-          comments: cells.eq(fieldIndex.comments).find("a[href*='#startcomments']").text() || 0,
+          comments:
+            cells
+              .eq(fieldIndex.comments)
+              .find("a[href*='#startcomments']")
+              .text() || 0,
           site: site,
           entryName: options.entry.name,
           category: this.getCategory(cells.eq(fieldIndex.category)),
-          tags: this.getTags(row, options.torrentTagSelectors)
+          tags: this.getTags(row, options.torrentTagSelectors),
         };
         results.push(data);
       }
@@ -124,7 +129,7 @@
     getCategory(cell) {
       let result = {
         name: "",
-        link: ""
+        link: "",
       };
       let link = cell.find("a:first");
       let img = link.find("img:first");
@@ -148,13 +153,13 @@
       let tags = [];
       if (selectors && selectors.length > 0) {
         // 使用 some 避免错误的背景类名返回多个标签
-        selectors.some(item => {
+        selectors.some((item) => {
           if (item.selector) {
             let result = row.find(item.selector);
             if (result.length) {
               tags.push({
                 name: item.name,
-                color: item.color
+                color: item.color,
               });
               return true;
             }
